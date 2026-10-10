@@ -168,6 +168,11 @@
 先读 AGENTS.md、docs/STATUS.md，再读 PRODUCT、CONTRACTS、ROADMAP、TASKS、MANUAL_QA（均在 docs/）。
 八项产品决定 ABAAAAAB 已确认，不再重复询问。
 
+先检查 #19 与 docs/PROJECT_SETUP.md 中的原生 Project/Board/Roadmap 状态。
+如果现成的已授权通道支持 Projects 写入，补齐配置并回读核验真实入口；
+若仍受阻，如实保留 #19，使用 docs/BOARD.md 和 ROADMAP.md 管理可继续的工作，
+不得把文档视图写成原生 Project 已创建，不重复触发已拒绝的登录。
+
 核对当前分支、用户改动、Project/Issue 和上次用户核验结论。
 从最早未完成阶段继续；首次从 S0/W00 开始。
 按 ROADMAP 的一周目标推进，每阶段先在私有 Site 提供可操作版本。
@@ -182,7 +187,8 @@ G0→G1→G2→G3→G4 必须按顺序由用户核验；没有反馈就保持待
 修复后按原编号请用户复验，PR 用 Refs，不能靠合并自动关闭待验 Issue。
 等待反馈时可继续独立工作；P0/P1 与必需功能失败阻塞对应 Gate 和最终发布。
 
-每次同步 Project 状态、实际日期、Issue、STATUS；日常工程选择自行落实。
+每次同步 Issue 标签、仓库看板、实际日期、STATUS；原生 Project 可用时同步其字段。
+日常工程选择自行落实。
 不扩大到独立岗位库、全国企业直采、完整名单工程或待遇筛选。
 全部阶段、必需反馈与发布准备完成前，禁止正式部署或切换旧站。
 条件满足后按 PM-RELEASE 的明确目标执行发布与线上复验，保留旧资产可回退。
