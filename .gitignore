@@ -29,6 +29,11 @@ coverage/
 /logs/
 *.log
 /private-reports/
+/.runtime/
+/.sites-runtime/
+/.sites-checkout/
+/.sites-checkout-*/
+/*.tar.gz
 
 # Local IDE and OS files
 .idea/

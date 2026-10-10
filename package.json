@@ -1,0 +1,9 @@
+{
+  "name": "workhunter-v2-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build_site.mjs",
+    "test:proxy": "node --test tests/test_preview_proxy.mjs"
+  }
+}
