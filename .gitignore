@@ -1,0 +1,37 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# JavaScript build output
+node_modules/
+dist/
+coverage/
+
+# Credentials and private runtime data
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+/runtime/
+/data/
+/backups/
+/logs/
+*.log
+/private-reports/
+
+# Local IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

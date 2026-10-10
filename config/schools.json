@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "scope_version": "1.0",
+  "scope_confirmed_at": "2026-10-10T21:07:47+08:00",
+  "timezone": "Asia/Shanghai",
+  "target_school_count": 10,
+  "purpose": "用户已确认的十校范围和官方入口种子；逐项重新核验归属、访问状态、栏目与分页后才能登记为可采集。",
+  "schools": [
+    {"school_key": "scut", "name": "华南理工大学", "homepage_seed_url": "https://jyzx.scut.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "gdut", "name": "广东工业大学", "homepage_seed_url": "https://career.gdut.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "ncepu", "name": "华北电力大学", "homepage_seed_url": "https://job.ncepu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": [], "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。"},
+    {"school_key": "shiep", "name": "上海电力大学", "homepage_seed_url": "https://career.shiep.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "neepu", "name": "东北电力大学", "homepage_seed_url": "https://jy.neepu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "csust", "name": "长沙理工大学", "homepage_seed_url": "https://csust.bysjy.com.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "ctgu", "name": "三峡大学", "homepage_seed_url": "https://ctgu.91wllm.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "gzhu", "name": "广州大学", "homepage_seed_url": "https://jy.gzhu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "hnu", "name": "湖南大学", "homepage_seed_url": "https://hnu.bysjy.com.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
+    {"school_key": "csu", "name": "中南大学", "homepage_seed_url": "https://career.csu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []}
+  ]
+}
