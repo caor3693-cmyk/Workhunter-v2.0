@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--paths', nargs='*')
     args = parser.parse_args()
     allowed = allowed_paths(args.base, args.package)
-    files = args.paths if args.paths is not None else git('diff', '--name-only', args.base, args.head).splitlines()
+    files = args.paths if args.paths is not None else git('diff', '--no-renames', '--name-only', args.base, args.head).splitlines()
     invalid = rejected(files, allowed)
     if invalid:
         print('Outside trusted work-package scope: ' + ', '.join(invalid), file=sys.stderr)

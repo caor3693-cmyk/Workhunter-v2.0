@@ -4,6 +4,7 @@ import {readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync} from 
 import path from 'node:path';
 
 const commit = execFileSync('git', ['rev-parse', 'HEAD'], {encoding: 'utf8'}).trim();
+if (execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()) throw new Error('Commit the exact source state before building the Site');
 const types = {'.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml'};
 const assets = {};
 function collect(directory, prefix = '') {

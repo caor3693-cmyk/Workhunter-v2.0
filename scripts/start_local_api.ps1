@@ -2,6 +2,7 @@ param([int]$Port = 8766)
 $ErrorActionPreference = 'Stop'
 $projectDirectory = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $projectDirectory
+if ((& git status --porcelain -- backend config/schools.json).Count -gt 0) { throw '后端源码尚未固定提交；请提交后再启动可核验构建。' }
 if (Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue) { throw "端口 $Port 已占用；不会终止已有进程。" }
 $database = Join-Path $projectDirectory '.runtime/dev/workhunter-v2.sqlite3'
 if (-not (Test-Path -LiteralPath $database)) { throw '独立新库尚未初始化，请先执行 backend.cli init。' }

@@ -11,16 +11,18 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def _commit() -> str:
     supplied = os.environ.get("WH_BACKEND_COMMIT")
-    if supplied:
-        return supplied
     try:
         result = subprocess.run(
             ["git", "-C", str(ROOT), "rev-parse", "HEAD"],
             check=True, capture_output=True, text=True, timeout=3,
         )
-        return result.stdout.strip()
+        dirty = subprocess.run(
+            ["git", "-C", str(ROOT), "status", "--porcelain", "--", "backend", "config/schools.json"],
+            check=True, capture_output=True, text=True, timeout=3,
+        ).stdout.strip()
+        return (supplied or result.stdout.strip()) + ("+dirty" if dirty else "")
     except (OSError, subprocess.SubprocessError):
-        return "unavailable"
+        return supplied or "unavailable"
 
 
 @dataclass(frozen=True)
