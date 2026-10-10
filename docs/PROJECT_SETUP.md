@@ -1,16 +1,16 @@
 # GitHub Projects 接续配置
 
-核验日期：2026-10-10。本文件规定项目管理配置的接续方法；示例尚未执行。
+核验日期：2026-10-10。本文件规定项目管理配置的接续方法；本轮已复查可用通道，以下 Project 写入示例尚未执行。
 
 ## 当前状态与边界
 
-**原生 GitHub Project、Board 和 Roadmap 尚未创建。** 当前连接器可维护仓库与 Issues，但未提供可调用的 Projects 接口；当前环境也没有已认证的 CLI 通道。安全登录未完成，本轮不再重复请求登录。
+**原生 GitHub Project、Board 和 Roadmap 仍无已创建并回读核验的入口。** 当前连接器可维护仓库与 Issues，但未提供可调用的 Projects 接口。本机 `gh` CLI 已找到，现有认证失效；只读授权检查没有形成有效的 Projects 通道。本轮不重复发起已拒绝的登录，不创建或写入未获授权的原生项目。
 
 这属于当前会话的授权通道阻塞。GitHub 官方 GraphQL 已支持 `createProjectV2View`、`updateProjectV2View`、`deleteProjectV2View`，不能记录成“GitHub API 不支持视图”。见[官方 Projects schema](https://docs.github.com/en/graphql/reference/projects#createprojectv2view)。
 
 目标配置以 [config/project.json](../config/project.json) 为准：owner 为 `caor3693-cmyk`，项目名为 `Workhunter v2.0｜一周重建`，关联本仓库；目标共 19 项，包括 18 个业务/验收 Issue 与 1 个 `PM-SETUP` 管理阻塞 Issue。实际 Project ID、URL 和视图 ID 在成功读回前保持 `null`。
 
-仓库中的 Board/ROADMAP 文档可用于开发排期，但不代表原生平台视图已就绪。管理配置阻塞、代码实现、Site 手工验收、正式部署分别记录；本配置任务不发布 Site、不部署服务、不切换现网。
+仓库中的 [BOARD](BOARD.md) / [ROADMAP](ROADMAP.md) 用于继续开发排期，但不代表原生平台视图已就绪。[#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) 保持 Blocked/open，实际 Project 与视图 ID/URL 保持 `null`。S0 的代码、自验和私有 Site 候选已于 10-10 保存，#6 / G0 #1 进入 Awaiting verification/open；这些事实不解除 #19，也不表示 G0 已通过。管理配置阻塞、Site 用户核验和正式部署分别记录，详见 [STATUS](STATUS.md) 与 [S0 交付包](deliveries/S0.md)。
 
 ## 授权前提
 

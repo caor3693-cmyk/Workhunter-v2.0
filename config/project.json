@@ -13,7 +13,8 @@
     "id": null,
     "number": null,
     "url": null,
-    "visibility": "create_private_or_preserve_existing"
+    "visibility": "create_private_or_preserve_existing",
+    "last_access_audit": "2026-10-10: no callable Projects tools; existing CLI authentication invalid; no login retry"
   },
   "views": [
     {
@@ -92,7 +93,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "items 的 status 是初始标签/计划状态，未写入尚不存在的原生Project字段。后续同步先读取Issue和Project，保留用户更新；不得重置全部状态、日期或已有字段选项。",
+  "note": "items 的 status 是最近回读的 Issue 标签状态，未写入尚无已核验入口的原生 Project 字段。同步先读取 Issue 和 Project，保留用户更新，不重置后续状态或原目标日期。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -101,7 +102,7 @@
       "title": "[PM-G0] S0 工程与 Site 入口手工验收",
       "stage": "S0",
       "gate": "G0",
-      "status": "Backlog",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -112,7 +113,11 @@
       "dependencies": [
         "PM-W00"
       ],
-      "status_label": "status:backlog"
+      "status_label": "status:awaiting-verification",
+      "github_state": "open",
+      "actual_start": "2026-10-10",
+      "candidate_submitted_at": "2026-10-10",
+      "user_verified_at": null
     },
     {
       "pm_id": "PM-G1",
@@ -213,7 +218,7 @@
       "id": 5791849158,
       "node_id": "I_kwDOVDuyOc8AAAABWTiaxg",
       "stage": "S0",
-      "status": "Ready",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -232,7 +237,10 @@
       "body_links_verified": true,
       "ops_scope": "ops/preview/ and independent development runtime entry",
       "kind": "feature",
-      "status_label": "status:ready"
+      "status_label": "status:awaiting-verification",
+      "actual_start": "2026-10-10",
+      "candidate_submitted_at": "2026-10-10",
+      "user_verified_at": null
     },
     {
       "pm_id": "PM-W01-A",
@@ -700,5 +708,18 @@
       "dependencies": [],
       "gate": null
     }
-  ]
+  ],
+  "last_verified_at": "2026-10-10T23:30:00+08:00",
+  "actual_development_start": "2026-10-10",
+  "s0_delivery": {
+    "site_url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site",
+    "source_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde",
+    "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+    "data_mode": "empty",
+    "issue": 6,
+    "gate_issue": 1,
+    "pull_request": 20,
+    "user_gate_status": "unmeasured",
+    "review_package": "docs/deliveries/S0.md"
+  }
 }

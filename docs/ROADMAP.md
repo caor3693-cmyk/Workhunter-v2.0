@@ -4,8 +4,8 @@
 **开发目标窗口：2026-10-11—2026-10-17，共七天**  
 **仓库：[caor3693-cmyk/Workhunter-v2.0](https://github.com/caor3693-cmyk/Workhunter-v2.0)**
 
-本轮交付管理材料与任务拆分，不开发应用。以下日期是目标；PM-ID 是稳定任务标识，#号及链接指向已创建的 GitHub Issue。
-Issue 索引与仓库版看板见 [BOARD.md](BOARD.md)。原生 Project/Board/Roadmap 尚受访问条件阻塞，Site 尚未实现；实际链接与状态见 [STATUS.md](STATUS.md)。
+以下日期是保留的开发目标；PM-ID 是稳定任务标识，#号及链接指向已创建的 GitHub Issue。S0 已于 2026-10-10 完成工程自验与私有 Site 候选保存，等待 G0 用户核验；原目标 10-11 不改成实际完成日。
+Issue 索引与仓库版看板见 [BOARD.md](BOARD.md)。原生 Project/Board/Roadmap 仍受访问条件阻塞；私有 Site 已保存，认证 HTTP 同源链路已自验，登录后真实 Site 浏览器操作待用户核验。实际身份与限制见 [STATUS.md](STATUS.md)、[S0 交付包](deliveries/S0.md)。
 产品继续遵循 [PRODUCT.md](PRODUCT.md) 的八项决定；字段和接口见 [CONTRACTS.md](CONTRACTS.md)，工作包详情见 [TASKS.md](TASKS.md)。
 本文件以 S0—S4 安排一周进度和顺序人工核验，保留 W00—W06 工作包；新阶段门槛取代旧 R 阶段的排期表达。
 
@@ -60,6 +60,20 @@ gantt
     G4 :milestone, g4, 2026-10-17, 0d
 ```
 
+## 2.2 实际进展
+
+| 阶段 / 管理项 | 原目标 | 实际记录（2026-10-10） | 用户结论 |
+| --- | --- | --- | --- |
+| S0 / W00、G0 | 2026-10-11 | 10-10 开发、自验及私有 Site 候选保存；冻结源提交 `288063243275eeb0530cc9b9743c1d11aa4cfbde`；41 项 Python 与 3 项代理测试通过，CI succeeded；23:22:43+08:00 真实 Site HTML / 六个 API 同源 HTTP 均 200，身份一致；[#6](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) / [#1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) Awaiting verification/open；[PR #20](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20) draft/open | G0-01—G0-06 全部未测；登录后真实 Site 浏览器操作待用户核验 |
+| S1 / W01、W02 | 2026-10-12—10-13 | Backlog，未开始 | G1 未测 |
+| S2 / W03、W04 | 2026-10-14—10-15 | Backlog，未开始 | G2 未测 |
+| S3 / W05 | 2026-10-16 | Backlog，未开始 | G3 未测 |
+| S4 / W06 | 2026-10-17 | Backlog，未开始 | G4 未测 |
+| PM-SETUP #19 | 2026-10-11 | Projects 工具不可用，现有 CLI 认证失效；Blocked/open；原生 ID/URL 保持 `null`，不重复登录 | 管理项，不替代任何 Gate |
+| PM-RELEASE #18 | 全部 Gate 后安排 | Blocked，正式部署和旧站切换均未执行 | 全部 Gate 尚未通过 |
+
+本次 [私有 Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site) 保存 succeeded、revision 1 secrets 已按用户明确授权配置，数据集 `ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e` 为 `empty`、0 条招聘，十校尚未检查。真实 HTTPS 开发 API 与 Site 同源 HTTP 均已 200；Site 核验使用已有服务访问授权，没有新建或轮换令牌，POST catalog 405、POST admin commit 及任意 URL 代理 404。本机桌面及 390px 自验通过；这些证据分别记录，不代替登录后的 Site 浏览器操作或用户反馈。交付细节见 [S0 包](deliveries/S0.md)。
+
 ## 3. 五个阶段完成门槛
 
 | Gate | 阶段 | 提交人工核验前 | 用户要实际确认的结果 |
@@ -110,8 +124,8 @@ gantt
 | [PM-G4 #5](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5) | G4 手工核验：全量复核与发布准备 | S4 | P1 | 10-17 |
 | [PM-RELEASE #18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) | 全部人工 Gate 通过后的正式上线 | Release | P1 | 条件解锁后安排 |
 
-正式发布项初始为 Blocked，不纳入“七天到期即上线”的承诺。
-缺陷按用户反馈增补 Issue，不能为了保持 18 项数量而把不同原因的问题混成一个任务。
+正式发布项当前为 Blocked，不纳入“七天到期即上线”的承诺。
+缺陷按用户反馈增补 Issue，不能为了保持初始数量而把不同原因的问题混成一个任务。
 
 ## 5. 功能追踪
 

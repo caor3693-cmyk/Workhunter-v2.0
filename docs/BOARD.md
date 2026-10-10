@@ -1,20 +1,22 @@
 # Workhunter v2 任务看板
 
-本页是已创建 GitHub Issues 的可点击仓库索引，数据核对日 2026-10-10；原生 GitHub Projects Board 尚未创建，剩余配置跟踪 [#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19)。标签已经写入实际 Issue；状态变动以 Issue 标签和用户核验记录为准，本页随交付同步。
+本页是已创建 GitHub Issues 的可点击仓库索引，数据核对日 2026-10-10；原生 GitHub Projects Board 仍无已创建并回读核验的入口，剩余配置跟踪 [#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19)。状态变动以 Issue 标签和用户核验记录为准，本页随交付同步。
 
 ## 当前各列
 
 | 待排期 Backlog | 可开始 Ready | 开发中 In progress | 待手工核验 Awaiting verification | 受阻 Blocked | 已完成 Done |
 | --- | --- | --- | --- | --- | --- |
-| 16 项，按下方阶段推进 | [W00 #6](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | 0 | 0 | [正式发布 #18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18)、[Project 配置 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | 0 |
+| 15 项，按下方阶段推进 | 0 | 0 | [W00 #6](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6)、[G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | [正式发布 #18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18)、[Project 配置 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | 0 |
+
+S0 的实际开发、自验与私有 Site 候选保存日期为 **2026-10-10**，原目标 2026-10-11 保留。[私有 Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site)、[S0 交付包](deliveries/S0.md) 与 [draft PR #20](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20) 已建立。23:22:43+08:00 使用既有服务访问授权完成 Site HTML 与六个 API 的同源 HTTP 核验，均 200，前后端冻结提交及数据集一致；真实写入口和任意 URL 代理被拒绝。G0 六项仍未测，两项待验 Issue 均 open；登录后真实 Site 浏览器操作待用户核验，不把 HTTP、本机自验或部署 succeeded 写成用户通过。
 
 ## 阶段任务
 
 | 阶段 | Issue | 当前标签状态 | 目标日期 | 人工核验 |
 | --- | --- | --- | --- | --- |
-| S0 | [#6 [PM-W00] 工程骨架、隔离运行边界与 Site 核验入口](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | 可开始 | 2026-10-11 | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
+| S0 | [#6 [PM-W00] 工程骨架、隔离运行边界与 Site 核验入口](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | 待手工核验 | 2026-10-11 | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1)，六项未测 |
 | S0 | [#19 [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | 受阻 | 2026-10-11 | 管理项，不代替 G0 |
-| S0 | [#1 [PM-G0] S0 工程与 Site 入口手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | 待排期 | 2026-10-11 | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
+| S0 | [#1 [PM-G0] S0 工程与 Site 入口手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | 待手工核验 | 2026-10-11 | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1)，六项未测 |
 | S1 | [#7 [PM-W01-A] 华工广工列表发现与逐页持久化](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7) | 待排期 | 2026-10-12 | [G1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | S1 | [#8 [PM-W01-B] 日期地点证据、去重及核心详情补全](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8) | 待排期 | 2026-10-13 | [G1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | S1 | [#9 [PM-W02-A] 最小卡片、公告简要详情与官方原文](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9) | 待排期 | 2026-10-13 | [G1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
@@ -39,6 +41,6 @@
 - #1—#5 是固定阶段验收单，每轮候选更新原单，不重复创建 Gate。失败查重补 bug，并标 `manual-feedback`，保留原核验编号。
 - 自动测试和代码合并后进入待手工核验，未获用户对应检查通过仍 open；修复 PR 用 Refs，避免自动关闭待验问题。
 - 七天只表示目标排程，按 [ROADMAP.md](ROADMAP.md) 调整实际日期；按 [MANUAL_QA.md](MANUAL_QA.md) 逐项反馈。
-- #18 的受阻原因是尚未完成所有 Gate；#19 的受阻原因是当前会话没有可调用的 Projects 写入授权通道，两者分开。
+- #18 的受阻原因是尚未完成所有 Gate；#19 的受阻原因是没有可调用的 Projects 写入工具且现有 CLI 认证失效，两者分开。本轮不重复登录；原生 ID/URL 保持 `null`。
 
 原生项目所需字段、视图和完整初始导入清单见 [config/project.json](../config/project.json)，接续配置见 [PROJECT_SETUP.md](PROJECT_SETUP.md)。重复执行前先读当前平台状态，不用初始清单覆盖后续用户进度。
