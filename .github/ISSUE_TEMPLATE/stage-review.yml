@@ -1,0 +1,135 @@
+name: 阶段手工核验
+description: Gate 尚无 Issue 时使用；已有阶段单请更新原单，避免重复创建。
+title: "[Gate] G? 阶段手工核验"
+labels:
+  - manual-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        按 docs/MANUAL_QA.md 复制当前 Gate 的全部编号和步骤，并提供实际场景材料。
+        本表由构建者准备，用户逐项在评论或对话回复“通过/失败/阻塞/未测”。
+        不得预填用户通过；上门未通过时后门可以准备，不能关闭。正式部署须等待 G4 完成。
+  - type: dropdown
+    id: gate
+    attributes:
+      label: 阶段与 Gate
+      options:
+        - G0 - S0 / D1 / W00 / Site 入口与骨架
+        - G1 - S1 / D2-3 / W01+W02 / 两校真实流程
+        - G2 - S2 / D4-5 / W03+W04 / 十校与维护
+        - G3 - S3 / D6 / W05 / 持续运行
+        - G4 - S4 / D7 / W06 / 最终验收
+    validations:
+      required: true
+  - type: textarea
+    id: features
+    attributes:
+      label: 原功能与工作包
+      placeholder: |
+        原功能 Issue：
+        本次工作包：
+        交付内容：
+        尚未实现的内容与影响：
+    validations:
+      required: true
+  - type: textarea
+    id: build
+    attributes:
+      label: Site、版本与数据身份
+      description: 填真实入口和实际构建；维护凭据私下提供，不放公开 Issue。
+      placeholder: |
+        Site URL：
+        产品版本：
+        完整 commit / PR：
+        dataset_id：
+        核验/冻结时间（Asia/Shanghai）：
+        数据模式：真实官方来源 / 隔离回归样例 / 演示 / 空库
+        Site 与后端的数据连接及隔离环境说明（不含内部地址/凭据）：
+        维护入口与所需身份（不含凭据）：
+    validations:
+      required: true
+  - type: textarea
+    id: scenarios
+    attributes:
+      label: 按编号提供场景材料
+      description: 用户无需敲 SQL、服务器命令或自行寻找样本；反例用隔离场景并明确标识。
+      placeholder: |
+        G?-01：页面/记录入口、官方原文/材料、初始状态、数据模式
+        G?-02：……
+        受限来源与按 Q5A 核验的状态处理：
+    validations:
+      required: true
+  - type: textarea
+    id: self_checks
+    attributes:
+      label: 构建者自验结果与证据
+      description: 只写真实完成情况；自验通过不替代用户手工核验。
+      placeholder: |
+        自验构建与数据版本：
+        已实际执行的操作/技术用例与结果：
+        自动测试证据：
+        真实采集/入库证据：
+        Site 浏览器证据：
+        本阶段所需后端运行、调度/权限/恢复证据：
+        未通过/未执行/外部阻塞及影响：
+    validations:
+      required: true
+  - type: textarea
+    id: manual_steps
+    attributes:
+      label: 本门全部手工步骤与预期
+      description: 从 MANUAL_QA 复制当前 Gate 全表，保持编号，并补具体入口；用户结论留空或未测。
+      placeholder: |
+        编号 | 场景材料 | 用户操作 | 预期 | 用户结论
+        G?-01 | …… | …… | …… | 未测
+        G?-02 | …… | …… | …… | 未测
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 前门结论与反馈修复索引
+      description: G0 可写无前门；G4 必须附所有旧反馈原编号复验表，不能只写全部已修复。
+      placeholder: |
+        上一 Gate 及用户结论链接：
+        原核验编号 → 反馈 Issue → 原功能 Issue → 修复构建 → 待复验/用户结论链接：
+        开放 P0/P1：
+        其他未完成反馈：
+        外部限制及与代码缺陷的区别：
+        当前门是否受前门阻塞：
+    validations:
+      required: true
+  - type: textarea
+    id: user_reply
+    attributes:
+      label: 用户反馈区（构建者不得预填通过）
+      description: 用户可在评论/对话逐项回复，构建者据此更新并附原回复链接。
+      placeholder: |
+        Gate：
+        本次 Site / 构建：
+        G?-01：通过 / 失败 / 阻塞 / 未测；实际看到：
+        G?-02：通过 / 失败 / 阻塞 / 未测；实际看到：
+        其余编号按序填写：
+        截图或原文链接（可选）：
+        用户原回复链接：
+  - type: textarea
+    id: conclusion
+    attributes:
+      label: Gate 结论与下一步（有用户证据后更新）
+      description: 未反馈不能关闭。代码、Site 核验、正式部署、生产复验和运营观察分别记录。
+      placeholder: |
+        本门仍未测/失败/阻塞项：
+        用户已通过编号及原回复：
+        反馈 Issue 是否全部完成复验：
+        下一 Gate 或修复动作：
+        G4：正式部署准备是否齐全；尚未执行的生产动作：
+        真实运营观察天数（如适用；不填未来结果）：
+  - type: markdown
+    attributes:
+      value: |
+        独立开发可继续，Gate 仍按 G0 → G1 → G2 → G3 → G4 排队核验。
+        失败按原编号建立/更新去重反馈 Issue，修复后同编号复验；不因代码合并自动关闭。
+        Site mock 不算真实采集或运行证据；受限校可通过正确标记/补录策略核验，不能算自动覆盖。
+        7 天自然运营观察是后续建议；正式站尚未部署时，生产结果保持“未执行”。
+

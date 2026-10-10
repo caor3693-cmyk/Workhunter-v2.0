@@ -11,7 +11,9 @@
 3. [执行任务](docs/TASKS.md)：工作包顺序、允许改动范围、验收与 Codex 指令。
 4. [当前状态](docs/STATUS.md)：当前实际完成情况、发布状态及下一步。
 
-开发者先读 [AGENTS.md](AGENTS.md)。规范版本为 1.0；产品名称中的 v2.0 与规范版本不是同一编号。
+项目排期与追踪见 [任务看板](docs/BOARD.md)、[一周路线图](docs/ROADMAP.md)，每阶段使用 [手工核验清单](docs/MANUAL_QA.md)。实际 Issue 和原生 Project 视图的完成状态统一登记在 STATUS；原生视图尚待 [配置任务 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19)。开发从 S0/W00 开始，先交付私有 Site，G0—G4 逐项验收后才正式上线。
+
+开发者先读 [AGENTS.md](AGENTS.md)。规范版本为 1.1；八项产品范围保持不变，本次补充一周排期和阶段验收。产品名称中的 v2.0 与规范版本不是同一编号。
 
 ## 启动说明
 

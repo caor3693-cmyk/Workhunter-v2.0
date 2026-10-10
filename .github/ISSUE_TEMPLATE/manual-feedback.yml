@@ -1,0 +1,118 @@
+name: 手工核验反馈
+description: 记录 Gate 编号对应的失败、阻塞或复验结果；相同问题优先更新原 Issue。
+title: "[手工反馈] G?-?? 简述问题"
+labels:
+  - manual-feedback
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先查同一核验编号/场景是否已有 Issue；有则在原 Issue 回复，避免重复建单。
+        用户只需说明编号和实际现象。构建者负责补齐版本、原功能、分级与允许修改范围。
+        截图可选；公开内容不要包含凭据、个人信息或私有日志。修复合并后仍需用户按原编号复验。
+  - type: input
+    id: check_id
+    attributes:
+      label: 核验编号
+      description: 同一原因影响多个项目时列出全部编号。
+      placeholder: G1-02；G4-01 回归 G1-02
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: 本次结论
+      options:
+        - 失败
+        - 阻塞
+        - 通过（原编号复验）
+        - 未测
+    validations:
+      required: true
+  - type: input
+    id: gate_reference
+    attributes:
+      label: 关联 Gate 核验包
+      description: 填 Gate Issue 链接或编号；技术构建信息可由构建者从该包补齐。
+      placeholder: "Gate Issue #编号"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际看到了什么
+      description: 说明哪里不符合预期，或为什么无法核验；通过复验时说明实际操作结果。
+      placeholder: 选择学校后，卡片仍显示上一所学校的记录。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 场景、复现步骤与预期
+      description: 用户可引用手工核验编号；构建者在修复前补齐可复现步骤和具体预期。
+      placeholder: |
+        场景材料/记录：
+        操作顺序：
+        预期结果：
+        实际与预期的区别：
+  - type: textarea
+    id: build
+    attributes:
+      label: 本次入口与构建（构建者补齐）
+      placeholder: |
+        Site URL：
+        产品版本：
+        完整 commit / PR：
+        dataset_id 与观察时间：
+        数据模式：真实官方来源 / 隔离回归样例 / 演示 / 空库
+        浏览设备（如相关）：
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 来源与画面（截图可选）
+      description: 只提供必要的官方链接、公开材料说明或脱敏截图；受限材料记录隔离存放位置，不上传原件。
+      placeholder: |
+        官方来源或适用材料：
+        截图/录屏（可选）：
+        原有相同问题 Issue（如有）：
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重级别（构建者分级）
+      options:
+        - 待定位/分级
+        - P0 - 越权写入或破坏数据
+        - P1 - 核心流程不可用或关键事实错误
+        - P2 - 不妨碍核心使用的改善或表现问题
+        - 外部依赖阻塞（说明限制）
+  - type: textarea
+    id: ownership
+    attributes:
+      label: 原功能、负责模块与改动范围（构建者补齐）
+      description: 开始修复前必须落实；不因局部反馈获得修改全局首页/规则/部署的范围。
+      placeholder: |
+        原功能 Issue / 工作包：
+        关联 Gate Issue：
+        处理者 / 负责模块：
+        允许修改路径：
+        共享接口/迁移/首页联动及原因（如适用）：
+        已去重的关联 Issue：
+  - type: textarea
+    id: fix_retest
+    attributes:
+      label: 修复与原编号复验记录（后续更新）
+      description: 未收到用户复验不能关闭；外部限制的状态处理通过不等于该源自动采集通过。
+      placeholder: |
+        修复提交 / PR：
+        新 Site URL / 版本 / commit / dataset：
+        构建者自验与证据：
+        请用户复验的原编号和步骤：
+        用户复验结论及回复链接：
+        仍未完成/阻塞项：
+  - type: markdown
+    attributes:
+      value: |
+        失败由构建者建为或归类为 bug，阻塞说明依赖与影响；同根因更新原 Issue。
+        修复后先进入“待用户复验”。不要用合并 PR、自动测试或超时替代用户结论。
+        当前 Gate 与最终上线的阻塞关系遵循 docs/MANUAL_QA.md。
+

@@ -1,62 +1,59 @@
 # Workhunter v2.0 当前状态
 
-更新日期：2026-10-10。规范版本：1.0。规范基线以本文件所属 Git 提交为准；后续只维护当前事实，不逐轮堆叠历史交接。
+更新日期：2026-10-10，Asia/Shanghai。规范版本：1.1；八项产品选择 `ABAAAAAB` 不变。本文件所属 Git 提交为当前管理基线，只维护当前事实。
 
 ## 1. 当前结论
 
-八项产品决定 `ABAAAAAB` 已确认，正式规格、接口契约、实施任务和十校入口种子已经建立。下一步是 **W00：工程骨架与边界**。
+一周开发计划、19 个实际 GitHub Issues、阶段标签、仓库任务看板、路线图与 36 项手工核验要求已建立。新应用尚未实现；下一项是 **S0 / W00，Issue #6**。
 
-本基线交付文档和配置种子；尚未包含应用实现、可运行服务或采集成果。README 中的启动命令须在 W00 实现并实际验证后补齐。
+**GitHub Projects 原生 Project、Board、Roadmap 尚未创建。** 当前连接有仓库/Issue 写入能力，但没有可调用的 Projects 工具；浏览器安全登录本轮未完成。剩余配置独立跟踪 #19，不能把仓库内文档视图称为原生 Project 已完成。Site 验收入口也须在 W00 实现后才能提供。
 
-## 2. 仓库与范围
+## 2. 实际管理入口
 
-| 项目 | 当前事实 |
+| 入口 | 当前内容 / 状态 |
 | --- | --- |
-| 新仓库 | [caor3693-cmyk/Workhunter-v2.0](https://github.com/caor3693-cmyk/Workhunter-v2.0)；准确名称含连字符 |
-| 可见性 | 核对时为公开仓库，本次没有改变可见性 |
-| 默认分支 | main；规范写入前为空仓库 |
-| 产品范围 | 十校招聘发现、时间/地点/工作地、简要详情、更新摘要、受保护维护页、持续采集与只读诊断 |
-| 后置范围 | 独立岗位库/搜索、全国企业直采、完整参会名单采集与身份关联工程 |
-| 产品决策 | 八项均已确认，无需再次询问；普通工程选择按 CONTRACTS 和 TASKS 自行落实 |
-| 数据起点 | 独立新业务库，从近期官方来源重新采集；不迁入旧业务库 |
+| [新仓库](https://github.com/caor3693-cmyk/Workhunter-v2.0) | 准确名称含连字符；本轮核对为公开仓库，没有改变可见性 |
+| [全部 Issues](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues) | #1—#19，均 open；12 个实施、5 个 Gate、1 个正式发布、1 个管理配置 |
+| [仓库任务看板](BOARD.md) | 可点击的实际 Issue 索引；状态来自 Issue 标签，当前 16 Backlog、1 Ready、2 Blocked、0 Done |
+| [一周路线图](ROADMAP.md) | 2026-10-11—10-17，S0—S4、G0—G4；包含计划时间轴及功能映射 |
+| [手工核验规则](MANUAL_QA.md) | 36 项，按阶段 6/8/8/6/8；每轮交付填具体场景，用户反馈四态 |
+| [Project 初始配置](../config/project.json) | 19 个真实 Issue 编号及期望字段/视图；原生 Project ID/URL 留空 |
+| [原生视图配置任务 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | Blocked；仅管理访问条件受阻，不表示 GitHub API 本身不支持视图 |
+| [配置接续步骤](PROJECT_SETUP.md) | 使用已授权 API/CLI 或页面建立/复用 Project，回读后填真实链接；本轮不重复发起登录 |
 
-## 3. 工作包进度
+模板 manual-feedback.yml、stage-review.yml 已建立，关联标签已创建。已有 Gate Issue 应更新原单，避免每次提交候选又新建阶段单。
 
-| 工作包 | 状态 | 已有证据 / 下一步 |
-| --- | --- | --- |
-| R0 规范冻结 | 完成 | PRODUCT、CONTRACTS、TASKS、AGENTS 与学校种子互相对应 |
-| W00 工程骨架与边界 | 未开始；下一项 | 建立真实可运行入口、新库初始化、版本和最小 CI |
-| W01 华工/广工真实基础发现 | 未开始 | 重新核验官方来源，打通原文到持久化 |
-| W02 首页、搜索与简要详情 | 未开始 | 完整卡片投影、筛选/分页、简要详情和真实跳转 |
-| W03 固定十校扩展 | 未开始 | 保留既定十校，逐校记录真实访问和采集情况 |
-| W04 维护网页与更新摘要 | 未开始 | 服务端鉴权、预览/提交/撤回和更新分类 |
-| W05 自动运行、备份与 MCP | 未开始 | 定时采集、失败隔离、恢复验证与新项目诊断 |
-| W06 总体验证与切换材料 | 未开始 | A01—A12、维护专项、实际浏览器和部署准备 |
+## 3. 一周阶段与真实 Issue
 
-这里的“未开始”指新仓库实现状态，不否认旧工程具有同名功能。旧实现、旧数据和旧站运行结果不能直接作为 v2 验收成绩。
+| 阶段 | 目标日期 | 实施 Issue | 手工验收 Issue | 当前实际状态 |
+| --- | --- | --- | --- | --- |
+| S0 工程与 Site 入口 | 10-11 | [#6](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | 实施 Ready，未开始；G0 未测 |
+| S1 两校真实可用 | 10-12—10-13 | [#7](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7)、[#8](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8)、[#9](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9)、[#10](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10)、[#11](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | [G1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | Backlog；G1 未测 |
+| S2 十校与维护 | 10-14—10-15 | [#12](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12)、[#13](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13)、[#14](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14) | [G2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | Backlog；G2 未测 |
+| S3 持续运行 | 10-16 | [#15](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15)、[#16](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16) | [G3 #4](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4) | Backlog；G3 未测 |
+| S4 总体验收与准备 | 10-17 | [#17](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17) | [G4 #5](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5) | Backlog；G4 未测 |
+| 正式发布 | G0—G4 通过后安排 | [#18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) | 依赖全部 Gate | Blocked；没有自动发布日期 |
 
-## 4. 来源与验证状态
+所有 Issue 已标阶段、类型、优先级和初始状态。所有用户核验项保持未测；没有应用测试或用户通过记录。工程期以每天可获得一次反馈为排期假设，实际延迟需记录并顺延；没有设置自动提醒。
 
-- `config/schools.json` 已登记确认的 10 所学校。所有入口种子的 `verification_state` 为 `pending`；校区列表待官方证据核验。
-- 本轮未执行 v2 真实采集，没有 v2 数据集、入库数量或完整覆盖率可报告。
-- 尚未执行应用测试、浏览器验收、性能测量、自然定时运行或恢复演练；验收标准已写入 TASKS。
-- 受限来源按 Q5A 如实标记并支持官方材料补录，其余来源继续推进；限制只阻塞对应来源的覆盖结论。
-- 旧站只读连接不等于新仓库运行环境。v2 MCP 需在 W05 对接新服务，并返回明确项目、代码和数据集标识。
+## 4. 环境与数据
 
-## 5. 新旧资产处置状态
+- 新实现继续用 Python/FastAPI、SQLite、原生前端与独立 worker。开发期先使用 owner-private Site，由薄同源代理连接隔离 HTTPS 开发 API；平台能力和鉴权约束写在 CONTRACTS。
+- Site、隔离开发 API/宿主、新业务库、生产服务均未创建或部署。W00 需实际探测接入；G1 起不得以 fixture 或旧站代替真实新库链路。
+- 十校入口种子均为 pending，没有执行 v2 真实采集、覆盖统计、浏览器业务验收、性能测试、自然调度或恢复演练。
+- 受限来源按 Q5A 标记并支持官方材料补录；开发 API 根本不可达与个别学校受限分开判断。
+- 旧只读插件仍不能作为 v2 的运行成绩。W05 对接新服务后必须返回真实项目、代码及数据标识。
 
-| 事项 | 已确认政策 | 实际执行状态 |
-| --- | --- | --- |
-| 旧代码及 Git 历史 | 作为历史归档保留，在新仓库重建 | 本次没有修改或清空旧仓库 |
-| GitHub Archived 开关 | 归档处置时单独记录 | 本次没有切换该开关 |
-| 旧数据库、原文、历史任务 | 只读归档留存，新业务库重新采集 | 本次没有移动、删除、备份或冻结旧运行资产；实际备份与冻结须单独验证 |
-| 旧站及原定时任务 | 保持过渡，按明确切换步骤处理 | 本次没有停站、改定时器或切换现网 |
-| 新库与新服务 | 使用独立运行路径及配置 | 尚未创建运行库或部署服务 |
+## 5. 发布与旧资产
 
-归档政策、实际备份、只读冻结、平台 Archived 开关与线上切换是不同事项，不能相互替代。W06 负责给出可执行材料，具体运行操作遵循届时已有授权。
+每阶段自验后提交 Site 版本及手工清单，进入待用户核验。负责人按 G0→G1→G2→G3→G4 反馈，失败查重补 Issue、修复、同编号复验。未反馈、自动测试或 PR 合并不能关闭对应待验事项。
 
-## 6. 下一次交付应更新的内容
+全部 Gate 当前有效通过、首版必需反馈修复并复验、候选版本及发布材料齐备后，按 #18 执行正式部署与线上复验。私有 Site 验收运行和正式站点切换分别记录；日期到达不触发上线。
 
-从 W00 开始执行 [TASKS.md](TASKS.md) 的 Codex 指令。每个工作包完成后，只更新本文件中的当前进度、可复现验证、提交/PR、运行环境和剩余限制。
+本轮没有修改、清空或归档旧仓库，没有移动、删除、备份或冻结旧数据库/原文，没有改变旧站、定时器、域名或仓库可见性。旧资产继续按已确认只读归档政策留存；真实备份、冻结、GitHub Archived 开关和最终切换各自验证，不把政策记为已执行。
 
-实现完成、提交、PR/合并、部署、线上复验和连续运行观察分别记录。写清未完成的具体环节；已有证据只用于它实际能够证明的结论。
+## 6. 下一步
+
+原生 Project 接续任务为 #19；在具备既有授权的环境中完成后，回写实际 Project/Board/Roadmap 链接，并读取平台结果核验。
+
+开发从 #6 的 S0/W00 开始，统一执行指令在 [TASKS.md 第 6 节](TASKS.md#6-可直接交给-codex-的指令)。每阶段维护 Issue 标签/Project 字段、STATUS、Site 候选版本和用户核验结论。实现、用户验收、提交/PR、Site 发布、正式部署、线上复验及真实运营观察分别记录。

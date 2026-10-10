@@ -1,6 +1,6 @@
 # Workhunter v2.0：数据、接口与模块契约
 
-版本：v1.0；日期：2026-10-10。产品范围以 [PRODUCT.md](PRODUCT.md) 为准，工作包和验收步骤见 [TASKS.md](TASKS.md)。
+版本：v1.1；日期：2026-10-10。产品范围以 [PRODUCT.md](PRODUCT.md) 为准，工作包见 [TASKS.md](TASKS.md)，阶段排期和手工核验见 [ROADMAP.md](ROADMAP.md)、[MANUAL_QA.md](MANUAL_QA.md)。
 本文件定义待实现的行为，不表示新仓库、服务、采集、旧工程归档或上线已经完成；实际状态只记录在 [STATUS.md](STATUS.md)。
 
 ## 1. 已确认范围
@@ -190,6 +190,18 @@ URL 获取限于登记且归属已核验的公开来源；企业原文只有作�
 ## 8. 模块职责与受控改动
 
 选型固定：Python/FastAPI、SQLite、原生 ES modules；一个代码库、一个数据库、API 与 worker 两个运行入口。
+
+### Site 阶段验收适配
+
+阶段验收使用 owner-private Site，承载原生前端及固定 `/api/*` 同源代理；Python/FastAPI、SQLite 文件库和定时 worker 在隔离 HTTPS 开发宿主运行。Sites 的 Workers 宿主不能直接当作现有 Python 常驻服务和文件库宿主，不为阶段验收迁移整套业务到 D1 或另一框架。
+
+- 代理仅转发登记的方法/路径到固定上游，设置超时及大小上限，不提供任意 URL 代理，不另写采集或业务规则。适配代码集中在 `ops/preview/`，以 Sites 当前支持且实际验证的构建方式打包。
+- 上游服务凭据只放 Site 服务端 secret；不放前端、URL、源码、LocalStorage 或公开变量。访客端只请求 Site 同源接口。
+- 保留 Sites 平台登录；维护权限仍由业务服务校验。平台登录或上游代理令牌不单独代表维护者权限，不新增学生账号系统。
+- 代理只转发必要业务 Cookie/Header，不转发 Sites 平台 Cookie。维护会话 Cookie 归 Site 同源，保留 Secure、HttpOnly、SameSite 和正确 Path，不带上游 Domain；维护写入校验会话、CSRF 与固定允许 Origin。
+- G0 可以用明确标记的 fixture 验界面，但 W00 的真实初始化/读写边界仍须自验。G1 起主流程必须使用同契约真实 API 和新库，G2 维护操作必须真实入库且可撤回。
+- 每次阶段包记录 Site URL/版本、前端提交、后端提交、dataset 和真实数据范围。本机 `127.0.0.1` 示例仅供本机验证，不能作为远程 Site 的 API 地址。
+- 没有真实可达的开发 API 时，保持对应验收阻塞，继续独立实现；不得以旧站、静态快照或演示写入代替真实链路。全部 Gate 通过后再执行正式部署。
 
 | 目录 | 负责与依赖边界 |
 | --- | --- |
