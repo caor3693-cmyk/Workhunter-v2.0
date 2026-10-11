@@ -54,7 +54,7 @@ def _archive(directory, school, key, lines, *, identity=None, record_identity=No
 
 def _proof(archive, line, excerpt):
     return {'material_ref': archive['reference_key'], 'source_url': archive['source_url'], 'locator': f'隔离本地文本第 {line} 行',
-        'excerpt': excerpt, 'scope': 'this_announcement', 'observed_at': archive['fetched_at'], 'parser_version': PARSER}
+        'source_identity': archive['official_record_id'], 'excerpt': excerpt, 'scope': 'this_announcement', 'observed_at': archive['fetched_at'], 'parser_version': PARSER}
 
 
 def _record(directory, key, school, *, kind='announcement', values=None, states=None, relevance='unknown', campus=False, fragments=False):
@@ -69,7 +69,7 @@ def _record(directory, key, school, *, kind='announcement', values=None, states=
         observations[field] = {'state': state, 'value': value if state == 'known' else None, 'evidence': []}
         lines.append(f'{field}={value!r}; state={state}; 本机合成字段，非官方事实')
     if fragments:
-        lines += ['本公告企业片段：隔离企业甲、隔离企业乙；只适用于本份合成材料。', '本公告岗位片段：隔离电气测试方向；不建立岗位实体。', '附件：隔离名单文本，仅供适用范围与安全链接验证。']
+        lines += ['本公告企业片段：隔离企业甲、隔离企业乙；只适用于本份合成材料。', '本公告岗位片段：隔离电气测试方向；不建立岗位实体。', '附件：隔离名单文本，仅供适用范围与安全链接验证。URL=' + placeholder(school, key + '-attachment') + '']
     archive = _archive(directory, school, key, lines)
     for index, field in enumerate(CORE_FIELDS):
         # Even not_disclosed/not_applicable have a real local material/locator.
@@ -86,7 +86,7 @@ def _record(directory, key, school, *, kind='announcement', values=None, states=
         attachment = _archive(directory, school, key + '-attachment', ['隔离附件：企业甲，仅适用于本公告。'], identity=key + '-attachment', record_identity=key)
         record['roster_fragments'] = [{'text': lines[-3], 'scope': 'partial', 'evidence': [_proof(archive, 12, lines[-3])]}]
         record['job_fragments'] = [{'text': lines[-2], 'scope': 'partial', 'evidence': [_proof(archive, 13, lines[-2])]}]
-        record['attachments'] = [{'label': '[隔离样例] 适用名单附件（非真实官方下载）', 'url': attachment['source_url'], 'scope': 'complete_for_material', 'evidence': [_proof(attachment, 3, '隔离附件：企业甲，仅适用于本公告。')]}]
+        record['attachments'] = [{'label': '[隔离样例] 适用名单附件（非真实官方下载）', 'url': attachment['source_url'], 'scope': 'complete_for_material', 'evidence': [_proof(attachment, 3, '隔离附件：企业甲，仅适用于本公告。')], 'link_chain': {**_proof(archive, len(lines) + 2, lines[-1]), 'target_url': attachment['source_url']}}]
         return record, [archive, attachment]
     return record, [archive]
 
@@ -104,8 +104,8 @@ def prepare_bundle(directory, anchor=None, *, isolated=False):
     (directory / 'materials').mkdir()
     database = directory / DB_NAME
     metadata = initialize_database(database, fixture=True)
-    if metadata['schema_version'] != '2' or metadata['data_mode'] != 'isolated_fixture':
-        raise ValueError('只支持显式 schema2 isolated_fixture 新库。')
+    if metadata['schema_version'] != '3' or metadata['data_mode'] != 'isolated_fixture':
+        raise ValueError('只支持显式 schema3 isolated_fixture 新库。')
     timestamp = datetime.now(timezone(timedelta(hours=8))).isoformat()
     run_id = 'isolated-acceptance-' + str(uuid4())
     with writer_transaction(database) as (connection, _):
@@ -155,7 +155,7 @@ def prepare_bundle(directory, anchor=None, *, isolated=False):
             raise ValueError('隔离库身份改变，停止生成验收材料。')
         cases = {row['source_identity'].removeprefix('isolated:'): row['id'] for row in connection.execute('SELECT id,source_identity FROM opportunities')}
         campuses = {row['school_key']: row['id'] for row in connection.execute('SELECT id,school_key FROM campuses')}
-    manifest = {'project': 'Workhunter-v2.0', 'schema_version': '2', 'data_mode': metadata['data_mode'], 'dataset_id': metadata['dataset_id'],
+    manifest = {'project': 'Workhunter-v2.0', 'schema_version': metadata['schema_version'], 'data_mode': metadata['data_mode'], 'dataset_id': metadata['dataset_id'],
         'label': LABEL, 'db': DB_NAME, 'as_of': anchor.isoformat(), 'created_at': timestamp, 'code_identity': source_identity(),
         'source_origin': 'generated_locally_never_fetched', 'placeholder_urls': 'Official-domain __isolated_fixture__ paths are non-source placeholders; preview blocks all such clicks.',
         'case_ids': cases, 'campus_ids': campuses, 'record_count': len(cases), 'api_port': 8788, 'ui_port': 8789,
@@ -171,7 +171,7 @@ def prepare_bundle(directory, anchor=None, *, isolated=False):
         f'M1-02：/opportunities/{cases["list-known-detail-failed"]}，列表事实有据，详情取得失败，页面保留已取得核心信息。',
         f'M1-03：/opportunities/{cases["future-event-different-venue-work"]}，举办会场与工作地不同。',
         f'M1-04：/opportunities/{cases["ordinary-six-work-locations"]} 和 /opportunities/{cases["conflicting-retained-venue"]}，七种状态、普通公告无会场、冲突不冒充已知。',
-        f'M1-05：/opportunities/{cases["ordinary-six-work-locations"]}，六工作地、名单/岗位片段、附件适用范围、材料 hash。原文/附件只是占位链接，禁止当真源访问。',
+        f'M1-05：/opportunities/{cases["ordinary-six-work-locations"]}，六工作地、名单/岗位片段、附件适用范围。原文/附件只是占位链接，禁止当真源访问。',
         'M1-06：首页搜索、清空、翻页，编辑关键词草稿再翻页，快速切校；程序化409和跨午夜见工程验证输出。',
         'M1-07：近期、临近、历史、日期未知；history-late-ingestion 的发布日期早于近期，不因本日收录混入近期。',
         'M1-08：默认电气保留未知，known-unrelated 仅在全部招聘出现。', '',

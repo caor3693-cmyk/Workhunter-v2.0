@@ -8,6 +8,8 @@ from urllib.parse import urlsplit
 from uuid import uuid4
 
 from backend.domain.candidates import safe_url
+from backend.domain.source_policy import FIXED_SCHOOLS, approved_hosts
+from backend.sources.registry import get_adapter
 from backend.services.ingestion import (
     _prepare_materials, _save_materials, _source, assert_data_mode, encoded, ingest_detail, ingest_page, now,
     record_detail_failure, save_task,
@@ -17,11 +19,11 @@ from backend.storage.write import refresh_lock, writer_transaction
 
 
 def register_sources(database_path, schools_config, fixture=False):
-    """Explicitly register the observed two-school configuration, never the other eight."""
+    """Register only configured, reviewed capabilities; pending schools stay pending."""
     schools = schools_config["schools"] if isinstance(schools_config, dict) else schools_config
-    selected = [school for school in schools if school["school_key"] in {"scut", "gdut"}]
-    if {school["school_key"] for school in selected} != {"scut", "gdut"} or len(selected) != 2:
-        raise ValueError("来源登记必须包含已确认的华工和广工各一项。")
+    if len(schools)!=10 or {school['school_key'] for school in schools}!=FIXED_SCHOOLS:
+        raise ValueError('来源登记必须保持固定十校。')
+    selected = [school for school in schools if school.get('sources') and school.get('official_owner_evidence_url')]
     sources = []
     with writer_transaction(database_path) as (connection, metadata):
         assert_data_mode(metadata, fixture)
@@ -42,13 +44,14 @@ def register_sources(database_path, schools_config, fixture=False):
                 if config["school_key"] != key:
                     raise ValueError("来源登记不能跨学校。")
                 safe_url(config["official_entry_url"], key)
+                get_adapter(config)
                 previous = connection.execute("SELECT school_key,channel_key FROM sources WHERE source_key=?", (config["source_key"],)).fetchone()
                 if previous and (previous["school_key"] != key or previous["channel_key"] != config["channel_key"]):
                     raise ValueError("已有来源不能改变学校或栏目身份。")
                 connection.execute("INSERT INTO sources(source_key,school_key,name,channel_key,official_entry_url,adapter,scope_json,verification_state) VALUES (?,?,?,?,?,?,?,'verified') ON CONFLICT(source_key) DO UPDATE SET name=excluded.name,official_entry_url=excluded.official_entry_url,adapter=excluded.adapter,scope_json=excluded.scope_json,verification_state=excluded.verification_state", (config["source_key"], key, config["name"], config["channel_key"], config["official_entry_url"], config["adapter"], encoded(config["scope"])))
                 sources.append({**deepcopy(config), "campuses": deepcopy(school.get("campuses", []))})
-        if {item["source_key"] for item in sources} != {"scut_cnsba", "gdut_teachin", "gdut_jobfair", "gdut_campus"} or len(sources) != 4:
-            raise ValueError("本轮只登记已核验的四个公开栏目。")
+        if len({item["source_key"] for item in sources})!=len(sources):
+            raise ValueError("来源登记不能重复。")
     return sources
 
 
@@ -80,21 +83,24 @@ def _source_status(database_path, config, status, *, message, fixture):
 
 
 def _pending_details(database_path, config, run_id, retry_failed=False):
-    with read_database(database_path) as (connection, _):
-        statuses = "('pending','failed','partial')" if retry_failed else "('pending')"
-        rows = connection.execute(f"SELECT result_json FROM processing_tasks WHERE source_key=? AND task_kind='detail' AND run_id=? AND status IN {statuses} ORDER BY id", (config["source_key"], run_id)).fetchall()
-        return [json.loads(row["result_json"])["candidate"] for row in rows]
+    with read_database(database_path) as (connection,_):
+        rows = connection.execute("""SELECT result_json FROM processing_tasks WHERE source_key=? AND task_kind='detail'
+          AND status IN ('pending','failed','partial','committed')
+          AND (status='pending' OR julianday(next_eligible_at)<=julianday(?) OR (? AND run_id=? AND status IN ('failed','partial')))
+          ORDER BY julianday(COALESCE(last_attempt_at,queued_at,'1970-01-01T00:00:00+00:00')),id""",
+          (config['source_key'],now(),int(retry_failed),run_id)).fetchall()
+        return [json.loads(row['result_json'])['candidate'] for row in rows if json.loads(row['result_json'] or '{}').get('candidate')]
 
 
 def _detail_states(database_path, config, run_id):
-    with read_database(database_path) as (connection, _):
-        return dict(connection.execute("SELECT status,COUNT(*) FROM processing_tasks WHERE source_key=? AND task_kind='detail' AND run_id=? GROUP BY status", (config["source_key"], run_id)))
+    with read_database(database_path) as (connection,_):
+        return dict(connection.execute("SELECT status,COUNT(*) FROM processing_tasks WHERE source_key=? AND task_kind='detail' GROUP BY status",(config['source_key'],)))
 
 
-def _cursor(database_path, config, run_id):
-    with read_database(database_path) as (connection, _):
-        row = connection.execute("SELECT cursor_json,status FROM processing_tasks WHERE source_key=? AND task_kind='list' AND run_id=?", (config["source_key"], run_id)).fetchone()
-        return (json.loads(row["cursor_json"]), row["status"] == "complete") if row else (None, False)
+def _queue_state(database_path, config):
+    with read_database(database_path) as (connection,_):
+        row=connection.execute("SELECT cursor_json,status,result_json FROM processing_tasks WHERE source_key=? AND task_kind='list' AND task_identity=?",(config['source_key'],'list:'+config['channel_key'])).fetchone()
+        return (json.loads(row['cursor_json']),row['status']=='complete',json.loads(row['result_json'] or '{}')) if row else (None,False,{})
 
 
 def _finish(database_path, run_id, summary, status):
@@ -108,7 +114,7 @@ def _finish(database_path, run_id, summary, status):
 
 
 def refresh_sources(database_path, source_configs, adapters=None, transport=None, *, school_keys=("scut", "gdut"), page_budget=2, detail_budget=20, fixture=False, resume_run_id=None, trigger="manual"):
-    """Refresh only registered sources in the two-school scope; never migrate/init.
+    """Refresh registered fixed-school sources; never migrate/init.
 
     Adapter and transport factories receive source_config. A fresh transport per
     source gives each channel its own request/time budget and closes owned clients.
@@ -117,11 +123,11 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
 
     if not 1 <= page_budget <= 10 or not 0 <= detail_budget <= 100:
         raise ValueError("列表预算为 1—10 页，核心详情预算为 0—100 条。")
-    if not school_keys or not set(school_keys).issubset({"scut", "gdut"}):
-        raise ValueError("本轮真实刷新仅允许华南理工与广东工业。")
+    if not school_keys or not set(school_keys).issubset(FIXED_SCHOOLS):
+        raise ValueError("刷新学校必须来自固定十校范围。")
     configs = [deepcopy(config) for config in source_configs if config["school_key"] in school_keys]
     if not configs or len({config["source_key"] for config in configs}) != len(configs):
-        raise ValueError("刷新需要非重复的已登记来源。")
+        raise ValueError("本轮刷新需要选定学校的非重复已登记来源。")
     scope = {"school_keys": list(school_keys), "source_keys": [config["source_key"] for config in configs], "page_budget": page_budget, "detail_budget": detail_budget, "fixture": fixture}
     run_id = resume_run_id or "run-" + str(uuid4())
     with refresh_lock(database_path):
@@ -150,10 +156,13 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
                     adapter = adapters(config)
                 else:
                     adapter = adapters.get(config.get("adapter"), adapters.get(config["source_key"]))
-                fetcher = transport(config) if callable(transport) else transport if transport is not None else Fetcher(max_requests=max(3, page_budget * 3 + detail_budget * 3))
+                fetcher = transport(config) if callable(transport) else transport if transport is not None else Fetcher(allowed_hosts=approved_hosts(config["school_key"]),school_key=config["school_key"],max_requests=max(3,page_budget*3+detail_budget*3))
                 owns_fetcher = transport is None or callable(transport)
                 remaining_details = detail_budget
-                cursor, complete = _cursor(database_path, config, run_id)
+                tail, complete, saved_queue = _queue_state(database_path,config)
+                is_head = not resume_run_id and not (page_budget==1 and tail is not None and saved_queue.get('next_phase')=='tail')
+                cursor = None if is_head else tail
+                if not resume_run_id: complete=False
                 seen_cursors = set()
                 restricted_patterns = set()
                 attempted_details = set()
@@ -217,16 +226,31 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
                         if page["source_key"] != config["source_key"] or page["channel_key"] != config["channel_key"]:
                             raise ValueError("适配器输出来源或栏目不匹配。")
                         next_cursor = page.get("next_cursor")
-                        complete = page.get("completeness") == "complete_for_channel" and next_cursor is None
-                        ingest_page(database_path, config, page["records"], page.get("material_refs", []), run_id=run_id, cursor=cursor, next_cursor=next_cursor, complete=complete, fixture=fixture, budget={"page_budget": page_budget, "detail_budget": detail_budget})
+                        complete = page.get('completeness')=='complete_for_channel' and next_cursor is None
+                        if any(m.get('parsing_status')=='failed' for m in page.get('material_refs',[])):
+                            with writer_transaction(database_path) as (connection,metadata):
+                                assert_data_mode(metadata,fixture)
+                                _save_materials(connection,_prepare_materials(page.get('material_refs',[]),config,fixture))
+                                save_task(connection,config,task_kind='list',task_identity='list:'+config['channel_key'],run_id=run_id,
+                                          cursor=tail if is_head and tail is not None else cursor,status='failed',result={**saved_queue,'reason':'list_parse_failed'},budget={'page_budget':page_budget})
+                            raise ValueError('列表尚未可靠解析，不能当作成功零结果。')
+                        if is_head and tail is not None:
+                            persisted_cursor = tail
+                            complete = False
+                        else:
+                            persisted_cursor = next_cursor
+                        queue = {'next_phase':'tail' if is_head and persisted_cursor is not None else 'head','head_checked_at':now() if is_head else saved_queue.get('head_checked_at'),'tail_cursor':persisted_cursor}
+                        ingest_page(database_path, config, page["records"], page.get("material_refs", []), run_id=run_id,cursor=cursor,next_cursor=persisted_cursor,complete=complete,fixture=fixture,budget={"page_budget":page_budget,"detail_budget":detail_budget},queue_state=queue)
                         outcome["pages"] += 1
                         outcome["warnings"].extend(page.get("warnings", []))
-                        outcome["next_cursor"] = next_cursor
+                        outcome["next_cursor"] = persisted_cursor
                         phase = "detail"
                         details()
-                        if next_cursor is None:
+                        if persisted_cursor is None:
                             break
-                        cursor = next_cursor
+                        cursor = persisted_cursor
+                        tail = persisted_cursor
+                        is_head = False
                     states = _detail_states(database_path, config, run_id)
                     pending = states.get("pending", 0) + states.get("partial", 0)
                     outcome["pending_details"] = pending
@@ -241,7 +265,7 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
                     with writer_transaction(database_path) as (connection, _):
                         _save_materials(connection, _prepare_materials(_failure_material(error, config, run_id), config, fixture))
                         if phase == "list":
-                            save_task(connection, config, task_kind="list", task_identity="list:" + config["channel_key"], run_id=run_id, cursor=outcome["next_cursor"] or cursor, status=status, result={"reason": error.status}, budget={"page_budget": page_budget})
+                            save_task(connection, config, task_kind="list", task_identity="list:" + config["channel_key"], run_id=run_id, cursor=tail if is_head and tail is not None else outcome["next_cursor"] or cursor,status=status,result={**saved_queue,"reason":error.status}, budget={"page_budget": page_budget})
                     _source_status(database_path, config, status, message="公开路径受限，已停止该路径" if status == "restricted" else "本轮来源检查未完成，已保留此前取得内容", fixture=fixture)
                 except ValueError:
                     outcome["status"] = "failed"

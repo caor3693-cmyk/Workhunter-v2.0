@@ -15,7 +15,7 @@ async function capture(fetcher, run) {
 
 test('proxy refuses arbitrary routes, writes and unsafe origin', async () => {
   assert.equal((await worker.fetch(new Request('https://site.test/api/proxy?url=https://example.org'),env)).status,404);
-  assert.equal((await worker.fetch(new Request('https://site.test/api/admin/operations/commit',{method:'POST'}),env)).status,404);
+  assert.equal((await worker.fetch(new Request('https://site.test/api/admin/operations/commit',{method:'POST'}),env)).status,403);
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog',{method:'POST'}),env)).status,405);
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog'),{...env,WH_API_ORIGIN:'http://127.0.0.1:8000'})).status,503);
 });
@@ -140,4 +140,53 @@ test('the fixed page mapping supports direct entry and keeps unknown pages at 40
     assert.equal(await response.text(), asset);
   }
   for (const path of ['/missing', '/sources/', '/opportunities/0', '/api/unknown']) assert.equal((await pages.fetch(new Request('https://site.test' + path), env)).status, 404);
+});
+
+test('known pagination and field errors keep their safe business codes', async () => {
+  for (const code of ['invalid_as_of', 'as_of_required', 'invalid_keyword', 'invalid_dataset']) {
+    await capture(async () => Response.json({detail:{code,message:'private upstream content'}},{status:422}), async () => {
+      const result = await worker.fetch(new Request('https://site.test/api/opportunities'), env);
+      assert.equal(result.status,422);
+      const payload=await result.json();
+      assert.equal(payload.error.code,code);
+      assert.ok(!JSON.stringify(payload).includes('private upstream content'));
+    });
+  }
+});
+
+test('client cancellation reaches the bounded upstream request without becoming a timeout', async () => {
+  const active=new AbortController();
+  let begin;
+  const entered=new Promise(resolve=>{begin=resolve;});
+  let upstreamAborted=false;
+  await capture(async (_, {signal}) => {
+    begin();
+    return new Promise((_,reject)=>signal.addEventListener('abort',()=>{
+      upstreamAborted=true;
+      reject(new DOMException('Aborted','AbortError'));
+    },{once:true}));
+  }, async logs => {
+    const pending=worker.fetch(new Request('https://site.test/api/opportunities',{signal:active.signal}),env);
+    await entered;
+    active.abort();
+    const result=await pending;
+    assert.equal(result.status,499);
+    assert.equal((await result.json()).error.code,'request_cancelled');
+    assert.equal(upstreamAborted,true);
+    assert.equal(logs.length,0);
+  });
+});
+
+test('segmented timing forwards only bounded API durations and numeric timestamps', async () => {
+  await capture(async()=>Response.json({dataset_id:'actual'}, {headers:{
+    'Server-Timing':'private;desc="secret", api;dur=4.25',
+    'X-WH-API-Started-At':'1791727200000', 'X-WH-API-Ended-At':'private-value',
+  }}),async()=>{
+    const result=await worker.fetch(new Request('https://site.test/api/opportunities'),env);
+    assert.match(result.headers.get('server-timing'),/^api;dur=4.25, proxy_connect;dur=[\d.]+, proxy_body;dur=[\d.]+, proxy_total;dur=[\d.]+$/);
+    assert.equal(result.headers.get('x-wh-api-started'),'1791727200000');
+    assert.equal(result.headers.get('x-wh-api-ended'),null);
+    assert.ok(!result.headers.get('server-timing').includes('secret'));
+    assert.equal(result.headers.get('cache-control'),'no-store');
+  });
 });

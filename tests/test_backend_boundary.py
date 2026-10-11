@@ -16,6 +16,9 @@ from backend.api.app import create_app
 from backend.config import Settings
 from backend.domain.candidates import CORE_FIELDS
 from backend.storage.database import DatabaseUnavailable, initialize_database, read_database
+from backend.services import maintenance
+from backend.services.auth import hash_password
+from test_maintenance import maintenance_setup, import_record
 
 
 PUBLIC_PATHS = ("/health", "/version", "/api/catalog", "/api/opportunities", "/api/updates/summary", "/api/sources/status", "/api/opportunities/1")
@@ -28,6 +31,24 @@ def client(db_path, token="", remote="127.0.0.1"):
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_catalog_manual_material_capability_uses_registered_policy_without_claiming_coverage(database):
+    from backend.domain.source_policy import FIXED_SCHOOLS, school_policy
+    from backend.services.discovery import register_sources
+    from backend.config import ROOT
+    register_sources(database, json.loads((ROOT/'config/schools.json').read_text(encoding='utf-8')))
+    before = digest(database)
+    rows = client(database).get('/api/catalog').json()['schools']
+    assert {row['school_key'] for row in rows} == FIXED_SCHOOLS
+    for school in rows:
+        registered = {item['source_key'] for item in school_policy(school['school_key'])['sources']}
+        for source in school['sources']:
+            assert source['maintenance_material_supported'] == (source['source_key'] in registered)
+            assert source['last_success_at'] is None
+    csu = next(row for row in rows if row['school_key'] == 'csu')
+    assert any(source['channel_key'] == 'homepage' and source['maintenance_material_supported'] for source in csu['sources'])
+    assert digest(database) == before
 
 
 @pytest.fixture
@@ -66,7 +87,12 @@ def seed_opportunity(connection, item_id=1, **values):
          fields["first_seen_at"], f"isolated_fixture/{item_id}.txt",
          json.dumps({"type": "isolated_fixture", "coverage": "synthetic_only"})),
     ).lastrowid
+    connection.execute('UPDATE source_materials SET official_record_id=? WHERE id=?',(fields['source_identity'],material_id))
+    def relation(locator):
+        basis={'source_identity':fields['source_identity'],'source_url':fields['source_url'],'locator':locator,'excerpt':'隔离合成依据','material_hash':hashlib.sha256(f"isolated synthetic material {item_id}".encode()).hexdigest()}
+        return connection.execute('INSERT INTO opportunity_materials(opportunity_id,material_id,school_key,source_key,source_identity,relation_kind,locator,scope_json,basis_json,verified_at) VALUES (?,?,?,?,?,?,?,?,?,?)',(item_id,material_id,fields['school_key'],fields['source_key'],fields['source_identity'],'body',locator,json.dumps('this_announcement'),json.dumps(basis),fields['first_seen_at'])).lastrowid
     evidence = {
+        'source_identity': fields['source_identity'], 'association_id': relation(f'fixture:announcement:{item_id}'),
         "material_id": material_id, "source_url": fields["source_url"],
         "locator": f"fixture:announcement:{item_id}", "excerpt": "隔离合成材料，仅用于读取边界回归",
         "scope": "this_announcement", "observed_at": fields["first_seen_at"],
@@ -78,7 +104,7 @@ def seed_opportunity(connection, item_id=1, **values):
         observations[field] = {
             "state": "known" if value not in (None, []) else "not_collected",
             "value": value if value not in (None, []) else None,
-            "evidence": [{**evidence, "locator": f"fixture:{field}", "excerpt": f"隔离合成 {field}: {value}"}] if value not in (None, []) else [],
+            "evidence": [{**evidence, "locator": f"fixture:{field}", "association_id":relation(f"fixture:{field}"), "excerpt": f"隔离合成 {field}: {value}"}] if value not in (None, []) else [],
         }
     if fields["relevance"] != "unknown":
         observations["relevance"] = {"state": "known", "value": fields["relevance"], "evidence": [evidence]}
@@ -223,7 +249,7 @@ def test_explicit_migration_preserves_backup_dataset_and_null_task_history(tmp_p
     with sqlite3.connect(receipt['backup']) as connection:
         assert list(connection.iterdump()) == original_dump
     with read_database(path) as (connection, metadata):
-        assert metadata['schema_version'] == '2' and metadata['dataset_id'] == 'old-isolated-dataset'
+        assert metadata['schema_version'] == '3' and metadata['dataset_id'] == 'old-isolated-dataset'
         tasks = connection.execute('SELECT task_identity,status FROM processing_tasks ORDER BY id').fetchall()
         assert len(tasks) == 2 and tasks[0][0] == 'list:teachin' and tasks[1][1] == 'superseded'
         with pytest.raises(sqlite3.OperationalError):
@@ -276,7 +302,11 @@ def test_service_token_protects_all_routes_including_identity(database):
         assert api.get(route).status_code == 401
         assert api.get(route, headers={"Authorization": "Bearer wrong-token"}).status_code == 401
         assert api.get(route, headers={"Authorization": "Bearer temporary-test-token"}).status_code in {200, 404}
-    assert api.post("/api/admin/operations/commit", headers={"Authorization": "Bearer temporary-test-token"}, json={}).status_code == 404
+    assert api.post('/api/admin/operations/commit',json={}).status_code==401
+    # The service token reaches the registered route but cannot configure or
+    # authorize the separate business maintenance session.
+    protected=api.post('/api/admin/operations/commit',headers={'Authorization':'Bearer temporary-test-token'},json={})
+    assert protected.status_code==503 and protected.json()['detail']['code']=='maintenance_unavailable'
     assert digest(database) == before
 
 
@@ -459,6 +489,10 @@ def test_projection_rejects_unbound_or_mismatched_evidence_without_writes(fixtur
     today = datetime.now(timezone(timedelta(hours=8))).date().isoformat()
     with sqlite3.connect(fixture_database) as connection:
         evidence = seed_opportunity(connection, published_date=today)
+        if fault in {'other-source','other-opportunity'}:
+            # Simulate damage by an external writer; normal transactions reject
+            # these mutations before they can create an invalid association.
+            connection.execute('DROP TRIGGER materials_applicability_update')
         if fault in {"other-source", "other-opportunity", "pending-material", "failed-material", "restricted-material"}:
             if fault == "other-source":
                 connection.execute("UPDATE source_materials SET source_key='gdut_homepage',opportunity_id=NULL WHERE id=?", (evidence["material_id"],))
@@ -568,7 +602,11 @@ def test_invalid_fragment_scope_is_503_without_mutating_database(fixture_databas
         evidence = seed_opportunity(connection)
         fragment = {"text": "隔离合成片段", "scope": scope, "evidence": [evidence]}
         connection.execute("UPDATE opportunities SET roster_fragments_json=? WHERE id=1", (json.dumps([fragment], ensure_ascii=False),))
-    assert_rejected_without_writes(fixture_database, ("/api/opportunities/1",))
+    before=digest(fixture_database)
+    result=client(fixture_database).get('/api/opportunities/1')
+    assert result.status_code==200 and result.json()['roster_fragments']==[]
+    assert result.json()['supplemental_status']=='pending_verification'
+    assert digest(fixture_database)==before
 
 
 @pytest.mark.parametrize("field", ["roster_fragments_json", "job_fragments_json", "attachments_json"])
@@ -582,7 +620,11 @@ def test_fragment_and_attachment_evidence_cannot_borrow_another_opportunity(fixt
         else:
             fragment["text"] = "隔离合成片段"
         connection.execute(f"UPDATE opportunities SET {field}=? WHERE id=1", (json.dumps([fragment], ensure_ascii=False),))
-    assert_rejected_without_writes(fixture_database, ("/api/opportunities/1",))
+    before=digest(fixture_database)
+    result=client(fixture_database).get('/api/opportunities/1')
+    assert result.status_code==200 and result.json()[field.removesuffix('_json')]==[]
+    assert result.json()['supplemental_status']=='pending_verification'
+    assert digest(fixture_database)==before
 
 
 @pytest.mark.parametrize("url", [
@@ -606,8 +648,13 @@ def add_date_conflict(connection, field, evidence, item_id=1):
         "INSERT INTO source_materials(source_key,reference_key,opportunity_id,source_url,material_hash,fetched_at,raw_reference,acquisition_status,parsing_status,parser_version,scope_json) SELECT source_key,reference_key||':conflict',opportunity_id,source_url,?,fetched_at,raw_reference||':conflict',acquisition_status,parsing_status,parser_version,scope_json FROM source_materials WHERE id=?",
         (hashlib.sha256(b"isolated synthetic conflicting date material").hexdigest(), evidence["material_id"]),
     ).lastrowid
+    identity=connection.execute('SELECT source_identity FROM opportunities WHERE id=?',(item_id,)).fetchone()[0]
+    connection.execute('UPDATE source_materials SET official_record_id=? WHERE id=?',(identity,other_id))
+    material=connection.execute('SELECT school_key,source_key FROM opportunities WHERE id=?',(item_id,)).fetchone()
+    basis={'source_identity':identity,'source_url':evidence['source_url'],'locator':evidence['locator'],'excerpt':'隔离合成冲突依据','material_hash':hashlib.sha256(b'isolated synthetic conflicting date material').hexdigest()}
+    association=connection.execute('INSERT INTO opportunity_materials(opportunity_id,material_id,school_key,source_key,source_identity,relation_kind,locator,scope_json,basis_json,verified_at) VALUES (?,?,?,?,?,?,?,?,?,?)',(item_id,other_id,material[0],material[1],identity,'body',evidence['locator'],json.dumps(evidence['scope']),json.dumps(basis),evidence['observed_at'])).lastrowid
     conflict = {"state": "conflict", "value": None, "evidence": [evidence, {
-        **evidence, "material_id": other_id, "excerpt": "隔离合成材料中出现另一个日期，尚未裁定",
+        **evidence, "material_id": other_id, "association_id":association, "excerpt": "隔离合成材料中出现另一个日期，尚未裁定",
     }]}
     change_observations(connection, lambda observations: observations.update({field: conflict}), item_id)
 
@@ -659,3 +706,38 @@ def test_conflicted_publication_sort_uses_first_seen_without_erasing_old_date(fi
     assert response.json()["items"][0]["published_date"] == "2020-01-01"
     assert response.json()["items"][0]["field_observations"]["published_date"]["state"] == "conflict"
     assert digest(fixture_database) == before
+
+
+def test_hidden_record_catalog_list_detail_and_history_keep_business_auth_boundary(maintenance_setup):
+    paths,principal=maintenance_setup
+    created=import_record(paths,principal,environment='real')
+    preview=maintenance.preview_revert(paths,principal,created['operation_id'],{'environment':'real','reason':'合成真实模式维护隐藏回归'})
+    maintenance.commit_operation(paths,principal,{key:preview[key] for key in maintenance.COMMIT_KEYS},expected_revert=created['operation_id'])
+    settings=Settings(db_path=paths.db_path,acceptance_db_path=paths.acceptance_db_path,backend_commit='synthetic-maintenance-boundary',
+        maintenance_password_hash=hash_password('isolated-test-password'),maintenance_actor=principal['actor'],maintenance_origin='https://maintenance.example')
+    app=create_app(settings);visitor=TestClient(app,base_url='https://maintenance.example',client=('127.0.0.1',54321))
+    before=digest(paths.db_path)
+    for route in ('/api/opportunities?scope=all&view=upcoming&as_of=2026-10-12','/api/opportunities?scope=all&view=recent&as_of=2026-10-12'):
+        result=visitor.get(route)
+        assert result.status_code==200 and result.json()['total']==0 and result.json()['items']==[]
+    catalog=visitor.get('/api/catalog').json()
+    assert next(school for school in catalog['schools'] if school['school_key']=='gdut')['opportunity_count']==0
+    assert visitor.get('/api/opportunities/1').status_code==404
+    assert visitor.get('/api/opportunities/1/history').status_code==404
+    assert visitor.get('/api/opportunities/1?include_hidden=true').status_code==404
+    for route in ('/api/admin/operations','/api/admin/tasks','/api/admin/opportunities/1','/api/admin/opportunities/1/history'):
+        assert visitor.get(route).status_code==401
+    assert digest(paths.db_path)==before
+    administrator=TestClient(app,base_url='https://maintenance.example',client=('127.0.0.1',54321))
+    bootstrap=administrator.get('/api/admin/session').json()
+    login=administrator.post('/api/admin/session/login',json={'password':'isolated-test-password'},
+        headers={'Origin':'https://maintenance.example','X-WH-CSRF':bootstrap['csrf_token']})
+    assert login.status_code==200
+    headers={'Origin':'https://maintenance.example','X-WH-CSRF':login.json()['csrf_token']}
+    hidden=administrator.get('/api/admin/opportunities/1/history')
+    assert hidden.status_code==200 and hidden.json()['visible'] is False and hidden.json()['history']
+    assert administrator.get('/api/opportunities/1').status_code==404
+    assert administrator.post('/api/admin/session/logout',headers=headers).status_code==200
+    for route in ('/api/admin/operations','/api/admin/tasks','/api/admin/opportunities/1','/api/admin/opportunities/1/history'):
+        result=administrator.get(route)
+        assert result.status_code==401 and 'history' not in result.json() and 'event_date' not in result.json()

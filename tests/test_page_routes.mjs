@@ -8,7 +8,7 @@ const assets = collectFrontendAssets('frontend', 'a'.repeat(40));
 const source = readFileSync('ops/preview/worker.mjs', 'utf8').replace('__EMBEDDED_ASSETS__', JSON.stringify(assets));
 const worker = (await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'))).default;
 
-for (const [pathname, page] of [['/', 'home'], ['/sources', 'sources'], ['/review', 'review'], ['/opportunities/42', 'detail']]) {
+for (const [pathname, page] of [['/', 'home'], ['/sources', 'sources'], ['/review', 'review'], ['/maintenance','maintenance'], ['/opportunities/42', 'detail']]) {
   test(`direct ${pathname} and refreshed URL return only the expected page`, async () => {
     assert.equal(resolvePage(pathname).page, page);
     for (const address of [pathname, pathname + '?entry=direct']) {

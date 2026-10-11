@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="workhunter-frontend-commit" content="__FRONTEND_COMMIT__" />
+  <title>招聘维护 · Workhunter</title>
+  <link rel="stylesheet" href="/frontend/styles/app.css" />
+  <script type="module" src="/frontend/pages/app.js"></script>
+</head>
+<body data-page="maintenance">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="/" aria-label="Workhunter 招聘发现首页"><span class="brand-mark" aria-hidden="true">w<span></span></span><span>Workhunter<span class="brand-version">v2</span></span></a>
+    <nav aria-label="主要导航"><a class="nav-link" href="/">招聘发现</a><a class="nav-link" href="/sources">来源状态</a><a class="nav-link is-current" href="/maintenance" aria-current="page">招聘维护</a></nav>
+    <span class="preview-tag">维护者入口</span>
+  </div></header>
+  <main id="main" class="page-shell maintenance-shell">
+    <section class="intro"><p class="eyebrow">维护者入口</p><h1>核对材料，维护招聘</h1><p class="intro-copy">公开材料先生成差异预览，确认后才保存。撤回会保留操作历史。</p></section>
+    <div class="section-heading"><p id="maintenance-status" class="section-status" role="status" aria-live="polite">正在读取登录状态…</p><button id="session-reload" class="button button-plain" type="button" data-maintenance-control>重新读取登录状态</button></div>
+    <section id="maintenance-login" class="review-section" aria-labelledby="login-title">
+      <h2 id="login-title">维护登录</h2><p class="section-copy">使用维护口令登录。页面不会保存口令。</p>
+      <form id="maintenance-login-form" class="maintenance-form"><label class="field">维护口令<input id="maintenance-password" type="password" autocomplete="current-password" maxlength="1024" required data-maintenance-control /></label><button id="maintenance-login-button" class="button button-primary" type="submit" data-maintenance-control>登录</button></form>
+    </section>
+    <div id="maintenance-tools" hidden>
+      <section class="update-panel maintenance-environment" aria-labelledby="environment-title">
+        <div><h2 id="environment-title">操作环境</h2><p id="maintenance-environment-note" role="status"></p></div>
+        <label class="field">选择环境<select id="maintenance-environment" data-maintenance-control><option value="isolated">隔离演练</option><option value="real">真实维护</option></select></label>
+        <button id="maintenance-logout" class="button button-plain" type="button" data-maintenance-control>退出登录</button>
+      </section>
+      <section class="review-section" aria-labelledby="material-title"><h2 id="material-title">补录或纠错</h2><p id="maintenance-catalog-status" class="section-copy" role="status">正在读取学校与登记来源…</p>
+        <form id="maintenance-material-form" class="maintenance-form">
+          <div class="primary-filters">
+            <label class="field">操作<select id="maintenance-operation-type" data-maintenance-control><option value="supplement">补录公开材料</option><option value="correction">纠错已有记录</option></select></label>
+            <label class="field">学校<select id="maintenance-school" required data-maintenance-control><option value="">请选择学校</option></select></label>
+            <label class="field">登记来源<select id="maintenance-source" required data-maintenance-control><option value="">请选择来源</option></select></label>
+            <label class="field">目标记录编号（可选）<input id="maintenance-target" type="text" inputmode="numeric" pattern="[1-9][0-9]*" maxlength="16" data-maintenance-control /></label>
+          </div>
+          <label class="field">官方单条公告链接<input id="maintenance-url" type="url" maxlength="2048" placeholder="https://…" required data-maintenance-control /></label>
+          <label class="field">可选公开正文<textarea id="maintenance-public-text" rows="8" placeholder="可粘贴合法取得的公开正文或保留学校标记的页面内容；留空则读取官方链接。" data-maintenance-control></textarea></label>
+          <label class="field">操作原因<textarea id="maintenance-reason" rows="2" maxlength="1000" required data-maintenance-control></textarea></label>
+          <fieldset id="maintenance-fields"><legend class="section-copy">仅更正勾选字段；未勾选时按材料差异预览</legend><div class="maintenance-field-options">
+            <label><input type="checkbox" value="published_date" data-maintenance-field data-maintenance-control />公告发布时间</label><label><input type="checkbox" value="event_date" data-maintenance-field data-maintenance-control />活动日期</label><label><input type="checkbox" value="start_time" data-maintenance-field data-maintenance-control />开始时刻</label><label><input type="checkbox" value="end_time" data-maintenance-field data-maintenance-control />结束时刻</label><label><input type="checkbox" value="deadline" data-maintenance-field data-maintenance-control />投递截止</label><label><input type="checkbox" value="event_venue" data-maintenance-field data-maintenance-control />举办地点</label><label><input type="checkbox" value="work_locations" data-maintenance-field data-maintenance-control />工作地点</label><label><input type="checkbox" value="relevance" data-maintenance-field data-maintenance-control />电气相关性</label><label><input type="checkbox" value="title" data-maintenance-field data-maintenance-control />标题</label><label><input type="checkbox" value="job_fragments" data-maintenance-field data-maintenance-control />已取得岗位片段</label><label><input type="checkbox" value="attachments" data-maintenance-field data-maintenance-control />适用附件</label>
+          </div></fieldset>
+          <button id="maintenance-preview-button" class="button button-primary" type="submit" data-maintenance-control>读取材料并预览</button>
+        </form>
+      </section>
+      <section id="maintenance-preview-panel" class="review-section" hidden aria-labelledby="preview-title"><h2 id="preview-title">核对本次差异</h2><p id="maintenance-preview-note" class="section-copy"></p><div id="maintenance-preview-content"></div><button id="maintenance-commit" class="button button-primary" type="button" data-maintenance-control>确认保存这次预览</button><button id="maintenance-discard" class="button button-plain" type="button" data-maintenance-control>放弃预览</button></section>
+      <section id="maintenance-receipt-panel" class="review-section" hidden aria-labelledby="receipt-title"><h2 id="receipt-title">服务端提交回执</h2><p id="maintenance-receipt" role="status"></p></section>
+      <section class="review-section" aria-labelledby="operations-title"><div class="section-heading"><h2 id="operations-title">操作记录与撤回</h2><button id="maintenance-refresh" class="button button-plain" type="button" data-maintenance-control>重新读取记录和待办</button></div><label class="field">重试或撤回原因<textarea id="maintenance-action-reason" rows="2" maxlength="1000" data-maintenance-control></textarea></label><p id="maintenance-operations-status" class="section-copy" role="status"></p><div id="maintenance-operations" class="result-list"></div><button id="maintenance-operations-more" class="button button-plain" type="button" data-maintenance-control hidden>读取下一页操作</button></section>
+      <section class="review-section" aria-labelledby="summary-title"><h2 id="summary-title">本环境今日变化</h2><p id="maintenance-summary" class="section-copy" role="status">本环境摘要尚未取得。</p></section>
+      <section class="review-section" aria-labelledby="tasks-title"><h2 id="tasks-title">来源失败与维护待办</h2><div id="maintenance-task-groups" class="result-list"></div><p id="maintenance-tasks-status" class="section-copy" role="status"></p><div id="maintenance-tasks" class="result-list"></div><button id="maintenance-tasks-more" class="button button-plain" type="button" data-maintenance-control hidden>读取下一页待办</button></section>
+      <section class="review-section" aria-labelledby="history-title"><h2 id="history-title">单条记录与变更历史</h2><form id="maintenance-history-form" class="maintenance-form"><label class="field">记录编号<input id="maintenance-history-id" type="text" inputmode="numeric" pattern="[1-9][0-9]*" maxlength="19" required data-maintenance-control /></label><button id="maintenance-history-button" class="button button-plain" type="submit" data-maintenance-control>读取历史</button></form><p id="maintenance-history-status" class="section-copy" role="status"></p><div id="maintenance-history"></div></section>
+    </div>
+  </main>
+  <footer class="site-footer"><span>Workhunter v2 · 学校官方招聘发现</span><span>验收环境 · 尚未正式发布</span></footer>
+  <noscript><p class="noscript-message">请启用 JavaScript 后读取维护登录状态。未取得服务端确认前，不表示登录或操作成功。</p></noscript>
+</body>
+</html>

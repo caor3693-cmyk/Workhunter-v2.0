@@ -111,5 +111,33 @@ test('list needs a frozen calendar day, canonical filter window and valid pagina
 });
 
 test('422 field failures and missing announcements explain the concrete next action', async () => {
-  for (const [code, pattern, status] of [['invalid_date_range', /起始日期.*结束日期/, 422], ['school_campus_conflict', /校区.*学校/, 422], ['as_of_required', /首页查询日期/, 422], ['opportunity_not_found', /不存在或尚未收录/, 404]]) await withFetch(async () => Response.json({ detail: { code } }, { status }), async () => assert.rejects(readJSON('/api/opportunities'), error => error.code === code && pattern.test(error.message)));
+  for (const [code, pattern, status] of [['invalid_date_range', /起始日期.*结束日期/, 422], ['school_campus_conflict', /校区.*学校/, 422], ['as_of_required', /首页查询日期/, 422], ['invalid_dataset', /分页数据版本.*第一页/, 422], ['opportunity_not_found', /不存在或尚未收录/, 404]]) await withFetch(async () => Response.json({ detail: { code } }, { status }), async () => assert.rejects(readJSON('/api/opportunities'), error => error.code === code && pattern.test(error.message)));
+});
+
+test('timing observes actual request/header/body boundaries and safe API clocks without adding response fields', async () => {
+  const events = [];
+  const headers = { 'Server-Timing': 'api;dur=7, proxy_total;dur=12', 'X-WH-API-Started': '1791680400000', 'X-WH-API-Ended': '1791680400007' };
+  await withFetch(async () => Response.json(catalog, { headers }), async () => {
+    const data = await readJSON('/api/catalog', { onTiming: event => events.push(event) });
+    assert.deepEqual(data, catalog);
+    assert.deepEqual(Object.keys(data).sort(), Object.keys(catalog).sort());
+  });
+  assert.deepEqual(events.map(event => event.phase), ['request', 'headers', 'json', 'validated']);
+  assert.equal(events[1].server_timing, headers['Server-Timing']);
+  assert.equal(events[1].api_started_at, 1791680400000);
+  assert.equal(events[1].api_ended_at, 1791680400007);
+  assert.ok(events.every((event, index) => Number.isFinite(event.at) && Number.isFinite(event.elapsed_ms) && (index === 0 || event.elapsed_ms >= events[index - 1].elapsed_ms)));
+});
+
+test('failed timing stays failed, absent or malformed API clocks stay null and observer errors cannot break reads', async () => {
+  const events = [];
+  await withFetch(async () => Response.json({ error: { code: 'http_error' } }, { status: 403, headers: { 'X-WH-API-Started': 'not-a-clock', 'X-WH-API-Ended': 'Infinity' } }), async () => {
+    await assert.rejects(readJSON('/api/catalog', { onTiming: event => events.push(event) }), error => error.status === 403);
+  });
+  assert.equal(events.at(-1).phase, 'failed');
+  assert.equal(events.at(-1).status, 403);
+  assert.equal(events.find(event => event.phase === 'headers').api_started_at, null);
+  assert.equal(events.find(event => event.phase === 'headers').api_ended_at, null);
+  assert.ok(!events.some(event => event.phase === 'validated'));
+  await withFetch(async () => Response.json(catalog), async () => assert.deepEqual(await readJSON('/api/catalog', { onTiming() { throw new Error('broken measurement'); } }), catalog));
 });

@@ -79,14 +79,18 @@ test('card titles use only matching internal detail links and all source content
   assert.equal(find(resultCard({ ...announcement, detail_url: 'javascript:alert(1)' }), node => node.tag === 'a' && node.attributes.href?.startsWith('/')).length, 0);
 }));
 
-test('detail keeps full locations, literal fragments, attachment applicability and material identity/coverage', () => withDOM(() => {
+test('detail keeps full facts, literal fragments, applicable links and readable scope without engineering DOM', () => withDOM(() => {
   const detail = detailContent({ ...announcement, roster_fragments: [{ text: '<script>isolated</script>', scope: 'partial', evidence: [proof] }], job_fragments: [], attachments: [{ label: '隔离附件', url: 'https://career.gdut.edu.cn/file.pdf', scope: 'complete_for_material', evidence: [proof] }], materials: [{ id: 1, source_url: proof.source_url, material_hash: 'a'.repeat(64), fetched_at: '2026-10-11T09:00:00+08:00', scope: 'complete_for_material' }], coverage: { coverage: 'college_supplemental', school_wide: false } });
   assert.match(detail.textContent, /惠州/);
   assert.ok(detail.textContent.includes('<script>isolated</script>'));
   assert.ok(!find(detail, node => node.tag === 'script').length);
   assert.match(detail.textContent, /不能据此判断没有企业或岗位/);
   assert.match(detail.textContent, /非整场或全校完整覆盖/);
-  assert.match(detail.textContent, /SHA-256：a{64}/);
+  assert.ok(!detail.textContent.includes('a'.repeat(64)));
+  assert.ok(!detail.textContent.includes(proof.locator));
+  assert.ok(!detail.textContent.includes(proof.parser_version));
+  assert.ok(!find(detail, node => ['details', 'summary'].includes(node.tag)).length);
+  assert.ok(!find(detail, node => ['material-hash', 'material-record', 'evidence-list'].includes(node.attributes.class)).length);
   assert.match(detail.textContent, /学院补充来源，非全校覆盖/);
   assert.ok(find(detail, node => node.tag === 'a').every(node => safePublicURL(node.attributes.href) || node.attributes.href === '/opportunities/42'));
 }));
@@ -95,4 +99,32 @@ test('scope absence cannot become an all-school completion claim', () => {
   assert.equal(scopeText(null), '范围待核实');
   assert.equal(scopeText({}), '范围待核实');
   assert.match(scopeText('complete_for_material'), /非整场或全校完整覆盖/);
+  assert.equal(scopeText('internal_scope_enum'), '范围待核实');
+  assert.equal(scopeText({ type: 'internal_scope_enum', note: 'CSS #technical', page_budget: 400 }), '范围待核实');
+  assert.match(scopeText({ type: 'source_list', coverage: 'complete_for_page' }), /栏目列表/);
+  assert.match(scopeText({ type: 'source_list', coverage: 'complete_for_page' }), /非全校覆盖/);
 });
+
+test('representative detail IDs, missing content and conflicts retain usable safe keyboard links without technical evidence', () => withDOM(() => {
+  for (const id of [68, 31, 40]) {
+    const detail = detailContent({ ...announcement, id, detail_url: `/opportunities/${id}`, field_observations: { ...announcement.field_observations, deadline: { state: 'conflict', value: 'DO-NOT-EXPOSE-RAW', evidence: [proof] } },
+      job_fragments: [{ text: '隔离电气岗位片段', scope: 'this_announcement', evidence: [proof] }], coverage: { coverage: 'internal_scope_enum', school_wide: false }, materials: [{ id: 987654, material_hash: 'INTERNAL-MATERIAL-HASH', parser_version: 'INTERNAL-PARSER' }] });
+    assert.match(detail.textContent, /隔离电气岗位片段.*非全校覆盖/);
+    assert.match(detail.textContent, /待核实（材料有冲突）/);
+    for (const marker of ['DO-NOT-EXPOSE-RAW', 'INTERNAL-MATERIAL-HASH', 'INTERNAL-PARSER', '987654', 'internal_scope_enum', '查看定位证据']) assert.ok(!detail.textContent.includes(marker), marker);
+    const links = find(detail, node => node.tag === 'a');
+    assert.ok(links.length && links.every(link => safePublicURL(link.attributes.href) && link.attributes.rel === 'noopener noreferrer' && link.attributes.tabindex !== '-1'));
+  }
+}));
+
+test('unverified optional content is omitted without losing reliable core fields or implying that it does not exist', () => withDOM(() => {
+  const detail = detailContent({ ...announcement, official_sources: [null, { url: 'javascript:alert(1)' }], job_fragments: [{ text: 'UNCHECKED-JOB', scope: 'this_announcement', evidence: [] }], attachments: [
+    { label: 'UNCHECKED-ATTACHMENT', url: 'https://career.gdut.edu.cn/unverified.pdf', scope: 'this_announcement', evidence: [] },
+    { label: 'UNSAFE-ATTACHMENT', url: 'javascript:alert(1)', scope: 'this_announcement', evidence: [proof] },
+  ] });
+  assert.match(detail.textContent, /2026-09-10/);
+  assert.match(detail.textContent, /部分材料仍待核实/);
+  assert.match(detail.textContent, /部分附件适用关系待核实/);
+  assert.ok(!detail.textContent.includes('UNCHECKED') && !detail.textContent.includes('UNSAFE-ATTACHMENT'));
+  assert.ok(!find(detail, node => node.tag === 'a').some(node => node.attributes.href.includes('unverified.pdf')));
+}));

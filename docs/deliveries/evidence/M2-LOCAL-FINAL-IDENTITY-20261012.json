@@ -1,0 +1,13 @@
+{
+  "code_commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+  "site_remote_evidence": false,
+  "identity_text": "当前构建与数据身份\n重新核对\n\n已读取同一 Workhunter v2 构建，数据库可读；学校覆盖和用户验收另行核对。\n\n后端项目 / 版本\nWorkhunter-v2.0 / 0.4.0\n后端阶段\nM2\n前端源码提交\n26060f8c92c5960f45bd673f94560dc9cf0c23bb\n后端源码提交\n26060f8c92c5960f45bd673f94560dc9cf0c23bb\n后端构建身份\n26060f8c92c5960f45bd673f94560dc9cf0c23bb\n数据模式\nreal\n数据集\nds-3ceedaa1-97f2-4625-b180-35d7f162668a\n数据库状态\nreadable\n本次页面读取\n10/12 02:18（北京时间）\n\n身份来自本次读取；连接或数据库可读，不表示学校真实采集、持续维护或用户验收已完成。官方材料与隔离样例须对照当前交付包。",
+  "record_293": "Real page confirmed correct limited workplace union",
+  "view_390": {
+    "inner_width": 390,
+    "client_width": 375,
+    "scroll_width": 375,
+    "internal_markers": false
+  },
+  "user_gate": "unmeasured"
+}

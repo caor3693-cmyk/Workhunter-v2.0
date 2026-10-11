@@ -50,7 +50,7 @@ function sourceIdentity() {
 
 export async function previewFixture(manifestPath) {
   const manifest = JSON.parse(readFileSync(path.resolve(manifestPath), 'utf8'));
-  if (manifest.project !== 'Workhunter-v2.0' || !fixtureIdentity(manifest) || manifest.schema_version !== '2') throw new Error('只允许独立 schema2 隔离 manifest。');
+  if (manifest.project !== 'Workhunter-v2.0' || !fixtureIdentity(manifest) || manifest.schema_version !== '3') throw new Error('只允许独立 schema3 隔离 manifest。');
   const health = await fetch(FIXTURE_ORIGIN + '/health', { signal: AbortSignal.timeout(5000), redirect: 'error' });
   const ready = await health.json();
   if (!health.ok || ready.project !== manifest.project || !fixtureIdentity(ready) || ready.dataset_id !== manifest.dataset_id) throw new Error('隔离 API 身份或数据集与 manifest 不一致；不会连接真实主库。');

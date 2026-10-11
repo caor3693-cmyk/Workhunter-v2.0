@@ -23,9 +23,16 @@ REQUIRED_COLUMNS = {
     "opportunities": "id school_key campus_id source_key source_identity title kind original_kind date_basis source_url published_date event_date start_time end_time deadline event_venue work_locations_json work_locations_scope relevance event_status recruitment_status field_observations_json first_seen_at content_changed_at source_updated_at version roster_fragments_json job_fragments_json attachments_json",
     "source_materials": "id reference_key source_key opportunity_id source_url official_record_id material_hash fetched_at raw_reference acquisition_status parsing_status parser_version scope_json",
     "runs": "id trigger started_at finished_at status scope_json completeness result_json committed_at",
-    "processing_tasks": "id task_identity source_key opportunity_id task_kind cursor_json budget_json attempts status run_id result_json committed_at",
-    "manual_operations": "id actor operation_type opportunity_id preview_hash base_version input_json difference_json expires_at status committed_at reverts_operation_id",
-    "changes": "id opportunity_id field_name before_json after_json change_kind material_id run_id manual_operation_id actor committed_at",
+    "processing_tasks": "id task_identity source_key opportunity_id task_kind cursor_json budget_json attempts status run_id result_json committed_at last_attempt_at next_eligible_at queued_at",
+    "manual_operations": "id actor operation_type opportunity_id preview_hash base_version input_json difference_json expires_at status committed_at reverts_operation_id session_id input_hash idempotency_key receipt_json expected_version target_source_key target_identity",
+    "changes": "id opportunity_id field_name before_json after_json change_kind material_id run_id manual_operation_id actor committed_at reason write_context_key",
+    "opportunity_materials": "id opportunity_id material_id school_key source_key source_identity relation_kind locator scope_json basis_json link_chain_json verified_at",
+    "write_receipts": "context_key request_hash actor run_id operation_id reason change_kind receipt_json committed_at",
+    "field_decisions": "opportunity_id field_name operation_id value_json evidence_json base_version committed_at",
+    "official_observations": "id opportunity_id field_name material_id association_id value_hash snapshot_json parser_version observed_at committed_at run_id actor write_context_key",
+    "maintenance_sessions": "session_hash csrf_hash actor created_at expires_at revoked_at",
+    "maintenance_login_failures": "identifier_hash attempts window_started_at last_attempt_at blocked_until",
+    "quarantined_evidence": "id opportunity_id field_name input_hash original_json reason recorded_at",
 }
 
 

@@ -1,0 +1,178 @@
+{
+  "code_commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+  "new_http_requests": 0,
+  "source_materials_added": 0,
+  "repairs": [
+    {
+      "id": 269,
+      "school_key": "hnu",
+      "before": [
+        "工艺"
+      ],
+      "after": [
+        "盐城 /南通/金堂",
+        "盐城",
+        "平台（盐城）",
+        "盐城 /金堂"
+      ],
+      "state": "known",
+      "scope": "partial_disclosed"
+    },
+    {
+      "id": 279,
+      "school_key": "hnu",
+      "before": [
+        "管理培训生（职能方向）"
+      ],
+      "after": [
+        "东莞",
+        "韶关",
+        "宜昌",
+        "东阳",
+        "乌兰察布",
+        "广州",
+        "宜春",
+        "肇庆",
+        "上海",
+        "全国",
+        "武汉"
+      ],
+      "state": "known",
+      "scope": "partial_disclosed"
+    },
+    {
+      "id": 281,
+      "school_key": "hnu",
+      "before": [
+        "江西南昌",
+        "广西玉林",
+        "浙江衢州"
+      ],
+      "after": [
+        "江西南昌",
+        "广西玉林",
+        "浙江衢州",
+        "安徽铜陵",
+        "四川遂宁 等"
+      ],
+      "state": "known",
+      "scope": "this_announcement"
+    },
+    {
+      "id": 285,
+      "school_key": "csust",
+      "before": [
+        "有机合成类"
+      ],
+      "after": [
+        "上海"
+      ],
+      "state": "known",
+      "scope": "partial_disclosed"
+    },
+    {
+      "id": 291,
+      "school_key": "csust",
+      "before": [
+        "广东省广州市黄埔区科学大道18号B3栋1层",
+        "7层（"
+      ],
+      "after": [
+        "广东省广州市黄埔区科学大道18号B3栋1层、7层（总部地址）"
+      ],
+      "state": "known",
+      "scope": "this_announcement"
+    },
+    {
+      "id": 293,
+      "school_key": "csust",
+      "before": [
+        "专业要求"
+      ],
+      "after": [
+        "全国",
+        "佛山",
+        "江门",
+        "常熟",
+        "中山",
+        "成都",
+        "沧州",
+        "濮阳",
+        "中东",
+        "北非等"
+      ],
+      "state": "known",
+      "scope": "partial_disclosed"
+    }
+  ],
+  "receipts": [
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        269
+      ],
+      "dataset_id": "ds-1b4b0c7b-cd0b-4a02-85f3-43900bee6c11",
+      "context_key": "operation:semantic-14c08eeed9fa414ab57040409a5c4379:caff77ee940028c94e30dc7b887e828bc652246aab142369dc667326b72d9469",
+      "committed_at": "2026-10-12T02:13:31.768484+08:00"
+    },
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        279
+      ],
+      "dataset_id": "ds-0f6a4b4b-4eac-4d90-a96c-6fb1ff449e12",
+      "context_key": "operation:semantic-d1df352d70a143668f72e2dc410a9272:659cb9b8dbce3acec52b63288ddcaa37254b1f8fd1069d3e9ac90244426bd2f8",
+      "committed_at": "2026-10-12T02:13:32.090642+08:00"
+    },
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        281
+      ],
+      "dataset_id": "ds-72b6fd44-1dba-4a6c-84ae-2d7251da28d6",
+      "context_key": "operation:semantic-b4eaa8d0661c4301a416bfcade0729bd:28abd3ef95e4616fd233a01d2e0d7dea9d8d8036302a15771b48062d43e7e865",
+      "committed_at": "2026-10-12T02:13:32.365579+08:00"
+    },
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        285
+      ],
+      "dataset_id": "ds-0cd6a422-c708-4069-95a1-f6d058b3b6db",
+      "context_key": "operation:semantic-2f4532d8ced440a9b3a3b4eafa3b58ba:6bb5ed4e6fb6e275cb385c9e7466cab8f5c3094160c7daafa5dc038f74aa7255",
+      "committed_at": "2026-10-12T02:13:32.603962+08:00"
+    },
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        291
+      ],
+      "dataset_id": "ds-c1369c42-69ee-405c-a4e3-2c9f1ed94f86",
+      "context_key": "operation:semantic-c3d8e531127647b7919c69b8c22fe5cf:453016b8d97eb937b2a923594001728a9aa61b8160d6e946331722186026dc56",
+      "committed_at": "2026-10-12T02:13:32.888648+08:00"
+    },
+    {
+      "new": 0,
+      "modified": 1,
+      "unchanged": 0,
+      "opportunity_ids": [
+        293
+      ],
+      "dataset_id": "ds-3ceedaa1-97f2-4625-b180-35d7f162668a",
+      "context_key": "operation:semantic-098fd416f75b42129c57babc6b5fbf86:fa38bd1a7940c2ec9fcf3105b4fe1be8241748871cd1bcc4c472bdbe8be58f2a",
+      "committed_at": "2026-10-12T02:13:33.183296+08:00"
+    }
+  ],
+  "old_materials_and_history_preserved": true,
+  "user_gate": "unmeasured"
+}

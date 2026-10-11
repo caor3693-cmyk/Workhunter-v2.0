@@ -56,24 +56,98 @@ CREATE TABLE processing_tasks (
   opportunity_id INTEGER REFERENCES opportunities(id), task_kind TEXT NOT NULL,
   cursor_json TEXT, budget_json TEXT NOT NULL, attempts INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'pending', run_id TEXT REFERENCES runs(id),
-  result_json TEXT, committed_at TEXT, UNIQUE(source_key,task_identity,task_kind)
+  result_json TEXT, committed_at TEXT, last_attempt_at TEXT, next_eligible_at TEXT,
+  queued_at TEXT, UNIQUE(source_key,task_identity,task_kind)
 );
 CREATE TABLE manual_operations (
   id TEXT PRIMARY KEY, actor TEXT NOT NULL, operation_type TEXT NOT NULL,
   opportunity_id INTEGER REFERENCES opportunities(id), preview_hash TEXT NOT NULL,
   base_version INTEGER, input_json TEXT NOT NULL, difference_json TEXT NOT NULL,
   expires_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'preview',
-  committed_at TEXT, reverts_operation_id TEXT REFERENCES manual_operations(id)
+  committed_at TEXT, reverts_operation_id TEXT REFERENCES manual_operations(id),
+  session_id TEXT, input_hash TEXT, idempotency_key TEXT, receipt_json TEXT,
+  expected_version INTEGER, target_source_key TEXT, target_identity TEXT
 );
 CREATE TABLE changes (
   id INTEGER PRIMARY KEY, opportunity_id INTEGER NOT NULL REFERENCES opportunities(id),
   field_name TEXT NOT NULL, before_json TEXT, after_json TEXT,
   change_kind TEXT NOT NULL, material_id INTEGER REFERENCES source_materials(id),
   run_id TEXT REFERENCES runs(id), manual_operation_id TEXT REFERENCES manual_operations(id),
-  actor TEXT, committed_at TEXT NOT NULL
+  actor TEXT, committed_at TEXT NOT NULL, reason TEXT, write_context_key TEXT
+);
+
+-- Schema 3 additions (installed explicitly on identified schema 1/2 databases).
+CREATE TABLE opportunity_materials (
+  id INTEGER PRIMARY KEY, opportunity_id INTEGER NOT NULL REFERENCES opportunities(id),
+  material_id INTEGER NOT NULL REFERENCES source_materials(id),
+  school_key TEXT NOT NULL REFERENCES schools(school_key), source_key TEXT NOT NULL REFERENCES sources(source_key),
+  source_identity TEXT NOT NULL, relation_kind TEXT NOT NULL CHECK(relation_kind IN ('list','body','attachment_link')),
+  locator TEXT NOT NULL, scope_json TEXT NOT NULL, basis_json TEXT NOT NULL,
+  link_chain_json TEXT NOT NULL DEFAULT '{}', verified_at TEXT NOT NULL,
+  UNIQUE(opportunity_id,material_id,locator)
+);
+CREATE TABLE write_receipts (
+  context_key TEXT PRIMARY KEY, request_hash TEXT NOT NULL, actor TEXT NOT NULL,
+  run_id TEXT REFERENCES runs(id), operation_id TEXT REFERENCES manual_operations(id),
+  reason TEXT NOT NULL, change_kind TEXT NOT NULL, receipt_json TEXT NOT NULL,
+  committed_at TEXT NOT NULL,
+  CHECK((run_id IS NULL) <> (operation_id IS NULL))
+);
+CREATE TABLE field_decisions (
+  opportunity_id INTEGER NOT NULL REFERENCES opportunities(id), field_name TEXT NOT NULL,
+  operation_id TEXT NOT NULL REFERENCES manual_operations(id), value_json TEXT NOT NULL,
+  evidence_json TEXT NOT NULL, base_version INTEGER NOT NULL, committed_at TEXT NOT NULL,
+  PRIMARY KEY(opportunity_id,field_name)
+);
+CREATE TABLE official_observations (
+  id INTEGER PRIMARY KEY, opportunity_id INTEGER NOT NULL REFERENCES opportunities(id),
+  field_name TEXT NOT NULL, material_id INTEGER NOT NULL REFERENCES source_materials(id),
+  association_id INTEGER NOT NULL REFERENCES opportunity_materials(id),
+  value_hash TEXT NOT NULL, snapshot_json TEXT NOT NULL, parser_version TEXT NOT NULL,
+  observed_at TEXT NOT NULL, committed_at TEXT NOT NULL, run_id TEXT NOT NULL REFERENCES runs(id),
+  actor TEXT NOT NULL, write_context_key TEXT NOT NULL,
+  UNIQUE(opportunity_id,field_name,material_id,parser_version,value_hash)
+);
+CREATE TABLE maintenance_sessions (
+  session_hash TEXT PRIMARY KEY, csrf_hash TEXT NOT NULL, actor TEXT NOT NULL,
+  created_at TEXT NOT NULL, expires_at TEXT NOT NULL, revoked_at TEXT
+);
+CREATE TABLE maintenance_login_failures (
+  identifier_hash TEXT PRIMARY KEY, attempts INTEGER NOT NULL DEFAULT 0,
+  window_started_at TEXT NOT NULL, last_attempt_at TEXT NOT NULL, blocked_until TEXT
+);
+CREATE TABLE quarantined_evidence (
+  id INTEGER PRIMARY KEY, opportunity_id INTEGER NOT NULL REFERENCES opportunities(id),
+  field_name TEXT NOT NULL, input_hash TEXT NOT NULL, original_json TEXT NOT NULL,
+  reason TEXT NOT NULL, recorded_at TEXT NOT NULL,
+  UNIQUE(opportunity_id,field_name,input_hash)
 );
 
 -- Ownership constraints (also applied by explicit schema migration).
+CREATE TRIGGER opportunity_materials_insert BEFORE INSERT ON opportunity_materials
+WHEN NOT EXISTS (SELECT 1 FROM opportunities o JOIN source_materials m ON m.id=NEW.material_id
+ WHERE o.id=NEW.opportunity_id AND o.source_key=m.source_key AND o.source_identity=NEW.source_identity
+ AND NEW.school_key=o.school_key AND NEW.source_key=o.source_key
+ AND m.acquisition_status='success' AND (m.official_record_id IS NULL OR m.official_record_id=o.source_identity))
+BEGIN SELECT RAISE(ABORT, 'material announcement applicability mismatch'); END;
+CREATE TRIGGER opportunity_materials_update BEFORE UPDATE ON opportunity_materials
+WHEN NOT EXISTS (SELECT 1 FROM opportunities o JOIN source_materials m ON m.id=NEW.material_id
+ WHERE o.id=NEW.opportunity_id AND o.source_key=m.source_key AND o.source_identity=NEW.source_identity
+ AND NEW.school_key=o.school_key AND NEW.source_key=o.source_key
+ AND m.acquisition_status='success' AND (m.official_record_id IS NULL OR m.official_record_id=o.source_identity))
+BEGIN SELECT RAISE(ABORT, 'material announcement applicability mismatch'); END;
+CREATE TRIGGER materials_applicability_update BEFORE UPDATE OF source_key,official_record_id,opportunity_id ON source_materials
+WHEN EXISTS (SELECT 1 FROM opportunity_materials a JOIN opportunities o ON o.id=a.opportunity_id
+ WHERE a.material_id=OLD.id AND (o.source_key<>NEW.source_key OR (NEW.official_record_id IS NOT NULL AND NEW.official_record_id<>o.source_identity)
+ OR (NEW.opportunity_id IS NOT NULL AND NEW.opportunity_id<>o.id)))
+BEGIN SELECT RAISE(ABORT, 'material owner would invalidate verified applicability'); END;
+CREATE TRIGGER changes_context_insert BEFORE INSERT ON changes
+WHEN NEW.write_context_key IS NOT NULL AND ((NEW.run_id IS NULL)=(NEW.manual_operation_id IS NULL) OR NEW.actor IS NULL OR NEW.reason IS NULL)
+BEGIN SELECT RAISE(ABORT, 'fact change requires one write context'); END;
+CREATE TRIGGER official_observations_insert BEFORE INSERT ON official_observations
+WHEN NOT EXISTS (SELECT 1 FROM opportunity_materials a WHERE a.id=NEW.association_id
+ AND a.opportunity_id=NEW.opportunity_id AND a.material_id=NEW.material_id)
+BEGIN SELECT RAISE(ABORT, 'official observation requires verified applicability'); END;
 CREATE TRIGGER campuses_parent_ownership BEFORE UPDATE OF school_key ON campuses
 WHEN EXISTS (SELECT 1 FROM opportunities WHERE campus_id=OLD.id AND school_key<>NEW.school_key)
 OR EXISTS (SELECT 1 FROM sources WHERE campus_id=OLD.id AND school_key<>NEW.school_key)

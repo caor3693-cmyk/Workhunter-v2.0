@@ -6,6 +6,7 @@ import { createPageReader, pageDatasetsAgree, resourceMessage } from '../fronten
 import { assessReadIdentity, feedbackTemplate } from '../frontend/pages/review.js';
 import { mountHome, resultScopeText } from '../frontend/pages/home.js';
 import { mountDetail } from '../frontend/pages/detail.js';
+import { ReadError } from '../frontend/api/client.js';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
@@ -53,6 +54,20 @@ test('late responses cannot overwrite a newer page retry', async () => {
   reader.destroy();
 });
 
+test('a coalesced side resource read keeps its real in-flight request instead of cancelling and restarting it', async () => {
+  const calls = [];
+  const reader = createPageReader({ catalog: '/api/catalog' }, () => {}, (path, { signal }) => new Promise(resolve => calls.push({ path, signal, resolve })));
+  const first = reader.load('catalog');
+  const second = reader.load('catalog', undefined, { reusePending: true });
+  assert.equal(first, second);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].signal.aborted, false);
+  calls[0].resolve({ dataset_id: 'isolated-current' });
+  await second;
+  assert.equal(reader.resources.catalog.status, 'ready');
+  reader.destroy();
+});
+
 test('stale displayed responses remain part of identity consistency', () => {
   assert.equal(pageDatasetsAgree({ catalog: { status: 'ready', data: { dataset_id: 'new' } }, sources: { status: 'error', data: { dataset_id: 'old' } } }), false);
 });
@@ -89,7 +104,7 @@ test('feedback retains seven M0 and eight M1 stable numbers and current identity
   const review = readFileSync('frontend/pages/review.html', 'utf8');
   assert.match(review, /M0-02、M0-07 失败/);
   assert.match(review, /M0-03、M0-06 阻塞/);
-  assert.equal((review.match(/用户结果：未测/g) || []).length, 8);
+  assert.equal((review.match(/本轮候选：待复验/g) || []).length, 8);
 });
 
 class PageNode {
@@ -120,7 +135,7 @@ async function withPageDOM(run) {
   const doc = pageDocument(); globalThis.document = doc;
   try { await run(doc); } finally { globalThis.document = original; }
 }
-const isolatedSchools = ['scut','gdut','ncepu','hust','cqu','xjtu','seu','hit','sjtu','zju'].map((school_key, index) => ({ school_key, name: index === 0 ? '隔离华工' : index === 1 ? '隔离广工' : `隔离学校${index}`, campuses: [{ id: index + 1, name: `隔离校区${index}` }] }));
+const isolatedSchools = ['scut','gdut','ncepu','shiep','neepu','csust','ctgu','gzhu','hnu','csu'].map((school_key, index) => ({ school_key, name: index === 0 ? '隔离华工' : index === 1 ? '隔离广工' : `隔离学校${index}`, campuses: [{ id: index + 1, name: `隔离校区${index}` }] }));
 const isolatedList = path => {
   const params = new URL(path, 'https://test.invalid').searchParams;
   return { dataset_id: 'isolated-page', data_mode: 'isolated-test', items: [], total: 0, offset: Number(params.get('offset')), limit: Number(params.get('limit')), has_more: false, as_of: '2026-10-11', empty_reason: 'no_matches', applied_filters: { ...Object.fromEntries([...params].filter(([key]) => !['offset','limit','dataset_id','as_of'].includes(key))), as_of: '2026-10-11', recent_window: { published_from: '2026-09-28', published_to: '2026-10-11', events_from: '2026-10-11', events_to: '2026-10-25' } } };
@@ -213,3 +228,120 @@ test('displayed recent window is explicit and undated view never borrows an inge
   assert.match(resultScopeText({ view: 'undated' }), /日期未知/);
   assert.ok(!resultScopeText({ view: 'undated' }).includes('收录时间'));
 });
+
+test('a ready list restores its button and card while catalog/summary remain slow or fail independently', async () => withPageDOM(async doc => {
+  const calls = [];
+  const page = mountHome({ document: doc, read: (path, { signal }) => new Promise((resolve, reject) => calls.push({ path, signal, resolve, reject })) });
+  const list = calls.find(call => call.path.startsWith('/api/opportunities?'));
+  list.resolve({ ...isolatedList(list.path), items: [{ id: 42, title: '隔离卡片' }], total: 1 });
+  await tick();
+  assert.equal(page.state.status, 'ready');
+  assert.equal(doc.getElementById('reload-button').disabled, false);
+  assert.equal(doc.getElementById('reload-button').textContent, '重新加载');
+  assert.match(doc.getElementById('result-list').textContent, /隔离卡片/);
+  assert.ok(!doc.getElementById('result-count').textContent.includes('上次结果'));
+  assert.equal(doc.controls.school_key.disabled, true);
+  const card = doc.getElementById('result-list').children[0];
+  calls.find(call => call.path === '/api/catalog').resolve({ dataset_id: 'isolated-page', data_mode: 'isolated-test', schools: isolatedSchools });
+  calls.find(call => call.path === '/api/updates/summary').reject(new Error('摘要失败'));
+  await tick();
+  assert.equal(doc.controls.school_key.disabled, false);
+  assert.equal(doc.getElementById('result-list').children[0], card);
+  assert.equal(doc.getElementById('reload-button').disabled, false);
+  assert.match(doc.getElementById('update-message').textContent, /摘要失败/);
+  assert.ok(!doc.getElementById('result-count').textContent.includes('上次结果'));
+  page.destroy();
+}));
+
+test('new list B and old side resources A coordinate once without stale-list labels, storms or cancelling useful side requests', async () => withPageDOM(async doc => {
+  let dataset = 'isolated-A', slow = false;
+  const pending = [], listCalls = [];
+  const side = path => path === '/api/catalog' ? { dataset_id: 'isolated-A', data_mode: 'isolated-test', schools: isolatedSchools } : { dataset_id: 'isolated-A', data_mode: 'isolated-test', today: {}, message: '隔离摘要' };
+  const page = mountHome({ document: doc, read: (path, { signal }) => {
+    if (path.startsWith('/api/opportunities?')) { listCalls.push(path); return Promise.resolve({ ...isolatedList(path), dataset_id: dataset, items: [{ id: 42, title: '隔离当前列表' }], total: 1 }); }
+    if (slow) return new Promise(resolve => pending.push({ path, signal, resolve }));
+    return Promise.resolve(side(path));
+  } });
+  await tick();
+  dataset = 'isolated-B'; slow = true;
+  await page.query({ school_key: 'gdut' });
+  await tick();
+  assert.equal(page.state.dataset, 'isolated-B');
+  assert.equal(pending.length, 2);
+  assert.equal(doc.getElementById('reload-button').disabled, false);
+  assert.ok(!doc.getElementById('result-count').textContent.includes('上次结果'));
+  assert.ok(!doc.getElementById('opportunity-status').textContent.includes('尚未一致'));
+  const firstReload = page.reload();
+  const secondReload = page.reload();
+  doc.controls.school_key.value = 'scut'; doc.form.fire('change', doc.controls.school_key);
+  doc.form.fire('submit');
+  await tick();
+  assert.equal(pending.length, 2);
+  assert.ok(pending.every(call => !call.signal.aborted));
+  for (const call of pending) call.resolve(side(call.path));
+  await Promise.all([firstReload, secondReload]);
+  await tick();
+  assert.equal(pending.length, 2, 'a mismatched coordination response must not poll repeatedly');
+  assert.match(doc.getElementById('catalog-status').textContent, /尚未同步当前招聘/);
+  assert.ok(!doc.getElementById('result-count').textContent.includes('上次结果'));
+  const count = listCalls.length;
+  doc.controls.keyword.value = '未提交草稿'; doc.form.fire('input', doc.controls.keyword);
+  assert.equal(listCalls.length, count);
+  doc.form.fire('submit'); await tick();
+  assert.equal(listCalls.length, count + 1);
+  assert.equal(pending.length, 2);
+  page.destroy();
+}));
+
+test('dataset coordination never hides a real project/build/mode mismatch', async () => withPageDOM(async doc => {
+  const base = { project: 'Workhunter-v2.0', backend_commit: 'a'.repeat(40), build_id: 'a'.repeat(40), version: 'isolated-version', data_mode: 'isolated-test' };
+  let patch = {};
+  const page = mountHome({ document: doc, read: async path => {
+    if (path === '/api/catalog') return { ...base, dataset_id: 'isolated-A', schools: isolatedSchools };
+    if (path === '/api/updates/summary') return { ...base, dataset_id: 'isolated-A', today: {}, message: '隔离摘要' };
+    return { ...isolatedList(path), ...base, ...patch, dataset_id: 'isolated-B', items: [{ id: 42 }], total: 1 };
+  } });
+  await tick();
+  for (const key of ['project', 'backend_commit', 'build_id', 'version', 'data_mode']) {
+    patch = { [key]: 'different-identity' };
+    await page.query();
+    assert.match(doc.getElementById('opportunity-status').textContent, /数据连接身份不一致/, key);
+    assert.equal(doc.getElementById('opportunity-status').hidden, false);
+  }
+  page.destroy();
+}));
+
+test('home stores bounded nonvisual request measurements, distinguishes failure and excludes old cards from fresh samples', async () => withPageDOM(async doc => {
+  let fail = false;
+  const page = mountHome({ document: doc, read: async (path, { onTiming }) => {
+    onTiming?.({ phase: 'request', path, at: Date.now() });
+    onTiming?.({ phase: 'headers', at: Date.now(), elapsed_ms: 0, status: fail ? 403 : 200, server_timing: 'api;dur=1', api_started_at: null, api_ended_at: null });
+    onTiming?.({ phase: 'json', at: Date.now(), elapsed_ms: 0, status: fail ? 403 : 200 });
+    if (path === '/api/catalog') return { dataset_id: 'isolated-page', data_mode: 'isolated-test', schools: isolatedSchools };
+    if (path === '/api/updates/summary') return { dataset_id: 'isolated-page', data_mode: 'isolated-test', today: {}, message: '隔离摘要' };
+    if (fail) throw new ReadError('隔离无访问权限', 403, 'http_error');
+    return { ...isolatedList(path), items: [{ id: 42 }], total: 1 };
+  } });
+  await tick();
+  for (let index = 0; index < 64; index++) await page.reload();
+  const readSamples = () => JSON.parse(doc.getElementById('result-list').attributes['data-m1-timing-samples']);
+  let samples = readSamples();
+  assert.equal(samples.length, 60);
+  const sample = samples.at(-1);
+  assert.equal(sample.action, 'reload');
+  assert.equal(sample.outcome, 'ready');
+  assert.equal(sample.requests[0].server_timing, 'api;dur=1');
+  assert.equal(sample.requests[0].api_started_at, null);
+  assert.equal(sample.requests[0].api_ended_at, null);
+  assert.ok(sample.operation_at <= sample.requests[0].request_at && sample.requests[0].request_at <= sample.requests[0].headers_at && sample.requests[0].headers_at <= sample.requests[0].json_at);
+  assert.ok(sample.requests[0].json_at <= sample.first_card_at && sample.first_card_at <= sample.button_ready_at);
+  assert.ok(!doc.getElementById('result-list').textContent.includes('server_timing'));
+  fail = true; await page.reload();
+  samples = readSamples();
+  assert.equal(samples.length, 60);
+  assert.equal(samples.at(-1).outcome, 'error');
+  assert.equal(samples.at(-1).requests[0].status, 403);
+  assert.equal(samples.at(-1).first_card_at, null);
+  assert.match(doc.getElementById('result-count').textContent, /上次结果/);
+  page.destroy();
+}));

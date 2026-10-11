@@ -6,7 +6,7 @@ import json
 import sqlite3
 
 from backend.storage.database import DatabaseUnavailable
-from backend.domain.candidates import CORE_FIELDS, STATES, MAX_INTEGER, safe_url, validate_evidence
+from backend.domain.candidates import CORE_FIELDS, STATES, MAX_INTEGER, safe_url, validate_evidence, locator_identifies_identity
 
 
 @dataclass(frozen=True)
@@ -31,6 +31,8 @@ def identity(metadata: dict[str, str]) -> dict:
 
 
 def source_projection(row: sqlite3.Row) -> dict:
+    from backend.domain.source_policy import school_policy
+    registered = any(item['source_key'] == row['source_key'] for item in school_policy(row['school_key']).get('sources', []))
     try:
         safe_url(row['official_entry_url'])
     except ValueError as error:
@@ -43,6 +45,7 @@ def source_projection(row: sqlite3.Row) -> dict:
         "last_attempt_at": row["last_attempt_at"], "last_success_at": row["last_success_at"],
         "message": row["public_message"],
         "channel_key": row['channel_key'], "scope": _decode(row['scope_json'], dict),
+        "maintenance_material_supported": registered,
     }
 
 
@@ -57,13 +60,13 @@ def catalog(connection: sqlite3.Connection, metadata: dict[str, str]) -> dict:
     schools = []
     for school in connection.execute("SELECT * FROM schools ORDER BY rowid"):
         school_sources = [source for source in all_sources if source["school_key"] == school["school_key"]]
-        count = connection.execute("SELECT COUNT(*) FROM opportunities WHERE school_key=?", (school["school_key"],)).fetchone()[0]
+        count = connection.execute("SELECT COUNT(*) FROM opportunities o WHERE school_key=? AND "+VISIBLE_SQL, (school["school_key"],)).fetchone()[0]
         campuses = [dict(row) for row in connection.execute(
             "SELECT id,campus_key,name,evidence_url FROM campuses WHERE school_key=? ORDER BY id", (school["school_key"],),
         )]
         try:
             for campus in campuses:
-                safe_url(campus['evidence_url'], school['school_key'] if school['school_key'] in ('scut','gdut') else None)
+                safe_url(campus['evidence_url'],school['school_key'])
         except ValueError as error:
             raise DatabaseUnavailable('数据库中的校区依据链接无效。') from error
         states = {source['status'] for source in school_sources}
@@ -100,14 +103,37 @@ def _decode(value: str, expected_type):
 
 
 def _stored_evidence(items, row, connection):
-    evidence = validate_evidence(items, row['school_key'])
+    evidence = validate_evidence(items,row['school_key'])
     for item in evidence:
-        if type(item.get('material_id')) is not int or not 0 < item['material_id'] <= MAX_INTEGER or item.get('material_ref'):
-            raise ValueError('读取证据未绑定已归档材料ID')
-        material = connection.execute('SELECT * FROM source_materials WHERE id=?', (item['material_id'],)).fetchone()
-        if material is None or material['source_key'] != row['source_key'] or material['source_url'] != item['source_url'] or material['acquisition_status'] != 'success' or material['opportunity_id'] not in (None, row['id']):
-            raise ValueError('材料缺失、归属或链接错配')
+        if type(item.get('material_id')) is not int or item.get('material_ref') or item.get('source_identity')!=row['source_identity'] or type(item.get('association_id')) is not int:
+            raise ValueError('读取证据缺少已核实材料公告关联。')
+        material = connection.execute('SELECT * FROM source_materials WHERE id=?',(item['material_id'],)).fetchone()
+        relation = connection.execute('SELECT * FROM opportunity_materials WHERE id=?',(item['association_id'],)).fetchone()
+        if material is None or material['source_key']!=row['source_key'] or material['source_url']!=item['source_url'] or material['acquisition_status']!='success' or material['opportunity_id'] not in (None,row['id']):
+            raise ValueError('材料缺失、归属或链接错配。')
+        _decode(material['scope_json'],dict)
+        if material['official_record_id'] is not None and material['official_record_id']!=row['source_identity']:
+            raise ValueError('材料属于另一公告。')
+        if relation is None or relation['opportunity_id']!=row['id'] or relation['material_id']!=material['id'] or relation['source_identity']!=row['source_identity'] or relation['school_key']!=row['school_key'] or relation['source_key']!=row['source_key'] or relation['locator']!=item['locator'] or _decode(relation['scope_json'],(dict,str))!=item['scope']:
+            raise ValueError('材料公告关联与证据不一致。')
+        basis=_decode(relation['basis_json'],dict)
+        if any(basis.get(key)!=item[key] for key in ('source_identity','source_url','locator')) or basis.get('material_hash')!=material['material_hash'] or not isinstance(basis.get('excerpt'),str) or not basis['excerpt'] or relation['relation_kind'] not in {'list','body','attachment_link'}:
+            raise ValueError('材料关系核验依据不完整或错配。')
+        if material['official_record_id'] is None and (_decode(material['scope_json'],dict).get('type')!='source_list' or not locator_identifies_identity(item['locator'],row['source_identity'])):
+            raise ValueError('共享列表缺少本条身份定位。')
     return evidence
+
+
+def _attachment_chain(fragment, row, connection):
+    chain = fragment.get('link_chain')
+    if not isinstance(chain,dict) or chain.get('target_url')!=fragment.get('url') or chain.get('source_identity')!=row['source_identity'] or type(chain.get('association_id')) is not int:
+        raise ValueError('附件缺少本条公告链接链。')
+    proof = {**chain,'excerpt':'附件链接','observed_at':chain.get('observed_at'),'parser_version':chain.get('parser_version')}
+    _stored_evidence([proof],row,connection)
+    relation = connection.execute('SELECT link_chain_json FROM opportunity_materials WHERE id=?',(chain['association_id'],)).fetchone()
+    saved = _decode(relation[0],dict)
+    if saved.get('target_url')!=fragment['url'] or saved.get('source_url')!=chain['source_url'] or saved.get('locator')!=chain['locator']:
+        raise ValueError('附件目标不匹配已核实链。')
 
 
 def _observations(row, connection):
@@ -175,12 +201,14 @@ PROJECTION_SQL = """SELECT o.*, s.name AS school_name, c.name AS campus_name
 FROM opportunities o JOIN schools s USING(school_key)
 LEFT JOIN campuses c ON o.campus_id=c.id"""
 
+VISIBLE_SQL = "NOT EXISTS (SELECT 1 FROM field_decisions visibility WHERE visibility.opportunity_id=o.id AND visibility.field_name='__visibility__' AND visibility.value_json='false')"
+
 
 def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filters: Filters, today: date, recent_days: int) -> dict:
     today = date.fromisoformat(filters.as_of) if filters.as_of else today
     start = today - timedelta(days=recent_days - 1)
     end = today + timedelta(days=recent_days)
-    clauses, values = [], []
+    clauses, values = [VISIBLE_SQL], []
     for field in ("school_key", "campus_id", "kind"):
         value = getattr(filters, field)
         if value is not None:
@@ -245,68 +273,57 @@ def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filt
     }
 
 
-def detail(connection: sqlite3.Connection, opportunity_id: int) -> dict | None:
-    row = connection.execute(PROJECTION_SQL + " WHERE o.id=?", (opportunity_id,)).fetchone()
-    if row is None:
-        return None
-    result = {
-        **card(row, connection), "first_seen_at": row["first_seen_at"],
-        "content_changed_at": row["content_changed_at"], "source_updated_at": row["source_updated_at"],
-        "version": row["version"], "roster_fragments": _decode(row["roster_fragments_json"], list),
-        "job_fragments": _decode(row["job_fragments_json"], list),
-        "attachments": _decode(row["attachments_json"], list),
-        "official_sources": [{"source_key": row["source_key"], "url": row["source_url"]}],
-    }
-    try:
-        for field in ('roster_fragments','job_fragments','attachments'):
-            if len(result[field]) > 8:
-                raise ValueError('片段超过限量')
-            for fragment in result[field]:
-                if not isinstance(fragment, dict) or not fragment.get('scope'):
-                    raise ValueError('片段适用范围无效')
-                _stored_evidence(fragment.get('evidence', []), row, connection)
-                if not fragment.get('evidence'):
-                    raise ValueError('片段无材料')
-                if field == 'attachments':
-                    safe_url(fragment.get('url'), row['school_key'])
-                    if not isinstance(fragment.get('label'),str) or len(fragment['label'])>500:
+def detail(connection: sqlite3.Connection, opportunity_id: int, *, include_hidden=False) -> dict | None:
+    row = connection.execute(PROJECTION_SQL+' WHERE o.id=?'+('' if include_hidden else ' AND '+VISIBLE_SQL),(opportunity_id,)).fetchone()
+    if row is None: return None
+    result = {**card(row,connection),'first_seen_at':row['first_seen_at'],'content_changed_at':row['content_changed_at'],
+              'source_updated_at':row['source_updated_at'],'version':row['version'],
+              'official_sources':[{'source_key':row['source_key'],'url':row['source_url']}], 'supplemental_status':'verified'}
+    omitted = int(connection.execute("SELECT 1 FROM processing_tasks WHERE opportunity_id=? AND task_kind='maintenance' AND task_identity LIKE 'quarantine:%' AND status NOT IN ('resolved','complete','superseded') LIMIT 1",(opportunity_id,)).fetchone() is not None)
+    for field in ('roster_fragments','job_fragments','attachments'):
+        result[field] = []
+        try:
+            fragments = _decode(row[field+'_json'],list)
+            if len(fragments)>8: raise ValueError('片段超过限量')
+        except (DatabaseUnavailable,ValueError):
+            omitted += 1
+            continue
+        for fragment in fragments:
+            try:
+                if not isinstance(fragment,dict) or not fragment.get('scope') or not fragment.get('evidence'):
+                    raise ValueError('片段缺少适用范围或证据')
+                _stored_evidence(fragment['evidence'],row,connection)
+                if field=='attachments':
+                    safe_url(fragment.get('url'),row['school_key'])
+                    if not isinstance(fragment.get('label'),str) or not fragment['label'] or len(fragment['label'])>500:
                         raise ValueError('附件标题无效')
+                    _attachment_chain(fragment,row,connection)
                 elif fragment['scope'] not in ('partial','complete_for_material','unknown') or not isinstance(fragment.get('text'),str) or not fragment['text'] or len(fragment['text'])>2000:
                     raise ValueError('片段范围或内容无效')
-        ids = set()
-        def collect(value):
-            if isinstance(value,dict):
-                if 'material_id' in value: ids.add(value['material_id'])
-                for nested in value.values(): collect(nested)
-            elif isinstance(value,list):
-                for nested in value: collect(nested)
-        collect(result)
-        materials = []
-        for material_id in sorted(ids):
-            material = connection.execute('SELECT * FROM source_materials WHERE id=? AND source_key=?', (material_id,row['source_key'])).fetchone()
-            if material is None or material['acquisition_status']!='success':
-                raise ValueError('材料缺失或来源错配')
-            materials.append({key:material[key] for key in ('id','source_key','source_url','material_hash','fetched_at','acquisition_status','parsing_status','parser_version') } | {'scope':_decode(material['scope_json'],dict)})
-        result['materials'] = materials
-        source = connection.execute('SELECT scope_json FROM sources WHERE source_key=?',(row['source_key'],)).fetchone()
-        result['coverage'] = _decode(source[0],dict)
-        return result
-    except (ValueError, TypeError, KeyError) as error:
-        raise DatabaseUnavailable('数据库中的公告片段或材料证据不可读。') from error
+                result[field].append(fragment)
+            except (DatabaseUnavailable,ValueError,TypeError,KeyError):
+                omitted += 1
+    if omitted:
+        result['supplemental_status']='pending_verification'
+        result['supplemental_message']='部分附加材料待核实，已保留可靠公告字段。'
+    ids = set()
+    def collect(value):
+        if isinstance(value,dict):
+            if 'material_id' in value: ids.add(value['material_id'])
+            for nested in value.values(): collect(nested)
+        elif isinstance(value,list):
+            for nested in value: collect(nested)
+    collect(result)
+    materials=[]
+    for material_id in sorted(ids):
+        material=connection.execute('SELECT * FROM source_materials WHERE id=? AND source_key=?',(material_id,row['source_key'])).fetchone()
+        materials.append({key:material[key] for key in ('id','source_key','source_url','material_hash','fetched_at','acquisition_status','parsing_status','parser_version')} | {'scope':_decode(material['scope_json'],dict)})
+    result['materials']=materials
+    source=connection.execute('SELECT scope_json FROM sources WHERE source_key=?',(row['source_key'],)).fetchone()
+    result['coverage']=_decode(source[0],dict)
+    return result
 
 
-def summary(connection, metadata, today):
-    run = connection.execute('SELECT * FROM runs ORDER BY started_at DESC,id DESC LIMIT 1').fetchone()
-    last_success = connection.execute("SELECT MAX(finished_at) FROM runs WHERE status IN ('complete','partial')").fetchone()[0]
-    checked_today = connection.execute('SELECT 1 FROM runs WHERE substr(started_at,1,10)=? LIMIT 1',(today.isoformat(),)).fetchone()
-    counts = {row[0]:row[1] for row in connection.execute('SELECT change_kind,COUNT(DISTINCT opportunity_id) FROM changes WHERE substr(committed_at,1,10)=? GROUP BY change_kind',(today.isoformat(),))} if checked_today else {}
-    values = {kind:counts.get(kind,0) if checked_today else None for kind in ('newly_collected','official_change','parser_improvement','evidence_conflict')}
-    source_checks = connection.execute("SELECT MAX(last_attempt_at),MAX(last_success_at) FROM sources").fetchone()
-    status = run['status'] if run else 'not_checked'
-    return {**identity(metadata),'check_status':status,'last_attempt_at':run['started_at'] if run else source_checks[0],
-        'last_success_at':last_success or source_checks[1],
-        'today':{'date':today.isoformat(),'newly_collected':values['newly_collected'],
-            'modified':None if not checked_today else len({r[0] for r in connection.execute("SELECT opportunity_id FROM changes WHERE change_kind IN ('official_change','parser_improvement','evidence_conflict') AND substr(committed_at,1,10)=?",(today.isoformat(),))}),
-            'official_changes':values['official_change'],'parser_improvements':values['parser_improvement'],'evidence_conflicts':values['evidence_conflict'],'manual_corrections':None},
-        'scope':_decode(run['scope_json'],dict) if run else None,
-        'message':'尚未检查，新增与变化数量未知' if not run else '本轮已检查登记范围；新收录按取得时间计，不代表今天官方发布。人工更正汇总尚未实现。'}
+def summary(connection, metadata, today, *, recent_days=30):
+    from backend.services.updates import build_summary
+    return build_summary(connection,metadata,today,recent_days=recent_days)

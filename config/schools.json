@@ -21,7 +21,7 @@
           "observed_at": "2026-10-11T13:25:26+08:00"
         }
       ],
-      "scope_note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+      "scope_note": "CAS统一认证路径仍受限；学院补充历史栏目与国家大学生就业平台华工学校来源电气公开有限查询独立记录，均非全校覆盖。",
       "seed_observation": {
         "status": "restricted",
         "observed_at": "2026-10-11T13:25:26+08:00",
@@ -41,8 +41,48 @@
             "page_budget": 2,
             "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。"
           }
+        },
+        {
+          "source_key": "scut_ncss",
+          "school_key": "scut",
+          "channel_key": "scut_ncss",
+          "name": "国家大学生就业平台华工来源（电气有限查询）",
+          "official_entry_url": "https://www.ncss.cn/student/jobs/jobslist/ajax/?sourcesName=nlienp69uztxk4q8ikyu61issohbja7h&sourcesType=1&jobName=%E7%94%B5%E6%B0%94&offset=1&limit=10",
+          "adapter": "scut_ncss",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "query_keyword": "电气",
+            "school_source_id": "nlienp69uztxk4q8ikyu61issohbja7h",
+            "owner_directory_url": "https://www.ncss.cn/student/m/api/jobs/findJobOutsiteNames?type=1",
+            "note": "公开目录、逐条列表和详情来源标记共同确认华工学校来源；有限查询不代表CAS恢复或全部岗位。"
+          }
         }
-      ]
+      ],
+      "approved_hosts": [
+        "cnsba.scut.edu.cn",
+        "jyzx.scut.edu.cn",
+        "www.ncss.cn"
+      ],
+      "platform_tenants": {
+        "www.ncss.cn": {
+          "owner_evidence_url": "https://www.moe.gov.cn/srcsite/A15/s3265/202604/t20260423_1434600.html",
+          "public_paths": [
+            "/student/m/api/jobs/findJobOutsiteNames"
+          ],
+          "scoped_paths": {
+            "/student/jobs/jobslist/ajax/": {
+              "sourcesName": "nlienp69uztxk4q8ikyu61issohbja7h",
+              "sourcesType": "1"
+            }
+          },
+          "record_path_pattern": "/student/jobs/[A-Za-z0-9_-]+/detail\\.html",
+          "requires_adapter_identity": true,
+          "school_source_identity": "nlienp69uztxk4q8ikyu61issohbja7h",
+          "school_source_name": "华南理工大学"
+        }
+      }
     },
     {
       "school_key": "gdut",
@@ -111,80 +151,328 @@
             "school_wide": false
           }
         }
-      ]
+      ],
+      "approved_hosts": [
+        "career.gdut.edu.cn"
+      ],
+      "platform_tenants": {}
     },
     {
       "school_key": "ncepu",
       "name": "华北电力大学",
       "homepage_seed_url": "https://job.ncepu.edu.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://www.ncepu.edu.cn/zsjy/jyfw/index.htm",
       "campuses": [],
-      "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。"
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。北京、保定为一所学校的两个独立入口。",
+      "approved_hosts": [
+        "www.ncepu.edu.cn",
+        "job.ncepu.edu.cn",
+        "jiuye.ncepu.edu.cn"
+      ],
+      "platform_tenants": {},
+      "sources": [
+        {
+          "source_key": "ncepu_beijing",
+          "school_key": "ncepu",
+          "channel_key": "beijing",
+          "adapter": "ncepu",
+          "name": "北京入口：此前483停止，不发替代请求",
+          "official_entry_url": "https://job.ncepu.edu.cn/",
+          "scope": {
+            "coverage": "restricted_path",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "北京入口：此前483停止，不发替代请求",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        },
+        {
+          "source_key": "ncepu_baoding",
+          "school_key": "ncepu",
+          "channel_key": "baoding",
+          "adapter": "ncepu_baoding",
+          "name": "保定独立主页，栏目结构未核验，不计覆盖",
+          "official_entry_url": "https://jiuye.ncepu.edu.cn/",
+          "scope": {
+            "coverage": "unknown_scope",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "保定独立主页，栏目结构未核验，不计覆盖",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "shiep",
       "name": "上海电力大学",
-      "homepage_seed_url": "https://career.shiep.edu.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "homepage_seed_url": "https://career.shiep.edu.cn/campus",
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://www.shiep.edu.cn/2a/93/c2679a273043/page.htm",
+      "campuses": [],
+      "approved_hosts": [
+        "www.shiep.edu.cn",
+        "career.shiep.edu.cn"
+      ],
+      "platform_tenants": {},
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "shiep_campus",
+          "school_key": "shiep",
+          "channel_key": "campus",
+          "adapter": "shiep",
+          "name": "官方公开招聘简章有限分页",
+          "official_entry_url": "https://career.shiep.edu.cn/campus",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方公开招聘简章有限分页",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "neepu",
       "name": "东北电力大学",
       "homepage_seed_url": "https://jy.neepu.edu.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://jy.neepu.edu.cn/",
+      "campuses": [],
+      "approved_hosts": [
+        "jy.neepu.edu.cn"
+      ],
+      "platform_tenants": {},
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "neepu_careers",
+          "school_key": "neepu",
+          "channel_key": "careers",
+          "adapter": "neepu",
+          "name": "官方首页显式宣讲链接，未猜测接口",
+          "official_entry_url": "https://jy.neepu.edu.cn/",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方首页显式宣讲链接，未猜测接口",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "csust",
       "name": "长沙理工大学",
       "homepage_seed_url": "https://csust.bysjy.com.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://www.csust.edu.cn/jzxy/info/1044/6468.htm",
+      "campuses": [],
+      "approved_hosts": [
+        "www.csust.edu.cn",
+        "csust.bysjy.com.cn"
+      ],
+      "platform_tenants": {
+        "csust.bysjy.com.cn": {
+          "owner_evidence_url": "https://www.csust.edu.cn/jzxy/info/1044/6468.htm",
+          "public_paths": [
+            "/",
+            "/index"
+          ],
+          "path_prefixes": [
+            "/detail/career",
+            "/detail/job",
+            "/detail/online"
+          ]
+        }
+      },
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "csust_careers",
+          "school_key": "csust",
+          "channel_key": "careers",
+          "adapter": "csust",
+          "name": "官方学校租户首页JSON宣讲面板有限发现",
+          "official_entry_url": "https://csust.bysjy.com.cn/",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "首页已返回JSON宣讲面板并取得有限材料；不代表全校覆盖。此前网络失败与访问受限分别记录。",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "ctgu",
       "name": "三峡大学",
-      "homepage_seed_url": "https://ctgu.91wllm.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "homepage_seed_url": "https://ctgu.91wllm.cn/campus",
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://www.ctgu.edu.cn/",
+      "campuses": [],
+      "approved_hosts": [
+        "www.ctgu.edu.cn",
+        "ctgu.91wllm.cn"
+      ],
+      "platform_tenants": {
+        "ctgu.91wllm.cn": {
+          "owner_evidence_url": "https://www.ctgu.edu.cn/",
+          "public_paths": [
+            "/"
+          ],
+          "path_prefixes": [
+            "/campus",
+            "/teachin"
+          ]
+        }
+      },
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "ctgu_campus",
+          "school_key": "ctgu",
+          "channel_key": "campus",
+          "adapter": "ctgu",
+          "name": "官方学校租户招聘简章有限分页",
+          "official_entry_url": "https://ctgu.91wllm.cn/campus",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方学校租户招聘简章有限分页",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        },
+        {
+          "source_key": "ctgu_teachin",
+          "school_key": "ctgu",
+          "channel_key": "teachin",
+          "adapter": "ctgu",
+          "name": "官方学校租户宣讲有限分页",
+          "official_entry_url": "https://ctgu.91wllm.cn/teachin",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方学校租户宣讲有限分页",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "gzhu",
       "name": "广州大学",
-      "homepage_seed_url": "https://jy.gzhu.edu.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "homepage_seed_url": "https://jy.gzhu.edu.cn/web/Index/index",
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://jy.gzhu.edu.cn/web/Index/index",
+      "campuses": [],
+      "approved_hosts": [
+        "jy.gzhu.edu.cn"
+      ],
+      "platform_tenants": {},
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "gzhu_jobs",
+          "school_key": "gzhu",
+          "channel_key": "jobs",
+          "adapter": "gzhu",
+          "name": "官方SSR首页明确招聘简章链接，非全部招聘",
+          "official_entry_url": "https://jy.gzhu.edu.cn/web/Index/index",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方SSR首页明确招聘简章链接，非全部招聘",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "hnu",
       "name": "湖南大学",
-      "homepage_seed_url": "https://hnu.bysjy.com.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "homepage_seed_url": "https://scc.hnu.edu.cn/index",
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://scc.hnu.edu.cn/index",
+      "campuses": [],
+      "approved_hosts": [
+        "scc.hnu.edu.cn"
+      ],
+      "platform_tenants": {},
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "hnu_careers",
+          "school_key": "hnu",
+          "channel_key": "careers",
+          "adapter": "hnu",
+          "name": "官方首页显式宣讲链接，未猜测接口",
+          "official_entry_url": "https://scc.hnu.edu.cn/index",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "官方首页显式宣讲链接，未猜测接口",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     },
     {
       "school_key": "csu",
       "name": "中南大学",
       "homepage_seed_url": "https://career.csu.edu.cn/",
-      "verification_state": "pending",
-      "verified_at": null,
-      "official_owner_evidence_url": null,
-      "campuses": []
+      "verification_state": "partial",
+      "verified_at": "2026-10-11",
+      "official_owner_evidence_url": "https://career.csu.edu.cn/",
+      "campuses": [],
+      "approved_hosts": [
+        "career.csu.edu.cn"
+      ],
+      "platform_tenants": {},
+      "scope_note": "归属登记与实际采集分开；仅下列公开来源有限观察，非全校覆盖。",
+      "sources": [
+        {
+          "source_key": "csu_homepage",
+          "school_key": "csu",
+          "channel_key": "homepage",
+          "adapter": "csu",
+          "name": "此前403停止；不发替代请求，不计覆盖",
+          "official_entry_url": "https://career.csu.edu.cn/",
+          "scope": {
+            "coverage": "restricted_path",
+            "school_wide": false,
+            "page_budget": 1,
+            "note": "此前403停止；不发替代请求，不计覆盖",
+            "ownership_observed_on": "2026-10-11",
+            "ownership_precision": "day"
+          }
+        }
+      ]
     }
   ]
 }
