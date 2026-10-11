@@ -6,35 +6,40 @@ export function createPageReader(paths, onChange, read = readJSON) {
   const resources = Object.fromEntries(Object.keys(paths).map(key => [key, { status: "loading", data: null, error: null, observedAt: null }]));
   const pending = new Map();
   let destroyed = false;
-  async function load(key, overridePath) {
+  function load(key, overridePath, { reusePending = false } = {}) {
     if (!(key in resources)) throw new Error("Unknown page resource");
-    pending.get(key)?.abort();
+    if (reusePending && pending.has(key)) return pending.get(key).promise;
+    pending.get(key)?.controller.abort();
     const controller = new AbortController();
-    pending.set(key, controller);
+    const request = { controller, promise: null };
+    pending.set(key, request);
     const resource = resources[key];
     resource.status = "loading";
     resource.error = null;
     onChange(key, resources);
-    try {
-      const data = await read(overridePath || paths[key], { signal: controller.signal });
-      if (destroyed || pending.get(key) !== controller) return;
-      resources[key] = { status: "ready", data, error: null, observedAt: new Date().toISOString() };
-    } catch (error) {
-      if (destroyed || controller.signal.aborted || pending.get(key) !== controller) return;
-      resource.status = "error";
-      resource.error = error;
-    } finally {
-      if (!destroyed && pending.get(key) === controller) {
-        pending.delete(key);
-        onChange(key, resources);
+    request.promise = (async () => {
+      try {
+        const data = await read(overridePath || paths[key], { signal: controller.signal });
+        if (destroyed || pending.get(key) !== request) return;
+        resources[key] = { status: "ready", data, error: null, observedAt: new Date().toISOString() };
+      } catch (error) {
+        if (destroyed || controller.signal.aborted || pending.get(key) !== request) return;
+        resource.status = "error";
+        resource.error = error;
+      } finally {
+        if (!destroyed && pending.get(key) === request) {
+          pending.delete(key);
+          onChange(key, resources);
+        }
       }
-    }
+    })();
+    return request.promise;
   }
   return {
     resources,
     load,
-    reload: (keys = Object.keys(paths)) => Promise.allSettled(keys.map(key => load(key))),
-    destroy() { destroyed = true; for (const controller of pending.values()) controller.abort(); pending.clear(); },
+    reload: (keys = Object.keys(paths), options) => Promise.allSettled(keys.map(key => load(key, undefined, options))),
+    destroy() { destroyed = true; for (const request of pending.values()) request.controller.abort(); pending.clear(); },
   };
 }
 
@@ -45,8 +50,8 @@ export function resourceMessage(resource, loadingText = "正在读取…") {
   return "";
 }
 
-export function pageDatasetsAgree(resources) {
-  return datasetConsistency(resources);
+export function pageDatasetsAgree(resources, options) {
+  return datasetConsistency(resources, options);
 }
 
 export function renderNotice(panel, heading, message, { loading = false, error = false, stale = false, note = "" } = {}) {

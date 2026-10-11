@@ -3,7 +3,7 @@ const ASSETS = __EMBEDDED_ASSETS__;
 const PUBLIC_PATHS = new Set(['/health', '/version', '/api/catalog', '/api/opportunities', '/api/updates/summary', '/api/sources/status']);
 const PAGE_PATHS = new Map([['/', '/index.html'], ['/sources', '/frontend/pages/sources.html'], ['/review', '/frontend/pages/review.html']]);
 const MAX_BYTES = 1048576;
-const API_CODES = new Set(['service_unauthorized', 'loopback_only', 'database_unavailable', 'dataset_changed', 'dataset_required', 'unsupported_parameter', 'duplicate_parameter', 'invalid_date', 'invalid_date_range', 'invalid_kind', 'invalid_view_or_scope', 'invalid_number', 'invalid_campus_unknown', 'campus_conflict', 'school_not_found', 'campus_not_found', 'school_campus_conflict', 'invalid_opportunity', 'opportunity_not_found']);
+const API_CODES = new Set(['service_unauthorized', 'loopback_only', 'database_unavailable', 'dataset_changed', 'dataset_required', 'unsupported_parameter', 'duplicate_parameter', 'invalid_date', 'invalid_date_range', 'invalid_as_of', 'as_of_required', 'invalid_keyword', 'invalid_dataset', 'invalid_kind', 'invalid_view_or_scope', 'invalid_number', 'invalid_campus_unknown', 'campus_conflict', 'school_not_found', 'campus_not_found', 'school_campus_conflict', 'invalid_opportunity', 'opportunity_not_found']);
 export const isPublicPath = path => PUBLIC_PATHS.has(path) || /^\/api\/opportunities\/[1-9]\d*$/.test(path);
 export const pageAssetPath = path => PAGE_PATHS.get(path) || (/^\/opportunities\/[1-9]\d*$/.test(path) ? '/frontend/pages/detail.html' : path);
 const SECURITY = {
@@ -46,7 +46,13 @@ export default {
       }
       const target = new URL(url.pathname + url.search, origin);
       const controller = new AbortController();
+      let clientAborted = false;
+      const abortClient = () => { clientAborted = true; controller.abort(); };
+      if (request.signal.aborted) abortClient();
+      request.signal.addEventListener('abort', abortClient, {once: true});
       const timeout = setTimeout(() => controller.abort(), 12000);
+      const started = performance.now();
+      let headersAt;
       let reader;
       try {
         diagnostic.layer = 'upstream_connect';
@@ -54,6 +60,7 @@ export default {
           method: 'GET', redirect: 'manual', signal: controller.signal,
           headers: {'Accept': 'application/json', 'Authorization': `Bearer ${env.WH_API_SERVICE_TOKEN}`},
         });
+        headersAt = performance.now();
         if (controller.signal.aborted) throw new DOMException('Aborted', 'AbortError');
         diagnostic.layer = 'upstream_headers';
         diagnostic.upstream_status = response.status;
@@ -90,11 +97,26 @@ export default {
             : '开发数据读取失败，请稍后重新加载。';
           return fail(response.status, code, message);
         }
-        return new Response(body, {status: response.status, headers: {...SECURITY, 'Content-Type': 'application/json; charset=utf-8', 'X-Request-ID': diagnostic.request_id}});
+        const finished = performance.now();
+        const timings = [
+          `proxy_connect;dur=${(headersAt - started).toFixed(3)}`,
+          `proxy_body;dur=${(finished - headersAt).toFixed(3)}`,
+          `proxy_total;dur=${(finished - started).toFixed(3)}`,
+        ];
+        const apiTiming = /(?:^|,)\s*api;dur=(\d+(?:\.\d+)?)\s*(?:,|$)/.exec(response.headers.get('server-timing') || '');
+        if (apiTiming && Number(apiTiming[1]) <= 60000) timings.unshift(`api;dur=${apiTiming[1]}`);
+        const headers = {...SECURITY, 'Content-Type': 'application/json; charset=utf-8', 'X-Request-ID': diagnostic.request_id, 'Server-Timing': timings.join(', ')};
+        for (const name of ['X-WH-API-Started', 'X-WH-API-Ended']) {
+          const stamp = response.headers.get(name);
+          if (/^\d{13}$/.test(stamp || '')) headers[name] = stamp;
+        }
+        return new Response(body, {status: response.status, headers});
       } catch {
+        if (clientAborted) return jsonError(499, 'request_cancelled', '本次查询已取消。');
         return fail(controller.signal.aborted ? 504 : 502, controller.signal.aborted ? 'development_api_timeout' : 'development_api_unavailable', controller.signal.aborted ? '连接开发环境超时，请重新加载。' : '暂时无法连接开发环境，请重新加载。');
       } finally {
         clearTimeout(timeout);
+        request.signal.removeEventListener('abort', abortClient);
         if (reader) { try { void reader.cancel().catch(() => {}); } catch {} }
       }
     }

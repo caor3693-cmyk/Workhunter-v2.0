@@ -34,7 +34,7 @@ function statusMessage(status, code) {
   const conditions = {
     invalid_date: '日期格式无效，请检查起始和结束日期。', invalid_date_range: '起始日期不能晚于结束日期。',
     invalid_as_of: '分页查询日期无效，请重新加载第一页。', as_of_required: '分页缺少首页查询日期，请重新加载第一页。',
-    dataset_required: '分页缺少首页数据版本，请重新加载第一页。', invalid_kind: '招聘类型无效，请重新选择。',
+    dataset_required: '分页缺少首页数据版本，请重新加载第一页。', invalid_dataset: '分页数据版本无效，请重新加载第一页。', invalid_kind: '招聘类型无效，请重新选择。',
     invalid_keyword: '关键词不能超过 300 字。', school_campus_conflict: '所选校区不属于当前学校，请重新选择校区。',
     campus_conflict: '具体校区与校区未知不能同时选择。', invalid_campus_unknown: '校区未知条件无效，请重新选择。',
     invalid_number: '校区或分页数值无效，请检查条件并重新查询。', invalid_view_or_scope: '日期视图或招聘范围无效，请重新选择。',
@@ -81,11 +81,19 @@ function errorCode(data) {
   return typeof code === "string" && /^[a-z][a-z0-9_]{0,63}$/.test(code) ? code : "http_error";
 }
 
-export async function readJSON(path, { signal, timeout = 15000 } = {}) {
+export async function readJSON(path, { signal, timeout = 15000, onTiming } = {}) {
   const pathname = publicReadPath(path);
   if (!pathname) throw new ReadError("读取路径不在本阶段公开接口范围。", 0, "unsupported_path");
   const controller = new AbortController();
   let timedOut = false;
+  let responseStatus = null;
+  const clock = () => globalThis.performance?.now?.() ?? Date.now();
+  const started = clock();
+  const report = (phase, extra = {}) => {
+    if (typeof onTiming !== 'function') return;
+    try { onTiming({ phase, at: Date.now(), elapsed_ms: Math.max(0, clock() - started), ...extra }); } catch { /* Measurement must not alter a business read. */ }
+  };
+  const apiStamp = value => typeof value === 'string' && /^\d{1,16}$/.test(value) && Number.isSafeInteger(Number(value)) ? Number(value) : null;
   const abort = () => controller.abort();
   if (signal?.aborted) controller.abort();
   signal?.addEventListener("abort", abort, { once: true });
@@ -94,6 +102,7 @@ export async function readJSON(path, { signal, timeout = 15000 } = {}) {
     controller.abort();
   }, timeout);
   try {
+    report('request', { path });
     const response = await fetch(path, {
       method: "GET",
       headers: { Accept: "application/json" },
@@ -101,9 +110,13 @@ export async function readJSON(path, { signal, timeout = 15000 } = {}) {
       cache: "no-store",
       signal: controller.signal,
     });
+    responseStatus = response.status;
+    report('headers', { status: response.status, server_timing: response.headers?.get?.('server-timing')?.slice(0, 1024) || null,
+      api_started_at: apiStamp(response.headers?.get?.('x-wh-api-started')), api_ended_at: apiStamp(response.headers?.get?.('x-wh-api-ended')) });
     let data;
     try {
       data = await response.json();
+      report('json', { status: response.status });
     } catch (error) {
       if (timedOut || signal?.aborted || controller.signal.aborted) throw error;
       if (!response.ok) throw new ReadError(statusMessage(response.status), response.status, "http_error");
@@ -117,8 +130,10 @@ export async function readJSON(path, { signal, timeout = 15000 } = {}) {
     }
     if (!data || typeof data !== "object" || Array.isArray(data)) throw new ReadError("数据格式暂不可读，请重新加载。", response.status, "invalid_response");
     validateResponse(pathname, data);
+    report('validated', { status: response.status });
     return data;
   } catch (error) {
+    report('failed', { status: responseStatus, code: timedOut ? 'timeout' : signal?.aborted ? 'cancelled' : error instanceof ReadError ? error.code : 'connection_failed' });
     if (timedOut) throw new ReadError("读取超时，请重新加载。", 0, "timeout");
     if (signal?.aborted) throw error;
     if (error instanceof ReadError) throw error;

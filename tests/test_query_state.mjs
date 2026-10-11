@@ -183,6 +183,10 @@ test('midnight pagination retains original Shanghai query day and snapshots incl
   assert.throws(() => queryPath({}, 20, { dataset_id: 'isolated-A' }), /首页/);
   for (const status of ['loading', 'error', 'stale']) assert.equal(datasetConsistency({ catalog: { status: 'ready', data: { dataset_id: 'new', data_mode: 'real' } }, opportunities: { status, data: { dataset_id: 'old', data_mode: 'real' } } }), false);
   assert.equal(datasetConsistency({ one: { data: { dataset_id: 'same', project: 'Workhunter-v2.0' } }, two: { data: { dataset_id: 'same', project: 'other' } } }), false);
+  assert.equal(datasetConsistency({ one: { data: { dataset_id: 'new', project: 'Workhunter-v2.0' } }, two: { data: { dataset_id: 'old', project: 'Workhunter-v2.0' } } }, { includeDataset: false }), true);
+  for (const key of ['project', 'backend_commit', 'build_id', 'version', 'data_mode']) {
+    assert.equal(datasetConsistency({ one: { data: { dataset_id: 'new', [key]: 'first' } }, two: { data: { dataset_id: 'old', [key]: 'other' } } }, { includeDataset: false }), false, key);
+  }
 });
 
 test('destroyed query never publishes an arriving result', async () => {
@@ -193,4 +197,22 @@ test('destroyed query never publishes an arriving result', async () => {
   pending.calls[0].resolve(response(pending.calls[0].path));
   await request;
   assert.equal(query.state.data, null);
+});
+
+test('query timing identifies discarded work and recovery without giving observers control over business state', async () => {
+  const events = [], pending = pendingReads();
+  const query = createQueryState(pending.read, () => {}, { onTiming: event => { events.push(event); if (event.phase === 'accepted') throw new Error('observer failure'); } });
+  const old = query.query({ school_key: 'scut' }, 0, { action: 'submit' });
+  const newer = query.query({ school_key: 'gdut' }, 0, { action: 'reload' });
+  pending.calls[1].resolve(response(pending.calls[1].path, 'isolated-new'));
+  await newer;
+  pending.calls[0].resolve(response(pending.calls[0].path, 'isolated-old'));
+  await old;
+  assert.equal(query.state.status, 'ready');
+  assert.equal(query.state.dataset, 'isolated-new');
+  const operations = events.filter(event => event.phase === 'operation');
+  assert.deepEqual(operations.map(event => event.action), ['submit', 'reload']);
+  assert.ok(events.some(event => event.phase === 'discarded' && event.generation === operations[0].generation));
+  assert.ok(!events.some(event => event.phase === 'accepted' && event.generation === operations[0].generation));
+  query.destroy();
 });
