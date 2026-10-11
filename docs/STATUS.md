@@ -76,7 +76,7 @@
 
 [原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) 和 [Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2) 已在私有Project5建立，上轮26项字段已回读。本轮使用既有获准gh通道新增#32—35并回读Status/Stage/Priority/Start/Target，30项已登记；四项真实item ID见config。既有26项与#19完成事实保留。
 
-本轮实际读取上游neat-freak3.0.0及四参考，核对源码、运行、文档、规则、记忆、工作区六面；此前Windows3.0.1记录保留为历史。应用/规则未改，资料更新，运行未重测，长期记忆无写入，唯一证据/数据库/备份/用户改动保留。最终提交、Issue/PR/CI回读以PR #28最新回执为准。
+此前审查使用上游neat-freak3.0.0及四参考，其“应用/规则未改、运行未重测”仅为审查历史。本轮已实际读取本机neat-freak3.0.1及四参考：源码尚未改业务；运行完成真实Site/API基线读取；文档/规则由独立GOV #36及DOC #37同步；长期记忆不写；本轮三处可再生GOV测试目录已限域删除，唯一证据/数据库/备份/用户改动保留。最终业务候选的六面收尾、测试与Site回读仍须在实施后完成，不以前置治理代替产品交付。
 
 历史入口：[初版](deliveries/S0.md)、[M0失败反馈](deliveries/M0-FEEDBACK-20261011.md)、[原清理记录](deliveries/M0-NEAT-20261011.md)、[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)、[M0/M1交付包](deliveries/M0-M1-REVIEW-20261011.md)、[第二轮结果](deliveries/M0-M1-FEEDBACK2-20261011.md)。正式发布[#18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18)保持Blocked，等待全部Gate及必需反馈复验。
 

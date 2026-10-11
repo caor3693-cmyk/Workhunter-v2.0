@@ -26,7 +26,7 @@
 | M1 | [#29 [M1-05] 简要详情移除定位证据与内部技术信息](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29) | Backlog / open | 2026-10-13 | 待实施；M1-05 |
 | M1 | [#30 [M1-06] 校区切换后刷新延迟：测量并定位原因](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30) | Backlog / open | 2026-10-13 | 状态反例确认；现场p95待测 |
 | M1 | [#31 [M1-01] 下一轮提供多校电气相关真实验收样本](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31) | Backlog / open | 2026-10-15 | M1两校/M2三校样本分段验收 |
-| M2 | [#32 [M1→M2] 工作包登记与共享合同可信基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32) | In progress / open | 2026-10-13 | 先独立GOV/DOC；含原生新增项待同步 |
+| M2 | [#32 [M1→M2] 工作包登记与共享合同可信基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32) | In progress / open | 2026-10-13 | GOV #36可信目标已建立；Project新增项回读完成；DOC #37独立审查 |
 | M2 | [#33 [M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33) | Ready / open | 2026-10-13 | 跨轮队列饥饿已复现，未修复 |
 | M2 | [#34 [M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34) | Ready / open | 2026-10-13 | 语义反例已复现，真实库范围待核验 |
 | M2 | [#35 [M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35) | Ready / open | 2026-10-13 | 跨公告材料反例已复现，未修复 |
