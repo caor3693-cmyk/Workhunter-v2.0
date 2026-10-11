@@ -177,8 +177,14 @@ def test_registration_is_explicit_idempotent_and_does_not_change_empty_dataset(d
         registered_campuses = {(row["school_key"], row["campus_key"]) for row in connection.execute("SELECT school_key,campus_key FROM campuses")}
         assert registered_campuses == {(school["school_key"], campus["campus_key"]) for school in config["schools"] for campus in school.get("campuses", []) if school["school_key"] in {"scut", "gdut"}}
         assert connection.execute("SELECT status FROM sources WHERE source_key='scut_homepage'").fetchone()[0] == "restricted"
-        others = connection.execute("SELECT verification_state,verified_at FROM schools WHERE school_key NOT IN ('scut','gdut')").fetchall()
-    assert all(tuple(row) == ("pending", None) for row in others)
+        others = connection.execute("SELECT school_key,verification_state,verified_at FROM schools WHERE school_key NOT IN ('scut','gdut')").fetchall()
+        # Official entry ownership may be registered before any usable crawl.
+        # Registration still neither creates jobs nor claims successful access.
+        assert connection.execute('SELECT COUNT(*) FROM opportunities').fetchone()[0] == 0
+        for row in others:
+            expected = next(school for school in config['schools'] if school['school_key']==row['school_key'])
+            assert (row['verification_state'],row['verified_at']) == (expected.get('verification_state','pending'),expected.get('verified_at'))
+        assert connection.execute("SELECT COUNT(*) FROM sources WHERE source_key IN ('shiep_campus','ctgu_campus') AND last_success_at IS NOT NULL").fetchone()[0] == 0
 
 
 def test_refresh_rejects_fixture_mix_and_unconfigured_school_before_network(database):

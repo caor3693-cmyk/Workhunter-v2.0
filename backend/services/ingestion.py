@@ -353,6 +353,22 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
     changed = list(BUSINESS_FIELDS) if old is None else [field for field in BUSINESS_FIELDS if _semantic(old[field]) != _semantic(current[field])]
     changed += [field for field in damaged if field not in changed]
     if not changed and not reviving:
+        # A targeted, reviewed correction may repair a locator/excerpt without
+        # changing any visitor fact. Keep this audit separate from business
+        # changes and from ordinary repeated observations.
+        evidence_fields = [field for field in replace_fields
+            if context.change_kind == 'semantic_revision' and (field in CORE_FIELDS or field == 'relevance')
+            and encoded(old['field_observations'].get(field)) != encoded(current['field_observations'].get(field))]
+        if evidence_fields:
+            _associate(connection,current,row['id'],timestamp)
+            observations = deepcopy(old['field_observations'])
+            for field in evidence_fields:
+                observations[field] = current['field_observations'][field]
+                connection.execute(
+                    'INSERT INTO changes(opportunity_id,field_name,before_json,after_json,change_kind,material_id,manual_operation_id,actor,committed_at,reason,write_context_key) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+                    (row['id'],'__evidence__:'+field,encoded(old['field_observations'].get(field)),encoded(observations[field]),
+                     context.change_kind,_material_for(current,field,fallback_id),context.operation_id,context.actor,timestamp,context.reason,context.key))
+            connection.execute('UPDATE opportunities SET field_observations_json=? WHERE id=?',(encoded(observations),row['id']))
         return row["id"], "unchanged", []
     columns = [field + "_json" if field in JSON_FIELDS else field for field in BUSINESS_FIELDS]
     values = [encoded(current[field]) if field in JSON_FIELDS else current[field] for field in BUSINESS_FIELDS]

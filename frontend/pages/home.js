@@ -1,6 +1,7 @@
 import { readJSON } from "../api/client.js";
 import { element } from "../components/dom.js";
 import { resultCard } from "../components/cards.js";
+import { updatePresentation } from "../components/updates.js";
 import { createQueryState } from "../state/store.js";
 import { PAGE_READ_PATHS } from "./routes.js";
 import { createPageReader, pageDatasetsAgree, resourceMessage, renderNotice, setResourceStatus } from "./shared.js";
@@ -120,12 +121,10 @@ export function mountHome({ document: doc = globalThis.document, read = readJSON
   }
   function renderUpdates() {
     const resource = resources.updates;
-    get("new-count").textContent = resource.data?.today?.newly_collected ?? "—";
-    get("change-count").textContent = resource.data?.today?.official_changes ?? "—";
-    const parserCount = resource.data?.today?.parser_improvements;
-    const conflictCount = resource.data?.today?.evidence_conflicts;
-    const message = resource.data?.message || "检查情况暂不可确认。";
-    setResourceStatus(get("update-message"), resource, "正在读取检查情况…", message + (parserCount !== undefined && parserCount !== null ? ` 解析补全 ${parserCount} 条，单独计算。` : "") + (conflictCount !== undefined && conflictCount !== null ? ` 材料冲突 ${conflictCount} 条待核实，单独计算。` : ""));
+    const presentation = updatePresentation(resource.data);
+    get("new-count").textContent = presentation.newlyCollected;
+    get("change-count").textContent = presentation.officialChanges;
+    setResourceStatus(get("update-message"), resource, "正在读取检查情况…", presentation.message);
     get("update-message").textContent += sidecarNote('updates');
   }
   function renderResults() {

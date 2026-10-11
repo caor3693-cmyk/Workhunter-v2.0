@@ -31,6 +31,8 @@ def identity(metadata: dict[str, str]) -> dict:
 
 
 def source_projection(row: sqlite3.Row) -> dict:
+    from backend.domain.source_policy import school_policy
+    registered = any(item['source_key'] == row['source_key'] for item in school_policy(row['school_key']).get('sources', []))
     try:
         safe_url(row['official_entry_url'])
     except ValueError as error:
@@ -43,6 +45,7 @@ def source_projection(row: sqlite3.Row) -> dict:
         "last_attempt_at": row["last_attempt_at"], "last_success_at": row["last_success_at"],
         "message": row["public_message"],
         "channel_key": row['channel_key'], "scope": _decode(row['scope_json'], dict),
+        "maintenance_material_supported": registered,
     }
 
 
@@ -321,18 +324,6 @@ def detail(connection: sqlite3.Connection, opportunity_id: int, *, include_hidde
     return result
 
 
-def summary(connection, metadata, today):
-    run = connection.execute('SELECT * FROM runs ORDER BY started_at DESC,id DESC LIMIT 1').fetchone()
-    last_success = connection.execute("SELECT MAX(finished_at) FROM runs WHERE status IN ('complete','partial')").fetchone()[0]
-    checked_today = connection.execute('SELECT 1 FROM runs WHERE substr(started_at,1,10)=? LIMIT 1',(today.isoformat(),)).fetchone()
-    counts = {row[0]:row[1] for row in connection.execute('SELECT change_kind,COUNT(DISTINCT opportunity_id) FROM changes WHERE substr(committed_at,1,10)=? GROUP BY change_kind',(today.isoformat(),))} if checked_today else {}
-    values = {kind:counts.get(kind,0) if checked_today else None for kind in ('newly_collected','official_change','parser_improvement','evidence_conflict')}
-    source_checks = connection.execute("SELECT MAX(last_attempt_at),MAX(last_success_at) FROM sources").fetchone()
-    status = run['status'] if run else 'not_checked'
-    return {**identity(metadata),'check_status':status,'last_attempt_at':run['started_at'] if run else source_checks[0],
-        'last_success_at':last_success or source_checks[1],
-        'today':{'date':today.isoformat(),'newly_collected':values['newly_collected'],
-            'modified':None if not checked_today else len({r[0] for r in connection.execute("SELECT opportunity_id FROM changes WHERE change_kind IN ('official_change','parser_improvement','evidence_conflict') AND substr(committed_at,1,10)=?",(today.isoformat(),))}),
-            'official_changes':values['official_change'],'parser_improvements':values['parser_improvement'],'evidence_conflicts':values['evidence_conflict'],'manual_corrections':None},
-        'scope':_decode(run['scope_json'],dict) if run else None,
-        'message':'尚未检查，新增与变化数量未知' if not run else '本轮已检查登记范围；新收录按取得时间计，不代表今天官方发布。人工更正汇总尚未实现。'}
+def summary(connection, metadata, today, *, recent_days=30):
+    from backend.services.updates import build_summary
+    return build_summary(connection,metadata,today,recent_days=recent_days)

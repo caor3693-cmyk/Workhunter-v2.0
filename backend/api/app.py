@@ -174,7 +174,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/api/updates/summary")
     def summary():
         with read_database(configuration.db_path) as (connection, metadata):
-            return queries.summary(connection, metadata, today())
+            return queries.summary(connection, metadata, today(),recent_days=configuration.recent_days)
 
     from backend.api.auth import register_auth_routes
     from backend.api.maintenance import register_maintenance_routes

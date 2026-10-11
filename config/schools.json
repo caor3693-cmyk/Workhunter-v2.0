@@ -305,13 +305,13 @@
           "school_key": "csust",
           "channel_key": "careers",
           "adapter": "csust",
-          "name": "官方学校租户首页显式链接；此前网络失败，非访问受限",
+          "name": "官方学校租户首页JSON宣讲面板有限发现",
           "official_entry_url": "https://csust.bysjy.com.cn/",
           "scope": {
             "coverage": "selected_public_channel",
             "school_wide": false,
             "page_budget": 1,
-            "note": "官方学校租户首页显式链接；此前网络失败，非访问受限",
+            "note": "首页已返回JSON宣讲面板并取得有限材料；不代表全校覆盖。此前网络失败与访问受限分别记录。",
             "ownership_observed_on": "2026-10-11",
             "ownership_precision": "day"
           }

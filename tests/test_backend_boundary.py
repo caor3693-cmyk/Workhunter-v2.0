@@ -33,6 +33,24 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def test_catalog_manual_material_capability_uses_registered_policy_without_claiming_coverage(database):
+    from backend.domain.source_policy import FIXED_SCHOOLS, school_policy
+    from backend.services.discovery import register_sources
+    from backend.config import ROOT
+    register_sources(database, json.loads((ROOT/'config/schools.json').read_text(encoding='utf-8')))
+    before = digest(database)
+    rows = client(database).get('/api/catalog').json()['schools']
+    assert {row['school_key'] for row in rows} == FIXED_SCHOOLS
+    for school in rows:
+        registered = {item['source_key'] for item in school_policy(school['school_key'])['sources']}
+        for source in school['sources']:
+            assert source['maintenance_material_supported'] == (source['source_key'] in registered)
+            assert source['last_success_at'] is None
+    csu = next(row for row in rows if row['school_key'] == 'csu')
+    assert any(source['channel_key'] == 'homepage' and source['maintenance_material_supported'] for source in csu['sources'])
+    assert digest(database) == before
+
+
 @pytest.fixture
 def database(tmp_path):
     path = tmp_path / "isolated" / "workhunter-v2.sqlite3"

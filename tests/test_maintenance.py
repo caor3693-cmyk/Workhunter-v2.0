@@ -47,6 +47,20 @@ def import_record(settings,principal,environment='isolated'):
     return maintenance.commit_operation(settings,principal,commit_request(preview))
 
 
+@pytest.mark.parametrize('environment,with_text',[('real',True),('isolated',False)])
+@pytest.mark.parametrize('marker',['__isolated_fixture__','%5f%5fisolated_fixture%5f%5f','%255f%255fisolated_fixture%255f%255f','%2525255f%2525255fisolated_fixture%2525255f%2525255f'])
+def test_rehearsal_placeholder_cannot_enter_real_facts_or_trigger_network(maintenance_setup,environment,with_text,marker):
+    settings,principal=maintenance_setup
+    payload=request(environment,url=f'https://career.gdut.edu.cn/{marker}/teachin/view/id/1212')
+    if not with_text:payload.pop('public_text')
+    before=(snapshot(settings.db_path),snapshot(settings.acceptance_db_path))
+    class ForbiddenFetcher:
+        def __init__(self,**kwargs):raise AssertionError('Synthetic placeholder reached network')
+    with pytest.raises(maintenance.MaintenanceError,match='隔离占位链接'):
+        maintenance.preview_materials(settings,principal,payload,fetcher_factory=ForbiddenFetcher)
+    assert (snapshot(settings.db_path),snapshot(settings.acceptance_db_path))==before
+
+
 def test_preview_has_no_business_effect_and_commit_archives_manual_provenance(maintenance_setup):
     settings,principal=maintenance_setup
     original=snapshot(settings.acceptance_db_path)

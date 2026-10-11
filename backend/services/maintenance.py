@@ -7,7 +7,7 @@ import html
 import json
 from pathlib import Path
 import re
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, urlsplit, unquote
 from uuid import uuid4
 
 from backend.domain.candidates import CORE_FIELDS, safe_url, validate_candidate
@@ -235,6 +235,13 @@ def _normalize(payload):
         if not isinstance(text,str) or not text.strip() or len(text.encode('utf-8'))>262_144 or '\x00' in text:
             raise MaintenanceError('maintenance_material_size','公开正文为空或超过 256 KiB。')
         result['public_text']=text.replace('\r\n','\n').replace('\r','\n').strip()
+    decoded_path = urlsplit(result['url']).path
+    for _ in range(len(decoded_path)+1):
+        following = unquote(decoded_path)
+        if following == decoded_path: break
+        decoded_path = following
+    if '/__isolated_fixture__/' in decoded_path and (result['environment']!='isolated' or not result.get('public_text')):
+        raise MaintenanceError('maintenance_environment','隔离占位链接仅接受演练环境及本机提供的合成正文，不得写入真实库或访问外站。')
     return result
 
 
@@ -596,7 +603,7 @@ def list_operations(settings,principal,*,environment='real',limit=20,before=None
     _active(settings,principal);path,_=target_database(settings,environment)
     if type(limit) is not int or not 1<=limit<=100 or (before is not None and (not isinstance(before,str) or len(before)>200)):
         raise MaintenanceError('maintenance_pagination','操作分页参数无效。')
-    with read_database(path) as (connection,_):
+    with read_database(path) as (connection,metadata):
         cursor=connection.execute('SELECT COALESCE(committed_at,expires_at) AS stamp,id FROM manual_operations WHERE id=?',(before,)).fetchone() if before else None
         if before and not cursor:raise MaintenanceError('maintenance_pagination','操作分页游标不存在。')
         rows=connection.execute('SELECT * FROM manual_operations WHERE (? IS NULL OR COALESCE(committed_at,expires_at)<? OR (COALESCE(committed_at,expires_at)=? AND id<?)) ORDER BY COALESCE(committed_at,expires_at) DESC,id DESC LIMIT ?',
@@ -606,17 +613,18 @@ def list_operations(settings,principal,*,environment='real',limit=20,before=None
             'reverts_operation_id':row['reverts_operation_id'],'reason':json.loads(row['input_json']).get('normalized_input',{}).get('reason',row['operation_type']),
             'differences':json.loads(row['difference_json']),'receipt':json.loads(row['receipt_json']) if row['receipt_json'] else None,
             'materials':json.loads(row['input_json']).get('materials',[])} for row in rows[:limit]]
-        return {'environment':environment,'items':items,'has_more':len(rows)>limit,'next_cursor':items[-1]['operation_id'] if len(rows)>limit else None}
+        from backend.services.updates import build_summary,SHANGHAI
+        return {'environment':environment,'items':items,'has_more':len(rows)>limit,'next_cursor':items[-1]['operation_id'] if len(rows)>limit else None,
+            'summary':build_summary(connection,metadata,datetime.now(SHANGHAI).date(),recent_days=getattr(settings,'recent_days',30))}
 
 
 def list_tasks(settings,principal,*,environment='real',limit=20,before=None):
     _active(settings,principal);path,_=target_database(settings,environment)
     if type(limit) is not int or not 1<=limit<=100 or (before is not None and (type(before) is not int or before<=0)):
         raise MaintenanceError('maintenance_pagination','待办分页参数无效。')
-    with read_database(path) as (connection,_):
-        rows=connection.execute("SELECT * FROM processing_tasks WHERE (task_kind='maintenance' OR status IN ('failed','partial','restricted')) AND (? IS NULL OR id<?) ORDER BY id DESC LIMIT ?",(before,before,limit+1)).fetchall()
-        items=[{**dict(row),'result':json.loads(row['result_json'] or '{}')} for row in rows[:limit]]
-        return {'environment':environment,'items':items,'has_more':len(rows)>limit,'next_cursor':items[-1]['id'] if len(rows)>limit else None}
+    with read_database(path) as (connection,metadata):
+        from backend.services.maintenance_tasks import project_tasks
+        return {'environment':environment,**project_tasks(connection,metadata,limit=limit,before=before)}
 
 
 def _task_binding(task):

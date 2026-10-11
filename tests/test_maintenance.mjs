@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createMaintenanceAPI, MaintenanceError, previewBinding } from '../frontend/api/maintenance.js';
-import { createMaintenanceController, mountMaintenance } from '../frontend/pages/maintenance.js';
+import { createMaintenanceController, mountMaintenance, isRehearsalURL } from '../frontend/pages/maintenance.js';
 
 const csrf = 'c'.repeat(43), password = 'synthetic-test-password';
 const operationId = 'maintenance-' + '1'.repeat(32);
@@ -263,4 +263,23 @@ test('maintenance artifacts use no credential persistence or HTML insertion and 
   assert.ok(!/localStorage|sessionStorage|document\.cookie|innerHTML|insertAdjacentHTML|console\.log/.test(js));
   assert.ok(!html.includes('csrf_token') && !html.includes('service_token'));
   for (const id of ['maintenance-environment', 'maintenance-public-text', 'maintenance-preview-panel', 'maintenance-commit', 'maintenance-receipt', 'maintenance-action-reason', 'maintenance-tasks', 'maintenance-history']) assert.ok(html.includes(`id="${id}"`));
+});
+
+test('registered homepage manual entry, protected summary and resolved task receipt stay usable without retry', async () => {
+  const fixture = syntheticAPI({ tasks: env => ({ environment: env, items: [{id: 8, source_key: 'csu_homepage', opportunity_id: 12, status: 'resolved', retry_supported: false, reason_label: '来源获取失败', next_action: '核对公开材料', resolution_history: [{operation_id: 'receipt-8', committed_at:'2026-10-12T01:00:00Z', reason:'已用合法公开材料解决'}]}], groups:[{source_key:'csu_homepage', reason_label:'来源获取失败',next_action:'核对公开材料',active_scope_count:0,resolved_scope_count:1,opportunity_count:1}]}), operations: env => ({environment:env,items:[],summary:{today:{manual_corrections:1,official_changes:null,newly_collected:null},message:'今日自动检查尚未确认'}}) });
+  const entries={schools:[{school_key:'csu',name:'中南大学',sources:[{source_key:'csu_homepage',name:'官方入口',channel_key:'homepage',maintenance_material_supported:true}]}]};
+  const doc=pageDocument(),page=mountMaintenance({document:doc,api:fixture.api,read:async()=>entries});await tick();
+  await page.login(password);page.setDraft({school_key:'csu'});await tick();
+  assert.match(doc.getElementById('maintenance-source').textContent,/官方入口/);
+  assert.match(doc.getElementById('maintenance-summary').textContent,/人工纠错 1 条/);
+  assert.match(doc.getElementById('maintenance-summary').textContent,/官方变化 待核实/);
+  assert.match(doc.getElementById('maintenance-tasks').textContent,/receipt-8/);
+  assert.ok(!doc.getElementById('maintenance-tasks').textContent.includes('生成重试预览'));
+  await page.logout();assert.equal(doc.getElementById('maintenance-summary').textContent,'本环境摘要尚未取得。');
+  page.destroy();
+});
+
+test('plain and encoded rehearsal markers have the same no-external-link boundary',()=>{
+  for(const marker of ['__isolated_fixture__','%5f%5fisolated_fixture%5f%5f','%255f%255fisolated_fixture%255f%255f','%2525255f%2525255fisolated_fixture%2525255f%2525255f']) assert.equal(isRehearsalURL(`https://cnsba.scut.edu.cn/${marker}/c29313a900000001/page.htm`),true);
+  assert.equal(isRehearsalURL('https://career.gdut.edu.cn/teachin/view/id/191558'),false);
 });

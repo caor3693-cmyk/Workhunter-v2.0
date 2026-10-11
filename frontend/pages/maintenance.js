@@ -1,12 +1,25 @@
 import { createMaintenanceAPI, MaintenanceError } from '../api/maintenance.js';
 import { readJSON } from '../api/client.js';
 import { displayTime, safePublicURL } from '../components/dom.js';
+import { updatePresentation } from '../components/updates.js';
 
 const FIELD_LABELS = { published_date: '公告发布时间', event_date: '活动日期', start_time: '开始时刻', end_time: '结束时刻', deadline: '投递截止', event_venue: '举办地点', work_locations: '工作地点', relevance: '电气相关性', title: '标题', kind: '招聘类型', original_kind: '原文类型', date_basis: '日期依据', campus_key: '校区', work_locations_scope: '工作地点范围', event_status: '活动状态', recruitment_status: '招聘状态', roster_fragments: '已取得名单片段', job_fragments: '已取得岗位片段', attachments: '适用附件', __visibility__: '访客可见' };
 const OPERATION_LABELS = { manual_supplement: '人工补录', manual_correction: '人工纠错', manual_revert: '撤回更正', manual_withdrawal: '撤回人工可见贡献', semantic_revision: '事实修订' };
 const STATUS_LABELS = { preview: '待确认预览', committed: '已提交', pending: '待处理', failed: '失败待核查', partial: '部分取得', restricted: '路径受限', resolved: '已处理' };
 const resource = () => ({ status: 'idle', data: null, error: null });
 const draft = () => ({ operation_type: 'supplement', school_key: '', source_key: '', url: '', public_text: '', reason: '', opportunity_id: '', fields: [] });
+
+export function isRehearsalURL(value) {
+  try {
+    let path = new URL(value).pathname;
+    for (let index = 0, bound = path.length; index <= bound; index += 1) {
+      const next = path.replace(/%([\da-f]{2})/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+      if (next === path) break;
+      path = next;
+    }
+    return path.includes('/__isolated_fixture__/');
+  } catch { return false; }
+}
 
 export function createMaintenanceController({ api = createMaintenanceAPI(), read = readJSON, onChange = () => {} } = {}) {
   const state = { session: null, environment: 'isolated', draft: draft(), actionReason: '', busy: false, notice: '正在读取登录状态…', error: null, preview: null, receipt: null,
@@ -63,6 +76,9 @@ export function createMaintenanceController({ api = createMaintenanceAPI(), read
     const value = state.draft;
     const result = { environment: state.environment, operation_type: value.operation_type, school_key: value.school_key, source_key: value.source_key, url: value.url.trim(), reason: value.reason.trim() };
     if (value.public_text.trim()) result.public_text = value.public_text;
+    if (isRehearsalURL(result.url) && (state.environment !== 'isolated' || !result.public_text)) {
+      throw new MaintenanceError('演练占位链接仅能在隔离环境配合合成正文使用。', 422, 'maintenance_environment');
+    }
     if (value.opportunity_id.trim()) {
       const target = Number(value.opportunity_id);
       if (!/^[1-9]\d*$/.test(value.opportunity_id) || !Number.isSafeInteger(target)) throw new MaintenanceError('目标记录编号必须为可识别的正整数。', 422, 'maintenance_target');
@@ -225,7 +241,7 @@ export function mountMaintenance({ document: doc = globalThis.document, api = cr
     const schools = catalog.data?.schools || [];
     options(get('maintenance-school'), schools.map(item => ({ key: item.school_key, name: item.name })), state.draft.school_key, '请选择学校');
     const sources = schools.find(item => item.school_key === state.draft.school_key)?.sources || [];
-    options(get('maintenance-source'), sources.filter(item => item.channel_key !== 'homepage').map(item => ({ key: item.source_key, name: item.name })), state.draft.source_key, '请选择来源');
+    options(get('maintenance-source'), sources.filter(item => item.maintenance_material_supported ?? item.channel_key !== 'homepage').map(item => ({ key: item.source_key, name: item.name })), state.draft.source_key, '请选择来源');
     get('maintenance-preview-button').disabled = state.busy || !authenticated || !catalog.data;
     const preview = state.preview?.data;
     get('maintenance-preview-panel').hidden = !preview;
@@ -262,11 +278,19 @@ export function mountMaintenance({ document: doc = globalThis.document, api = cr
       if (item.materials?.length) children.push(element('details', {}, [element('summary', { text: '已归档材料依据' }), ...item.materials.map(material => element('p', { text: `${material.source_url || '本条材料'} · ${material.scope?.note || '保留原始材料与适用关联'}` }))]));
       return element('article', { className: 'opportunity-card' }, children);
     }));
+    const update = state.resources.operations.data?.summary;
+    get('maintenance-summary').textContent = update ? updatePresentation(update).message : '本环境摘要尚未取得。';
+    get('maintenance-task-groups').replaceChildren(...(state.resources.tasks.data?.groups || []).map(item => element('article', { className: 'opportunity-card' }, [
+      element('h3', { text: `${sourceName(item.source_key)} · ${item.reason_label}` }),
+      element('p', { text: `待核实范围 ${item.active_scope_count} 项，已处理范围 ${item.resolved_scope_count} 项；涉及 ${item.opportunity_count} 条机会。范围按机会和字段去重，不等于岗位数。` }),
+      element('p', { text: item.next_action }),
+    ])));
     get('maintenance-tasks').replaceChildren(...(state.resources.tasks.data?.items || []).map(item => {
       const children = [element('h3', { text: sourceName(item.source_key) }), element('p', { text: `${STATUS_LABELS[item.status] || item.status} · 已尝试 ${item.attempts ?? 0} 次` })];
-      if (item.status === 'restricted') children.push(element('p', { text: '受限路径已停止，请核查合法公开材料。' }));
-      else if (item.opportunity_id) children.push(button('读取材料并生成重试预览', () => controller.retryPreview(item.id), { 'data-retry-task': item.id }));
-      else children.push(element('p', { text: '此待办没有单条公告目标，请先检查来源入口。' }));
+      if (item.reason_label) children.push(element('p', { text: item.reason_label }));
+      if (item.next_action) children.push(element('p', { text: item.next_action }));
+      if (item.retry_supported === true) children.push(button('读取材料并生成重试预览', () => controller.retryPreview(item.id), { 'data-retry-task': item.id }));
+      if (item.resolution_history?.length) children.push(element('details', {}, [element('summary', { text: '已处理历史与回执' }), ...item.resolution_history.map(history => element('p', { text: `${displayTime(history.committed_at)} · ${history.reason || '处理原因'} · 操作 ${history.operation_id}` }))]));
       return element('article', { className: 'opportunity-card' }, children);
     }));
     const history = state.resources.history;
@@ -289,6 +313,15 @@ export function mountMaintenance({ document: doc = globalThis.document, api = cr
   get('maintenance-operations-more').addEventListener('click', () => controller.nextOperations());
   get('maintenance-tasks-more').addEventListener('click', () => controller.nextTasks());
   get('maintenance-history-form').addEventListener('submit', event => { event.preventDefault(); void controller.history(get('maintenance-history-id').value); });
+  const blockPlaceholder = event => {
+    const link = event.target.closest?.('a[href]');
+    if (link && isRehearsalURL(link.href)) {
+      event.preventDefault();
+      get('maintenance-status').textContent = '此链接为隔离演练占位，未从官网取得；已阻止外部访问。';
+    }
+  };
+  doc.addEventListener?.('click', blockPlaceholder);
+  doc.addEventListener?.('auxclick', blockPlaceholder);
   render(); void controller.start();
   return controller;
 }

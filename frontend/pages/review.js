@@ -95,6 +95,7 @@ export function mountReview({ document: doc = globalThis.document, read } = {}) 
   get("reload-button").addEventListener("click", reload);
   get("copy-feedback").addEventListener("click", () => copy("M0"));
   get("copy-m1-feedback")?.addEventListener("click", () => copy("M1"));
+  get("copy-m2-feedback")?.addEventListener("click", () => copy("M2"));
   reload();
   return { resources: reader.resources, reload, destroy: reader.destroy };
 }
