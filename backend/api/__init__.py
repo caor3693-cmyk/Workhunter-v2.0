@@ -1,1 +1,1 @@
-"""HTTP boundary for the read-only S0 service."""
+"""HTTP boundary for the read-only M0 service."""

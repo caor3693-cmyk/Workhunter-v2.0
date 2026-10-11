@@ -20,7 +20,7 @@ def main() -> int:
     serve.add_argument("--db", type=Path)
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8765)
-    refresh = commands.add_parser("refresh", help="S0 尚未实现；返回明确失败，不伪造采集")
+    refresh = commands.add_parser("refresh", help="M0 尚未实现；返回明确失败，不伪造采集")
     refresh.add_argument("--db", type=Path)
     options = parser.parse_args()
     if options.command == "refresh":

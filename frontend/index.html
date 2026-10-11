@@ -35,7 +35,7 @@
           <h1 id="page-title">找到机会，<br class="mobile-break" />从学校公告开始。</h1>
           <p class="intro-copy">看清招聘时间、举办地点与工作地，再到官方原文继续了解。</p>
         </div>
-        <div class="stage-label"><span class="stage-number">S0</span><span>工程骨架<br /><strong>等待 G0 核验</strong></span></div>
+        <div class="stage-label"><span class="stage-number">M0</span><span>工程骨架<br /><strong>待修复复验</strong></span></div>
       </section>
 
       <div class="stage-notice" role="note">
@@ -101,23 +101,24 @@
       </section>
 
       <section id="review" class="review-section" aria-labelledby="review-title">
-        <div class="section-heading"><div><span class="eyebrow">S0 / W00 · G0</span><h2 id="review-title">本次核验</h2><p class="section-copy">请按原编号反馈。自动自验与用户核验分别记录，当前用户结论均为未测。</p></div><span class="review-pending">待用户核验</span></div>
+        <div class="section-heading"><div><span class="eyebrow">M0 / W00</span><h2 id="review-title">本次核验</h2><p class="section-copy">本阶段已收到失败/阻塞反馈，尚未通过。最新结果见阶段 Issue；修复后按原编号复验。</p></div><span class="review-pending">待修复复验</span></div>
         <details class="delivery-details" id="delivery-details" open>
           <summary>交付说明与数据身份 <span aria-hidden="true">⌄</span></summary>
-          <div class="delivery-content"><p id="connection-status" class="connection-status" role="status">正在核对后端与数据库连接…</p><dl id="build-identity" class="identity-list"><div><dt>数据模式</dt><dd>正在读取，不预设数据结论</dd></div></dl><p class="delivery-note">本阶段没有招聘样例或演示数据。当前交付只核验工程入口；两校真实采集、招聘阅读和维护尚未完成。</p><p class="next-stage"><strong>下一阶段</strong>华工、广工真实来源与招聘阅读流程（S1 / W01 + W02）。</p></div>
+          <div class="delivery-content"><p id="connection-status" class="connection-status" role="status">正在核对后端与数据库连接…</p><dl id="build-identity" class="identity-list"><div><dt>数据模式</dt><dd>正在读取，不预设数据结论</dd></div></dl><p class="delivery-note">本阶段没有招聘样例或演示数据。当前交付只核验工程入口；两校真实采集、招聘阅读和维护尚未完成。</p><p class="next-stage"><strong>下一阶段</strong>华工、广工真实来源与招聘阅读流程（M1 / W01 + W02）。</p></div>
         </details>
         <details class="qa-details">
-          <summary>逐项操作与预期 <span class="qa-count">6 项</span><span aria-hidden="true">⌄</span></summary>
+          <summary>逐项操作与预期 <span class="qa-count">7 项</span><span aria-hidden="true">⌄</span></summary>
           <ol class="qa-list">
-            <li><span class="qa-id">G0-01</span><div><h3>打开本次 Site 链接。</h3><p>预期：进入 Workhunter v2 骨架，没有跳到旧站、访问错误或空白页。</p></div></li>
-            <li><span class="qa-id">G0-02</span><div><h3>查看首页数据区域及未完成入口。</h3><p>预期：空库、加载、错误、尚未实现分别说明；不会出现虚构招聘或假成功。</p></div></li>
-            <li><span class="qa-id">G0-03</span><div><h3>在“交付说明与数据身份”确认主入口数据模式。</h3><p>预期：本阶段无演示；能确认当前为空库，不把学校目录写成真实覆盖。</p></div></li>
-            <li><span class="qa-id">G0-04</span><div><h3>刷新页面，关闭后重新打开同一链接。</h3><p>预期：地址可复用，仍进入同一项目，没有丢失页面或切回旧版本。</p></div></li>
-            <li><span class="qa-id">G0-05</span><div><h3>用手机或窄窗口打开首页。</h3><p>预期：文字和主要入口可读、可点击，无需横向拖动。</p></div></li>
-            <li><span class="qa-id">G0-06</span><div><h3>核对当前 Gate Issue 的交付包和本页说明。</h3><p>预期：构建身份、数据模式、自验结果与下一阶段明确；未实现的功能如实保留。</p></div></li>
+            <li><span class="qa-id">M0-01</span><div><h3>打开本次 Site 链接。</h3><p>预期：进入 Workhunter v2 骨架，没有跳到旧站、访问错误或空白页。</p></div></li>
+            <li><span class="qa-id">M0-02</span><div><h3>查看首页布局和真实业务状态。</h3><p>预期：首页采用简洁成品布局，业务数据、空结果和错误准确表达。</p></div></li>
+            <li><span class="qa-id">M0-03</span><div><h3>在“交付说明与数据身份”确认主入口数据模式。</h3><p>预期：本阶段无演示；能确认当前为空库，不把学校目录写成真实覆盖。</p></div></li>
+            <li><span class="qa-id">M0-04</span><div><h3>刷新页面，关闭后重新打开同一链接。</h3><p>预期：地址可复用，仍进入同一项目，没有丢失页面或切回旧版本。</p></div></li>
+            <li><span class="qa-id">M0-05</span><div><h3>用手机或窄窗口打开首页。</h3><p>预期：文字和主要入口可读、可点击，无需横向拖动。</p></div></li>
+            <li><span class="qa-id">M0-06</span><div><h3>核对当前阶段 Issue 的交付材料。</h3><p>预期：构建身份、数据模式和自验结果明确；核验材料位于独立页面或交付文档。</p></div></li>
+            <li><span class="qa-id">M0-07</span><div><h3>依次打开招聘发现、来源状态与核验页面。</h3><p>预期：独立页面和 URL 支持直接打开、刷新与前后退；本要求仍待 #23 修复。</p></div></li>
           </ol>
           <div class="feedback-actions"><button id="copy-feedback" class="button button-primary" type="button">复制反馈模板</button><p id="copy-status" role="status">每项填写通过 / 失败 / 阻塞 / 未测及实际看到的情况。</p></div>
-          <textarea id="feedback-template" class="feedback-template" readonly aria-label="G0 用户反馈模板" hidden></textarea>
+          <textarea id="feedback-template" class="feedback-template" readonly aria-label="M0 用户反馈模板" hidden></textarea>
         </details>
       </section>
     </main>

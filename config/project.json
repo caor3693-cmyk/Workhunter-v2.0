@@ -941,5 +941,33 @@
       "M0-06": "阻塞",
       "M0-07": "失败"
     }
+  },
+  "source_closeout": {
+    "date": "2026-10-11",
+    "timezone": "Asia/Shanghai",
+    "status": "prepared",
+    "report": "docs/deliveries/M0-NEAT-20261011.md",
+    "code_stage": "M0/W00",
+    "code_source_commit": null,
+    "source_reference": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20",
+    "local_checks": {
+      "python_passed": 41,
+      "proxy_passed": 3,
+      "javascript_syntax": "passed",
+      "readonly_original_dataset": "passed",
+      "database_hash_unchanged": true
+    },
+    "warnings": [
+      "StarletteDeprecationWarning: httpx test adapter"
+    ],
+    "saved_site_source_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde",
+    "site_redeployed": false,
+    "runtime_state": "pending_connection_recovery_issue_22",
+    "cleanup_status": "pending_user_confirmation",
+    "cleanup_candidates": [
+      ".runtime/s0-desktop.jpg",
+      ".runtime/s0-mobile.jpg",
+      ".runtime/s0-disconnected.jpg"
+    ]
   }
 }

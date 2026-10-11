@@ -74,7 +74,7 @@ function renderOpportunities() {
     message = "当前页面收到的数据版本不一致，请重新加载后再核验。";
     extra = "暂不将不同版本组合为本次结果。";
   } else if (data?.items?.length) {
-    heading = "当前数据超出 S0 核验范围";
+    heading = "当前数据超出 M0 核验范围";
     message = "本版本仅核验空库骨架，不展示尚未完成核验的招聘卡片。";
     extra = "请核对本次交付包的数据模式和版本。";
   } else if (data?.data_mode === "empty" && data?.empty_reason === "empty_database") {
@@ -163,8 +163,8 @@ function renderIdentity() {
     connection.className = "connection-status is-connected";
   }
   identity.replaceChildren(
-    identityRow("本次阶段", backend?.stage || "S0 / W00 · 工程骨架"),
-    identityRow("用户核验", "G0 · 六项均待用户反馈"),
+    identityRow("本次阶段", backend?.stage || "M0 / W00 · 工程骨架"),
+    identityRow("用户核验", "M0 · 未通过，问题修复后按原编号复验；最新结果见阶段 Issue"),
     identityRow("数据模式", mode === "empty" ? "空库（empty）· 无招聘演示" : mode ? `${mode} · 请对照当前核验包` : "尚未取得，不能判断"),
     identityRow("数据集", currentDataset || "尚未取得"),
     identityRow("后端项目 / 版本", backend ? `${backend.project || "未提供"} / ${backend.version || "未提供"}${isStale(version) ? "（上次结果，尚未更新）" : ""}` : "尚未取得"),
@@ -216,8 +216,8 @@ get("search-form").addEventListener("submit", (event) => event.preventDefault())
 get("sources-nav").addEventListener("click", () => { get("sources-details").open = true; });
 
 const feedbackTemplate = [
-  "Gate：G0；本次 Site／构建：沿用当前核验包",
-  ...Array.from({ length: 6 }, (_, index) => `G0-0${index + 1}：通过／失败／阻塞／未测；实际看到：`),
+  "阶段：M0；本次 Site／构建：填写实际入口和构建",
+  ...Array.from({ length: 7 }, (_, index) => `M0-0${index + 1}：通过／失败／阻塞／未测；实际看到：`),
   "失败或阻塞的操作位置：",
   "截图或原文链接（可选）：",
 ].join("\n");
@@ -225,7 +225,7 @@ get("feedback-template").value = feedbackTemplate;
 get("copy-feedback").addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(feedbackTemplate);
-    get("copy-status").textContent = "反馈模板已复制。请逐项填写后发到当前对话或 G0 Issue。";
+    get("copy-status").textContent = "反馈模板已复制。请逐项填写后发到当前对话或 M0 Issue。";
   } catch {
     get("feedback-template").hidden = false;
     get("feedback-template").focus();

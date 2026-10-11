@@ -1,1 +1,1 @@
-"""Source adapters belong here. S0 has not contacted or verified any source."""
+"""Source adapters belong here. M0 has not contacted or verified any source."""
