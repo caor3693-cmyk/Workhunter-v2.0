@@ -6,7 +6,7 @@
 
 ## 1. 当前结论
 
-**M0 用户验收未通过，M1 尚未实现。** 本轮已完成对抗审查、下一轮执行计划和长期反馈收尾规则；没有实施应用修复或重发 Site。证据与根因见 [M0/M1 审查](deliveries/M0-M1-AUDIT-20261011.md)。
+**M0 用户验收未通过；R0 可信治理工程完成，R1—R5 开始实施。** 两步治理 PR #25/#26 与 CI 均已核对，后续按真实目标包检查，不再使用 W00。独立 DOC 先固定 M1 写入/时间窗口合同；Site 尚是旧候选，应用修复与真实采集结果待下一批回执。治理证据见 [R0](deliveries/R0-GOVERNANCE-20261011.md)，原故障证据保留 [审查](deliveries/M0-M1-AUDIT-20261011.md)。
 
 M0 三项 P1 [#21 主页成品布局](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21)、[#22 开发 API 读取失败](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22)、[#23 独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) 仍 Ready/open；[#1 用户 Gate](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) 和 [#6 工程交付](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) 仍 Blocked/open。新增 [#24 工作包范围与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24)，Ready/P1，先于新业务实现处理。
 

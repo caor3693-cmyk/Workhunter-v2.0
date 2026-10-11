@@ -1,6 +1,6 @@
 # Workhunter v2.0：数据、接口与模块契约
 
-版本：v1.1；日期：2026-10-10。产品范围以 [PRODUCT.md](PRODUCT.md) 为准，工作包见 [TASKS.md](TASKS.md)，阶段排期和手工核验见 [ROADMAP.md](ROADMAP.md)、[MANUAL_QA.md](MANUAL_QA.md)。
+版本：v1.2；日期：2026-10-11。本次只补 M1 写入及查询一致性合同，产品范围不变。产品范围以 [PRODUCT.md](PRODUCT.md) 为准，工作包见 [TASKS.md](TASKS.md)，阶段排期和手工核验见 [ROADMAP.md](ROADMAP.md)、[MANUAL_QA.md](MANUAL_QA.md)。
 本文件定义待实现的行为，不表示新仓库、服务、采集、旧工程归档或上线已经完成；实际状态只记录在 [STATUS.md](STATUS.md)。
 
 ## 1. 已确认范围
@@ -138,8 +138,8 @@ curl -sS 'http://127.0.0.1:8000/api/opportunities?school_key=scut&view=recent&sc
 curl -sS 'http://127.0.0.1:8000/api/opportunities/42'
 ```
 
-首次查询返回当前 `dataset_id`；追加分页必须携带同一 `dataset_id`，变化时返回 409 `dataset_changed`，不返回可供拼接的新页。
-同一次响应的行、计数、字段和 `dataset_id` 在一致读事务中取得；机会公开投影变化后才在提交时更新对应数据集标识。仅巡检时间、来源运行状态或日志变化不触发机会列表换代。
+首次查询返回当前 `dataset_id` 与 `as_of`（Asia/Shanghai 的查询日期）。追加分页必须携带同一 `dataset_id` 和 `as_of`；窗口、临近/历史判断及相应状态均沿用该日期，不能跨午夜暗中移动。缺任一参数返回 422；数据集变化返回 409 `dataset_changed`，不返回可供拼接的新页。`as_of` 仅用于冻结阅读窗口，不是来源核验时间；非法或未来日期返回 422。重新查询第一页默认取得当前日期。
+同一次响应的行、计数、字段和 `dataset_id` 在一致读事务中取得；机会公开投影变化后才在提交时更新对应数据集标识。仅巡检时间、来源运行状态或日志变化不触发机会列表换代。缺发布日期的排序使用首次收录完整时间戳，不截成日期；所有数字 ID/offset 有 SQLite 整数上界校验，溢出是字段明确的 422。
 前端分别保存草稿条件、已提交条件、当前页及请求序号；翻页只使用已提交条件，不读取未提交表单。
 新查询/学校变化终止或淘汰旧请求；失败保留旧结果时必须保留旧范围说明，不能挂上新学校标签。
 收到 409 后保留当前已提交条件、清除旧分页并重载第一页；不将不同数据集结果混排。
@@ -171,6 +171,9 @@ URL 获取限于登记且归属已核验的公开来源；企业原文只有作�
 ## 7. 来源输出、调度与持久化
 
 来源列表输出固定结构：`source_key / channel_key / records / next_cursor / scope / completeness / material_refs / warnings`。
+本轮适配接口固定为 `discover(source_config, fetcher, cursor=None) -> SourcePage`；`enrich(candidate, fetcher) -> {patch, material_refs, warnings}`。候选采用 Opportunity 同名字段，校区以有官方依据的 `campus_key` 表达，材料暂用 `reference_key`，字段证据暂用 `material_ref`。统一写服务校验来源/学校/校区归属、七状态及安全 URL，解析为真实 `campus_id / material_id` 后提交；适配器不能自造数据库 ID。
+关键字段为 `published_date / event_date / start_time / end_time / deadline / event_venue / work_locations`，候选均带逐项状态。已知字段必须有实际材料片段及适用范围，未知不得存伪值。名单/岗位片段含 `text / scope / evidence`，附件含 `label / url / scope / evidence`；只保留适用的公开官方链接。
+传输返回实际 bytes、最终公开 URL、SHA-256、获取时间与隔离原始材料引用；失败/受限也登记材料状态和本轮警告。材料内容哈希不是机会身份。网络在事务外，统一写入口在跨进程独占锁内开始短事务；列表游标、机会、材料、字段历史及 dataset 原子提交。列表任务（opportunity_id 为空）仍有唯一约束；未提交任务可重做，已提交任务不因重启重复创建。
 每条记录含稳定身份、学校、原标题、类型、官方 URL，以及当前可验证字段；类型/日期含义来自来源栏目和标签证据。
 详情输出为字段观察、适用附件、有限名单/岗位片段及证据；不得通过来源私有 `_flag` 控制全局入库规则。
 `completeness` 必须说明本页/本栏目/指定窗口范围；只取一页、遇限流或耗尽预算只能报部分，不能报告全校完成。

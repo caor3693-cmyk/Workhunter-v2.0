@@ -81,3 +81,11 @@ checker 还校验执行文件内容与 base blob 一致；从同一 actual base 
 | 工作区 | verified-current；仅登记治理路径修改；隔离样例/临时目录不冒充业务或官方来源 |
 
 分支保护/required checks 的平台设置未在本包读到，状态未知；上述工作流是可执行检查，不声称已获得平台强制保护。工程通过不关闭 #24、M0/M1 功能或用户 Gate；未复验结论继续保留。
+
+## 5. 实际同步回执（主整合者）
+
+首治理完整 SHA `d7679d00788d15b07b0dab39c6c055b28e537092`，PR [#25](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/25)，实际 base `87bab4932ae34b15cf699c2a5b1b4566c4e0cb19`。冻结旧 checker 检查四路径完整差异，CI [38115465474](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38115465474) success。
+
+动态 CI SHA `f3cb6ef0f8c734fb0d5a67972292812003aa3bc4`，PR [#26](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/26)，实际 base `d7679d00788d15b07b0dab39c6c055b28e537092`。可信目标 checker 核对完整单文件差异，CI [38115546980](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38115546980) success。
+
+专用目标 `codex/m0-m1-governance-20261011` 随已审提交前进，业务实际目标将包含独立 DOC 合同后固定完整 SHA。2026-10-11 GitHub API 回读该目标分支保护返回 404 Branch not protected；当前是工程检查，并非平台 required checks 强制保护。两治理 PR 留 open/draft；没有合并 main 或 PR #20，没有关闭 #24 或改写用户结论。

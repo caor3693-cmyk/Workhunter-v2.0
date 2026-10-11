@@ -54,6 +54,8 @@
 
 **允许路径：**`backend/sources/` 的两校适配、来源共享基础工具、`backend/domain/` 和 `backend/services/` 对应收录用例、必要存储实现、`tests/`、`config/schools.json` 的已核验状态。共享模型变动须列明迁移及影响。
 
+2026-10-11 本轮 R3/W01 以已审目标的 `scripts/work_package_scopes.json` 为精确机器范围：sources 的 `__init__/transport/common/scut/gdut`、domain 的 `__init__/candidates`、services 的 `__init__/ingestion/discovery`、storage 的 `__init__/database/schema.sql/write/migrations`；联动 `backend/version.py / cli.py / worker.py`、两校配置、实际生产 HTTP/HTML 依赖及对应来源/写入/刷新回归。不得扩展其他学校或无关模块。R3 不改访客 API/queries；所需目录、来源、摘要最低读取接入统一由 R4 的共享后端整合者完成。
+
 **验收：**A01—A05、A08；实际抓取/样本范围与数据集标识有记录。不能拿复制的旧数据库或仅 fixture 宣称两校真实链路已通。
 
 ### W02 首页、搜索与简要详情
@@ -68,6 +70,8 @@
 - 单次列表返回卡片全字段，禁止每张卡片再请求详情取工作地。来源页展示简明状态，技术细节留维护页。
 
 **允许路径：**`frontend/pages/`、`frontend/components/`、`frontend/state/`、`frontend/api/`、局部样式、`backend/api/` 及对应查询投影、`tests/`。全局设计变量和首页骨架在本包首次冻结，之后调整需有对应明确任务。
+
+2026-10-11 本轮 R4/W02 明确包含 `backend/services/queries.py`、`backend/api/app.py`、`frontend/styles/app.css`、README 及已登记查询/卡片/状态回归。固定 `as_of` 与 dataset 分页合同先于实现；R1 负责代理/就绪与错误，R2 的唯一页面整合者负责三页壳、导航及资源映射，业务包不能使用 W00 兜底。
 
 **验收：**A02—A04、A06、A07、A09、A10、A12；桌面和390px视口可用，真实原文跳转核验，已取得数据能逐项追到卡片。
 
