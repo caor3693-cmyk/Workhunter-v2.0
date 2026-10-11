@@ -968,12 +968,39 @@
     "saved_site_source_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde",
     "site_redeployed": false,
     "runtime_state": "pending_connection_recovery_issue_22",
-    "cleanup_status": "pending_user_confirmation",
-    "cleanup_candidates": [
-      ".runtime/s0-desktop.jpg",
-      ".runtime/s0-mobile.jpg",
-      ".runtime/s0-disconnected.jpg"
-    ],
+    "cleanup_status": "completed_authorized_scope",
+    "cleanup_candidates": [],
+    "cleanup_result": {
+      "authorization": "用户明确回复：删除这三份重复截图",
+      "removed_at": "2026-10-11T12:34:52+08:00",
+      "total_bytes": 119461,
+      "removed": [
+        {
+          "local": ".runtime/s0-desktop.jpg",
+          "archive": "docs/deliveries/evidence/S0-local-desktop.jpg",
+          "bytes": 51288,
+          "sha256": "EDBD8FCB74616CF344279C30EC2BE4A27D1967FC3DE3468C916A5CE4893126C9"
+        },
+        {
+          "local": ".runtime/s0-mobile.jpg",
+          "archive": "docs/deliveries/evidence/S0-local-mobile.jpg",
+          "bytes": 25245,
+          "sha256": "87E39B3F745AF02DD1F21052CB6F2B4581486E9552B0A8B980AE7C6B3832F07D"
+        },
+        {
+          "local": ".runtime/s0-disconnected.jpg",
+          "archive": "docs/deliveries/evidence/S0-local-disconnected.jpg",
+          "bytes": 42928,
+          "sha256": "381AA87E5FAF4BB0FC5B1C23B64B1EA995B4DA94A2CA10F70F97A1BDF3E30255"
+        }
+      ],
+      "local_copies_absent": true,
+      "archived_hashes_match": true,
+      "database_hash_unchanged": true,
+      "other_runtime_files_preserved": true,
+      "preserved_file_count": 14,
+      "application_source_unchanged": true
+    },
     "source_ci_run": 38104472543,
     "source_ci_conclusion": "success",
     "remote_source_sha_verified": true
