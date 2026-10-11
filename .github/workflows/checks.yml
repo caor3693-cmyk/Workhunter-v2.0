@@ -1,7 +1,27 @@
-name: W00 engineering checks
+name: Work-package engineering checks
 on:
   pull_request:
+    types: [opened, synchronize, reopened, edited]
   workflow_dispatch:
+    inputs:
+      base:
+        description: Actual trusted target commit SHA
+        required: true
+      head:
+        description: Actual candidate commit SHA
+        required: true
+      branch:
+        description: Actual candidate branch
+        required: true
+      packages:
+        description: Declared work packages (comma separated)
+        required: true
+      issues:
+        description: Corresponding Issue numbers (comma separated)
+        required: true
+      integration:
+        description: Registered integration name (only for cross-package PR)
+        required: false
 permissions:
   contents: read
 jobs:
@@ -11,31 +31,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || inputs.head }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check target-branch work-package scope
+      - name: Check complete PR with actual target governance
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || '19b9cef559f503feec2e0347cf27f2b1fea5b037' }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          # Later changes execute the target branch checker, not a replacement from this PR.
-          if git cat-file -e "$BASE_SHA:scripts/check_scope.py" 2>/dev/null; then
-            git show "$BASE_SHA:scripts/check_scope.py" > /tmp/workhunter-trusted-scope.py
-          else
-            # W00 bootstraps CI; its contract is read from the existing target.
-            cp scripts/check_scope.py /tmp/workhunter-trusted-scope.py
-          fi
-          python /tmp/workhunter-trusted-scope.py --base "$BASE_SHA" --package W00
-          if python /tmp/workhunter-trusted-scope.py --base "$BASE_SHA" --package W00 --paths AGENTS.md docs/PRODUCT.md; then
-            echo 'Scope checker accepted a forbidden path'
-            exit 1
-          fi
+          set -euo pipefail
+          test -n "$BASE_SHA" || { echo 'Actual target SHA is required'; exit 1; }
+          for path in scripts/check_scope.py scripts/work_package_scopes.json; do
+            git cat-file -e "$BASE_SHA:$path" 2>/dev/null || {
+              echo "Trusted target is missing $path; establish the independently reviewed governance baseline"
+              exit 1
+            }
+          done
+          git show "$BASE_SHA:scripts/check_scope.py" > "$RUNNER_TEMP/workhunter-trusted-scope.py"
+          python "$RUNNER_TEMP/workhunter-trusted-scope.py" --event-file "$GITHUB_EVENT_PATH" --event-name "$EVENT_NAME"
       - run: python -m pip install -r requirements-dev.txt
       - run: python -m pytest -q
-      - run: node --test tests/test_preview_proxy.mjs
+      - run: node --test tests/*.mjs
       - run: node scripts/build_site.mjs
       - run: node --check dist/server/index.js
       - name: Reject runtime artifacts in tracked source
