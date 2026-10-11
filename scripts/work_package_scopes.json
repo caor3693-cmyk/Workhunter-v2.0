@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "authority": "M0-M1-EXECUTION-20261011 R0, independently reviewed target baseline; no W00 fallback",
+  "management_paths": [
+    "docs/STATUS.md", "docs/BOARD.md", "docs/ROADMAP.md", "docs/PROJECT_SETUP.md",
+    "docs/deliveries/", "config/project.json"
+  ],
+  "aliases": {"R0": "GOV", "R3": "W01-R3", "W01": "W01-R3", "R4": "W02-R4", "W02": "W02-R4"},
+  "packages": {
+    "GOV": {
+      "issues": [24], "related_issues": [],
+      "branch_prefixes": ["codex/r0-", "codex/gov-"],
+      "paths": [".github/workflows/checks.yml", "scripts/check_scope.py", "scripts/work_package_scopes.json", "tests/test_scope.py"]
+    },
+    "DOC": {
+      "issues": [24], "related_issues": [7, 8, 9, 10],
+      "branch_prefixes": ["codex/doc-"],
+      "paths": ["docs/TASKS.md", "docs/CONTRACTS.md"],
+      "purpose": "Only package paths and M1 query-window/pagination/write evidence contracts; no product-scope change"
+    },
+    "R1": {
+      "issues": [22], "related_issues": [1, 6],
+      "branch_prefixes": ["codex/r1-"],
+      "paths": [
+        "ops/preview/", "scripts/start_local_api.ps1", "scripts/preview_site.mjs",
+        "backend/config.py", "backend/api/app.py", "backend/storage/database.py",
+        "frontend/api/client.js", "tests/test_backend_boundary.py", "tests/test_preview_proxy.mjs",
+        "tests/test_reading_recovery.py", "tests/test_api_client.mjs", "README.md"
+      ],
+      "purpose": "Read-chain recovery and diagnostics; shared API/storage edits only for verified boundary causes"
+    },
+    "R2": {
+      "issues": [21, 23], "related_issues": [1, 6],
+      "branch_prefixes": ["codex/r2-"],
+      "paths": [
+        "frontend/index.html", "frontend/pages/", "frontend/components/", "frontend/styles/app.css",
+        "frontend/state/store.js", "scripts/build_site.mjs", "scripts/preview_site.mjs",
+        "ops/preview/worker.mjs", "tests/test_preview_proxy.mjs", "tests/test_page_routes.mjs",
+        "tests/test_frontend_pages.mjs", "README.md"
+      ],
+      "purpose": "M0 three-page shell/navigation and explicit build/resource-route mapping"
+    },
+    "W01-R3": {
+      "issues": [7, 8], "related_issues": [2],
+      "branch_prefixes": ["codex/w01-", "codex/r3-"],
+      "paths": [
+        "backend/sources/__init__.py", "backend/sources/transport.py", "backend/sources/common.py",
+        "backend/sources/scut.py", "backend/sources/gdut.py",
+        "backend/domain/__init__.py", "backend/domain/candidates.py",
+        "backend/services/__init__.py", "backend/services/ingestion.py", "backend/services/discovery.py",
+        "backend/storage/__init__.py", "backend/storage/database.py", "backend/storage/schema.sql",
+        "backend/storage/write.py", "backend/storage/migrations.py",
+        "backend/version.py", "backend/cli.py", "backend/worker.py", "config/schools.json",
+        "requirements.txt", "pyproject.toml", "tests/test_backend_boundary.py", "tests/test_sources.py",
+        "tests/test_discovery.py", "tests/test_ingestion.py", "tests/test_refresh.py",
+        "tests/fixtures/scut/", "tests/fixtures/gdut/", "README.md"
+      ],
+      "forbidden_paths": ["backend/services/queries.py"],
+      "purpose": "Two-school adapters and unified evidence/write service; no visitor API, page shell or query projection"
+    },
+    "W02-R4": {
+      "issues": [9, 10], "related_issues": [2],
+      "branch_prefixes": ["codex/w02-", "codex/r4-"],
+      "paths": [
+        "frontend/pages/", "frontend/components/", "frontend/state/", "frontend/api/", "frontend/styles/app.css",
+        "backend/api/app.py", "backend/services/queries.py", "tests/test_backend_boundary.py",
+        "tests/test_queries.py", "tests/test_query_state.mjs", "tests/test_api_client.mjs",
+        "tests/test_cards.mjs", "tests/test_frontend_pages.mjs", "README.md"
+      ],
+      "purpose": "M1 cards/detail/query projection and local CSS; shared shell integrated by the designated page owner"
+    },
+    "R5": {
+      "issues": [11], "related_issues": [1, 2],
+      "branch_prefixes": ["codex/r5-"],
+      "paths": [
+        "frontend/pages/", "frontend/components/", "frontend/state/", "frontend/api/", "frontend/styles/app.css",
+        "tests/test_acceptance.py", "tests/test_acceptance.mjs", "tests/test_frontend_pages.mjs",
+        "tests/test_query_state.mjs", "tests/test_cards.mjs", "scripts/verify_m0_m1.mjs",
+        "scripts/prepare_acceptance.py", "README.md"
+      ],
+      "purpose": "M0/M1 desktop/mobile/keyboard/error acceptance evidence; no production deployment or M2-M4 implementation"
+    }
+  },
+  "integrations": {
+    "M0": {"packages": ["R1", "R2"], "branch_prefixes": ["codex/m0-m1-integration-"]},
+    "M1": {"packages": ["W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
+    "M0-M1": {"packages": ["R1", "R2", "W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]}
+  }
+}
