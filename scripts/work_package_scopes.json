@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "authority": "M0-M1-EXECUTION-20261011 R0, independently reviewed target baseline; no W00 fallback",
+  "authority": "M1-M2-EXECUTION-20261011 GOV; independently reviewed target baseline required; no W00 fallback or candidate self-authorization",
   "management_paths": [
     "docs/STATUS.md", "docs/BOARD.md", "docs/ROADMAP.md", "docs/PROJECT_SETUP.md",
     "docs/deliveries/", "config/project.json"
@@ -79,11 +79,133 @@
         "scripts/prepare_acceptance.py", "README.md"
       ],
       "purpose": "M0/M1 desktop/mobile/keyboard/error acceptance evidence; no production deployment or M2-M4 implementation"
+    },
+    "GOV-M2": {
+      "issues": [32], "related_issues": [],
+      "branch_prefixes": ["codex/gov-m2-", "codex/gov-m1-m2-"],
+      "paths": [".github/workflows/checks.yml", "scripts/check_scope.py", "scripts/work_package_scopes.json", "tests/test_scope.py"],
+      "purpose": "Independent governance increments only; changes require review before becoming the actual target's trusted table"
+    },
+    "DOC-M2": {
+      "issues": [32], "related_issues": [12, 13, 14],
+      "branch_prefixes": ["codex/doc-m2-", "codex/doc-m1-m2-"],
+      "paths": ["docs/CONTRACTS.md", "docs/TASKS.md"],
+      "purpose": "Source policy, applicability, write/auth/update and migration contracts only; no business implementation or product-scope change"
+    },
+    "CORE-M2": {
+      "issues": [33, 34, 35], "related_issues": [12, 13, 14],
+      "branch_prefixes": ["codex/core-m2-"],
+      "paths": [
+        "backend/domain/candidates.py", "backend/domain/source_policy.py",
+        "backend/sources/__init__.py", "backend/sources/common.py", "backend/sources/transport.py",
+        "backend/sources/registry.py", "backend/sources/scut.py", "backend/sources/gdut.py",
+        "backend/services/discovery.py", "backend/services/ingestion.py", "backend/services/queries.py", "backend/services/semantic_revision.py",
+        "backend/storage/schema.sql", "backend/storage/database.py", "backend/storage/write.py", "backend/storage/migrations.py",
+        "backend/api/app.py", "backend/version.py", "backend/cli.py", "backend/worker.py", "config/schools.json",
+        "tests/test_sources.py", "tests/test_source_policy.py", "tests/test_source_registry.py",
+        "tests/test_discovery.py", "tests/test_ingestion.py", "tests/test_refresh.py", "tests/test_queries.py",
+        "tests/test_material_applicability.py", "tests/test_migrations.py", "tests/test_write_context.py", "tests/test_semantic_revision.py", "tests/test_core_m2.py",
+        "tests/test_backend_boundary.py", "tests/test_reading_recovery.py", "README.md"
+      ],
+      "purpose": "Queue fairness, semantic correction, material applicability and common source/write/schema foundations; app.py only for shared schema/read boundary integration"
+    },
+    "M1-UI": {
+      "issues": [29, 30], "related_issues": [9, 10],
+      "branch_prefixes": ["codex/m1-ui-"],
+      "paths": [
+        "frontend/components/cards.js", "frontend/pages/home.js", "frontend/pages/detail.js",
+        "frontend/pages/detail.html", "frontend/pages/shared.js", "frontend/state/store.js",
+        "frontend/api/client.js", "frontend/styles/app.css", "backend/api/app.py",
+        "ops/preview/worker.mjs", "tests/test_cards.mjs", "tests/test_query_state.mjs",
+        "tests/test_api_client.mjs", "tests/test_frontend_pages.mjs", "tests/test_preview_proxy.mjs",
+        "tests/test_backend_boundary.py", "scripts/measure_m1.mjs", "README.md"
+      ],
+      "purpose": "Visitor detail/loading/freshness and real segmented latency; API/proxy changes only for error/cancellation propagation by the single shared integrator"
+    },
+    "M1-SOURCES": {
+      "issues": [31], "related_issues": [7],
+      "branch_prefixes": ["codex/m1-sources-"],
+      "paths": [
+        "backend/sources/scut.py", "backend/sources/gdut.py", "backend/sources/registry.py", "config/schools.json",
+        "tests/fixtures/scut/", "tests/fixtures/gdut/", "tests/test_sources.py",
+        "tests/test_scut_sources.py", "tests/test_gdut_sources.py", "README.md"
+      ],
+      "purpose": "Current SCUT/GDUT electrical samples and verified source chains using the frozen common interfaces; no shared query/writer/schema/API edits"
+    },
+    "W03": {
+      "issues": [12], "related_issues": [31],
+      "branch_prefixes": ["codex/w03-"],
+      "paths": [
+        "backend/sources/registry.py", "backend/sources/__init__.py", "backend/sources/scut.py", "backend/sources/gdut.py",
+        "backend/sources/ncepu.py", "backend/sources/shiep.py", "backend/sources/neepu.py", "backend/sources/csust.py",
+        "backend/sources/ctgu.py", "backend/sources/gzhu.py", "backend/sources/hnu.py", "backend/sources/csu.py",
+        "config/schools.json", "tests/test_sources.py", "tests/test_source_registry.py",
+        "tests/test_scut_sources.py", "tests/test_gdut_sources.py", "tests/test_ncepu_sources.py", "tests/test_shiep_sources.py",
+        "tests/test_neepu_sources.py", "tests/test_csust_sources.py", "tests/test_ctgu_sources.py",
+        "tests/test_gzhu_sources.py", "tests/test_hnu_sources.py", "tests/test_csu_sources.py",
+        "tests/fixtures/scut/", "tests/fixtures/gdut/", "tests/fixtures/ncepu/", "tests/fixtures/shiep/",
+        "tests/fixtures/neepu/", "tests/fixtures/csust/", "tests/fixtures/ctgu/", "tests/fixtures/gzhu/",
+        "tests/fixtures/hnu/", "tests/fixtures/csu/", "README.md"
+      ],
+      "purpose": "Fixed ten-school adapters, verified capability/status and real electrical samples; common policy/write/schema/API remain with the shared integrator"
+    },
+    "W04-A": {
+      "issues": [13], "related_issues": [],
+      "branch_prefixes": ["codex/w04-a-"],
+      "paths": [
+        "backend/api/maintenance.py", "backend/api/auth.py", "backend/api/app.py",
+        "backend/services/maintenance.py", "backend/services/auth.py", "backend/services/ingestion.py", "backend/services/queries.py",
+        "backend/storage/write.py", "backend/storage/database.py", "backend/storage/migrations.py", "backend/storage/schema.sql",
+        "backend/config.py", "backend/version.py", "backend/cli.py",
+        "frontend/pages/maintenance.html", "frontend/pages/maintenance.js", "frontend/components/maintenance.js",
+        "frontend/api/maintenance.js", "frontend/api/client.js", "frontend/pages/routes.js", "frontend/pages/app.js",
+        "frontend/pages/shared.js", "frontend/styles/app.css", "ops/preview/worker.mjs", "scripts/build_site.mjs",
+        "tests/test_auth.py", "tests/test_maintenance.py", "tests/test_maintenance_api.py", "tests/test_maintenance.mjs",
+        "tests/test_maintenance_proxy.mjs", "tests/test_preview_proxy.mjs", "tests/test_page_routes.mjs",
+        "tests/test_backend_boundary.py", "tests/test_migrations.py", "tests/test_write_context.py", "README.md"
+      ],
+      "purpose": "Protected business maintenance preview/save/correction/withdrawal/history/conflict with the common writer; shared API/migration/proxy/routes are integrated serially by one owner"
+    },
+    "W04-B": {
+      "issues": [14], "related_issues": [],
+      "branch_prefixes": ["codex/w04-b-"],
+      "paths": [
+        "backend/services/updates.py", "backend/services/maintenance_tasks.py", "backend/services/queries.py",
+        "backend/api/app.py", "backend/api/maintenance.py", "backend/storage/write.py",
+        "frontend/components/updates.js", "frontend/components/maintenance.js", "frontend/pages/home.js",
+        "frontend/pages/sources.js", "frontend/pages/maintenance.js", "frontend/api/maintenance.js", "frontend/styles/app.css",
+        "tests/test_updates.py", "tests/test_maintenance_tasks.py", "tests/test_queries.py",
+        "tests/test_updates.mjs", "tests/test_frontend_pages.mjs", "tests/test_maintenance.mjs", "README.md"
+      ],
+      "purpose": "Real automatic/manual update summaries and source maintenance tasks; existing visitor layout only receives contracted projections, no scheduler or monitoring platform"
+    },
+    "QA-M1": {
+      "issues": [2], "related_issues": [29, 30, 31, 33, 34, 35],
+      "branch_prefixes": ["codex/qa-m1-"],
+      "paths": [
+        "docs/MANUAL_QA.md", "frontend/pages/review.html", "frontend/pages/review.js", "frontend/pages/routes.js",
+        "scripts/verify_m0_m1.mjs", "scripts/prepare_acceptance.py", "scripts/measure_m1.mjs", "scripts/build_site.mjs", "scripts/preview_site.mjs",
+        "tests/test_acceptance.py", "tests/test_acceptance.mjs", "tests/test_frontend_pages.mjs", "tests/test_page_routes.mjs", "README.md"
+      ],
+      "purpose": "M1-01/05/06 and affected regression Site package; preserve historical user results, Gate confirmation remains with the user"
+    },
+    "QA-M2": {
+      "issues": [3], "related_issues": [12, 13, 14],
+      "branch_prefixes": ["codex/qa-m2-"],
+      "paths": [
+        "docs/MANUAL_QA.md", "frontend/pages/review.html", "frontend/pages/review.js", "frontend/pages/routes.js",
+        "scripts/verify_m2.mjs", "scripts/prepare_acceptance.py", "scripts/prepare_m2_acceptance.py", "scripts/build_site.mjs", "scripts/preview_site.mjs",
+        "tests/test_acceptance.py", "tests/test_acceptance.mjs", "tests/test_m2_acceptance.py", "tests/test_m2_acceptance.mjs",
+        "tests/test_frontend_pages.mjs", "tests/test_page_routes.mjs", "README.md"
+      ],
+      "purpose": "M2-01 through M2-08 frozen Site package, dataset and real evidence; M2 Gate follows M1 user confirmation, no M3/M4 or production switch"
     }
   },
   "integrations": {
     "M0": {"packages": ["R1", "R2"], "branch_prefixes": ["codex/m0-m1-integration-"]},
     "M1": {"packages": ["W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
-    "M0-M1": {"packages": ["R1", "R2", "W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]}
+    "M0-M1": {"packages": ["R1", "R2", "W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
+    "M1-REPAIR": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1"], "branch_prefixes": ["codex/m1-m2-integration-"]},
+    "M1-M2": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1", "W03", "W04-A", "W04-B", "QA-M2"], "branch_prefixes": ["codex/m1-m2-integration-"]}
   }
 }
