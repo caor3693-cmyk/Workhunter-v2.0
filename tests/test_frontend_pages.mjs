@@ -104,7 +104,7 @@ test('feedback retains seven M0 and eight M1 stable numbers and current identity
   const review = readFileSync('frontend/pages/review.html', 'utf8');
   assert.match(review, /M0-02、M0-07 失败/);
   assert.match(review, /M0-03、M0-06 阻塞/);
-  assert.equal((review.match(/用户结果：未测/g) || []).length, 8);
+  assert.equal((review.match(/本轮候选：待复验/g) || []).length, 8);
 });
 
 class PageNode {

@@ -101,8 +101,10 @@ test('real review sample links require current clean same-project identity and n
   assert.equal(realSampleLinksAvailable(isolated, sha), false);
   const html = assets['/frontend/pages/review.html'].body;
   for (const stage of ['M0', 'M1']) for (let index = 1; index <= (stage === 'M0' ? 7 : 8); index++) assert.ok(html.includes(stage + '-0' + index));
-  assert.equal((html.match(/用户结果：未测/g) || []).length, 8);
+  assert.equal((html.match(/本轮候选：待复验/g) || []).length, 8);
   assert.match(html, /M0-02、M0-07 失败；M0-03、M0-06 阻塞/);
+  assert.match(html, /第二轮 M0-01—07 已由用户确认通过/);
+  assert.equal((html.match(/历史用户结果：失败（待修复复验）/g) || []).length, 3);
   assert.match(html, /M0-M1-REVIEW-20261011.md/);
   for (const id of [3, 31, 41, 38, 96, 40, 70]) assert.ok(html.includes('/opportunities/' + id));
   assert.equal((html.match(/class="real-sample-links" hidden/g) || []).length, 8);
