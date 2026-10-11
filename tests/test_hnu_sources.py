@@ -93,3 +93,45 @@ def test_hnu_redirected_other_record_keeps_fields():
             return value
     result = HnuAdapter.enrich({"school_key": "hnu", "source_key": "hnu_careers", "source_identity": "9000201", "source_url": requested, "date_basis": "event"}, Redirected({requested: "其它公告"}))
     assert result["patch"] == {} and result["material_refs"][0]["parsing_status"] == "failed"
+
+
+@pytest.mark.parametrize('body,locations,state', [
+    ('<table><tr><td>工作地点</td><td>专业要求</td></tr><tr><td>深圳</td><td>电气</td></tr><tr><td>全国</td><td>机械</td></tr></table>', ['深圳', '全国'], 'known'),
+    ('<table><tr><td>岗位名称</td><td>工作地点</td></tr><tr><td>有机合成类</td><td>上海</td></tr><tr><td>管理培训生（职能方向）</td><td>长沙</td></tr></table>', ['上海', '长沙'], 'known'),
+    ('<table><tr><td>工作地点</td><td>专业要求</td></tr></table>', [], 'parse_failed'),
+    ('<table><tr><td>岗位名称</td><td>工作地点</td></tr><tr><td colspan="2">不明确列归属</td></tr></table>', [], 'parse_failed'),
+    ('<table><tr><td>工作地点</td><td>重庆主城区</td></tr></table>', ['重庆主城区'], 'known'),
+    ('<p>工作地点：广东省广州市黄埔区科学大道18号B3栋1层、7层<span>（</span><span>实际岗位安排）</span></p>', ['广东省广州市黄埔区科学大道18号B3栋1层、7层（实际岗位安排）'], 'known'),
+    ('<table><tr><td>岗位名称</td><td>学历要求</td><td>工作城市</td></tr><tr><td>有机合成类</td><td>本科</td><td rowspan="2">上海</td></tr><tr><td>分析类</td><td>硕士</td></tr></table>', ['上海'], 'known'),
+    ('<p>招聘城市：深圳</p>', [], 'pending_extraction'),
+    ('<table><tr><th>工作地点</th><th>职位类别</th></tr><tr><td>深圳</td><td>电气工程师</td></tr></table>', ['深圳'], 'known'),
+    ('<table><tr><td>工作地点</td><td>职位类别</td></tr><tr><td>深圳</td><td>电气工程师</td></tr></table>', ['深圳'], 'known'),
+    ('<p>工作地点：深圳<br>专业要求：电气工程<br>招聘岗位：研发工程师</p>', ['深圳'], 'known'),
+    ('<p>工作地点：深圳 专业要求：电气工程 招聘岗位：研发工程师</p>', ['深圳'], 'known'),
+])
+def test_cloud_workplaces_follow_columns_not_next_flattened_text(body, locations, state):
+    config = {'school_key':'hnu', 'source_key':'hnu_careers', 'channel_key':'careers', 'official_entry_url':'https://scc.hnu.edu.cn/'}
+    url = 'https://scc.hnu.edu.cn/detail/career?id=9000201'
+    listing = HnuAdapter.discover(config, Materials({config['official_entry_url']:'<a href="'+url+'">隔离表格单位</a>'}))['records'][0]
+    html = '<div class="main-inner"><div class="detail-module"><div class="dm-tit">招聘简章</div><div class="dm-cont">'+body+'</div></div></div>'
+    patch = HnuAdapter.enrich(listing, Materials({url:html}))['patch']
+    assert patch['work_locations'] == locations
+    assert patch['field_observations']['work_locations']['state'] == state
+    assert all(value not in {'专业要求','有机合成类','管理培训生（职能方向）'} for value in locations)
+    assert all(item['source_identity'] == '9000201' for item in patch['field_observations']['work_locations']['evidence'])
+
+
+def test_cloud_location_conflict_retains_both_sides_at_evidence_limit():
+    config = {'school_key':'hnu', 'source_key':'hnu_careers', 'channel_key':'careers', 'official_entry_url':'https://scc.hnu.edu.cn/'}
+    url = 'https://scc.hnu.edu.cn/detail/career?id=9000201'
+    item = HnuAdapter.discover(config, Materials({config['official_entry_url']:'<a href="'+url+'">隔离冲突单位</a>'}))['records'][0]
+    item['work_locations'] = ['广州']
+    item['field_observations']['work_locations'] = {'state':'known', 'value':['广州'], 'evidence':[{'locator':'old-'+str(index)} for index in range(16)]}
+    html = '<div class="main-inner"><div class="detail-module"><div class="dm-tit">招聘简章</div><div class="dm-cont"><p>工作地点：深圳</p></div></div></div>'
+    patch = HnuAdapter.enrich(item, Materials({url:html}))['patch']
+    proof = patch['field_observations']['work_locations']
+    assert proof['state'] == 'conflict' and 'work_locations' not in patch
+    assert len(proof['evidence']) <= 16
+    assert any(entry['locator'].startswith('old-') for entry in proof['evidence'])
+    assert any('深圳' in entry.get('excerpt','') for entry in proof['evidence'])
+    assert item['work_locations'] == ['广州']

@@ -148,7 +148,7 @@ def labeled(text, labels):
         match = re.search(names+r'\s*[:：]\s*',text)
     if not match: return None
     tail = text[match.end():]
-    return clean(re.split(r'\n|(?:宣讲地点|举办地点|举办地址|工作地点|工作城市|招聘城市|宣讲时间|举办时间|投递截止|报名截止)\s*[:：]',tail,maxsplit=1)[0])[:500] or None
+    return clean(re.split(r'\n|(?:宣讲地点|举办地点|举办地址|工作地点|工作城市|招聘城市|宣讲时间|举办时间|投递截止|报名截止|招聘岗位|岗位名称|招聘专业|需求专业|专业要求|任职要求|学历要求|招聘人数|薪资待遇|联系方式)\s*[:：]',tail,maxsplit=1)[0])[:500] or None
 
 
 def campus_key(school_key, venue):
@@ -302,14 +302,77 @@ def explicit_locations(text):
         match = re.search(r'【工作城市】([^【\n]+)',text)
         value = clean(match.group(1)) if match else None
     if not value: return []
+    value = re.sub(r'\s*([（）])\s*', r'\1', value).rstrip('。')
     parts=[];start=0;depth=0
     for index,char in enumerate(value):
         if char in '（([【': depth+=1
         elif char in '）)]】': depth=max(0,depth-1)
         elif depth==0 and char in '、；;,，':
+            # Floor/building numbers in one street address are not extra cities.
+            if re.search(r'路|街|道|号|栋|幢|楼|层', value[start:index]) and re.match(r'\s*\d+(?:[-—]\d+)?(?:层|楼|栋|幢|号)', value[index + 1:]):
+                continue
             parts.append(clean(value[start:index]));start=index+1
     parts.append(clean(value[start:]))
     return list(dict.fromkeys(part for part in parts if part))[:30]
+
+
+def workplace_blocks(content):
+    """Read explicit workplace cells/paragraphs without flattening table headers."""
+    labels = {'工作地点', '工作城市', '任职地点', '岗位地点', '就业地点'}
+    headers = labels | {'岗位', '岗位名称', '招聘岗位', '职位', '职位名称', '专业', '专业要求',
+                        '需求专业', '学历', '学历要求', '人数', '招聘人数', '需求人数', '岗位类型'}
+    groups = []
+    for table_index, table in enumerate(content.select('table'), 1):
+        table_groups = []
+        column = None
+        width = None
+        for row_index, row in enumerate(table.find_all('tr'), 1):
+            if row.find_parent('table') is not table:
+                continue
+            cells = row.find_all(['td', 'th'], recursive=False)
+            names = [re.sub(r'\s+', '', cell.get_text(' ', strip=True)).rstrip(':：') for cell in cells]
+            plain = all(str(cell.get('rowspan', '1')) == '1' and str(cell.get('colspan', '1')) == '1' for cell in cells)
+            workplace_columns = [index for index, name in enumerate(names) if name in labels]
+            header_row = any(cell.name == 'th' for cell in cells) or sum(name in headers or bool(re.fullmatch(r'.{0,12}(?:要求|类别|类型|名称|人数|学历|专业|岗位|职位)', name)) for name in names) >= 2
+            if workplace_columns:
+                column = None
+                width = None
+                if plain and len(workplace_columns) == 1:
+                    index = workplace_columns[0]
+                    if not header_row and len(cells) == 2 and index == 0 and names[1] not in headers:
+                        values = explicit_locations('工作地点：' + clean(cells[1].get_text(' ', strip=True)))
+                        if values:
+                            table_groups.append((values, f'行{row_index}列2', clean(cells[1].get_text(' ', strip=True))))
+                    elif header_row:
+                        column, width = index, len(cells)
+                continue
+            if column is not None and len(cells) == width and all(str(cell.get('colspan', '1')) == '1' for cell in cells):
+                value = clean(cells[column].get_text(' ', strip=True))
+                if value and re.sub(r'\s+', '', value).rstrip(':：') not in headers:
+                    values = explicit_locations('工作地点：' + value)
+                    if values:
+                        table_groups.append((values, f'行{row_index}列{column + 1}', value))
+        if table_groups:
+            values = list(dict.fromkeys(value for row_values, _, _ in table_groups for value in row_values))[:30]
+            locator = f'[合并招聘内容table序号{table_index}，工作地点表头及对应数据列，' + '、'.join(item[1] for item in table_groups[:30]) + ']'
+            groups.append((values, locator, '；'.join(item[2] for item in table_groups)))
+    # Inline spans split by get_text('\n') can truncate a bracketed address.
+    # Tables are removed before the prose fallback, including ambiguous spans.
+    prose = soup(str(content))
+    for table in prose.select('table'):
+        table.decompose()
+    for index, node in enumerate(prose.find_all(['p', 'li']), 1):
+        paragraph = soup(str(node))
+        for br in paragraph.select('br'):
+            br.replace_with('\n')
+        text = paragraph.get_text(' ', strip=False)
+        if re.search(r'(?:工作地点|工作城市|任职地点|岗位地点|就业地点)\s*[:：]|【工作城市】', text):
+            if values := explicit_locations(text):
+                groups.append((values, f'[排除table后招聘内容p/li序号{index}，工作地点]', clean(text)))
+    if not groups and (values := explicit_locations(prose.get_text('\n', strip=True))):
+        if all(re.sub(r'\s+', '', value).rstrip(':：') not in headers for value in values):
+            groups.append((values, 'non-table [工作地点]', '、'.join(values)))
+    return groups[:30]
 
 
 def deadline(text, *, ordinary=False):

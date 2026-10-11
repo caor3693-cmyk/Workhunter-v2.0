@@ -4,7 +4,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from .common import (
     attachments, campus_key, candidate_base, clean, deadline, evidence,
-    explicit_locations, fill_missing, job_fragments, labeled, material_reference,
+    fill_missing, job_fragments, labeled, material_reference, workplace_blocks,
     observation, page_result, parse_date, parse_times, related_evidence,
     safe_url, set_observation, soup, unread_materials,
 )
@@ -118,8 +118,19 @@ def cloud_enrich(candidate, fetcher, *, school_key, host):
             break
     if text:
         material["scope"]["coverage"] = "partial" if unread_materials(body) else "complete_for_material"
-        if values := explicit_locations(text):
-            set_observation(patch, candidate, "work_locations", values, material, ".detail-module [招聘简章] .dm-cont", "、".join(values))
+        location_groups = workplace_blocks(body)
+        if location_groups:
+            location_groups = location_groups[:16]
+            values = list(dict.fromkeys(value for group, _, _ in location_groups for value in group))[:30]
+            proof = [evidence(material, '.detail-module [招聘内容] .dm-cont ' + locator, excerpt)
+                     for _, locator, excerpt in location_groups[:16]]
+            patch['work_locations'] = values
+            patch['work_locations_scope'] = 'partial_disclosed' if len(location_groups) > 1 or any('table序号' in locator for _, locator, _ in location_groups) else 'this_announcement'
+            patch['field_observations']['work_locations'] = observation('known', values, proof)
+            if candidate.get('field_observations', {}).get('work_locations', {}).get('state') == 'known' and candidate.get('work_locations') != values:
+                retained = candidate['field_observations']['work_locations'].get('evidence', [])[:8]
+                patch['field_observations']['work_locations'] = observation('conflict', None, [*retained, *proof[:16 - len(retained)]])
+                patch.pop('work_locations', None)
         cutoff, cutoff_text = deadline(text, ordinary=not event)
         if cutoff:
             set_observation(patch, candidate, "deadline", cutoff, material, ".detail-module [招聘简章] .dm-cont", cutoff_text)
