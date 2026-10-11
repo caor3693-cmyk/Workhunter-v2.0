@@ -16,22 +16,18 @@
     "visibility": "create_private_or_preserve_existing",
     "last_access_audit": "2026-10-11T16:53:07.377783+08:00: existing authorized gh GraphQL now works; viewerCanUpdate true; no login, permission expansion or other-project changes.",
     "public": false,
-    "pending_item_numbers": [
-      32,
-      33,
-      34,
-      35
-    ],
+    "pending_item_numbers": [],
     "current_iteration_sync": {
-      "status": "pending_new_items_only",
+      "status": "verified",
       "previously_verified_items": 26,
-      "pending_new_items": [
+      "new_items_verified": [
         32,
         33,
         34,
         35
       ],
-      "reason": "Current GitHub connector has no Projects operation and gh is absent in this audit environment. Existing Project5 and completed issue19 are preserved.",
+      "pending_new_items": [],
+      "method": "existing authorized gh Project5 item-add/edit/readback; no login or permission expansion",
       "followup_issue": 32
     }
   },
@@ -142,7 +138,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "30个实际Issue已回读，仓库索引/config一致；既有原生Project5上轮核对26项，新32—35四项原生导入/字段待同步。M0通过，M1-01/05/06失败；新增审查问题不改写历史用户结果；M2未实现/未测。",
+  "note": "30个Issue及Project5已同步。GOV PR36已合入隔离可信目标；DOC实施中。M0与M1历史结果保留，M1新候选和M2仍待用户核验。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -1220,19 +1216,19 @@
       "title": "[M1→M2] 工作包登记与共享合同可信基线",
       "id": 5799778660,
       "node_id": "I_kwDOVDuyOc8AAAABWbGZZA",
-      "stage": "M1",
+      "stage": "M2",
       "gate": "PM-G1",
-      "status": "Backlog",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-11",
-      "target": "2026-10-12",
+      "target": "2026-10-13",
       "timezone": "Asia/Shanghai",
       "kind": "management",
       "dependencies": [],
       "github_state": "open",
-      "status_label": "status:backlog",
-      "project_item_id": null,
-      "native_project_sync": "pending",
+      "status_label": "status:in-progress",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAL60",
+      "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
       "implementation_performed": false,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
@@ -1245,11 +1241,11 @@
       "title": "[M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞",
       "id": 5799779714,
       "node_id": "I_kwDOVDuyOc8AAAABWbGdgg",
-      "stage": "M1",
+      "stage": "M2",
       "gate": "PM-G1",
-      "status": "Backlog",
+      "status": "Ready",
       "priority": "P1",
-      "start": "2026-10-12",
+      "start": "2026-10-11",
       "target": "2026-10-13",
       "timezone": "Asia/Shanghai",
       "kind": "bug",
@@ -1257,9 +1253,9 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:backlog",
-      "project_item_id": null,
-      "native_project_sync": "pending",
+      "status_label": "status:ready",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMBc",
+      "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
       "implementation_performed": false,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
@@ -1273,11 +1269,11 @@
       "title": "[M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义",
       "id": 5799779807,
       "node_id": "I_kwDOVDuyOc8AAAABWbGd3w",
-      "stage": "M1",
+      "stage": "M2",
       "gate": "PM-G1",
-      "status": "Backlog",
+      "status": "Ready",
       "priority": "P1",
-      "start": "2026-10-12",
+      "start": "2026-10-11",
       "target": "2026-10-13",
       "timezone": "Asia/Shanghai",
       "kind": "bug",
@@ -1285,9 +1281,9 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:backlog",
-      "project_item_id": null,
-      "native_project_sync": "pending",
+      "status_label": "status:ready",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMEw",
+      "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
       "implementation_performed": false,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
@@ -1301,11 +1297,11 @@
       "title": "[M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效",
       "id": 5799779890,
       "node_id": "I_kwDOVDuyOc8AAAABWbGeMg",
-      "stage": "M1",
+      "stage": "M2",
       "gate": "PM-G1",
-      "status": "Backlog",
+      "status": "Ready",
       "priority": "P1",
-      "start": "2026-10-12",
+      "start": "2026-10-11",
       "target": "2026-10-13",
       "timezone": "Asia/Shanghai",
       "kind": "bug",
@@ -1313,9 +1309,9 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:backlog",
-      "project_item_id": null,
-      "native_project_sync": "pending",
+      "status_label": "status:ready",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMGw",
+      "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
       "implementation_performed": false,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
@@ -1735,5 +1731,32 @@
     },
     "neat_freak_actual_version": "3.0.0",
     "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28"
+  },
+  "m1_m2_execution_20261011": {
+    "starting_pr": 28,
+    "starting_head": "5a28c874b001010103b46360a2710e574492c405",
+    "trusted_target_branch": "codex/m1-m2-base-20261011",
+    "gov_pr": 36,
+    "gov_head": "9525530c29c075a74b16bb881967b91533a8edf7",
+    "trusted_target_head": "f1d4d88a123f2273821829431c4b1a08d23bf36f",
+    "gov_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38147259472",
+    "active_packages": [
+      {
+        "package": "DOC-M2",
+        "owner": "DOC implementation agent",
+        "paths": [
+          "docs/CONTRACTS.md",
+          "docs/TASKS.md"
+        ]
+      }
+    ],
+    "maximum_implementation_packages": 2,
+    "shared_file_integrator": "root",
+    "site_redeployed": false,
+    "candidate_database_changed": false,
+    "historical_manual_results_preserved": true,
+    "current_electrical_sample_gap": [
+      "scut"
+    ]
   }
 }
