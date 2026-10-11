@@ -288,3 +288,198 @@ def test_dispatch_rejects_forged_branch_identity(scope_repo, tmp_path):
     path.write_text(json.dumps(event), encoding='utf-8')
     result = subprocess.run(args, cwd=repo, text=True, capture_output=True, encoding='utf-8')
     assert result.returncode == 1 and 'Git cannot read trusted scope input' in result.stderr
+
+
+M2_PACKAGES = {
+    'GOV-M2': ('32', 'codex/gov-m2-test', ['scripts/work_package_scopes.json', 'tests/test_scope.py']),
+    'DOC-M2': ('32', 'codex/doc-m2-test', ['docs/CONTRACTS.md', 'docs/TASKS.md']),
+    'CORE-M2': ('33,34,35', 'codex/core-m2-test', [
+        'backend/domain/source_policy.py', 'backend/sources/registry.py', 'backend/services/semantic_revision.py',
+        'backend/storage/migrations.py', 'tests/test_core_m2.py', 'tests/test_semantic_revision.py']),
+    'M1-UI': ('29,30', 'codex/m1-ui-test', [
+        'frontend/components/cards.js', 'frontend/pages/shared.js', 'ops/preview/worker.mjs', 'scripts/measure_m1.mjs']),
+    'M1-SOURCES': ('31', 'codex/m1-sources-test', [
+        'backend/sources/scut.py', 'backend/sources/gdut.py', 'tests/fixtures/scut/current_electrical.html']),
+    'W03': ('12', 'codex/w03-test', [
+        'backend/sources/ncepu.py', 'backend/sources/csu.py', 'tests/fixtures/hnu/list.html', 'config/schools.json']),
+    'W04-A': ('13', 'codex/w04-a-test', [
+        'backend/api/auth.py', 'backend/api/maintenance.py', 'backend/services/maintenance.py',
+        'frontend/pages/maintenance.html', 'frontend/api/maintenance.js', 'ops/preview/worker.mjs']),
+    'W04-B': ('14', 'codex/w04-b-test', [
+        'backend/services/updates.py', 'backend/services/maintenance_tasks.py', 'frontend/components/updates.js']),
+    'QA-M1': ('2', 'codex/qa-m1-test', [
+        'frontend/pages/review.js', 'scripts/measure_m1.mjs', 'docs/MANUAL_QA.md', 'scripts/build_site.mjs']),
+    'QA-M2': ('3', 'codex/qa-m2-test', [
+        'scripts/verify_m2.mjs', 'scripts/prepare_m2_acceptance.py', 'tests/test_m2_acceptance.py', 'docs/MANUAL_QA.md']),
+}
+REPAIR_PACKAGES = 'CORE-M2,M1-UI,M1-SOURCES,QA-M1'
+REPAIR_ISSUES = '33,34,35,29,30,31,2'
+FULL_PACKAGES = REPAIR_PACKAGES + ',W03,W04-A,W04-B,QA-M2'
+FULL_ISSUES = REPAIR_ISSUES + ',12,13,14,3'
+
+
+def test_new_scope_registry_is_precise_and_retains_legacy_governance():
+    scopes = json.loads(SCOPES.read_text(encoding='utf-8'))
+    for name, (issues, _, _) in M2_PACKAGES.items():
+        package = scopes['packages'][name]
+        assert package['issues'] == [int(issue) for issue in issues.split(',')]
+        assert not any(path.endswith('/') for path in package['paths'] if not path.startswith('tests/fixtures/'))
+        assert not any(path in {'backend/', 'frontend/', 'tests/', 'config/', 'ops/', 'scripts/'} for path in package['paths'])
+    assert scopes['packages']['GOV']['issues'] == [24]
+    assert scopes['packages']['GOV']['paths'] == [
+        '.github/workflows/checks.yml', 'scripts/check_scope.py', 'scripts/work_package_scopes.json', 'tests/test_scope.py']
+    assert scopes['integrations']['M1-REPAIR']['packages'] == REPAIR_PACKAGES.split(',')
+    assert scopes['integrations']['M1-M2']['packages'] == FULL_PACKAGES.split(',')
+    assert scopes['integrations']['M1-REPAIR']['branch_prefixes'] == ['codex/m1-m2-integration-']
+    assert scopes['integrations']['M1-M2']['branch_prefixes'] == ['codex/m1-m2-integration-']
+
+
+@pytest.mark.parametrize('package', list(M2_PACKAGES))
+def test_new_packages_accept_only_their_registered_declaration_and_files(scope_repo, package):
+    repo, _, _ = scope_repo
+    issues, branch, paths = M2_PACKAGES[package]
+    for path in paths:
+        if path == 'scripts/work_package_scopes.json':
+            write(repo, path, SCOPES.read_text(encoding='utf-8') + '\n')
+        else:
+            write(repo, path)
+    save(repo)
+    result = check(scope_repo, package, issues, branch)
+    assert result.returncode == 0, result.stderr
+    report = json.loads(result.stdout.splitlines()[0])
+    assert report['mode'] == 'complete-pr' and report['packages'] == [package]
+    assert report['paths'] == sorted(paths)
+
+
+@pytest.mark.parametrize('package,path', [
+    ('GOV-M2', 'docs/CONTRACTS.md'), ('GOV-M2', 'backend/services/ingestion.py'),
+    ('DOC-M2', 'scripts/work_package_scopes.json'), ('DOC-M2', 'backend/domain/source_policy.py'),
+    ('CORE-M2', 'backend/sources/ncepu.py'), ('CORE-M2', 'frontend/pages/home.js'),
+    ('CORE-M2', 'backend/services/unregistered.py'), ('M1-UI', 'backend/storage/schema.sql'),
+    ('M1-UI', 'frontend/pages/unrelated.js'), ('M1-SOURCES', 'backend/services/queries.py'),
+    ('M1-SOURCES', 'backend/sources/shiep.py'), ('W03', 'backend/domain/source_policy.py'),
+    ('W03', 'backend/storage/write.py'), ('W03', 'backend/sources/eleventh_school.py'),
+    ('W03', 'tests/fixtures/not_fixed_school/list.html'), ('W04-A', 'backend/services/scheduler.py'),
+    ('W04-A', 'backend/sources/gdut.py'), ('W04-B', 'backend/services/auth.py'),
+    ('QA-M1', 'backend/api/app.py'), ('QA-M2', 'backend/storage/schema.sql'),
+])
+def test_new_packages_reject_neighboring_business_or_rule_paths(scope_repo, package, path):
+    repo, _, _ = scope_repo
+    issues, branch, _ = M2_PACKAGES[package]
+    write(repo, path)
+    save(repo)
+    result = check(scope_repo, package, issues, branch)
+    assert result.returncode == 1 and path in result.stderr
+
+
+@pytest.mark.parametrize('issues', ['33,34', '33,35', '34,35', '33,34,35,24', '32', '33,34,99'])
+def test_core_m2_requires_all_real_issues_and_no_unrelated_number(scope_repo, issues):
+    result = check(scope_repo, 'CORE-M2', issues, 'codex/core-m2-test')
+    assert result.returncode == 1 and 'Issue declaration' in result.stderr
+
+
+@pytest.mark.parametrize('package,issues', [('W02', '9,10,29,30'), ('W01', '7,8,31'), ('GOV-M2', '24'), ('DOC-M2', '24')])
+def test_new_issue_numbers_cannot_reuse_legacy_package_identity(scope_repo, package, issues):
+    branch = 'codex/w02-test' if package == 'W02' else 'codex/w01-test' if package == 'W01' else M2_PACKAGES[package][1]
+    result = check(scope_repo, package, issues, branch)
+    assert result.returncode == 1 and 'Issue declaration' in result.stderr
+
+
+@pytest.mark.parametrize('integration,packages,issues,paths', [
+    ('M1-REPAIR', REPAIR_PACKAGES, REPAIR_ISSUES, [
+        'backend/domain/source_policy.py', 'frontend/components/cards.js', 'backend/sources/scut.py', 'scripts/measure_m1.mjs']),
+    ('M1-M2', FULL_PACKAGES, FULL_ISSUES, [
+        'backend/sources/ncepu.py', 'backend/api/maintenance.py', 'backend/services/updates.py', 'scripts/verify_m2.mjs']),
+])
+def test_registered_m1_m2_integration_accepts_complete_diff(scope_repo, integration, packages, issues, paths):
+    repo, _, _ = scope_repo
+    for path in paths:
+        write(repo, path)
+    save(repo)
+    result = check(scope_repo, packages, issues, 'codex/m1-m2-integration-test', ('--integration', integration))
+    assert result.returncode == 0, result.stderr
+    report = json.loads(result.stdout.splitlines()[0])
+    assert report['integration'] == integration and report['mode'] == 'complete-pr'
+    assert report['paths'] == sorted(paths)
+
+
+@pytest.mark.parametrize('packages,issues,integration', [
+    (REPAIR_PACKAGES, REPAIR_ISSUES, 'M0-M1'),
+    (REPAIR_PACKAGES, REPAIR_ISSUES, 'M1-M2'),
+    (FULL_PACKAGES, FULL_ISSUES, 'M1-REPAIR'),
+    (REPAIR_PACKAGES + ',GOV-M2', REPAIR_ISSUES + ',32', 'M1-REPAIR'),
+    (FULL_PACKAGES + ',DOC-M2', FULL_ISSUES + ',32', 'M1-M2'),
+    ('CORE-M2,M1-UI,M1-SOURCES', '33,34,35,29,30,31', 'M1-REPAIR'),
+])
+def test_m1_m2_integrations_reject_missing_extra_or_wrong_combinations(scope_repo, packages, issues, integration):
+    result = check(scope_repo, packages, issues, 'codex/m1-m2-integration-test', ('--integration', integration))
+    assert result.returncode == 1 and 'exact registered Integration' in result.stderr
+
+
+@pytest.mark.parametrize('issues', ['33,34,35,29,30,31', REPAIR_ISSUES + ',24'])
+def test_integration_also_rejects_missing_gate_or_unrelated_issue(scope_repo, issues):
+    result = check(scope_repo, REPAIR_PACKAGES, issues, 'codex/m1-m2-integration-test', ('--integration', 'M1-REPAIR'))
+    assert result.returncode == 1 and 'Issue declaration' in result.stderr
+
+
+def test_m1_m2_integration_cannot_use_historical_m0_m1_branch(scope_repo):
+    result = check(scope_repo, FULL_PACKAGES, FULL_ISSUES, 'codex/m0-m1-integration-test', ('--integration', 'M1-M2'))
+    assert result.returncode == 1 and 'branch' in result.stderr
+
+
+@pytest.mark.parametrize('source,destination', [
+    ('AGENTS.md', 'backend/sources/ncepu.py'), ('backend/sources/ncepu.py', 'backend/services/queries.py'),
+])
+def test_m2_rename_checks_old_and_new_path(scope_repo, source, destination):
+    repo, _, runner = scope_repo
+    if source != 'AGENTS.md':
+        write(repo, source)
+    base = save(repo, 'target with rename source')
+    target = repo / destination
+    target.parent.mkdir(parents=True, exist_ok=True)
+    (repo / source).rename(target)
+    save(repo, 'out of scope rename')
+    result = check((repo, base, runner), 'W03', '12', 'codex/w03-test')
+    assert result.returncode == 1
+    report = json.loads(result.stdout.splitlines()[0])
+    assert report['paths'] == sorted([source, destination])
+    assert ('AGENTS.md' if source == 'AGENTS.md' else destination) in result.stderr
+
+
+def test_new_registry_cannot_authorize_itself_against_legacy_target(scope_repo):
+    repo, _, runner = scope_repo
+    current = json.loads(SCOPES.read_text(encoding='utf-8'))
+    legacy = json.loads(json.dumps(current))
+    for package in M2_PACKAGES:
+        del legacy['packages'][package]
+    for integration in ['M1-REPAIR', 'M1-M2']:
+        del legacy['integrations'][integration]
+    write(repo, 'scripts/work_package_scopes.json', json.dumps(legacy))
+    base = save(repo, 'old independently trusted target')
+    write(repo, 'scripts/work_package_scopes.json', SCOPES.read_text(encoding='utf-8'))
+    write(repo, 'tests/test_scope.py')
+    save(repo, 'independent governance candidate')
+    result = check((repo, base, runner), 'GOV', '24', 'codex/gov-m1-m2-test')
+    assert result.returncode == 0, result.stderr
+    report = json.loads(result.stdout.splitlines()[0])
+    assert report['paths'] == ['scripts/work_package_scopes.json', 'tests/test_scope.py']
+    result = check((repo, base, runner), 'GOV-M2', '32', 'codex/gov-m2-test')
+    assert result.returncode == 1 and 'Unknown work package: GOV-M2' in result.stderr
+    write(repo, 'backend/domain/source_policy.py')
+    save(repo, 'business hidden in governance')
+    result = check((repo, base, runner), 'GOV', '24', 'codex/gov-m1-m2-test')
+    assert result.returncode == 1 and 'backend/domain/source_policy.py' in result.stderr
+
+
+def test_new_business_candidate_cannot_expand_own_scope_or_checker(scope_repo):
+    repo, _, _ = scope_repo
+    scopes = json.loads(SCOPES.read_text(encoding='utf-8'))
+    scopes['packages']['W03']['paths'].append('backend/')
+    write(repo, 'scripts/work_package_scopes.json', json.dumps(scopes))
+    write(repo, 'scripts/check_scope.py', 'raise SystemExit(0)\n')
+    write(repo, 'backend/services/queries.py')
+    save(repo, 'untrusted candidate tries self-authorization')
+    result = check(scope_repo, 'W03', '12', 'codex/w03-test')
+    assert result.returncode == 1
+    for path in ['scripts/work_package_scopes.json', 'scripts/check_scope.py', 'backend/services/queries.py']:
+        assert path in result.stderr
