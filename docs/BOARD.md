@@ -6,9 +6,9 @@
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
-| 15 | #21、#22、#23、#24（4项） | 0 | 0 | #1、#6、#18、#19（4项） | 0 |
+| 15 | 0 | #21、#22、#23（3项） | #24（1项） | #1、#6、#18、#19（4项） | 0 |
 
-共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈修复及用户复验尚未完成；新增P1 #24先修工作包治理。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
+共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈修复及用户复验尚未完成；P1 #24两步治理及独立DOC已完成工程核对，实际目标ae261c8；R1/R2限两包实施中。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
 
 ## 阶段任务
 
@@ -17,10 +17,10 @@
 | M0 | [#1 [M0] 工程与 Site 入口手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | 受阻 | 2026-10-11 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
 | M0 | [#6 [M0] [PM-W00] 工程骨架、隔离运行边界与 Site 核验入口](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | 受阻 | 2026-10-11 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
 | M0 | [#19 [M0] [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | 受阻 | 2026-10-11 | 管理项，不代替M0 |
-| M0 | [#21 [M0-02][M0-06] 首页使用成品布局，移出开发说明与核验框](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21) | 可开始 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
-| M0 | [#22 [M0-03][M0-06] Site读取开发API失败，目录与数据身份不可核验](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22) | 可开始 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
-| M0 | [#23 [M0-07] 招聘发现、来源状态与核验改为独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) | 可开始 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
-| M0 | [#24 [M0→M1] 工作包范围校验与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24) | 可开始 | 新增2026-10-11；目标10-11，未实施 | 技术治理前置，不新增人工检查项 |
+| M0 | [#21 [M0-02][M0-06] 首页使用成品布局，移出开发说明与核验框](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21) | 实施中 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
+| M0 | [#22 [M0-03][M0-06] Site读取开发API失败，目录与数据身份不可核验](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22) | 实施中 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
+| M0 | [#23 [M0-07] 招聘发现、来源状态与核验改为独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) | 实施中 | 反馈2026-10-11；修复目标10-11，复验待实际交付 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
+| M0 | [#24 [M0→M1] 工作包范围校验与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24) | 工程完成，待复核 | 新增2026-10-11；10-11治理/DOC CI通过；PR #25/#26/#27 | 技术治理前置，不新增人工检查项 |
 | M1 | [#2 [M1] 两校真实招聘流程手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | 待排期 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M1 | [#7 [M1] [PM-W01-A] 华工广工列表发现与逐页持久化](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7) | 待排期 | 2026-10-12 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M1 | [#8 [M1] [PM-W01-B] 日期地点证据、去重及核心详情补全](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8) | 待排期 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |

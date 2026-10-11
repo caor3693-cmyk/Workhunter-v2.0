@@ -34,7 +34,7 @@
 
 执行时发现并完整读取实际可用的 `neat-freak/SKILL.md` 及它要求的参考文件，记录来源和版本。不得仅凭名称声称运行过，也不在没有任务需要时自行安装、升级或改写全局 skill。
 
-本轮规则依据：已读上游 [KKKKhazix/khazix-skills/neat-freak](https://github.com/KKKKhazix/khazix-skills/blob/main/neat-freak/SKILL.md)，其声明版本为 **3.0.0**，所读 SKILL blob 为 `51333e97c010a8ba13b10dc3c89d17021d915aa8`，并读取 agent-paths、verification、governance、sync-matrix 四份参考。未核验其他环境声称的 3.0.1；下次以实际读取版本为准。若没有可读取的 skill，先完成本规则中已授权的清理/验证/同步，明确标记 skill 缺失，不假称已调用或让其他工作无理由中断。
+本轮规则依据：已读上游 [KKKKhazix/khazix-skills/neat-freak](https://github.com/KKKKhazix/khazix-skills/blob/main/neat-freak/SKILL.md)，其声明版本为 **3.0.0**，所读 SKILL blob 为 `51333e97c010a8ba13b10dc3c89d17021d915aa8`，并读取 agent-paths、verification、governance、sync-matrix 四份参考。这是制定规则时的历史依据。本轮实际执行已完整读取本机 `C:/Users/曹睿/.codex/skills/neat-freak/SKILL.md`，声明版本 **3.0.1**，SHA-256 `fb645274f18473740b389efb89b51ef4e58ddefaf26a4b1b43a9d82e4c848b31`，并读取上述四参考；各批六面证据随交付记录保留。后续仍以实际读取版本为准。若没有可读取的 skill，先完成本规则中已授权的清理/验证/同步，明确标记 skill 缺失，不假称已调用或让其他工作无理由中断。
 
 neat-freak 用于对齐项目事实；第 3 节的源码清理是用户另外明确要求的执行步骤。两者都要检查，不能只改文档就声称代码已经清理。
 

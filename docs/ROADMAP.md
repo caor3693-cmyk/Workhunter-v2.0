@@ -5,7 +5,7 @@
 **仓库：[caor3693-cmyk/Workhunter-v2.0](https://github.com/caor3693-cmyk/Workhunter-v2.0)**
 
 以下日期保留原开发目标。2026-10-11收到M0实际用户失败/阻塞，阶段未通过，三项P1见#21—#23；原工程自验日期10-10不变。统一M命名，旧S/G仅为历史映射。
-Issue索引见[BOARD](BOARD.md)，当前反馈见[M0汇报](deliveries/M0-FEEDBACK-20261011.md)，M版当前核验规则见[MANUAL_QA_M](deliveries/MANUAL_QA_M.md)。原生Project仍受阻；已保存Site尚未修复或重发。
+Issue索引见[BOARD](BOARD.md)，当前反馈见[M0汇报](deliveries/M0-FEEDBACK-20261011.md)，M版当前核验规则见[MANUAL_QA_M](deliveries/MANUAL_QA_M.md)。原生Project仍受阻；R0治理/DOC三PR CI成功，R1/R2实施中，Site重发待本批回执。
 2026-10-11新一轮以[对抗审查](deliveries/M0-M1-AUDIT-20261011.md)、[R0—R5执行计划](deliveries/M0-M1-EXECUTION-20261011.md)和[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)为执行入口。R0—R5是本轮顺序，不是新增产品阶段。
 产品继续遵循 [PRODUCT.md](PRODUCT.md) 的八项决定；字段和接口见 [CONTRACTS.md](CONTRACTS.md)，工作包详情见 [TASKS.md](TASKS.md)。
 本文件以 M0—M4 安排一周进度和顺序人工核验，保留 W00—W06 工作包；新阶段门槛取代旧 R 阶段的排期表达。
@@ -73,7 +73,7 @@ gantt
 | PM-SETUP #19 | 2026-10-11 | 原生Project无已核验入口；期望Stage为M0—M4、导入集合含反馈及治理共23项 | Blocked；ID/URLnull，不重复登录 |
 | PM-RELEASE #18 | 条件解锁后 | 全阶段与必需反馈未完成，未正式部署或切换旧站 | Blocked |
 
-本次完成对抗审查和下一轮计划，应用代码尚未修复。37个当前手工项（7/8/8/6/8）保持；用户失败/阻塞不被自验覆盖。本次重新运行41 Python/3代理测试及构建通过，但当前真实Site六路读取502；具体时点和界限见审查报告。历史材料见[S0初版包](deliveries/S0.md)及[M命名映射](deliveries/M_NAMING.md)。
+R0已建立可信目标ae261c8（PR #25/#26/#27，CI均success），R1/R2开始实施；M0用户结论仍未通过。37个当前手工项（7/8/8/6/8）保持；用户失败/阻塞不被自验覆盖。本次重新运行41 Python/3代理测试及构建通过，但当前真实Site六路读取502；具体时点和界限见审查报告。历史材料见[S0初版包](deliveries/S0.md)及[M命名映射](deliveries/M_NAMING.md)。
 
 ### 2.3 当前迭代安排
 

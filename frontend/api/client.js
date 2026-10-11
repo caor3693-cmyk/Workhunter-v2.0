@@ -12,11 +12,16 @@ export class ReadError extends Error {
     super(message);
     this.name = "ReadError";
     this.status = status;
-    this.code = code;
+    this.code = typeof code === "string" ? code : "connection_failed";
   }
 }
 
-function statusMessage(status) {
+function statusMessage(status, code) {
+  if (code === "service_unauthorized" || code === "loopback_only") return "数据连接授权配置需要检查，请稍后重新加载。";
+  if (code === "database_unavailable") return "开发数据暂不可读，请稍后重新加载。";
+  if (code === "development_api_unconfigured") return "开发环境尚未连接，请稍后重新加载。";
+  if (code === "development_api_timeout") return "数据连接超时，请重新加载。";
+  if (code === "development_api_unavailable") return "暂时无法连接开发数据，请重新加载。";
   if (status === 401 || status === 403) return "当前验收入口无访问权限，请确认已登录本次 Site。";
   if (status === 404) return "当前版本尚未提供这个读取入口。";
   if (status === 409) return "数据版本已改变，请重新加载。";
@@ -37,7 +42,12 @@ function validateResponse(path, data) {
   if (!valid) throw new ReadError("当前数据与本阶段接口约定不一致，读取尚未完成。", 200, "invalid_contract");
 }
 
-export async function readJSON(path, { signal, timeout = 12000 } = {}) {
+function errorCode(data) {
+  const code = data?.detail?.code ?? data?.error?.code ?? data?.error;
+  return typeof code === "string" && /^[a-z][a-z0-9_]{0,63}$/.test(code) ? code : "http_error";
+}
+
+export async function readJSON(path, { signal, timeout = 15000 } = {}) {
   if (!PUBLIC_PATHS.has(path)) throw new ReadError("读取路径不在本阶段公开接口范围。", 0, "unsupported_path");
   const controller = new AbortController();
   let timedOut = false;
@@ -59,18 +69,24 @@ export async function readJSON(path, { signal, timeout = 12000 } = {}) {
     let data;
     try {
       data = await response.json();
-    } catch {
+    } catch (error) {
+      if (timedOut || signal?.aborted || controller.signal.aborted) throw error;
       if (!response.ok) throw new ReadError(statusMessage(response.status), response.status, "http_error");
       throw new ReadError("入口未返回可读的数据，当前连接尚未核验。", response.status, "invalid_response");
     }
-    if (!response.ok) throw new ReadError(statusMessage(response.status), response.status, data?.detail?.code || data?.error || "http_error");
+    if (timedOut) throw new ReadError("读取超时，请重新加载。", 0, "timeout");
+    if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+    if (!response.ok) {
+      const code = errorCode(data);
+      throw new ReadError(statusMessage(response.status, code), response.status, code);
+    }
     if (!data || typeof data !== "object" || Array.isArray(data)) throw new ReadError("数据格式暂不可读，请重新加载。", response.status, "invalid_response");
     validateResponse(path, data);
     return data;
   } catch (error) {
-    if (error instanceof ReadError) throw error;
     if (timedOut) throw new ReadError("读取超时，请重新加载。", 0, "timeout");
     if (signal?.aborted) throw error;
+    if (error instanceof ReadError) throw error;
     throw new ReadError("无法连接当前开发数据，请检查网络后重新加载。", 0, "connection_failed");
   } finally {
     clearTimeout(timer);

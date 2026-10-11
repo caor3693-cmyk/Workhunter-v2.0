@@ -782,8 +782,8 @@
       "functions": [
         "F08"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -813,7 +813,8 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11"
     },
     {
       "pm_id": "FB-M0-CONNECTION",
@@ -829,8 +830,8 @@
         "D08",
         "O01"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -860,7 +861,8 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11"
     },
     {
       "pm_id": "FB-M0-NAVIGATION",
@@ -875,8 +877,8 @@
       "functions": [
         "F08"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -905,7 +907,8 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11"
     },
     {
       "pm_id": "AUDIT-SCOPE",
@@ -913,8 +916,8 @@
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24",
       "title": "[M0→M1] 工作包范围校验与可信治理基线",
       "stage": "M0",
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "Awaiting verification",
+      "status_label": "status:awaiting-verification",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -937,7 +940,14 @@
         22,
         23
       ],
-      "execution_package": "R0"
+      "execution_package": "R0",
+      "engineering_completed_at": "2026-10-11",
+      "governance_baseline": "ae261c856761f84904430211b82ac7a42f689e4e",
+      "pull_requests": [
+        25,
+        26,
+        27
+      ]
     }
   ],
   "actual_development_start": "2026-10-10",
@@ -1118,5 +1128,24 @@
     "user_retest_before_closure": true,
     "automatic_merge": false,
     "automatic_formal_release": false
+  },
+  "m0_m1_iteration": {
+    "date": "2026-10-11",
+    "scope": "M0 fixes and complete M1 only",
+    "trusted_target_branch": "codex/m0-m1-governance-20261011",
+    "trusted_target_sha": "ae261c856761f84904430211b82ac7a42f689e4e",
+    "business_branch": "codex/m0-m1-integration-20261011",
+    "governance_prs": [
+      25,
+      26,
+      27
+    ],
+    "active_packages": [
+      "R1",
+      "R2"
+    ],
+    "max_active_packages": 2,
+    "user_outcomes_preserved": true,
+    "formal_release": false
   }
 }

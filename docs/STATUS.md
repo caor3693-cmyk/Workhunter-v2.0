@@ -6,10 +6,9 @@
 
 ## 1. 当前结论
 
-**M0 用户验收未通过；R0 可信治理工程完成，R1—R5 开始实施。** 两步治理 PR #25/#26 与 CI 均已核对，后续按真实目标包检查，不再使用 W00。独立 DOC 先固定 M1 写入/时间窗口合同；Site 尚是旧候选，应用修复与真实采集结果待下一批回执。治理证据见 [R0](deliveries/R0-GOVERNANCE-20261011.md)，原故障证据保留 [审查](deliveries/M0-M1-AUDIT-20261011.md)。
+**M0 用户验收未通过；R0 工程完成，R1/R2 修复完成本地检查，准备更新私有验收候选；M1 继续实施。** 实际业务目标为 `codex/m0-m1-governance-20261011` / `ae261c856761f84904430211b82ac7a42f689e4e`。治理 PR #25/#26、有限合同 PR #27 与 CI 已核对；#26/#27 随专用目标分支快进被 GitHub 标记 merged，未合并 main 或 PR #20。业务范围使用实际目标规则及 R1/R2。证据见 [R0](deliveries/R0-GOVERNANCE-20261011.md)。
 
-M0 三项 P1 [#21 主页成品布局](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21)、[#22 开发 API 读取失败](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22)、[#23 独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) 仍 Ready/open；[#1 用户 Gate](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) 和 [#6 工程交付](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) 仍 Blocked/open。新增 [#24 工作包范围与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24)，Ready/P1，先于新业务实现处理。
-
+#21/#22/#23 为 In progress/open，完成真实 Site 后发复验；#24 为 Awaiting verification/open；#1/#6 仍 Blocked/open。Node 37 项及 Windows 启动三项通过，分别核对固定代理错误、独立页面、实际监听归属、身份就绪、端口冲突和坏库失败。原用户结果不变。
 北京时间 2026-10-11 12:59:54 开始的真实 Site 只读检查：首页 200；health/version/目录/招聘/更新摘要/来源状态六路均 **502 `upstream_unavailable`**。已部署代理的对应分支表示上游 Content-Type 不含 `application/json`；尚不能区分失效通道、错误 origin 或异常 API 响应。日志中的 Worker outcome=ok 仅表示它正常返回了错误。不能把此现象写成正常空库；不能用旧 dataset 补作实时身份。详见 [脱敏现场证据](deliveries/evidence/M0-AUDIT-SITE-20261011.json)。
 
 p4 禁用控件属于 M0 占位；真正的采集、非空卡片、详情与筛选由已有 M1 #7—#11 实现。带参数请求被客户端拒绝、跨午夜分页漏项、整数溢出和排序等审查发现已纳入对应执行包，不重复创建同功能 Issue。
@@ -30,7 +29,7 @@ p4 禁用控件属于 M0 占位；真正的采集、非空卡片、详情与筛�
 
 M1 八项全部未测。修复、自验或提交计划不改变用户结论；未复验的 Issue/Gate 保持 open。用户原话及 p1—p5 见 [原反馈汇报](deliveries/M0-FEEDBACK-20261011.md)。
 
-## 3. 仓库、运行与数据身份
+## 3. 仓库、运行与数据身份（原审查现场）
 
 | 对象 | 当前可核验事实 |
 | --- | --- |
@@ -43,7 +42,7 @@ M1 八项全部未测。修复、自验或提交计划不改变用户结论；�
 | [仓库看板](BOARD.md) / [路线图](ROADMAP.md) / [配置](../config/project.json) | 23 个实际 Issue：15 Backlog、4 Ready、4 Blocked，其他列 0，全部 open；PR 不计 Issue 数量 |
 | 原生 GitHub Projects | 当前可用连接没有 Projects 工具，ID/URL 仍 null；[#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) Blocked，不把仓库索引当成原生视图 |
 
-原开发环境、隔离业务库和旧资产不在本轮写入/清理范围；当前 Site 配置与服务凭据未更改。运行宿主是否在线以及上游原始状态须在 #22 下一轮继续核验。
+上表保留原审查身份，不代表当前工程状态。本轮只操作 v2 隔离库及本次创建的 API/通道。本机 API 和新 HTTPS 通道六路读取成功，私有 Site 待更新。服务令牌保留在服务端。旧项目、用户业务库及旧资产未写入或清理。
 
 ## 4. 下一轮顺序与排程
 
@@ -62,9 +61,9 @@ M2 10-14—15、M3 10-16、M4 10-17 为原后续目标，本轮不实施；正�
 
 ## 5. 已完成验证与实际限制
 
-本次在审查基线的隔离环境重新完成 **41 项 Python、3 项代理测试**；干净源码构建及生成 Worker 语法检查通过。故障注入另外证实客户端错误归类、路由/带参拒绝、跨午夜/整数/排序、写入约束及范围校验缺口；现有绿色测试没有覆盖这些反例。依赖弃用提示保留，不为本轮计划升级依赖。
+审查时在隔离环境完成 **41 项 Python、3 项代理测试**；干净源码构建及生成 Worker 语法检查通过。故障注入另外证实客户端错误归类、路由/带参拒绝、跨午夜/整数/排序、写入约束及范围校验缺口；现有绿色测试没有覆盖这些反例。依赖弃用提示保留，不为本轮计划升级依赖。
 
-真实 Site HTTP 结果为上文六路 502；本次没有执行浏览器用户登录、桌面/手机视觉验收，也没有取得开发宿主进程日志、实时数据库或真实官网采集结果。仅在一次性合成库验证结构反例，没有读写用户业务库。
+真实 Site HTTP 结果为上文六路 502；原审查没有执行浏览器用户登录、桌面/手机视觉验收，也没有取得开发宿主进程日志、实时数据库或真实官网采集结果。仅在一次性合成库验证结构反例，没有读写用户业务库。
 
 资料修改检查与 GitHub 提交/CI 回读在本轮同步时完成，具体回执见 PR #20。本次不把应用清理或修复计划记为已经执行。
 
