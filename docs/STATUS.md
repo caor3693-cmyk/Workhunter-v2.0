@@ -6,11 +6,11 @@
 
 ## 1. 当前结论
 
-**M0 修复候选已实际部署并发出七项复验；用户原结论保留。M1 来源、证据、卡片和查询已实现；版本4私有Site与原编号八项材料已就绪。R5最后受影响点击/追加故障恢复仍受旧隔离弹窗阻塞，不称全部自验完成。** 当前业务 PR 为 [#28](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28)，实际治理目标 `codex/m0-m1-governance-20261011` / `ae261c856761f84904430211b82ac7a42f689e4e`。完整集成声明 R1/R2/W01-R3/W02-R4/R5，后续不再按 W00 检查。
+**M0 修复候选已实际部署并发出七项复验；用户原结论保留。M1 来源、证据、卡片和查询已实现；版本4私有Site与原编号八项材料已就绪。R5最终占位链接点击、冲突/详情失败/相关性边界、三页导航与实际断连恢复已完成。R0—R5工程及验收材料齐备，等待用户原编号复验。** 当前业务 PR 为 [#28](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28)，实际治理目标 `codex/m0-m1-governance-20261011` / `ae261c856761f84904430211b82ac7a42f689e4e`。完整集成声明 R1/R2/W01-R3/W02-R4/R5，后续不再按 W00 检查。
 
 M0 修复源码 `ce6d41f82eeda7f08ecbd9f522a9562af137b1c5`，CI [38116927372](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38116927372) success；私有 Site 保存版本2，六个公开读取路径均200。实际浏览器三页导航/直接访问/刷新/后退、390px及本轮独立上游停启恢复通过工程自验。七项已发 [#1 回执](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1#issuecomment-6106136453)，材料见 [M0复验包](deliveries/M0-RETEST-20261011.md)。#6/#21/#22/#23/#24 为 Awaiting verification/open；#1仍Blocked/open。
 
-M1 新独立候选库 schema2 / real，dataset `ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f`，真实记录132条（华工28、广工104）。14:39—14:41 两轮有限采集，每轮4栏目/8列表页/48详情；二刷新增0/修改0。未知字段首次补全记解析完善，官方变化0；本轮早期错误分类的独立库和历史保留，未改写为最终证据。[实际材料、哈希和样本](deliveries/evidence/M1-REAL-SOURCES-20261011.json) 与隔离样例分别记录。华工统一入口受限，仅学院补充公开栏目；广工三个公开栏目部分覆盖，其余八校尚未采集。#7—#10 Awaiting verification/open；#11保留In progress/open，待最后浏览器操作核对。M1八项全部未测，#2为Blocked/open，待M0前门。
+M1 新独立候选库 schema2 / real，dataset `ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f`，真实记录132条（华工28、广工104）。14:39—14:41 两轮有限采集，每轮4栏目/8列表页/48详情；二刷新增0/修改0。未知字段首次补全记解析完善，官方变化0；本轮早期错误分类的独立库和历史保留，未改写为最终证据。[实际材料、哈希和样本](deliveries/evidence/M1-REAL-SOURCES-20261011.json) 与隔离样例分别记录。华工统一入口受限，仅学院补充公开栏目；广工三个公开栏目部分覆盖，其余八校尚未采集。#7—#11 Awaiting verification/open，工程完成日与候选交付日为10-11，用户复验日仍空。M1八项全部未测，#2为Blocked/open，待M0前门。
 
 R0治理与独立DOC证据见 [R0](deliveries/R0-GOVERNANCE-20261011.md)。PR #26/#27 随专用目标快进被GitHub标记merged；main与PR #20未合并。平台分支保护查询404，不宣称已有保护强制。最多两个实施包，共享文件由单一整合者负责。
 
@@ -76,8 +76,8 @@ R1/R2：37项Node、3项Windows启动检查与干净构建通过，Site实际正
 
 应用源码/前后端 `b6300f4991d4c9a36ecf8f425a6de578c0106275`；[应用CI38120889039](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38120889039) success。私有Site保存版本4，12路实际HTTP均200，核验页前后端一致、readable/real、132条、指定dataset。部署 `appgdep_6acb38d7003481918bfc9fdc376f244b` succeeded；仅原owner、外部访客0，未正式发布。最终文档提交见PR实际head，不冒充运行源码。
 
-[完整原编号操作包](deliveries/M0-M1-REVIEW-20261011.md)含M0七项/M1八项、真实样本/材料和本机29条隔离样例的具体入口。[最终HTTP](deliveries/evidence/M1-SITE-HTTP-20261011.json)、[隔离身份](deliveries/evidence/M1-ISOLATED-20261011.json)分别保存。版本3浏览器正常流程与390px已实测，版本4身份与隔离详情已实际读取；旧隔离alert阻塞浏览器输入，修复已改页内提示且定向测试通过，已请求关闭旧弹窗。#11/R5追加点击与故障恢复核对尚未完成，用户验收全部维持原结论。
+[完整原编号操作包](deliveries/M0-M1-REVIEW-20261011.md)含M0七项/M1八项、真实样本/材料和本机29条隔离样例的具体入口。[最终HTTP](deliveries/evidence/M1-SITE-HTTP-20261011.json)、[隔离身份](deliveries/evidence/M1-ISOLATED-20261011.json)分别保存。版本3浏览器正常流程与390px已实测；版本4最终受影响点击与实际故障恢复已完成，见[浏览器回执](deliveries/evidence/M1-BROWSER-20261011.json)。用户关闭旧版弹窗后，新隔离占位附件左/中键均仅显示页内提示，无弹窗或外部新页，随后可正常导航；真实Site断连保留82条结果与原范围、中文错误及未更新标记，恢复后标记消失，核验页前后端仍同b6300f4/real/dataset，数据库哈希未变。用户验收全部维持原结论。
 
-实际GitHub索引23项：Backlog9、In progress1（#11）、Awaiting verification9（#6—#10、#21—#24）、Blocked4（#1/#2/#18/#19）、Done0，均open。R0可信基线完成；#7—#10工程与候选已发待复验，M0前门未通过不关闭或开始M1人工验收。只保留R5一个活动包，共享文件由单一整合者同步。
+实际GitHub索引23项：Backlog9、In progress0、Awaiting verification10（#6—#11、#21—#24）、Blocked4（#1/#2/#18/#19）、Done0，均open。R0可信基线完成；#7—#11工程与候选已发待复验，M0前门未通过不关闭或开始M1人工验收。活动实施包已归零，全程最多两个；共享文件由单一整合者同步。
 
-本轮15个可再生测试/打包副本目录已清理；原始字节、唯一截图/回执、数据库/备份、凭据、部署包及复验所需独立宿主保留。实际neat-freak六面：代码/规则/文档/工作区已核对；运行已保存和读取、受影响浏览器操作部分待核验；记忆未涉及。原生Project仍#19阻塞，main与PR20未合并，M2—M4未实施。
+本轮15个可再生测试/打包副本目录已清理；原始字节、唯一截图/回执、数据库/备份、凭据、部署包及复验所需独立宿主保留。实际neat-freak六面：代码/规则/文档/工作区已核对；运行已保存和读取，最后受影响浏览器点击及实际断连恢复已核对；记忆未涉及。原生Project仍#19阻塞，main与PR20未合并，M2—M4未实施。

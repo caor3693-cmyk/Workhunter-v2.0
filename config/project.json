@@ -493,7 +493,7 @@
       "id": 5791854833,
       "node_id": "I_kwDOVDuyOc8AAAABWTiw8Q",
       "stage": "M1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-13",
       "target": "2026-10-13",
@@ -525,14 +525,17 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
     },
     {
       "pm_id": "PM-W03",
@@ -1167,9 +1170,7 @@
       26,
       27
     ],
-    "active_packages": [
-      "R5"
-    ],
+    "active_packages": [],
     "max_active_packages": 2,
     "user_outcomes_preserved": true,
     "formal_release": false,
@@ -1196,6 +1197,10 @@
     "m1_fixture_manifest": ".runtime/m1-isolated-b6300f4/manifest.json",
     "m1_fixture_origin": "generated_locally_never_fetched",
     "documentation_commit": "See final PR head and CI readback; distinct from deployed application source",
-    "remaining_browser_check": "Old isolated alert blocks CUA actions; fixed source is deployed, user asked to close old dialog. Final affected interaction pending."
+    "remaining_browser_check": null,
+    "engineering_completed_at": "2026-10-11",
+    "candidate_submitted_at": "2026-10-11",
+    "browser_receipt": "docs/deliveries/evidence/M1-BROWSER-20261011.json",
+    "user_acceptance": "original_outcomes_preserved_not_verified"
   }
 }

@@ -6,9 +6,9 @@
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
-| 9 | 0 | #11（1项） | #6—#10、#21—#24（9项） | #1、#2、#18、#19（4项） | 0 |
+| 9 | 0 | 0 | #6—#11、#21—#24（10项） | #1、#2、#18、#19（4项） | 0 |
 
-共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈已发原编号复验，用户未复验不关闭；#24治理已核对，目标ae261c8。M0历史版本2已发复验；M1版本4当前前后端b6300f4、真实132条、应用CI成功、15项原编号材料就绪。R5最后受影响浏览器操作受旧隔离弹窗阻塞，#11继续实施中。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
+共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈已发原编号复验，用户未复验不关闭；#24治理已核对，目标ae261c8。M0历史版本2已发复验；M1版本4当前前后端b6300f4、真实132条、应用CI成功、15项原编号材料就绪。R5最终受影响点击和实际断连恢复已完成；R0—R5工程与验收材料齐备，#11待复验，活动实施包归零。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
 
 ## 阶段任务
 
@@ -26,7 +26,7 @@
 | M1 | [#8 [M1] [PM-W01-B] 日期地点证据、去重及核心详情补全](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M1 | [#9 [M1] [PM-W02-A] 最小卡片、公告简要详情与官方原文](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M1 | [#10 [M1] [PM-W02-B] 学校校区、相关性筛选与一致分页](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
-| M1 | [#11 [M1] [PM-W02-C] 桌面手机、键盘与加载错误状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | 实施中 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#11 [M1] [PM-W02-C] 桌面手机、键盘与加载错误状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M2 | [#3 [M2] 十校与维护功能手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | 待排期 | 2026-10-15 | [M2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) |
 | M2 | [#12 [M2] [PM-W03] 固定十校来源扩展与真实范围状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12) | 待排期 | 2026-10-15 | [M2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) |
 | M2 | [#13 [M2] [PM-W04-A] 受保护维护页、官方补录纠错与撤回](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13) | 待排期 | 2026-10-15 | [M2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) |
@@ -42,7 +42,7 @@
 
 - 一条Issue保留一个status标签，stage:m0—stage:m4表示当前阶段；stage:release保留发布管理分类。PM-ID和W/F/D/O合同标识仅作稳定内部追踪。
 - #1—#5仍为同一阶段单，不另建Gate；收到失败/阻塞先查重，修复后同编号复验，PR用Refs，不随合并关闭。
-- P1 #21/#22/#23阻塞M0 #1与#6及最终发布；筛选禁用尚未实现归既有M1 #10，连接错误归#22，不能当正常空库或重复立同功能任务。
+- P1 #21/#22/#23阻塞M0 #1与#6及最终发布；原筛选禁用反馈由既有M1 #10实现并提交待复验，连接错误归#22，不能当正常空库或重复立同功能任务。
 - 阶段顺序M0→M1→M2→M3→M4；原目标与实际日期分开记录。没有用户明确通过的项目保持未测。
 - #19仍受管理通道限制，Project/视图ID与URL为null；#18因全部阶段与反馈未完成而受阻。
 - #24先建立可信目标与实际工作包范围；其完成不代替M0用户通过。反馈后源码清理、neat-freak、验证、GitHub同步按[固定规则](deliveries/FEEDBACK_CLOSEOUT.md)执行。
