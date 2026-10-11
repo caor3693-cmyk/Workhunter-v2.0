@@ -1,0 +1,184 @@
+{
+  "recorded_date": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "business_commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+  "trusted_base": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
+  "pull_request": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/38",
+  "engineering_ci": {
+    "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38162938480",
+    "head": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+    "conclusion": "success"
+  },
+  "tests": {
+    "python_passed": 553,
+    "python_warnings": 1,
+    "python_seconds": 574.05,
+    "python_log": ".runtime/m2-python-workplace-final.log",
+    "node_passed": 120,
+    "windows_startup_passed": 3
+  },
+  "issues": [
+    {
+      "issue": 32,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32#issuecomment-6112177586",
+      "comment_id": 6112177586,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 33,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33#issuecomment-6112178723",
+      "comment_id": 6112178723,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 34,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34#issuecomment-6112180003",
+      "comment_id": 6112180003,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 35,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35#issuecomment-6112181181",
+      "comment_id": 6112181181,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 29,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29#issuecomment-6112182401",
+      "comment_id": 6112182401,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 30,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30#issuecomment-6112183679",
+      "comment_id": 6112183679,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 31,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31#issuecomment-6112184984",
+      "comment_id": 6112184984,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 12,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12#issuecomment-6112186154",
+      "comment_id": 6112186154,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 13,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13#issuecomment-6112187306",
+      "comment_id": 6112187306,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 14,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14#issuecomment-6112188743",
+      "comment_id": 6112188743,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 2,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2#issuecomment-6112189976",
+      "comment_id": 6112189976,
+      "body_readback_matched": true,
+      "new_comment": true
+    },
+    {
+      "issue": 3,
+      "state": "open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3#issuecomment-6112191209",
+      "comment_id": 6112191209,
+      "body_readback_matched": true,
+      "new_comment": true
+    }
+  ],
+  "project": {
+    "id": "PVT_kwHOD1jk9s4BmirN",
+    "url": "https://github.com/users/caor3693-cmyk/projects/5",
+    "items": 30,
+    "status_counts": {
+      "Ready": 0,
+      "Done": 9,
+      "Blocked": 6,
+      "Backlog": 5,
+      "In progress": 9,
+      "Awaiting verification": 1
+    },
+    "issues_open": 21,
+    "issues_closed": 9
+  },
+  "site_last_readback": {
+    "date": "2026-10-12",
+    "project_id": "appgprj_6aca4fbe4c1481918047d279e9653ccc",
+    "url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site",
+    "version": 4,
+    "status": "active",
+    "access_mode": "custom",
+    "roles": [
+      "owner"
+    ],
+    "external_visitors": 0,
+    "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
+  },
+  "site_source_preparation": {
+    "normal_push_readback_verified": true,
+    "latest_source_commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+    "automatic_publication": false,
+    "archives": [
+      {
+        "archive": ".runtime/m1-site-recheck-20261012.tar.gz",
+        "commit": "a2610a1a8e3f949943bd59b5e8bae46d4b2ca3dd",
+        "sha256": "0b4c2ade7bc3436ac4e22775955754f64601ce39f89401d57465d462d1499c3a",
+        "members": [
+          "dist",
+          "dist/.openai",
+          "dist/.openai/hosting.json",
+          "dist/server",
+          "dist/server/index.js"
+        ],
+        "site_deployed": false
+      },
+      {
+        "archive": ".runtime/m2-site-review-final-20261012.tar.gz",
+        "commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+        "sha256": "adaeef8895bf95de8c8782dc381d305077a1fc3d7bbbce34f0a39ef5effaa896",
+        "members": [
+          "dist",
+          "dist/.openai",
+          "dist/.openai/hosting.json",
+          "dist/server",
+          "dist/server/index.js"
+        ],
+        "site_deployed": false
+      }
+    ],
+    "credential_byte_check": "independently verified zero matches for actual service token and maintenance password; no secret values included here"
+  },
+  "remaining_delivery_blocker": "auto_review_rejected_temporary_external_cloudflare_API_outlet_pending_explicit_user_authorization",
+  "new_tunnel_started": false,
+  "old_api_switched": false,
+  "human_gate_results_changed": false
+}

@@ -10,7 +10,7 @@
 
 旧“通道受阻/ID为null”是10-10—10-11此前现场，历史见git与原报告，现已被实际成功回读替代。未登录或扩权，没有用户提供新令牌；仓库和项目私密策略保持。M0七项通过、M1三项失败和新#29/#30/#31未解决分别登记，管理配置完成不表示M1通过或正式上线。
 
-本轮 M1-M2 执行补入 #32—35，现有30项保留；新增四项的 Status、Stage、Priority、Start date、Target date 已逐项回读。#29/#30/#32—35 为 In progress，Stage M2/P1，Start 2026-10-11、Target 2026-10-13；真实 item ID 已写 config，不再是 pending/null。GOV PR36 已进入隔离可信目标，DOC 冻结不代表业务或用户 Gate 完成。
+本轮 M1-M2 执行补入 #32—35，现有30项保留；新增四项的 Status、Stage、Priority、Start date、Target date 已逐项回读。2026-10-12实际回读：#29/#30为M1/In progress，#33—35为M2/In progress，#32为M2/Awaiting verification；#12/#13/#14/#31为In progress，#3为Blocked。原目标日期和历史结果保留，真实item ID在config。GOV PR36及DOC PR37进入隔离可信目标6cb4723；工程候选不代表Site交付或用户Gate完成。
 
 下面为后续幂等维护参考，不再新建第二个同名项目；使用已登记ID，先读后写并回读。
 
@@ -59,7 +59,7 @@ Roadmap 使用同一请求，变量改为 `name: "Roadmap"`、`layout: "ROADMAP_
 
 ## 接续顺序
 
-1. 读取配置与真实 Issue 索引，确认目标仓库及当前配置的26项期望集合；`PM-SETUP` 使用配置中的实际 Issue，不再次创建同名 Issue。
+1. 读取配置与真实 Issue 索引，确认目标仓库及当前配置的30项期望集合；`PM-SETUP` 使用配置中的实际 Issue，不再次创建同名 Issue。
 2. 完成上述只读权限检查。对目标 owner 的项目分页读取，按完整标题精确匹配，并核对 owner、关联仓库、记录的 ID/URL；不要只依赖模糊搜索或第一页结果。
 3. 已有唯一匹配且可写的项目就复用；多个同名结果先登记歧义，不能猜选或新建重复项目。确认不存在后才调用 `createProjectV2`，使用已核对的 owner ID 和标题；随后关联本仓库并读回实际 ID/URL。
 4. 分页读取现有字段，按名称和类型复用 `Status`、`Stage`、`Priority`、`Start date`、`Target date`。前三者按配置使用单选选项，后两者使用日期；仅创建缺失字段。选项和字段 ID 必须读回，不能用名称代替 ID 写值。
@@ -75,7 +75,7 @@ Roadmap 使用同一请求，变量改为 `name: "Roadmap"`、`layout: "ROADMAP_
 GitHub 会尝试选用已有日期/迭代字段，因此创建 `ROADMAP_LAYOUT` 成功不能单独证明时间轴绑定正确。须检查 Date fields 中的起止字段，见[官方 Roadmap 配置说明](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-roadmap-layout)。UI 通道仍不可用时记录“布局已创建，分组/日期绑定待验证”，不重复请求本轮已经拒绝的登录。
 
 - 读回 Project 的 owner、标题、URL、仓库关联及可写状态，与配置一致。
-- 分页核对当前配置26个Issue都有真实项目项且无重复；复用项目有其他项时分别记录，不以总数等于26强制清理。
+- 分页核对当前配置30个Issue都有真实项目项且无重复；复用项目有其他项时分别记录，不以总数等于30强制清理。
 - 逐项读回五个目标字段的实际值；状态符合当前证据，排期对应 ROADMAP，计划起始日期不晚于目标日期。
 - 读回 Board/Roadmap 的名称、ID、number、layout；视图筛选没有意外隐藏目标任务。分组、日期绑定和条目显示由平台 UI 核实并记录结果。
 - 从原生 Project 打开抽查 Issue，确认落到本仓库的真实条目；记录检查日期和 Project/视图入口，不推测 URL。
@@ -86,4 +86,4 @@ GitHub 会尝试选用已有日期/迭代字段，因此创建 `ROADMAP_LAYOUT` 
 
 ## 当前导入状态更新
 
-config/project.json与原生Project5共26个本仓库实际Issue，17open/9closed，Status为Backlog12、Blocked5、Done9，其他列0。三项新反馈#29/#30/#31未解决；M0通过，M1三项失败；后续阶段不按本轮默认通过指令结案。26项五字段和Issue归属逐一回读，原生视图/Stage分组/日期绑定已实际保存；复用现有ID，不重复建单。
+2026-10-12实际回读：30个本仓库Issue，21open/9closed；Backlog 5, Ready 0, In progress 9, Awaiting verification 1, Blocked 6, Done 9。本轮仅同步实施进展与阻塞，保留原字段、视图、用户Done、Gate开闭和日期。#19历史技术完成保留；#29/#30是M1，#32—35是M2。最新事实见[STATUS](STATUS.md)和config，历史26项导入记录仍可追溯。

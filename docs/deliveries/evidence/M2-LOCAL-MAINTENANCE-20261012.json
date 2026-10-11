@@ -1,0 +1,55 @@
+{
+  "kind": "local_browser_production_worker_with_loopback_transport",
+  "code_commit": "cd03c0e513f300db4dc9dd41a86413ee5ac29ab0",
+  "site_remote_evidence": false,
+  "stages": [
+    {
+      "stage": "preview_before_save",
+      "notice": "已取得服务端预览。请核对差异，再点击确认保存。",
+      "summary": "自动检查尚未完成或仅取得部分材料；未知数量不计作零。分类可能重叠，不可相加；新收录不代表官网今日发布或目前在招。 2026-10-12（北京时间） 当前新收录 26 条，历史补齐 2 条，日期待核实 1 条，官方变化 待核实 条，解析改进 待核实 条，材料冲突 1 条，人工补录 0 条，人工纠错 0 条，撤回更正 0 条，撤回人工可见贡献 0 条",
+      "preview": "核对本次差异\n\n隔离演练 · 人工补录 · [隔离合成] M2 电气招聘演练 · 有效至 10/12 01:47。\n\n日期依据\n\n当前：未知\n\n保存后：publication\n\n投递截止\n\n当前：未知\n\n保存后：2026-10-22\n\n本字段的材料依据\n已取得岗位片段\n\n当前：未知\n\n保存后：招聘岗位：电气工程师\n\n招聘类型\n\n当前：未知\n\n保存后：online_recruitment\n\n公告发布时间\n\n当前：未知\n\n保存后：2026-10-12\n\n本字段的材料依据\n电气相关性\n\n当前：未知\n\n保存后：明确电气相关\n\n本字段的材料依据\n标题\n\n当前：未知\n\n保存后：[隔离合成] M2 电气招聘演练\n\n工作地点\n\n当前：未知\n\n保存后：深圳市\n\n本字段的材料依据\n工作地点范围\n\n当前：未知\n\n保存后：this_announcement\n\n维护者提供的公开正文；网络来源状态不因此变为检查成功。\n\n核对官方原文\n确认保存这次预览放弃预览"
+    },
+    {
+      "stage": "supplement_committed",
+      "receipt": "提交已确认 · 10/12 01:33 · 新增 1 条、修改 0 条、无变化 0 条。操作编号：maintenance-b33e8ad70dce43de8ed777d1a88879b8",
+      "summary": "自动检查尚未完成或仅取得部分材料；未知数量不计作零。分类可能重叠，不可相加；新收录不代表官网今日发布或目前在招。 2026-10-12（北京时间） 当前新收录 27 条，历史补齐 2 条，日期待核实 1 条，官方变化 待核实 条，解析改进 待核实 条，材料冲突 1 条，人工补录 1 条，人工纠错 0 条，撤回更正 0 条，撤回人工可见贡献 0 条",
+      "history": "[隔离合成] M2 电气招聘演练\n\n记录 30 · 版本 1 · 访客可见\n\n公告记录\n\n10/12 01:33 · isolated-m2-maintainer · 隔离演练：本机合成材料补录，不是官方事实。\n\n变更前：未知\n\n变更后：{\"attachments\":[],\"campus_id\":null,\"date_basis\":\"publication\",\"deadline\":\"2026-10-22\",\"end_time\":null,\"event_date\":null,\"event_status\":\"not_applicable\",\"event_venue\":null,\"field_observations\":{\"deadline\":{\"evidence\":[{\"association_id\":211,\"excerpt\":\"报名截止时间:2026-10-22 工作地点:深圳市 招聘岗位:电气工程师 说明:本机合成隔离\",\"locator\":\"maintainer_public_text/deadline\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"known\",\"value\":\"2026-10-22\"},\"end_time\":{\"evidence\":[{\"association_id\":212,\"excerpt\":\"标题：[隔离合成] M2 电气招聘演练 发布时间：2026-10-12 报名截止时间：2026-10-22 工作地点：深圳市 招聘岗位：电气工程师 说明：本机合成隔离材料，未从学校官网取得，不计真实覆盖或用户通过。\",\"locator\":\"maintainer_public_text\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"not_applicable\",\"value\":null},\"event_date\":{\"evidence\":[{\"association_id\":212,\"excerpt\":\"标题：[隔离合成] M2 电气招聘演练 发布时间：2026-10-12 报名截止时间：2026-10-22 工作地点：深圳市 招聘岗位：电气工程师 说明：本机合成隔离材料，未从学校官网取得，不计真实覆盖或用户通过。\",\"locator\":\"maintainer_public_text\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"not_applicable\",\"value\":null},\"event_venue\":{\"evidence\":[{\"association_id\":212,\"excerpt\":\"标题：[隔离合成] M2 电气招聘演练 发布时间：2026-10-12 报名截止时间：2026-10-22 工作地点：深圳市 招聘岗位：电气工程师 说明：本机合成隔离材料，未从学校官网取得，不计真实覆盖或用户通过。\",\"locator\":\"maintainer_public_text\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"not_applicable\",\"value\":null},\"published_date\":{\"evidence\":[{\"association_id\":213,\"excerpt\":\"2026-10-12\",\"locator\":\"maintainer_public_text/published_date\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"known\",\"value\":\"2026-10-12\"},\"relevance\":{\"evidence\":[{\"association_id\":214,\"excerpt\":\"招聘岗位: 电气工程师\",\"locator\":\"maintainer_public_text/recruitment\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"known\",\"value\":\"related\"},\"start_time\":{\"evidence\":[{\"association_id\":212,\"excerpt\":\"标题：[隔离合成] M2 电气招聘演练 发布时间：2026-10-12 报名截止时间：2026-10-22 工作地点：深圳市 招聘岗位：电气工程师 说明：本机合成隔离材料，未从学校官网取得，不计真实覆盖或用户通过。\",\"locator\":\"maintainer_public_text\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"not_applicable\",\"value\":null},\"work_locations\":{\"evidence\":[{\"association_id\":215,\"excerpt\":\"深圳市\",\"locator\":\"maintainer_public_text/work_locations\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"state\":\"known\",\"value\":[\"深圳市\"]}},\"job_fragments\":[{\"evidence\":[{\"association_id\":216,\"excerpt\":\"招聘岗位：电气工程师\",\"locator\":\"maintainer_public_text p/li\",\"material_id\":33,\"observed_at\":\"2026-10-12T01:32:29.604567+08:00\",\"parser_version\":\"school-html-2\",\"scope\":\"this_announcement\",\"source_identity\":\"900000001\",\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\"}],\"scope\":\"partial\",\"text\":\"招聘岗位：电气工程师\"}],\"kind\":\"online_recruitment\",\"original_kind\":null,\"published_date\":\"2026-10-12\",\"recruitment_status\":\"unknown\",\"relevance\":\"related\",\"roster_fragments\":[],\"source_updated_at\":null,\"source_url\":\"https://cnsba.scut.edu.cn/__isolated_fixture__/2026/1012/c29313a900000001/page.htm\",\"start_time\":null,\"title\":\"[隔离合成] M2 电气招聘演练\",\"work_locations\":[\"深圳市\"],\"work_locations_scope\":\"this_announcement\"}"
+    },
+    {
+      "stage": "correction_committed",
+      "receipt": "提交已确认 · 10/12 01:37 · 新增 0 条、修改 1 条、无变化 0 条。操作编号：maintenance-531451391cf6478e9d85e00dfa58aa3c",
+      "summary": "自动检查尚未完成或仅取得部分材料；未知数量不计作零。分类可能重叠，不可相加；新收录不代表官网今日发布或目前在招。 2026-10-12（北京时间） 当前新收录 27 条，历史补齐 2 条，日期待核实 1 条，官方变化 待核实 条，解析改进 待核实 条，材料冲突 1 条，人工补录 1 条，人工纠错 1 条，撤回更正 0 条，撤回人工可见贡献 0 条"
+    },
+    {
+      "stage": "old_preview_conflict",
+      "notice": "数据版本已改变，请重新加载。",
+      "preview_visible": false
+    },
+    {
+      "stage": "revert_preserves_later_preview",
+      "preview": "核对本次差异\n\n隔离演练 · 撤回更正 · 本条贡献 · 有效至 10/12 01:54。\n\n当前没有需要改变的公开事实；请核对保留说明。\n\n保留后续贡献：投递截止\n\n确认撤回这次预览中的贡献放弃预览"
+    },
+    {
+      "stage": "earlier_correction_reverted",
+      "receipt": "提交已确认 · 10/12 01:39 · 新增 0 条、修改 0 条、无变化 0 条。操作编号：maintenance-0c2dcc191a614cdda5b9873c68c63bee",
+      "summary": "自动检查尚未完成或仅取得部分材料；未知数量不计作零。分类可能重叠，不可相加；新收录不代表官网今日发布或目前在招。 2026-10-12（北京时间） 当前新收录 27 条，历史补齐 2 条，日期待核实 1 条，官方变化 待核实 条，解析改进 待核实 条，材料冲突 1 条，人工补录 1 条，人工纠错 1 条，撤回更正 0 条，撤回人工可见贡献 0 条"
+    },
+    {
+      "stage": "supplement_withdrawal_preview",
+      "preview": "核对本次差异\n\n隔离演练 · 撤回更正 · [隔离合成] M2 电气招聘演练 · 有效至 10/12 01:58。\n\n已取得岗位片段\n\n当前：招聘岗位：电气工程师\n\n保存后：尚未取得\n\n公告发布时间\n\n当前：2026-10-12\n\n保存后：未知\n\n电气相关性\n\n当前：明确电气相关\n\n保存后：待核实\n\n工作地点\n\n当前：深圳市\n\n保存后：尚未取得\n\n该字段没有可恢复的独立前值，保留当前值并待核实：date_basis\n\n该字段没有可恢复的独立前值，保留当前值并待核实：kind\n\n该字段没有可恢复的独立前值，保留当前值并待核实：title\n\n该字段没有可恢复的独立前值，保留当前值并待核实：work_locations_scope\n\n保留后续贡献：日期依据、投递截止、招聘类型、标题、工作地点范围\n\n核对官方原文\n确认撤回这次预览中的贡献放弃预览"
+    }
+  ],
+  "supplement_revert_committed": {
+    "receipt": "服务端提交回执\n\n提交已确认 · 10/12 01:45 · 新增 0 条、修改 1 条、无变化 0 条。操作编号：maintenance-54edf08827f749499b8682ee5fe4f00a",
+    "summary": "本环境今日变化\n\n自动检查尚未完成或仅取得部分材料；未知数量不计作零。分类可能重叠，不可相加；新收录不代表官网今日发布或目前在招。 2026-10-12（北京时间） 当前新收录 26 条，历史补齐 2 条，日期待核实 2 条，官方变化 待核实 条，解析改进 待核实 条，材料冲突 1 条，人工补录 1 条，人工纠错 1 条，撤回更正 1 条，撤回人工可见贡献 0 条",
+    "historyConclusion": "记录30仍访客可见、版本4；补录可见字段已撤回，后续独立2026-10-25截止仍保留；不计官方取消或人工完全隐藏。"
+  },
+  "logout": {
+    "loginVisible": true,
+    "protectedOperationsVisible": false,
+    "protectedHistoryVisible": false
+  },
+  "executed_at": "2026-10-11T17:54:25.784Z",
+  "user_gate": "unmeasured",
+  "transport": "Fixed production worker with loopback adapter; no remote Site/TLS proof"
+}

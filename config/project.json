@@ -138,7 +138,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "GOV36/DOC37已独立受审并CI成功进入隔离可信目标6cb4723。CORE-M2与M1-UI两个实施包进行中；原库与历史用户结果保留，未重发Site。",
+  "note": "M1修复及M2十校/维护/摘要工程已实现并独立受审；真实候选schema3/297，旧数据和用户结果保留。私有Site仍版本4；临时外部通道被自动审批拒绝，待本轮直接授权。Gate顺序不变。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -222,7 +222,7 @@
       "title": "[M2] 十校与维护功能手工验收",
       "stage": "M2",
       "gate": "M2",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -236,7 +236,7 @@
         "PM-W04-A",
         "PM-W04-B"
       ],
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S2",
       "legacy_gate": "G2",
       "github_state": "open",
@@ -635,7 +635,7 @@
       "id": 5791855099,
       "node_id": "I_kwDOVDuyOc8AAAABWTix-w",
       "stage": "M2",
-      "status": "Backlog",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -670,7 +670,7 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:in-progress",
       "legacy_stage": "S2",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj8",
       "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
@@ -679,7 +679,12 @@
         33,
         34,
         35
-      ]
+      ],
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "PM-W04-A",
@@ -689,7 +694,7 @@
       "id": 5791855312,
       "node_id": "I_kwDOVDuyOc8AAAABWTiy0A",
       "stage": "M2",
-      "status": "Backlog",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -704,7 +709,7 @@
       ],
       "github_state": "open",
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:in-progress",
       "legacy_stage": "S2",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj0",
       "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
@@ -713,7 +718,12 @@
         33,
         34,
         35
-      ]
+      ],
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "PM-W04-B",
@@ -723,7 +733,7 @@
       "id": 5791855530,
       "node_id": "I_kwDOVDuyOc8AAAABWTizqg",
       "stage": "M2",
-      "status": "Backlog",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -739,7 +749,7 @@
       ],
       "github_state": "open",
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:in-progress",
       "legacy_stage": "S2",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjs",
       "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
@@ -748,7 +758,12 @@
         33,
         34,
         35
-      ]
+      ],
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "PM-W05-A",
@@ -1145,7 +1160,11 @@
       "status": "In progress",
       "status_label": "status:in-progress",
       "github_state": "open",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU",
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "PM-FB-M1-30",
@@ -1175,7 +1194,11 @@
       "status": "In progress",
       "status_label": "status:in-progress",
       "github_state": "open",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ",
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "PM-FB-M1-31",
@@ -1203,11 +1226,15 @@
       ],
       "implementation_started_at": null,
       "user_verified_at": null,
-      "status": "Backlog",
-      "status_label": "status:backlog",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "github_state": "open",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiA",
-      "stage_boundary": "M1 portion: SCUT/GDUT current explicit electrical real samples. M2 portion: >=3 fixed schools via issue12. Remaining M2 portion does not cyclically block M1."
+      "stage_boundary": "M1 portion: SCUT/GDUT current explicit electrical real samples. M2 portion: >=3 fixed schools via issue12. Remaining M2 portion does not cyclically block M1.",
+      "implementation_performed": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "AUD-GOV",
@@ -1218,7 +1245,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGZZA",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1226,13 +1253,17 @@
       "kind": "management",
       "dependencies": [],
       "github_state": "open",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAL60",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
-      "implementation_performed": false,
+      "implementation_performed": true,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
-      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md"
+      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "independent GOV/DOC technical review completed; issue review pending"
     },
     {
       "pm_id": "AUD-QUEUE",
@@ -1257,10 +1288,14 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMBc",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
-      "implementation_performed": false,
+      "implementation_performed": true,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
       "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
-      "retest_required": true
+      "retest_required": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "AUD-FIELDS",
@@ -1285,10 +1320,14 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMEw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
-      "implementation_performed": false,
+      "implementation_performed": true,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
       "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
-      "retest_required": true
+      "retest_required": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     },
     {
       "pm_id": "AUD-MATERIAL",
@@ -1313,10 +1352,14 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMGw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
-      "implementation_performed": false,
+      "implementation_performed": true,
       "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
       "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
-      "retest_required": true
+      "retest_required": true,
+      "engineering_completed_at": "2026-10-12",
+      "candidate_pr": 38,
+      "user_verified_at": null,
+      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
     }
   ],
   "actual_development_start": "2026-10-10",
@@ -1334,7 +1377,7 @@
     "record_kind": "historical_snapshot",
     "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
-  "last_verified_date": "2026-10-11",
+  "last_verified_date": "2026-10-12",
   "stage_naming": {
     "effective_date": "2026-10-11",
     "canonical": "Mx",
@@ -1730,7 +1773,9 @@
       "formal_environment_caveat": "Audit bs4 4.15.0 vs locked4.14.3; Node24 vs CI22"
     },
     "neat_freak_actual_version": "3.0.0",
-    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28"
+    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28",
+    "snapshot_kind": "historical_audit_and_plan_at_5a28c87",
+    "current_execution_reference": "m1_m2_execution_20261011"
   },
   "m1_m2_execution_20261011": {
     "starting_pr": 28,
@@ -1742,45 +1787,117 @@
     "gov_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38147259472",
     "active_packages": [
       {
-        "package": "CORE-M2",
-        "owner": "CORE backend owner",
-        "baseline": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
-        "paths": "CORE-M2 precise backend and tests; root does not concurrently edit backend"
-      },
-      {
-        "package": "M1-UI",
-        "owner": "UI frontend owner",
-        "baseline": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
-        "paths": "M1-UI precise frontend/tests; proxy and later API timing by root after backend handoff"
+        "package": "QA-M2",
+        "owner": "root",
+        "paths": "final readback, scoped cleanup and delivery documents; business implementation frozen"
       }
     ],
     "maximum_implementation_packages": 2,
     "shared_file_integrator": "root",
     "site_redeployed": false,
-    "candidate_database_changed": false,
+    "candidate_database_changed": true,
     "historical_manual_results_preserved": true,
-    "current_electrical_sample_gap": [
-      "scut"
-    ],
+    "current_electrical_sample_gap": [],
     "doc_pr": 37,
     "doc_head": "e86cab26a3c143b9f91f4be1707ae78c69d050f0",
     "doc_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38148766494",
     "candidate_database_copy": {
-      "schema": "2",
+      "schema": "3",
       "data_mode": "real",
-      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
-      "opportunities": 132,
-      "materials": 98,
-      "changes": 343,
-      "method": "consistent SQLite backup from read-only original",
+      "dataset_id": "ds-3ceedaa1-97f2-4625-b180-35d7f162668a",
+      "opportunities": 297,
+      "source_materials": 246,
+      "changes": 1333,
+      "runs": 15,
+      "processing_tasks": 315,
+      "manual_operations": 20,
+      "method": "consistent copy of original followed by explicit migrations, bounded actual public refreshes and audited semantic revisions",
       "original_unchanged": true
     },
     "status_counts": {
       "Done": 9,
-      "Blocked": 5,
-      "Backlog": 10,
-      "In progress": 6
+      "Blocked": 6,
+      "Backlog": 5,
+      "In progress": 9,
+      "Awaiting verification": 1
     },
-    "status_readback": "Project5 and Issue labels: 29/30/32/33/34/35 In progress; original Done and historical gates preserved"
+    "status_readback": "Project5 and Issue labels read back on 2026-10-12; M1/M2 Site delivery blocked, GOV/DOC independent technical evidence awaiting review; historical Done and gates preserved",
+    "implementation_performed": true,
+    "current_electrical_samples": [
+      133,
+      148,
+      193,
+      295
+    ],
+    "integration_pr": 38,
+    "engineering_code_commit": "26060f8c92c5960f45bd673f94560dc9cf0c23bb",
+    "site_blocker": "auto_review_rejected_temporary_external_cloudflare_API_outlet_pending_explicit_user_authorization",
+    "site_current_version": 4,
+    "site_current_application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "m1_first_packet": {
+      "commit": "a2610a1a8e3f949943bd59b5e8bae46d4b2ca3dd",
+      "schema": "3",
+      "opportunities": 142,
+      "dataset_id": "ds-5487e60f-8b12-441a-ba9c-2c07c16d1d20",
+      "site_delivered": false,
+      "local_measurements": {
+        "reload": {
+          "samples": 30,
+          "api_p95_ms": 410.872,
+          "first_card_p95_ms": 433,
+          "button_ready_p95_ms": 434
+        },
+        "submit": {
+          "samples": 30,
+          "api_p95_ms": 368.407,
+          "first_card_p95_ms": 391,
+          "button_ready_p95_ms": 391
+        }
+      }
+    },
+    "frozen_packages": [
+      "CORE-M2",
+      "M1-UI",
+      "M1-SOURCES",
+      "W03",
+      "W04-A",
+      "W04-B",
+      "QA-M1",
+      "QA-M2"
+    ],
+    "user_gate_results_changed": false,
+    "engineering_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38162938480",
+    "workplace_revisions": {
+      "opportunity_ids": [
+        269,
+        279,
+        281,
+        285,
+        291,
+        293
+      ],
+      "fields": [
+        "work_locations",
+        "work_locations_scope"
+      ],
+      "new_http_requests": 0,
+      "source_materials_added": 0,
+      "historical_snapshot_preserved": true
+    },
+    "user_acceptance_bundle": {
+      "directory": ".runtime/m2-site-source/.runtime/m2-user-review-final-20261012",
+      "record_count": 29,
+      "operations": 0,
+      "user_results": "unmeasured"
+    },
+    "final_engineering_verification": {
+      "python_passed": 553,
+      "python_warnings": 1,
+      "python_seconds": 574.05,
+      "python_log": ".runtime/m2-python-workplace-final.log",
+      "node_passed": 120,
+      "windows_startup_passed": 3
+    },
+    "neat_freak_actual_version": "3.0.1"
   }
 }
