@@ -180,7 +180,7 @@ test('client cancellation reaches the bounded upstream request without becoming 
 test('segmented timing forwards only bounded API durations and numeric timestamps', async () => {
   await capture(async()=>Response.json({dataset_id:'actual'}, {headers:{
     'Server-Timing':'private;desc="secret", api;dur=4.25',
-    'X-WH-API-Started':'1791727200000', 'X-WH-API-Ended':'private-value',
+    'X-WH-API-Started-At':'1791727200000', 'X-WH-API-Ended-At':'private-value',
   }}),async()=>{
     const result=await worker.fetch(new Request('https://site.test/api/opportunities'),env);
     assert.match(result.headers.get('server-timing'),/^api;dur=4.25, proxy_connect;dur=[\d.]+, proxy_body;dur=[\d.]+, proxy_total;dur=[\d.]+$/);

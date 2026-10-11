@@ -107,7 +107,7 @@ export default {
         if (apiTiming && Number(apiTiming[1]) <= 60000) timings.unshift(`api;dur=${apiTiming[1]}`);
         const headers = {...SECURITY, 'Content-Type': 'application/json; charset=utf-8', 'X-Request-ID': diagnostic.request_id, 'Server-Timing': timings.join(', ')};
         for (const name of ['X-WH-API-Started', 'X-WH-API-Ended']) {
-          const stamp = response.headers.get(name);
+          const stamp = response.headers.get(name + '-At') || response.headers.get(name);
           if (/^\d{13}$/.test(stamp || '')) headers[name] = stamp;
         }
         return new Response(body, {status: response.status, headers});
