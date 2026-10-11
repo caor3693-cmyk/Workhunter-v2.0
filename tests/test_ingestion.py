@@ -14,11 +14,11 @@ from backend.storage.write import writer_transaction
 
 def source(school="scut"):
     origin = "https://jyzx.scut.edu.cn" if school == "scut" else "https://career.gdut.edu.cn"
-    return {"source_key": school + "_homepage", "school_key": school, "channel_key": "homepage", "official_entry_url": origin + "/", "adapter": "fixture", "scope": {"coverage": "isolated_fixture"}}
+    return {"source_key": school + "_homepage", "school_key": school, "channel_key": "homepage", "official_entry_url": origin + "/", "adapter": "fixture", "scope": {"type":"source_list","coverage": "isolated_fixture"}}
 
 
 def material(config, key="list-1"):
-    return {"source_key": config["source_key"], "reference_key": key, "source_url": config["official_entry_url"] + "notice/42", "material_hash": hashlib.sha256(key.encode()).hexdigest(), "fetched_at": "2026-10-11T10:00:00+08:00", "raw_reference": "isolated_fixture/" + key, "acquisition_status": "success", "parsing_status": "success", "parser_version": "fixture-1", "scope": {"coverage": "isolated_fixture"}}
+    return {"source_key": config["source_key"], "reference_key": key, "source_url": config["official_entry_url"] + "notice/42", "material_hash": hashlib.sha256(key.encode()).hexdigest(), "fetched_at": "2026-10-11T10:00:00+08:00", "raw_reference": "isolated_fixture/" + key, "acquisition_status": "success", "parsing_status": "success", "parser_version": "fixture-1", "scope": {"type":"source_list","coverage": "isolated_fixture"}}
 
 
 def candidate(config, archive, *, identity="official-42"):
@@ -26,7 +26,7 @@ def candidate(config, archive, *, identity="official-42"):
     item["field_observations"] = {}
     for field in CORE_FIELDS:
         value = item[field]
-        item["field_observations"][field] = {"state": "known" if value else "not_collected", "value": value if value else None, "evidence": [{"material_ref": archive["reference_key"], "source_url": archive["source_url"], "excerpt": "隔离样例：" + str(value), "locator": "fixture:" + field, "scope": "this_announcement", "observed_at": archive["fetched_at"], "parser_version": "fixture-1"}] if value else []}
+        item["field_observations"][field] = {"state": "known" if value else "not_collected", "value": value if value else None, "evidence": [{"material_ref": archive["reference_key"], "source_url": archive["source_url"], "excerpt": "隔离样例：" + str(value), "source_identity": identity, "locator": "fixture:" + identity + ":" + field, "scope": "this_announcement", "observed_at": archive["fetched_at"], "parser_version": "fixture-1"}] if value else []}
     return item
 
 

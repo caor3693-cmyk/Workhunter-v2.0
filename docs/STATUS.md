@@ -6,7 +6,7 @@
 
 ## 1. 当前结论
 
-**M0 七项已通过；M1 五项通过，M1-01/05/06 失败，Gate #2 仍 Blocked/open；M2 八项未测，工程尚未实现。** 本轮已从PR #28真实head 5a28c87建立隔离目标，GOV #36经独立完整范围审查和CI通过后合入 f1d4d88；DOC合同冻结中，业务修复尚未开始。
+**M0 七项已通过；M1 五项通过，M1-01/05/06 失败，Gate #2 仍 Blocked/open；M2 八项未测，工程尚未实现。** 本轮已从PR #28真实head 5a28c87建立隔离目标，GOV #36经独立完整范围审查和CI通过后合入 f1d4d88；DOC #37独立审查与最终CI通过后进入可信目标6cb4723；CORE-M2与M1-UI正在限域并行实施，尚未交付新产品候选。
 
 用户第二轮明确授权“未指出问题的已交付 M0/M1 项目默认通过”，仅用于该轮结果，不延伸至后续候选或 M2。原始反馈及15项结果见 [第二轮反馈](deliveries/M0-M1-FEEDBACK2-20261011.md)。新审查不擦除 #8、M1-03/08 等历史通过，受影响项在下一候选新增定向回归。
 
@@ -23,7 +23,7 @@
 | 3B | W04-A → W04-B / #13/#14 | 维护会话、材料预览/保存、纠错/撤回、真实摘要和待办 |
 | 4 | QA / #2/#3 | 私有Site、真实/隔离材料、M1先行复验及M2八项完整操作包 |
 
-最多两个活动实施包，当前活动包1（DOC-M2，仅合同/任务；共享管理资料由root整合）；共享服务/API/迁移/代理和资料单一整合。先提交M1三项失败及受影响复验，可以继续独立M2工程；Gate仍按M0→M1→M2→M3→M4顺序。#31的两校M1部分与三校M2部分分别判定，不形成阶段循环依赖。
+最多两个活动实施包，当前活动包2（CORE-M2后端与M1-UI前端；backend唯一owner、frontend唯一owner，代理/构建/管理由root整合）；共享服务/API/迁移/代理和资料单一整合。先提交M1三项失败及受影响复验，可以继续独立M2工程；Gate仍按M0→M1→M2→M3→M4顺序。#31的两校M1部分与三校M2部分分别判定，不形成阶段循环依赖。
 
 原目标 M1 10-13、M2 10-15、M3 10-16、M4 10-17保留；新增前置和来源限制需在实施中更新预计日期，日期到达不代表完成。自然调度、只读MCP、运营恢复与正式切换仍属后续阶段。
 
@@ -72,7 +72,7 @@
 
 ## 6. GitHub与收尾
 
-[仓库看板](BOARD.md)/[配置](../config/project.json)当前30个Issue：Backlog12、Ready3、In progress1、Awaiting verification0、Blocked5、Done9；21open/9closed。新增#32 In progress/open，#33/#34/#35 Ready/open，三条用户反馈仍open。#1/#6/#8/#11/#19/#21/#22/#23/#24完成事实保留。
+[仓库看板](BOARD.md)/[配置](../config/project.json)当前30个Issue：Backlog10、Ready0、In progress6、Awaiting verification0、Blocked5、Done9；21open/9closed。#29/#30/#32/#33/#34/#35 In progress/open，三条用户反馈仍open。#1/#6/#8/#11/#19/#21/#22/#23/#24完成事实保留。
 
 [原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) 和 [Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2) 已在私有Project5建立，上轮26项字段已回读。本轮使用既有获准gh通道新增#32—35并回读Status/Stage/Priority/Start/Target，30项已登记；四项真实item ID见config。既有26项与#19完成事实保留。
 
@@ -85,3 +85,5 @@
 治理PR [#36](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/36)仅进入隔离可信分支，未合入main或修改PR28；checker未改。最终[CI](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38147259472)成功。首轮新增重命名测试的空提交问题已修复，旧失败保留在CI历史。
 
 当前Site仍版本4/schema2，已有真实页面回读和30次重载/30次校区提交的自动化墙钟基线；它包含浏览器桥接耗时，不能替代API分段p95。广工、广州大学、三峡、上海电力、湖南大学找到当前明确电气材料；尚未入候选库，华工当前样本仍缺。旧132条库、备份和用户工作区均保留。
+
+DOC #37最终head e86cab2、[CI成功](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38148766494)与独立审阅均已回读；合并仅进入隔离target6cb4723。新候选为原132条/98材料/343历史的一致副本，schema仍2，尚未迁移。代理定向13项测试通过，含分页安全错误映射、入站取消传播和白名单分段时间头；实际平台取消效果尚未用Site复核，不冒称已证实。

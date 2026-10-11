@@ -4,7 +4,7 @@
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
-| 12 | 3 | 1 | 0 | 5 | 9 |
+| 10 | 0 | 6 | 0 | 5 | 9 |
 
 21open/9closed。M0七项通过；M1-01/05/06失败、其余五项通过。三条用户反馈和三项新P1审查缺陷均未修复；M2未实现/未测。[下一轮执行计划](deliveries/M1-M2-EXECUTION-20261011.md) · [审查证据](deliveries/M1-M2-AUDIT-20261011.md)。
 
@@ -23,13 +23,13 @@
 | M1 | [#9 [M1] [PM-W02-A] 最小卡片、公告简要详情与官方原文](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9) | Blocked / open | 2026-10-13 | #29详情展示；#35材料适用 |
 | M1 | [#10 [M1] [PM-W02-B] 学校校区、相关性筛选与一致分页](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10) | Blocked / open | 2026-10-13 | #30状态/延迟 |
 | M1 | [#11 [M1] [PM-W02-C] 桌面手机、键盘与加载错误状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | Done / closed | 2026-10-13 | 历史用户通过 |
-| M1 | [#29 [M1-05] 简要详情移除定位证据与内部技术信息](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29) | Backlog / open | 2026-10-13 | 待实施；M1-05 |
-| M1 | [#30 [M1-06] 校区切换后刷新延迟：测量并定位原因](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30) | Backlog / open | 2026-10-13 | 状态反例确认；现场p95待测 |
+| M1 | [#29 [M1-05] 简要详情移除定位证据与内部技术信息](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29) | In progress / open | 2026-10-13 | 待实施；M1-05 |
+| M1 | [#30 [M1-06] 校区切换后刷新延迟：测量并定位原因](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30) | In progress / open | 2026-10-13 | 状态反例确认；现场p95待测 |
 | M1 | [#31 [M1-01] 下一轮提供多校电气相关真实验收样本](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31) | Backlog / open | 2026-10-15 | M1两校/M2三校样本分段验收 |
 | M2 | [#32 [M1→M2] 工作包登记与共享合同可信基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32) | In progress / open | 2026-10-13 | GOV #36可信目标已建立；Project新增项回读完成；DOC #37独立审查 |
-| M2 | [#33 [M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33) | Ready / open | 2026-10-13 | 跨轮队列饥饿已复现，未修复 |
-| M2 | [#34 [M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34) | Ready / open | 2026-10-13 | 语义反例已复现，真实库范围待核验 |
-| M2 | [#35 [M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35) | Ready / open | 2026-10-13 | 跨公告材料反例已复现，未修复 |
+| M2 | [#33 [M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33) | In progress / open | 2026-10-13 | 跨轮队列饥饿已复现，未修复 |
+| M2 | [#34 [M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34) | In progress / open | 2026-10-13 | 语义反例已复现，真实库范围待核验 |
+| M2 | [#35 [M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35) | In progress / open | 2026-10-13 | 跨公告材料反例已复现，未修复 |
 | M2 | [#3 [M2] 十校与维护功能手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | Backlog / open | 2026-10-15 | M2八项未测，前序Gate仍受阻 |
 | M2 | [#12 [M2] [PM-W03] 固定十校来源扩展与真实范围状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12) | Backlog / open | 2026-10-15 | 固定十校/至少三校真实当前电气样本 |
 | M2 | [#13 [M2] [PM-W04-A] 受保护维护页、官方补录纠错与撤回](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13) | Backlog / open | 2026-10-15 | 维护/预览/保存/纠错/撤回未实现 |
@@ -45,4 +45,4 @@
 
 Gate按M0→M1→M2→M3→M4；第二轮默认通过授权仅用于已交付M0/M1。历史通过保留，新候选受影响项另行回归。#31两校M1部分可独立确认，三校M2部分继续open，不形成循环依赖。
 
-当前活动实施包1（DOC-M2合同/任务），最多两个；共享文件单一整合。修复后执行[收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)，用户未复验不自动关闭Issue，正式发布#18保持Blocked。
+当前活动实施包2（CORE-M2后端与M1-UI前端），最多两个；共享文件单一整合。修复后执行[收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)，用户未复验不自动关闭Issue，正式发布#18保持Blocked。

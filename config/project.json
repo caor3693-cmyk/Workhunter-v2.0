@@ -138,7 +138,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "30个Issue及Project5已同步。GOV PR36已合入隔离可信目标；DOC实施中。M0与M1历史结果保留，M1新候选和M2仍待用户核验。",
+  "note": "GOV36/DOC37已独立受审并CI成功进入隔离可信目标6cb4723。CORE-M2与M1-UI两个实施包进行中；原库与历史用户结果保留，未重发Site。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -1142,8 +1142,8 @@
       ],
       "implementation_started_at": null,
       "user_verified_at": null,
-      "status": "Backlog",
-      "status_label": "status:backlog",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "github_state": "open",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU"
     },
@@ -1172,8 +1172,8 @@
       ],
       "implementation_started_at": null,
       "user_verified_at": null,
-      "status": "Backlog",
-      "status_label": "status:backlog",
+      "status": "In progress",
+      "status_label": "status:in-progress",
       "github_state": "open",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ"
     },
@@ -1243,7 +1243,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGdgg",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "Ready",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1253,7 +1253,7 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:ready",
+      "status_label": "status:in-progress",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMBc",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1271,7 +1271,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGd3w",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "Ready",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1281,7 +1281,7 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:ready",
+      "status_label": "status:in-progress",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMEw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1299,7 +1299,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGeMg",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "Ready",
+      "status": "In progress",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1309,7 +1309,7 @@
         "AUD-GOV"
       ],
       "github_state": "open",
-      "status_label": "status:ready",
+      "status_label": "status:in-progress",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMGw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1738,16 +1738,20 @@
     "trusted_target_branch": "codex/m1-m2-base-20261011",
     "gov_pr": 36,
     "gov_head": "9525530c29c075a74b16bb881967b91533a8edf7",
-    "trusted_target_head": "f1d4d88a123f2273821829431c4b1a08d23bf36f",
+    "trusted_target_head": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
     "gov_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38147259472",
     "active_packages": [
       {
-        "package": "DOC-M2",
-        "owner": "DOC implementation agent",
-        "paths": [
-          "docs/CONTRACTS.md",
-          "docs/TASKS.md"
-        ]
+        "package": "CORE-M2",
+        "owner": "CORE backend owner",
+        "baseline": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
+        "paths": "CORE-M2 precise backend and tests; root does not concurrently edit backend"
+      },
+      {
+        "package": "M1-UI",
+        "owner": "UI frontend owner",
+        "baseline": "6cb47233a50bd0465f993c468a83ae5e5ddf5fb6",
+        "paths": "M1-UI precise frontend/tests; proxy and later API timing by root after backend handoff"
       }
     ],
     "maximum_implementation_packages": 2,
@@ -1757,6 +1761,26 @@
     "historical_manual_results_preserved": true,
     "current_electrical_sample_gap": [
       "scut"
-    ]
+    ],
+    "doc_pr": 37,
+    "doc_head": "e86cab26a3c143b9f91f4be1707ae78c69d050f0",
+    "doc_ci": "https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38148766494",
+    "candidate_database_copy": {
+      "schema": "2",
+      "data_mode": "real",
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "opportunities": 132,
+      "materials": 98,
+      "changes": 343,
+      "method": "consistent SQLite backup from read-only original",
+      "original_unchanged": true
+    },
+    "status_counts": {
+      "Done": 9,
+      "Blocked": 5,
+      "Backlog": 10,
+      "In progress": 6
+    },
+    "status_readback": "Project5 and Issue labels: 29/30/32/33/34/35 In progress; original Done and historical gates preserved"
   }
 }

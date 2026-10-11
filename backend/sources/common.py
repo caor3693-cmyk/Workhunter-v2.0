@@ -9,9 +9,9 @@ import zlib
 
 from bs4 import BeautifulSoup
 
-from .transport import DEFAULT_HOSTS
+from backend.domain.source_policy import validate_url, FIXED_SCHOOLS, school_policy
 
-PARSER_VERSION = "school-html-1"
+PARSER_VERSION = "school-html-2"
 CORE_FIELDS = ("published_date", "event_date", "start_time", "end_time", "deadline", "event_venue", "work_locations")
 COMPRESSED = re.compile(
     r'\$\("#(?P<slot>content\d+)"\)\.each\(function\(\)\s*\{\s*\$\(this\)\.'
@@ -33,21 +33,27 @@ def soup(text):
     return BeautifulSoup(text, "html.parser")
 
 
-def safe_url(value, base=None):
-    if not isinstance(value, str):
-        return None
-    value = urljoin(base or "", value.strip())
+def safe_url(value, base=None, *, school_key=None):
+    if not isinstance(value,str): return None
+    value = urljoin(base or '',value.strip())
+    host = urlsplit(base or value).hostname
+    keys=[]
+    if school_key:
+        keys=[school_key]
+    else:
+        for key in FIXED_SCHOOLS:
+            if host not in school_policy(key).get('approved_hosts',[]): continue
+            try:
+                validate_url(base or value,key,fetch=True)
+                keys.append(key)
+            except ValueError: pass
     try:
+        if len(keys)!=1: return None
+        validate_url(value,keys[0],fetch=True)
         parts = urlsplit(value)
-        port = parts.port
+        return urlunsplit((parts.scheme,parts.netloc,parts.path,parts.query,''))
     except ValueError:
         return None
-    if (parts.scheme != "https" or parts.hostname not in DEFAULT_HOSTS
-            or parts.username or parts.password or port not in (None, 443)):
-        return None
-    if re.search(r"/(?:user/login|default/ulogin|frontend_static/frontend/login|cas/|search)", parts.path, re.I):
-        return None
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, parts.query, ""))
 
 
 def material_reference(response, source_key, official_record_id=None, *, scope=None, parsing_status="success"):
@@ -61,9 +67,10 @@ def material_reference(response, source_key, official_record_id=None, *, scope=N
     }
 
 
-def evidence(material, locator, excerpt, *, scope="this_announcement"):
+def evidence(material, locator, excerpt, *, scope="this_announcement", source_identity=None):
     return {
         "material_ref": material["reference_key"], "source_url": material["source_url"],
+        "source_identity": source_identity or material.get("official_record_id"),
         "locator": locator, "excerpt": clean(excerpt)[:500], "scope": scope,
         "observed_at": material["fetched_at"], "parser_version": PARSER_VERSION,
     }
@@ -92,11 +99,11 @@ def candidate_base(config, official_id, title, source_url, kind, original_kind, 
 
 def set_known(candidate, name, value, material, locator, excerpt):
     candidate[name] = value
-    candidate["field_observations"][name] = observation("known", value, [evidence(material, locator, excerpt)])
+    candidate["field_observations"][name] = observation("known", value, [evidence(material, locator, excerpt,source_identity=candidate["source_identity"])])
 
 
 def set_observation(patch, candidate, name, value, material, locator, excerpt, *, state="known"):
-    item = evidence(material, locator, excerpt)
+    item = evidence(material, locator, excerpt,source_identity=candidate["source_identity"])
     previous = candidate.get("field_observations", {}).get(name, {})
     if (state == "known" and previous.get("state") == "known"
             and candidate.get(name) != value):
@@ -133,21 +140,20 @@ def parse_times(text):
 
 
 def labeled(text, labels):
-    expression = r"(?:" + "|".join(re.escape(label) for label in labels) + r")\s*[:：]\s*"
-    match = re.search(expression, text)
+    # Visible labels may be followed by a colon, a sibling text node, or a
+    # table cell/new line. Never invent a value from the publication date.
+    names = '(?:'+'|'.join(re.escape(label) for label in labels)+')'
+    match = re.search(r'(?:^|\n|(?<=[。；;]))\s*'+names+r'\s*(?:[:：]\s*|\n\s*|[ \t]+)',text)
     if not match:
-        return None
+        match = re.search(names+r'\s*[:：]\s*',text)
+    if not match: return None
     tail = text[match.end():]
-    return clean(re.split(r"\n|(?:宣讲地点|举办地点|工作地点|宣讲时间|举办时间|投递截止|报名截止)\s*[:：]", tail, maxsplit=1)[0])[:500]
+    return clean(re.split(r'\n|(?:宣讲地点|举办地点|举办地址|工作地点|工作城市|招聘城市|宣讲时间|举办时间|投递截止|报名截止)\s*[:：]',tail,maxsplit=1)[0])[:500] or None
 
 
 def campus_key(school_key, venue):
-    aliases = {
-        "scut": {"五山校区": "wushan", "大学城校区": "university_city"},
-        "gdut": {"大学城校区": "university_city", "龙洞校区": "longdong", "东风路校区": "dongfenglu"},
-    }
-    hits = {key for phrase, key in aliases.get(school_key, {}).items() if phrase in (venue or "")}
-    return next(iter(hits)) if len(hits) == 1 else None
+    hits = {campus['campus_key'] for campus in school_policy(school_key).get('campuses',[]) if campus['name'] in (venue or '')}
+    return next(iter(hits)) if len(hits)==1 else None
 
 
 def decode_public_slots(text, *, max_decoded_bytes=8_000_000):
@@ -234,7 +240,8 @@ def attachments(content, source_url, material):
             output.append({
                 "label": clean(link.get_text()) or "官方附件", "url": url,
                 "scope": "this_announcement",
-                "evidence": [evidence(material, "announcement_body a[href]", link.get_text() or url)],
+                "evidence": [evidence(material, "announcement_body a[href='"+url+"']", link.get_text() or url)],
+                "link_chain": {**evidence(material,"announcement_body a[href='"+url+"']",link.get_text() or url),"target_url":url},
             })
     return output[:8]
 
@@ -262,21 +269,47 @@ def job_fragments(content, material, locator):
 
 
 def related_evidence(text):
-    match = re.search(r"电气|电力|电网|输变电|继电保护|\bPLC\b|(?<!机械设计制造及其)自动化", text, re.I)
-    if not match:
-        return None
-    return text[max(0, match.start() - 50):match.end() + 100]
+    term=r'电气|电力|电网|输变电|继电保护|\bPLC\b|(?<!机械设计制造及其)自动化'
+    lines=[clean(line) for line in re.split(r'[\r\n；;。!?！？]+',text) if clean(line)]
+    label=r'招聘岗位|招聘专业|需求专业|专业要求|任职要求|岗位要求|招聘需求|所需专业|应聘条件'
+    background_pattern=r'公司|企业简介|集团简介|致力于|业务|服务|客户|生产制造'
+    for index,line in enumerate(lines):
+        if not re.search(term,line,re.I): continue
+        declarations=list(re.finditer(label,line))
+        if declarations:
+            # A label qualifies its own value, never industry terms before it.
+            for position,declaration in enumerate(declarations):
+                end=declarations[position+1].start() if position+1<len(declarations) else len(line)
+                value=line[declaration.end():end].lstrip(' ：:【】')
+                for part in re.split(r'[,，]',value):
+                    if re.search(term,part,re.I) and not re.search(background_pattern,part):
+                        return (declaration.group()+': '+clean(part))[:500]
+            continue
+        background=bool(re.search(background_pattern,line))
+        direct=bool(re.search('(?:'+term+r').{0,12}(?:岗|工程师|技术员|专业)',line,re.I))
+        row=bool(re.search(r'工程师|技术员|研发岗|技术岗',line)) and not background
+        previous=lines[index-1] if index else ''
+        separate_label=bool(re.fullmatch(r'(?:'+label+r'|专业|岗位|岗位名称)\s*[:：]?',previous)) and not background
+        if not background and (direct or row or separate_label):
+            return (previous+' '+line if separate_label else line)[:500]
+    return None
 
 
 def explicit_locations(text):
-    value = labeled(text, ["工作地点", "工作城市", "招聘地点", "招聘城市"])
+    # Recruiting city/venue is not a disclosed place of employment.
+    value = labeled(text,['工作地点','工作城市','任职地点','岗位地点','就业地点'])
     if not value:
-        match = re.search(r"【(?:四大|招聘|工作)城市】([^【\n]+)", text)
+        match = re.search(r'【工作城市】([^【\n]+)',text)
         value = clean(match.group(1)) if match else None
-    if not value:
-        return []
-    # Preserve official precision instead of inferring cities from company names.
-    return list(dict.fromkeys(clean(part) for part in re.split(r"[、；;]|[,，](?=[^，]*[市省])", value) if clean(part)))[:30]
+    if not value: return []
+    parts=[];start=0;depth=0
+    for index,char in enumerate(value):
+        if char in '（([【': depth+=1
+        elif char in '）)]】': depth=max(0,depth-1)
+        elif depth==0 and char in '、；;,，':
+            parts.append(clean(value[start:index]));start=index+1
+    parts.append(clean(value[start:]))
+    return list(dict.fromkeys(part for part in parts if part))[:30]
 
 
 def deadline(text, *, ordinary=False):
@@ -296,6 +329,10 @@ def fill_missing(patch, candidate, material, content, locator, *, event_semantic
         if not event_semantics and name in ("event_date", "start_time", "end_time", "event_venue"):
             state = "not_applicable"
         else:
-            state = "not_disclosed" if complete else "not_collected"
+            labels = {'event_date':('宣讲时间','举办时间','活动时间'),'start_time':('宣讲时间','举办时间','活动时间'),'end_time':('宣讲时间','举办时间','活动时间'),'event_venue':('宣讲地点','举办地点','活动地点'),'work_locations':('工作地点','工作城市','任职地点','招聘城市','招聘地点'),'deadline':('截止','截止日期')}
+            if any(label in text for label in labels.get(name,())):
+                state = 'pending_extraction' if name=='work_locations' and re.search('招聘城市|招聘地点',text) else 'parse_failed'
+            else:
+                state = 'not_disclosed' if complete else 'pending_extraction'
         set_observation(patch, candidate, name, [] if name == "work_locations" else None,
                         material, locator, text[:300] or candidate["title"], state=state)

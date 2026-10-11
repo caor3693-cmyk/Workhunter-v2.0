@@ -1,19 +1,7 @@
 """Registered source adapters share one bounded fetch/material protocol."""
 
-from .gdut import GdutAdapter
-from .scut import ScutAdapter
 from .transport import FetchError, Fetcher
-
-ADAPTERS = {"scut": ScutAdapter(), "scut_cnsba": ScutAdapter(), "gdut": GdutAdapter()}
-
-
-def get_adapter(config_or_name):
-    name = (config_or_name.get("adapter") or config_or_name["school_key"]
-            if isinstance(config_or_name, dict) else config_or_name)
-    try:
-        return ADAPTERS[name]
-    except KeyError as exc:
-        raise ValueError("Source adapter is not registered") from exc
+from .registry import ADAPTERS, get_adapter, register_adapter, capabilities
 
 
 def discover(source_config, fetcher, cursor=None):
@@ -21,7 +9,12 @@ def discover(source_config, fetcher, cursor=None):
 
 
 def enrich(candidate, fetcher):
-    return get_adapter(candidate["school_key"]).enrich(candidate, fetcher)
+    from backend.domain.source_policy import school_policy
+    sources = school_policy(candidate['school_key']).get('sources',[])
+    config = next((item for item in sources if item['source_key']==candidate.get('source_key')),None)
+    if config is None:
+        raise ValueError('候选来源没有登记具体适配器。')
+    return get_adapter(config).enrich(candidate,fetcher)
 
 
 __all__ = ["ADAPTERS", "FetchError", "Fetcher", "discover", "enrich", "get_adapter"]

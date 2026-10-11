@@ -2,6 +2,7 @@ from dataclasses import fields
 from datetime import date, datetime, timezone, timedelta
 import hmac
 import ipaddress
+import time
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -90,6 +91,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.middleware("http")
     async def service_boundary(request: Request, call_next):
+        started_at = time.time_ns() // 1_000_000
+        started = time.perf_counter()
         if configuration.service_token:
             supplied = request.headers.get("authorization", "")
             expected = "Bearer " + configuration.service_token
@@ -100,6 +103,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         response = await call_next(request)
         response.headers["Cache-Control"] = "no-store"
         response.headers["X-Content-Type-Options"] = "nosniff"
+        elapsed = (time.perf_counter() - started) * 1000
+        response.headers["Server-Timing"] = f"api;dur={elapsed:.3f}"
+        response.headers["X-WH-API-Started-At"] = str(started_at)
+        response.headers["X-WH-API-Ended-At"] = str(time.time_ns() // 1_000_000)
         return response
 
     @app.exception_handler(DatabaseUnavailable)

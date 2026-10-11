@@ -1,6 +1,10 @@
 """The shared, bounded write boundary; collection never runs inside it."""
 
 from contextlib import contextmanager
+from dataclasses import dataclass
+from datetime import datetime, timezone
+import hashlib
+import json
 import os
 from pathlib import Path
 import sqlite3
@@ -15,6 +19,70 @@ class WriterBusy(RuntimeError):
 
 class RefreshBusy(WriterBusy):
     """A refresh is already running for this database."""
+
+
+class WriteConflict(ValueError):
+    """A stale version or reused key cannot modify facts."""
+
+
+@dataclass(frozen=True)
+class WriteContext:
+    actor: str
+    reason: str
+    idempotency_key: str
+    run_id: str | None = None
+    operation_id: str | None = None
+    change_kind: str = 'automatic'
+    base_version: int | None = None
+
+    def __post_init__(self):
+        if bool(self.run_id) == bool(self.operation_id):
+            raise ValueError('事实写入只能绑定采集轮次或维护操作之一。')
+        if any(not isinstance(v,str) or not v.strip() or len(v)>1000 for v in (self.actor,self.reason,self.idempotency_key)):
+            raise ValueError('写入上下文缺少操作者、原因或幂等键。')
+        if self.change_kind not in {'automatic','semantic_revision','manual_supplement','manual_correction','manual_withdrawal','manual_revert','migration_revision'}:
+            raise ValueError('事实变化类型无效。')
+        if (self.run_id and self.change_kind!='automatic') or (self.operation_id and self.change_kind=='automatic'):
+            raise ValueError('操作类型与自动/人工来源不一致。')
+        if self.base_version is not None and (type(self.base_version) is not int or self.base_version<0):
+            raise ValueError('基础版本无效。')
+
+    @property
+    def key(self):
+        return ('run:' + self.run_id if self.run_id else 'operation:' + self.operation_id) + ':' + self.idempotency_key
+
+
+def context_request_hash(context, payload):
+    value = {'actor':context.actor,'reason':context.reason,'run_id':context.run_id,'operation_id':context.operation_id,
+             'change_kind':context.change_kind,'base_version':context.base_version,'payload':payload}
+    return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+
+def begin_fact_write(connection, context, request_hash):
+    """Called inside the caller's writer transaction. Replay precedes expiry checks."""
+    receipt = connection.execute('SELECT request_hash,receipt_json FROM write_receipts WHERE context_key=?',(context.key,)).fetchone()
+    if receipt:
+        if receipt['request_hash'] != request_hash:
+            raise WriteConflict('幂等键已用于不同输入。')
+        return json.loads(receipt['receipt_json'])
+    if context.run_id:
+        if connection.execute('SELECT 1 FROM runs WHERE id=?',(context.run_id,)).fetchone() is None:
+            raise ValueError('事实写入必须绑定已登记采集轮次。')
+    else:
+        operation = connection.execute('SELECT actor,status,expires_at,expected_version FROM manual_operations WHERE id=?',(context.operation_id,)).fetchone()
+        if not operation or operation['actor'] != context.actor or operation['status'] not in {'preview','committing'}:
+            raise WriteConflict('维护操作不存在、操作者不一致或不可提交。')
+        expiry = datetime.fromisoformat(operation['expires_at'])
+        if expiry.tzinfo is None or expiry <= datetime.now(timezone.utc):
+            raise WriteConflict('维护预览已过期，请重新预览。')
+        if operation['expected_version'] is not None and operation['expected_version'] != context.base_version:
+            raise WriteConflict('维护操作绑定版本不一致。')
+    return None
+
+
+def finish_fact_write(connection, context, request_hash, receipt, timestamp):
+    connection.execute('INSERT INTO write_receipts(context_key,request_hash,actor,run_id,operation_id,reason,change_kind,receipt_json,committed_at) VALUES (?,?,?,?,?,?,?,?,?)',
+                       (context.key,request_hash,context.actor,context.run_id,context.operation_id,context.reason,context.change_kind,json.dumps(receipt,ensure_ascii=False,sort_keys=True),timestamp))
 
 
 @contextmanager

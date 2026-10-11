@@ -24,7 +24,7 @@ def main(argv=None) -> int:
     serve.add_argument("--port", type=int, default=8765)
     refresh = commands.add_parser("refresh", help="手工有限刷新华工/广工公开栏目；范围与失败如实记录")
     refresh.add_argument("--db", type=Path)
-    refresh.add_argument('--school', choices=['scut', 'gdut'], action='append')
+    refresh.add_argument('--school', choices=['scut','gdut','ncepu','shiep','neepu','csust','ctgu','gzhu','hnu','csu'], action='append')
     refresh.add_argument('--pages', type=int, default=2)
     refresh.add_argument('--details', type=int, default=12)
     refresh.add_argument('--resume', help='已有部分轮次 ID，续跑已保存游标/详情任务')

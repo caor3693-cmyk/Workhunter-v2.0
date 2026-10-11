@@ -21,7 +21,7 @@
           "observed_at": "2026-10-11T13:25:26+08:00"
         }
       ],
-      "scope_note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+      "scope_note": "CAS统一认证路径仍受限；学院补充历史栏目与国家大学生就业平台华工学校来源电气公开有限查询独立记录，均非全校覆盖。",
       "seed_observation": {
         "status": "restricted",
         "observed_at": "2026-10-11T13:25:26+08:00",
@@ -41,8 +41,48 @@
             "page_budget": 2,
             "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。"
           }
+        },
+        {
+          "source_key": "scut_ncss",
+          "school_key": "scut",
+          "channel_key": "scut_ncss",
+          "name": "国家大学生就业平台华工来源（电气有限查询）",
+          "official_entry_url": "https://www.ncss.cn/student/jobs/jobslist/ajax/?sourcesName=nlienp69uztxk4q8ikyu61issohbja7h&sourcesType=1&jobName=%E7%94%B5%E6%B0%94&offset=1&limit=10",
+          "adapter": "scut_ncss",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 1,
+            "query_keyword": "电气",
+            "school_source_id": "nlienp69uztxk4q8ikyu61issohbja7h",
+            "owner_directory_url": "https://www.ncss.cn/student/m/api/jobs/findJobOutsiteNames?type=1",
+            "note": "公开目录、逐条列表和详情来源标记共同确认华工学校来源；有限查询不代表CAS恢复或全部岗位。"
+          }
         }
-      ]
+      ],
+      "approved_hosts": [
+        "cnsba.scut.edu.cn",
+        "jyzx.scut.edu.cn",
+        "www.ncss.cn"
+      ],
+      "platform_tenants": {
+        "www.ncss.cn": {
+          "owner_evidence_url": "https://www.moe.gov.cn/srcsite/A15/s3265/202604/t20260423_1434600.html",
+          "public_paths": [
+            "/student/m/api/jobs/findJobOutsiteNames"
+          ],
+          "scoped_paths": {
+            "/student/jobs/jobslist/ajax/": {
+              "sourcesName": "nlienp69uztxk4q8ikyu61issohbja7h",
+              "sourcesType": "1"
+            }
+          },
+          "record_path_pattern": "/student/jobs/[A-Za-z0-9_-]+/detail\\.html",
+          "requires_adapter_identity": true,
+          "school_source_identity": "nlienp69uztxk4q8ikyu61issohbja7h",
+          "school_source_name": "华南理工大学"
+        }
+      }
     },
     {
       "school_key": "gdut",
@@ -111,7 +151,11 @@
             "school_wide": false
           }
         }
-      ]
+      ],
+      "approved_hosts": [
+        "career.gdut.edu.cn"
+      ],
+      "platform_tenants": {}
     },
     {
       "school_key": "ncepu",
@@ -121,7 +165,9 @@
       "verified_at": null,
       "official_owner_evidence_url": null,
       "campuses": [],
-      "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。"
+      "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。",
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "shiep",
@@ -130,7 +176,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "neepu",
@@ -139,7 +187,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "csust",
@@ -148,7 +198,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "ctgu",
@@ -157,7 +209,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "gzhu",
@@ -166,7 +220,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "hnu",
@@ -175,7 +231,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     },
     {
       "school_key": "csu",
@@ -184,7 +242,9 @@
       "verification_state": "pending",
       "verified_at": null,
       "official_owner_evidence_url": null,
-      "campuses": []
+      "campuses": [],
+      "approved_hosts": [],
+      "platform_tenants": {}
     }
   ]
 }

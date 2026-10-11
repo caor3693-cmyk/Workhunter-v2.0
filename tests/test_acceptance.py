@@ -10,6 +10,7 @@ from backend.api.app import create_app
 from backend.config import Settings
 from backend.services.ingestion import ingest_page
 from backend.storage.database import initialize_database, read_database
+from backend.storage.write import writer_transaction
 from scripts.prepare_acceptance import DB_NAME, _config, _record, load_bundle, prepare_bundle
 
 
@@ -41,7 +42,7 @@ def test_fixture_identity_material_hash_ownership_and_original_user_results(bund
     directory, database, manifest, client = bundle
     assert manifest['data_mode'] == 'isolated_fixture'
     assert manifest['dataset_id'].startswith('fixture-ds-')
-    assert manifest['schema_version'] == '2'
+    assert manifest['schema_version'] == '3'
     assert manifest['record_count'] == 29
     assert manifest['source_origin'] == 'generated_locally_never_fetched'
     assert manifest['user_results']['M0']['M0-02'] == '失败'
@@ -64,7 +65,7 @@ def test_fixture_identity_material_hash_ownership_and_original_user_results(bund
                 for evidence in observation['evidence']:
                     material = materials[evidence['material_id']]
                     assert material['source_key'] == row['source_key']
-                    assert material['opportunity_id'] == row['id']
+                    assert connection.execute('SELECT 1 FROM opportunity_materials WHERE opportunity_id=? AND material_id=? AND school_key=? AND source_key=? AND source_identity=?', (row['id'], material['id'], row['school_key'], row['source_key'], row['source_identity'])).fetchone() is not None
                     assert material['source_url'] == evidence['source_url']
                     assert material['acquisition_status'] == 'success'
                     assert evidence['excerpt'] in Path(material['raw_reference']).read_text(encoding='utf-8')
@@ -146,6 +147,8 @@ def test_fixture_materials_cannot_be_written_to_an_empty_real_database(bundle, t
     directory, _, manifest, _ = bundle
     real = tmp_path / 'empty-real.sqlite3'
     initialize_database(real)
+    with writer_transaction(real) as (connection, _):
+        connection.execute("INSERT INTO runs(id,trigger,started_at,status,scope_json) VALUES ('not-real','manual','2026-10-11T00:00:00+08:00','running','{}')")
     before = hashlib.sha256(real.read_bytes()).hexdigest()
     candidate, archives = _record(directory, 'must-not-enter-real-db', 'gdut', values={'published_date': manifest['as_of']})
     with pytest.raises(ValueError, match='隔离样例'):

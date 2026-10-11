@@ -2,37 +2,18 @@
 from copy import deepcopy
 from datetime import date, datetime, time
 import ipaddress
+import re
 from urllib.parse import urlsplit
 
 CORE_FIELDS = ('published_date', 'event_date', 'start_time', 'end_time', 'deadline', 'event_venue', 'work_locations')
 STATES = {'known', 'not_collected', 'pending_extraction', 'parse_failed', 'not_disclosed', 'not_applicable', 'conflict'}
 KINDS = {'campus_talk', 'job_fair', 'online_recruitment', 'announcement'}
 MAX_INTEGER = 9223372036854775807
-OFFICIAL_HOSTS = {'scut': {'cnsba.scut.edu.cn', 'jyzx.scut.edu.cn'}, 'gdut': {'career.gdut.edu.cn'}}
+from backend.domain.source_policy import validate_url
 
 
 def safe_url(value, school_key=None):
-    if not isinstance(value, str) or len(value) > 2048 or any(ord(c) < 32 for c in value):
-        raise ValueError('来源链接无效。')
-    try:
-        parsed = urlsplit(value)
-        port = parsed.port
-    except ValueError as error:
-        raise ValueError('来源链接无效。') from error
-    if parsed.scheme not in {'http', 'https'} or not parsed.hostname or parsed.username or parsed.password or port not in {None, 80, 443}:
-        raise ValueError('仅接受官方公开 HTTP(S) 链接。')
-    host = parsed.hostname.lower()
-    try:
-        ipaddress.ip_address(host)
-    except ValueError:
-        pass
-    else:
-        raise ValueError('来源链接必须为官方域名。')
-    if school_key and host not in OFFICIAL_HOSTS.get(school_key, set()):
-        raise ValueError('来源链接不属于本轮学校官方域名。')
-    if host == 'localhost' or '.' not in host:
-        raise ValueError('不能读取本机或内部链接。')
-    return value
+    return validate_url(value, school_key)
 
 
 def _text(value, label, limit=2000, required=False):
@@ -73,7 +54,7 @@ def validate_evidence(items, school_key):
         if item.get('material_ref'):
             _text(item['material_ref'], '材料引用', 256, True)
         item['source_url'] = safe_url(item.get('source_url'), school_key)
-        for field in ('locator', 'excerpt', 'parser_version'):
+        for field in ('source_identity', 'locator', 'excerpt', 'parser_version'):
             _text(item.get(field), field, 2000, True)
         scope = item.get('scope')
         if not isinstance(scope, (dict, str)) or not scope:
@@ -131,6 +112,8 @@ def validate_candidate(candidate, source_config):
         if not isinstance(observation, dict) or not isinstance(observation.get('state'),str) or observation['state'] not in STATES:
             raise ValueError('字段证据状态无效。')
         observation['evidence'] = validate_evidence(observation.get('evidence', []), data['school_key'])
+        if any(e['source_identity'] != data['source_identity'] for e in observation['evidence']):
+            raise ValueError('字段证据只能适用于本条官方记录身份。')
         value = observation.get('value')
         if observation['state'] == 'known':
             if value is None or value == '' or value == [] or not observation['evidence']:
@@ -174,7 +157,21 @@ def validate_candidate(candidate, source_config):
                     raise ValueError('片段适用范围无效。')
                 _text(value.get('text'), '片段', 2000, True)
             value['evidence'] = validate_evidence(value.get('evidence', []), data['school_key'])
+            if any(e['source_identity'] != data['source_identity'] for e in value['evidence']):
+                raise ValueError('附加证据只能适用于本条官方记录身份。')
+            if field == 'attachments':
+                chain = value.get('link_chain')
+                if not isinstance(chain, dict) or chain.get('target_url') != value['url'] or chain.get('source_identity') != data['source_identity'] or not chain.get('locator') or not (chain.get('material_ref') or type(chain.get('material_id')) is int):
+                    raise ValueError('附件必须有本条公告到附件的明确链接链。')
             if not value['evidence']:
                 raise ValueError('片段或附件缺少材料证据。')
         data[field] = values
     return data
+
+
+def locator_identifies_identity(locator, identity):
+    if not isinstance(locator,str) or not isinstance(identity,str) or not identity: return False
+    exact=re.search(r'(?<![A-Za-z0-9_-])'+re.escape(identity)+r'(?![A-Za-z0-9_-])',locator)
+    # SCUT's official href explicitly encodes the record as c29313a<ID>/.
+    scut=identity.isdecimal() and re.search(r'(?<![A-Za-z0-9_-])a'+re.escape(identity)+r'(?=/)',locator)
+    return bool(exact or scut)

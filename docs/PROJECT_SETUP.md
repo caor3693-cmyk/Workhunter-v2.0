@@ -10,7 +10,7 @@
 
 旧“通道受阻/ID为null”是10-10—10-11此前现场，历史见git与原报告，现已被实际成功回读替代。未登录或扩权，没有用户提供新令牌；仓库和项目私密策略保持。M0七项通过、M1三项失败和新#29/#30/#31未解决分别登记，管理配置完成不表示M1通过或正式上线。
 
-本轮 M1-M2 执行补入 #32—35，现有30项保留；新增四项的 Status、Stage、Priority、Start date、Target date 已逐项回读。#32 为 In progress，#33—35 为 Ready，Stage M2/P1，Start 2026-10-11、Target 2026-10-13；真实 item ID 已写 config，不再是 pending/null。GOV PR36 已进入隔离可信目标，DOC 冻结不代表业务或用户 Gate 完成。
+本轮 M1-M2 执行补入 #32—35，现有30项保留；新增四项的 Status、Stage、Priority、Start date、Target date 已逐项回读。#29/#30/#32—35 为 In progress，Stage M2/P1，Start 2026-10-11、Target 2026-10-13；真实 item ID 已写 config，不再是 pending/null。GOV PR36 已进入隔离可信目标，DOC 冻结不代表业务或用户 Gate 完成。
 
 下面为后续幂等维护参考，不再新建第二个同名项目；使用已登记ID，先读后写并回读。
 

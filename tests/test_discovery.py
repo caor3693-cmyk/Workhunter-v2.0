@@ -165,12 +165,15 @@ def test_whole_run_lock_rejects_a_second_refresh_before_network(database):
 def test_registration_is_explicit_idempotent_and_does_not_change_empty_dataset(database):
     config = json.loads((ROOT / "config" / "schools.json").read_text(encoding="utf-8"))
     before = snapshot(database)["metadata"]
+    expected_sources = {source["source_key"] for school in config["schools"] for source in school.get("sources", [])}
+    with read_database(database) as (connection, _):
+        original_sources = {row[0] for row in connection.execute("SELECT source_key FROM sources")}
     registered = register_sources(database, config, fixture=True)
-    assert len(registered) == 4
+    assert {source["source_key"] for source in registered} == expected_sources
     assert register_sources(database, config, fixture=True) == registered
     assert snapshot(database)["metadata"] == before
     with read_database(database) as (connection, _):
-        assert connection.execute("SELECT COUNT(*) FROM sources").fetchone()[0] == 14
+        assert {row[0] for row in connection.execute("SELECT source_key FROM sources")} == original_sources | expected_sources
         registered_campuses = {(row["school_key"], row["campus_key"]) for row in connection.execute("SELECT school_key,campus_key FROM campuses")}
         assert registered_campuses == {(school["school_key"], campus["campus_key"]) for school in config["schools"] for campus in school.get("campuses", []) if school["school_key"] in {"scut", "gdut"}}
         assert connection.execute("SELECT status FROM sources WHERE source_key='scut_homepage'").fetchone()[0] == "restricted"
@@ -178,11 +181,11 @@ def test_registration_is_explicit_idempotent_and_does_not_change_empty_dataset(d
     assert all(tuple(row) == ("pending", None) for row in others)
 
 
-def test_refresh_rejects_fixture_mix_and_unapproved_school_before_network(database):
+def test_refresh_rejects_fixture_mix_and_unconfigured_school_before_network(database):
     config = source()
     with pytest.raises(ValueError, match="真实采集"):
         refresh_sources(database, [config], fixture=False)
-    with pytest.raises(ValueError, match="仅允许"):
+    with pytest.raises(ValueError, match="已登记来源"):
         refresh_sources(database, [config], fixture=True, school_keys=("ncepu",))
     assert snapshot(database)["rows"] == []
 
@@ -233,6 +236,8 @@ def test_real_source_adapter_protocol_in_isolated_store_does_not_churn_on_repeat
     configs = register_sources(database, config, fixture=True)
     scut = next(item for item in configs if item["school_key"] == "scut")
     pages = {scut["official_entry_url"]: fixture("scut_list.html"), "https://cnsba.scut.edu.cn/2026/1009/c29313a9000001/page.htm": fixture("scut_announcement.html"), "https://cnsba.scut.edu.cn/2026/1009/c29313a9000002/page.htm": fixture("scut_month_day.html")}
+    # A normal next run continues the saved tail within its one-page budget.
+    pages['https://cnsba.scut.edu.cn/jysx/list2.htm']=fixture('scut_list.html')
     refresh_sources(database, [scut], transport=lambda _: fetcher(tmp_path, pages), page_budget=1, detail_budget=2, fixture=True)
     before = snapshot(database)
     assert not any(entry["change_kind"] == "official_change" for entry in before["changes"])

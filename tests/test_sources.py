@@ -82,7 +82,7 @@ def test_scut_list_stable_ids_publication_and_real_next_href(tmp_path):
     validate_candidate(page["records"][0], source)
 
 
-def test_scut_ordinary_notice_work_cities_and_non_applicable_venue(tmp_path):
+def test_scut_ambiguous_city_label_is_not_work_city_and_venue_not_applicable(tmp_path):
     source = config()
     client = fetcher(tmp_path, {
         source["official_entry_url"]: fixture("scut_list.html"),
@@ -91,7 +91,8 @@ def test_scut_ordinary_notice_work_cities_and_non_applicable_venue(tmp_path):
     candidate = discover(source, client)["records"][0]
     result = enrich(candidate, client)
     final = merge(candidate, result["patch"])
-    assert final["work_locations"] == ["北京", "上海", "广州", "成都"]
+    assert final["work_locations"] == []
+    assert final["field_observations"]["work_locations"]["state"] == "not_disclosed"
     assert final["field_observations"]["event_venue"]["state"] == "not_applicable"
     assert final["event_date"] is None and final["relevance"] == "unknown"
     validate_candidate(final, source)
@@ -195,7 +196,7 @@ def test_partial_body_image_does_not_make_uncovered_fields_not_disclosed(tmp_pat
     })
     candidate = discover(source, client)["records"][0]
     result = enrich(candidate, client)
-    assert result["patch"]["field_observations"]["work_locations"]["state"] == "not_collected"
+    assert result["patch"]["field_observations"]["work_locations"]["state"] == "pending_extraction"
     assert result["material_refs"][0]["scope"]["coverage"] == "partial"
 
 

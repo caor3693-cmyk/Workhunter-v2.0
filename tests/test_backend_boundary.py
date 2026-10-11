@@ -66,7 +66,12 @@ def seed_opportunity(connection, item_id=1, **values):
          fields["first_seen_at"], f"isolated_fixture/{item_id}.txt",
          json.dumps({"type": "isolated_fixture", "coverage": "synthetic_only"})),
     ).lastrowid
+    connection.execute('UPDATE source_materials SET official_record_id=? WHERE id=?',(fields['source_identity'],material_id))
+    def relation(locator):
+        basis={'source_identity':fields['source_identity'],'source_url':fields['source_url'],'locator':locator,'excerpt':'隔离合成依据','material_hash':hashlib.sha256(f"isolated synthetic material {item_id}".encode()).hexdigest()}
+        return connection.execute('INSERT INTO opportunity_materials(opportunity_id,material_id,school_key,source_key,source_identity,relation_kind,locator,scope_json,basis_json,verified_at) VALUES (?,?,?,?,?,?,?,?,?,?)',(item_id,material_id,fields['school_key'],fields['source_key'],fields['source_identity'],'body',locator,json.dumps('this_announcement'),json.dumps(basis),fields['first_seen_at'])).lastrowid
     evidence = {
+        'source_identity': fields['source_identity'], 'association_id': relation(f'fixture:announcement:{item_id}'),
         "material_id": material_id, "source_url": fields["source_url"],
         "locator": f"fixture:announcement:{item_id}", "excerpt": "隔离合成材料，仅用于读取边界回归",
         "scope": "this_announcement", "observed_at": fields["first_seen_at"],
@@ -78,7 +83,7 @@ def seed_opportunity(connection, item_id=1, **values):
         observations[field] = {
             "state": "known" if value not in (None, []) else "not_collected",
             "value": value if value not in (None, []) else None,
-            "evidence": [{**evidence, "locator": f"fixture:{field}", "excerpt": f"隔离合成 {field}: {value}"}] if value not in (None, []) else [],
+            "evidence": [{**evidence, "locator": f"fixture:{field}", "association_id":relation(f"fixture:{field}"), "excerpt": f"隔离合成 {field}: {value}"}] if value not in (None, []) else [],
         }
     if fields["relevance"] != "unknown":
         observations["relevance"] = {"state": "known", "value": fields["relevance"], "evidence": [evidence]}
@@ -223,7 +228,7 @@ def test_explicit_migration_preserves_backup_dataset_and_null_task_history(tmp_p
     with sqlite3.connect(receipt['backup']) as connection:
         assert list(connection.iterdump()) == original_dump
     with read_database(path) as (connection, metadata):
-        assert metadata['schema_version'] == '2' and metadata['dataset_id'] == 'old-isolated-dataset'
+        assert metadata['schema_version'] == '3' and metadata['dataset_id'] == 'old-isolated-dataset'
         tasks = connection.execute('SELECT task_identity,status FROM processing_tasks ORDER BY id').fetchall()
         assert len(tasks) == 2 and tasks[0][0] == 'list:teachin' and tasks[1][1] == 'superseded'
         with pytest.raises(sqlite3.OperationalError):
@@ -459,6 +464,10 @@ def test_projection_rejects_unbound_or_mismatched_evidence_without_writes(fixtur
     today = datetime.now(timezone(timedelta(hours=8))).date().isoformat()
     with sqlite3.connect(fixture_database) as connection:
         evidence = seed_opportunity(connection, published_date=today)
+        if fault in {'other-source','other-opportunity'}:
+            # Simulate damage by an external writer; normal transactions reject
+            # these mutations before they can create an invalid association.
+            connection.execute('DROP TRIGGER materials_applicability_update')
         if fault in {"other-source", "other-opportunity", "pending-material", "failed-material", "restricted-material"}:
             if fault == "other-source":
                 connection.execute("UPDATE source_materials SET source_key='gdut_homepage',opportunity_id=NULL WHERE id=?", (evidence["material_id"],))
@@ -568,7 +577,11 @@ def test_invalid_fragment_scope_is_503_without_mutating_database(fixture_databas
         evidence = seed_opportunity(connection)
         fragment = {"text": "隔离合成片段", "scope": scope, "evidence": [evidence]}
         connection.execute("UPDATE opportunities SET roster_fragments_json=? WHERE id=1", (json.dumps([fragment], ensure_ascii=False),))
-    assert_rejected_without_writes(fixture_database, ("/api/opportunities/1",))
+    before=digest(fixture_database)
+    result=client(fixture_database).get('/api/opportunities/1')
+    assert result.status_code==200 and result.json()['roster_fragments']==[]
+    assert result.json()['supplemental_status']=='pending_verification'
+    assert digest(fixture_database)==before
 
 
 @pytest.mark.parametrize("field", ["roster_fragments_json", "job_fragments_json", "attachments_json"])
@@ -582,7 +595,11 @@ def test_fragment_and_attachment_evidence_cannot_borrow_another_opportunity(fixt
         else:
             fragment["text"] = "隔离合成片段"
         connection.execute(f"UPDATE opportunities SET {field}=? WHERE id=1", (json.dumps([fragment], ensure_ascii=False),))
-    assert_rejected_without_writes(fixture_database, ("/api/opportunities/1",))
+    before=digest(fixture_database)
+    result=client(fixture_database).get('/api/opportunities/1')
+    assert result.status_code==200 and result.json()[field.removesuffix('_json')]==[]
+    assert result.json()['supplemental_status']=='pending_verification'
+    assert digest(fixture_database)==before
 
 
 @pytest.mark.parametrize("url", [
@@ -606,8 +623,13 @@ def add_date_conflict(connection, field, evidence, item_id=1):
         "INSERT INTO source_materials(source_key,reference_key,opportunity_id,source_url,material_hash,fetched_at,raw_reference,acquisition_status,parsing_status,parser_version,scope_json) SELECT source_key,reference_key||':conflict',opportunity_id,source_url,?,fetched_at,raw_reference||':conflict',acquisition_status,parsing_status,parser_version,scope_json FROM source_materials WHERE id=?",
         (hashlib.sha256(b"isolated synthetic conflicting date material").hexdigest(), evidence["material_id"]),
     ).lastrowid
+    identity=connection.execute('SELECT source_identity FROM opportunities WHERE id=?',(item_id,)).fetchone()[0]
+    connection.execute('UPDATE source_materials SET official_record_id=? WHERE id=?',(identity,other_id))
+    material=connection.execute('SELECT school_key,source_key FROM opportunities WHERE id=?',(item_id,)).fetchone()
+    basis={'source_identity':identity,'source_url':evidence['source_url'],'locator':evidence['locator'],'excerpt':'隔离合成冲突依据','material_hash':hashlib.sha256(b'isolated synthetic conflicting date material').hexdigest()}
+    association=connection.execute('INSERT INTO opportunity_materials(opportunity_id,material_id,school_key,source_key,source_identity,relation_kind,locator,scope_json,basis_json,verified_at) VALUES (?,?,?,?,?,?,?,?,?,?)',(item_id,other_id,material[0],material[1],identity,'body',evidence['locator'],json.dumps(evidence['scope']),json.dumps(basis),evidence['observed_at'])).lastrowid
     conflict = {"state": "conflict", "value": None, "evidence": [evidence, {
-        **evidence, "material_id": other_id, "excerpt": "隔离合成材料中出现另一个日期，尚未裁定",
+        **evidence, "material_id": other_id, "association_id":association, "excerpt": "隔离合成材料中出现另一个日期，尚未裁定",
     }]}
     change_observations(connection, lambda observations: observations.update({field: conflict}), item_id)
 

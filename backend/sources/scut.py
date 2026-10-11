@@ -1,6 +1,9 @@
 """Public SCUT college announcements; the authenticated main portal stays restricted."""
 
+from datetime import datetime, timedelta, timezone
+import json
 import re
+from urllib.parse import parse_qs, urlencode, urlsplit
 
 from .common import (
     attachments, campus_key, candidate_base, clean, deadline, evidence, explicit_locations,
@@ -17,6 +20,8 @@ def discover(source_config, fetcher, cursor=None):
     if not re.fullmatch(r"https://cnsba\.scut\.edu\.cn/jysx/list(?:\d+)?\.htm", url):
         raise FetchError("华工来源游标不属于已核验的公开栏目")
     response = fetcher.get(url)
+    if response["url"] != url:
+        raise FetchError("学院栏目最终响应不属于本页游标，已停止解析", material_ref=response)
     document = soup(response["text"])
     material = material_reference(response, source_config["source_key"], scope={
         "type": "source_list", "coverage": "complete_for_page", "page_url": response["url"],
@@ -51,6 +56,9 @@ def enrich(candidate, fetcher):
     document = soup(response["text"])
     content = document.select_one(".wp_articlecontent")
     material = material_reference(response, candidate["source_key"], candidate["source_identity"])
+    if response["url"] != candidate["source_url"]:
+        material["parsing_status"] = "failed"
+        return {"patch": {}, "material_refs": [material], "warnings": ["学院详情跳转至其他材料，未补充本条字段"]}
     if content is None:
         material["parsing_status"] = "failed"
         return {"patch": {}, "material_refs": [material],
@@ -115,3 +123,166 @@ def enrich(candidate, fetcher):
 class ScutAdapter:
     discover = staticmethod(discover)
     enrich = staticmethod(enrich)
+
+
+# Public school-source identifier returned by NCSS's source-name directory.
+# It is a public catalogue identity, not a credential or authentication token.
+NCSS_SCHOOL_ID = "nlienp69uztxk4q8ikyu61issohbja7h"
+NCSS_OWNER_URL = "https://www.ncss.cn/student/m/api/jobs/findJobOutsiteNames?type=1"
+NCSS_LIST_URL = "https://www.ncss.cn/student/jobs/jobslist/ajax/"
+NCSS_JOB = re.compile(r"https://www\.ncss\.cn/student/jobs/([A-Za-z0-9]{8,80})/detail\.html")
+
+
+def ncss_list_url(offset=1):
+    return NCSS_LIST_URL + "?" + urlencode({"sourcesName": NCSS_SCHOOL_ID,
+        "sourcesType": "1", "jobName": "电气", "offset": str(offset), "limit": "10"})
+
+
+def _ncss_cursor(url):
+    parts = urlsplit(url)
+    values = parse_qs(parts.query, keep_blank_values=True)
+    expected = parse_qs(urlsplit(ncss_list_url()).query)
+    if (parts.scheme != "https" or parts.netloc != "www.ncss.cn"
+            or parts.path != "/student/jobs/jobslist/ajax/" or parts.fragment
+            or set(values) != set(expected)
+            or any(values[key] != expected[key] for key in expected if key != "offset")
+            or len(values["offset"]) != 1 or not re.fullmatch(r"[1-9]\d{0,3}", values["offset"][0])):
+        raise FetchError("华工平台游标必须保留已核验的学校来源与公开查询范围")
+    return int(values["offset"][0])
+
+
+def _ncss_json(response):
+    try:
+        value = json.loads(response["text"])
+    except (TypeError, ValueError) as exc:
+        raise FetchError("公开平台未返回可解析的数据材料", material_ref=response) from exc
+    if not isinstance(value, dict) or value.get("flag") is not True:
+        raise FetchError("公开平台未确认返回学校来源材料", material_ref=response)
+    return value.get("data")
+
+
+def ncss_discover(source_config, fetcher, cursor=None):
+    if source_config["school_key"] != "scut":
+        raise FetchError("平台学校来源归属不一致")
+    url = cursor or source_config["official_entry_url"]
+    offset = _ncss_cursor(url)
+    owner_response = fetcher.get(NCSS_OWNER_URL)
+    if owner_response["url"] != NCSS_OWNER_URL:
+        raise FetchError("学校来源目录最终响应身份不一致", material_ref=owner_response)
+    directory = _ncss_json(owner_response)
+    if not isinstance(directory, list) or not any(isinstance(item, dict)
+            and item.get("id") == NCSS_SCHOOL_ID and item.get("name") == "华南理工大学"
+            for item in directory):
+        raise FetchError("公开目录未确认华南理工大学来源身份", material_ref=owner_response)
+    response = fetcher.get(url)
+    if _ncss_cursor(response["url"]) != offset:
+        raise FetchError("平台列表最终响应改变分页身份，已停止解析", material_ref=response)
+    data = _ncss_json(response)
+    if not isinstance(data, dict) or not isinstance(data.get("list"), list):
+        raise FetchError("平台学校来源列表结构未可靠取得", material_ref=response)
+    material = material_reference(response, source_config["source_key"], scope={
+        "type": "source_list", "coverage": "complete_for_page", "page_url": response["url"],
+        "school_source_id": NCSS_SCHOOL_ID,
+    })
+    records, warnings, seen = [], [], set()
+    for row in data["list"][:10]:
+        if not isinstance(row, dict):
+            continue
+        identity = str(row.get("jobId") or "")
+        if (row.get("sourcesName") != NCSS_SCHOOL_ID or row.get("sourcesNameCh") != "华南理工大学"
+                or str(row.get("sourcesType")) != "12"):
+            warnings.append("列表混入未经学校来源归属校验的记录，未收录")
+            continue
+        title = clean(row.get("jobName"))
+        if not re.fullmatch(r"[A-Za-z0-9]{8,80}", identity) or not title or identity in seen:
+            continue
+        seen.add(identity)
+        item = candidate_base(source_config, identity, title,
+            f"https://www.ncss.cn/student/jobs/{identity}/detail.html", "announcement",
+            "华南理工大学来源的官方平台招聘岗位", "publication")
+        # Full timestamp belongs to this jobId's list item. A detail's month/day
+        # update label is never used to invent the publication year.
+        stamp = row.get("publishDate")
+        if type(stamp) in (int, float) and 946684800000 <= stamp < 4102444800000:
+            date_value = datetime.fromtimestamp(stamp / 1000, timezone(timedelta(hours=8))).date().isoformat()
+            set_known(item, "published_date", date_value, material,
+                f"JSON $.data.list[?(@.jobId=='{identity}')].publishDate", f"publishDate={stamp}")
+        records.append(item)
+    page = page_result(source_config, response, records, ncss_list_url(offset + 1) if len(data["list"]) == 10 else None,
+        warnings, scope_note="国家大学生就业服务平台中明确归属华南理工大学的电气查询；有限分页，不代表就业中心自动源或全校覆盖")
+    page["material_refs"].append(material_reference(owner_response, source_config["source_key"], scope={
+        "type": "source_owner", "coverage": "complete_for_material", "school_source_id": NCSS_SCHOOL_ID,
+        "note": "公开来源目录确认学校来源ID；不是认证材料",
+    }))
+    return page
+
+
+def ncss_enrich(candidate, fetcher):
+    match = NCSS_JOB.fullmatch(candidate["source_url"])
+    if candidate["school_key"] != "scut" or not match or match[1] != candidate["source_identity"]:
+        raise FetchError("平台详情必须对应本条学校来源岗位身份")
+    response = fetcher.get(candidate["source_url"])
+    document = soup(response["text"])
+    material = material_reference(response, candidate["source_key"], candidate["source_identity"])
+    final_identity = NCSS_JOB.fullmatch(response["url"])
+    if not final_identity or final_identity[1] != candidate["source_identity"]:
+        material["parsing_status"] = "failed"
+        return {"patch": {}, "material_refs": [material], "warnings": ["平台详情最终响应属于其他岗位，未补充本条字段"]}
+    marker = document.select_one(".source-sp")
+    source = document.select_one("#sourcesName")
+    body = document.select_one(".mainContent-geshi")
+    source_id = (source.get("value") if source and source.name == "input"
+                 else clean(source.get_text()) if source else None)
+    if (source is None or source_id != NCSS_SCHOOL_ID or marker is None
+            or len(document.select("#sourcesName")) != 1 or len(document.select(".source-sp")) != 1
+            or clean(marker.get_text()) != "华南理工大学"
+            or str(marker.get("data-sourcestype")) != "12" or body is None):
+        material["parsing_status"] = "failed"
+        return {"patch": {}, "material_refs": [material],
+            "warnings": ["详情缺少本条华工来源标记或正文，已停止补充；不收全国任意平台岗位"]}
+    material["scope"]["coverage"] = "partial" if unread_materials(body) else "complete_for_material"
+    text = body.get_text("\n", strip=True)
+    patch = {"field_observations": {}}
+    title = document.select_one(".job-title")
+    if title and clean(title.get_text()):
+        patch["title"] = clean(title.get_text())
+    locations = explicit_locations(text)
+    if locations:
+        set_observation(patch, candidate, "work_locations", locations, material, ".mainContent-geshi", "、".join(locations))
+    cutoff, cutoff_text = deadline(text, ordinary=True)
+    if cutoff:
+        set_observation(patch, candidate, "deadline", cutoff, material, ".mainContent-geshi", cutoff_text)
+    related = related_evidence(text)
+    related_locator = ".job-title / .mainContent-geshi"
+    if not related:
+        paragraphs = body.find_all(["p", "h2", "h3"])
+        for index, paragraph in enumerate(paragraphs):
+            heading = clean(paragraph.get_text(" ", strip=True))
+            if not re.fullmatch(r"(?:[一二三四五六七八九十]+[、.．]\s*)?我们的招聘岗位\s*[:：]?", heading):
+                continue
+            for item in paragraphs[index + 1:index + 5]:
+                value = clean(item.get_text(" ", strip=True))
+                if re.match(r"[一二三四五六七八九十]+[、.．]", value):
+                    break
+                if "涵盖" in value and re.search(r"电气类|自动化类", value):
+                    related = heading + "；" + value
+                    related_locator = ".mainContent-geshi [我们的招聘岗位章节] p [专业涵盖段]"
+                    break
+            if related:
+                break
+    # The actual job title is an explicit role, rather than employer background.
+    if not related and title and re.search(r"电气.{0,12}(?:工程师|岗|技术员)", clean(title.get_text())):
+        related = clean(title.get_text())
+    if related:
+        patch["relevance"] = "related"
+        patch["field_observations"]["relevance"] = observation("known", "related", [
+            evidence(material, related_locator, related)])
+    patch["attachments"] = attachments(body, response["url"], material)
+    patch["job_fragments"] = job_fragments(body, material, ".mainContent-geshi")
+    fill_missing(patch, candidate, material, body, ".mainContent-geshi", event_semantics=False)
+    return {"patch": patch, "material_refs": [material], "warnings": []}
+
+
+class ScutNcssAdapter:
+    discover = staticmethod(ncss_discover)
+    enrich = staticmethod(ncss_enrich)
