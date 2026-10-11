@@ -107,7 +107,9 @@ test('real review sample links require current clean same-project identity and n
   assert.equal((html.match(/历史用户结果：失败（待修复复验）/g) || []).length, 3);
   assert.match(html, /M0-M1-REVIEW-20261011.md/);
   for (const id of [3, 31, 41, 38, 96, 40, 70]) assert.ok(html.includes('/opportunities/' + id));
-  assert.equal((html.match(/class="real-sample-links" hidden/g) || []).length, 8);
+  assert.equal((html.match(/class="real-sample-links" hidden/g) || []).length, 10);
+  for (const id of [133, 148, 193, 295]) assert.ok(html.includes('/opportunities/' + id));
+  for (const stage of ['M2']) for (let index = 1; index <= 8; index++) assert.ok(html.includes(stage + '-0' + index));
 });
 
 test('real generated database API DTOs pass client, frozen query state and card/detail field projection', async () => {

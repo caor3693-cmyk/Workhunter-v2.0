@@ -1,4 +1,4 @@
-const count = value => Number.isSafeInteger(value) && value >= 0 ? String(value) : '待核实';
+const count = value => Number.isSafeInteger(value) && value >= 0 ? `${value} 条` : '待核实';
 
 export function updatePresentation(data) {
   const today = data?.today || {};
@@ -8,7 +8,7 @@ export function updatePresentation(data) {
     ['manual_supplements', '人工补录'], ['manual_corrections', '人工纠错'],
     ['manual_reverts', '撤回更正'], ['manual_withdrawals', '撤回人工可见贡献'],
   ];
-  const detail = categories.filter(([key]) => key in today).map(([key, label]) => `${label} ${count(today[key])} 条`).join('，');
+  const detail = categories.filter(([key]) => key in today).map(([key, label]) => `${label} ${count(today[key])}`).join('，');
   return {
     newlyCollected: today.newly_collected ?? '—', officialChanges: today.official_changes ?? '—',
     message: [data?.message || '检查情况暂不可确认。', today.date ? `${today.date}（北京时间）` : '', detail,
