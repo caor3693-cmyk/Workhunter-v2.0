@@ -1,59 +1,75 @@
 # Workhunter v2.0 当前状态
 
-更新日期：2026-10-10，Asia/Shanghai。规范版本：1.1；八项产品选择 `ABAAAAAB` 不变。本文件所属 Git 提交为当前管理基线，只维护当前事实。
+更新日期：2026-10-11，Asia/Shanghai。管理版本 **1.3**；基础产品/工程合同仍为 1.1，产品选择 ABAAAAAB 不变。本文件维护当前事实；历史自验、用户结果、代码提交和运行候选分别保留。
+
+**执行入口：开始开发、处理用户验收反馈或提交新候选前，必须读取 [本轮 R0—R5 执行计划](deliveries/M0-M1-EXECUTION-20261011.md) 和 [反馈、neat-freak 与 GitHub 收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。** 这延续既有 AGENTS→STATUS 必读链，不放宽工作包边界。
 
 ## 1. 当前结论
 
-一周开发计划、19 个实际 GitHub Issues、阶段标签、仓库任务看板、路线图与 36 项手工核验要求已建立。新应用尚未实现；下一项是 **S0 / W00，Issue #6**。
+**M0 用户验收未通过，M1 尚未实现。** 本轮已完成对抗审查、下一轮执行计划和长期反馈收尾规则；没有实施应用修复或重发 Site。证据与根因见 [M0/M1 审查](deliveries/M0-M1-AUDIT-20261011.md)。
 
-**GitHub Projects 原生 Project、Board、Roadmap 尚未创建。** 当前连接有仓库/Issue 写入能力，但没有可调用的 Projects 工具；浏览器安全登录本轮未完成。剩余配置独立跟踪 #19，不能把仓库内文档视图称为原生 Project 已完成。Site 验收入口也须在 W00 实现后才能提供。
+M0 三项 P1 [#21 主页成品布局](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21)、[#22 开发 API 读取失败](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22)、[#23 独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) 仍 Ready/open；[#1 用户 Gate](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) 和 [#6 工程交付](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) 仍 Blocked/open。新增 [#24 工作包范围与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24)，Ready/P1，先于新业务实现处理。
 
-## 2. 实际管理入口
+北京时间 2026-10-11 12:59:54 开始的真实 Site 只读检查：首页 200；health/version/目录/招聘/更新摘要/来源状态六路均 **502 `upstream_unavailable`**。已部署代理的对应分支表示上游 Content-Type 不含 `application/json`；尚不能区分失效通道、错误 origin 或异常 API 响应。日志中的 Worker outcome=ok 仅表示它正常返回了错误。不能把此现象写成正常空库；不能用旧 dataset 补作实时身份。详见 [脱敏现场证据](deliveries/evidence/M0-AUDIT-SITE-20261011.json)。
 
-| 入口 | 当前内容 / 状态 |
+p4 禁用控件属于 M0 占位；真正的采集、非空卡片、详情与筛选由已有 M1 #7—#11 实现。带参数请求被客户端拒绝、跨午夜分页漏项、整数溢出和排序等审查发现已纳入对应执行包，不重复创建同功能 Issue。
+
+## 2. 稳定编号与用户结果
+
+阶段统一 M0—M4，检查点使用 Mx-yy；旧 S/G 按 [命名映射](deliveries/M_NAMING.md) 追溯，PM/W/F/D/O 标识不改。当前 [手工清单](deliveries/MANUAL_QA_M.md) 共 37 项，分阶段 7/8/8/6/8。
+
+| 检查点 | 当前用户结论 | 下一轮操作 |
+| --- | --- | --- |
+| M0-01 | 未测 | 补测实际入口 |
+| M0-02 | 失败 | #21 修复后原编号复验 |
+| M0-03 | 阻塞 | #22 恢复后核对真实模式/身份 |
+| M0-04 | 未测 | 补测刷新与重开 |
+| M0-05 | 未测 | 补测手机/390px |
+| M0-06 | 阻塞 | 独立核验页及真实身份材料 |
+| M0-07 | 失败 | #23 三个独立页面复验 |
+
+M1 八项全部未测。修复、自验或提交计划不改变用户结论；未复验的 Issue/Gate 保持 open。用户原话及 p1—p5 见 [原反馈汇报](deliveries/M0-FEEDBACK-20261011.md)。
+
+## 3. 仓库、运行与数据身份
+
+| 对象 | 当前可核验事实 |
 | --- | --- |
-| [新仓库](https://github.com/caor3693-cmyk/Workhunter-v2.0) | 准确名称含连字符；本轮核对为公开仓库，没有改变可见性 |
-| [全部 Issues](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues) | #1—#19，均 open；12 个实施、5 个 Gate、1 个正式发布、1 个管理配置 |
-| [仓库任务看板](BOARD.md) | 可点击的实际 Issue 索引；状态来自 Issue 标签，当前 16 Backlog、1 Ready、2 Blocked、0 Done |
-| [一周路线图](ROADMAP.md) | 2026-10-11—10-17，S0—S4、G0—G4；包含计划时间轴及功能映射 |
-| [手工核验规则](MANUAL_QA.md) | 36 项，按阶段 6/8/8/6/8；每轮交付填具体场景，用户反馈四态 |
-| [Project 初始配置](../config/project.json) | 19 个真实 Issue 编号及期望字段/视图；原生 Project ID/URL 留空 |
-| [原生视图配置任务 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | Blocked；仅管理访问条件受阻，不表示 GitHub API 本身不支持视图 |
-| [配置接续步骤](PROJECT_SETUP.md) | 使用已授权 API/CLI 或页面建立/复用 Project，回读后填真实链接；本轮不重复发起登录 |
+| [仓库 / PR #20](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20) | 应用源码在 `codex/s0-w00-site-foundation`；PR draft/open。本次计划和规则追加到该分支；最终提交/CI 回执以 PR 实际 head 为准 |
+| 审查应用基线 | `241fa66d7ed12269a3d953dd846d4e073c23b31c`，M0-W00 / 0.1.0；本轮不修改应用代码 |
+| 默认 main | 审查时为 `19b9cef559f503feec2e0347cf27f2b1fea5b037`，仍是旧计划，不能在该版本误审“最新实现” |
+| [私有 Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site) | 保存版本 1，源码 `288063243275eeb0530cc9b9743c1d11aa4cfbde`；本轮只读探测，未发布 |
+| 实时后端 / 数据 | 六路失败，当前 backend commit、dataset 和 data_mode 未取得 |
+| 原交付数据身份 | `ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e` / empty，仅为历史空库身份，不代表当前现场回读成功 |
+| [仓库看板](BOARD.md) / [路线图](ROADMAP.md) / [配置](../config/project.json) | 23 个实际 Issue：15 Backlog、4 Ready、4 Blocked，其他列 0，全部 open；PR 不计 Issue 数量 |
+| 原生 GitHub Projects | 当前可用连接没有 Projects 工具，ID/URL 仍 null；[#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) Blocked，不把仓库索引当成原生视图 |
 
-模板 manual-feedback.yml、stage-review.yml 已建立，关联标签已创建。已有 Gate Issue 应更新原单，避免每次提交候选又新建阶段单。
+原开发环境、隔离业务库和旧资产不在本轮写入/清理范围；当前 Site 配置与服务凭据未更改。运行宿主是否在线以及上游原始状态须在 #22 下一轮继续核验。
 
-## 3. 一周阶段与真实 Issue
+## 4. 下一轮顺序与排程
 
-| 阶段 | 目标日期 | 实施 Issue | 手工验收 Issue | 当前实际状态 |
-| --- | --- | --- | --- | --- |
-| S0 工程与 Site 入口 | 10-11 | [#6](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | [G0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | 实施 Ready，未开始；G0 未测 |
-| S1 两校真实可用 | 10-12—10-13 | [#7](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7)、[#8](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8)、[#9](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9)、[#10](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10)、[#11](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | [G1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | Backlog；G1 未测 |
-| S2 十校与维护 | 10-14—10-15 | [#12](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12)、[#13](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13)、[#14](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14) | [G2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | Backlog；G2 未测 |
-| S3 持续运行 | 10-16 | [#15](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15)、[#16](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16) | [G3 #4](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4) | Backlog；G3 未测 |
-| S4 总体验收与准备 | 10-17 | [#17](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17) | [G4 #5](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5) | Backlog；G4 未测 |
-| 正式发布 | G0—G4 通过后安排 | [#18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) | 依赖全部 Gate | Blocked；没有自动发布日期 |
+| 执行包 | 对应 Issue | 目标 |
+| --- | --- | --- |
+| R0 | #24 | 先建立实际工作包、可信目标规则及共享文件边界 |
+| R1 | #22 | 恢复真实数据库→API→HTTPS→Site 读取，补错误与就绪诊断 |
+| R2 | #21/#23 | 同一页面整合者完成成品主页、来源页、核验页及构建/路由；提交 M0 七项复验 |
+| R3 | #7/#8 | 华工/广工真实来源、逐页提交、证据、去重/变更及 dataset 维护 |
+| R4 | #9/#10 | 卡片、详情、官方原文、真实筛选、草稿/已提交状态与一致分页 |
+| R5 | #11、#1/#2 | 真实两校到 Site 全链路、桌面/390px和故障恢复；M0 七项/M1 八项材料 |
 
-所有 Issue 已标阶段、类型、优先级和初始状态。所有用户核验项保持未测；没有应用测试或用户通过记录。工程期以每天可获得一次反馈为排期假设，实际延迟需记录并顺延；没有设置自动提醒。
+目标沿用 M0 10-11、M1 10-12—10-13；R0 与现场恢复耗时是新增前置，实际开始后更新预估与依赖顺延。未发生的完成日/复验日保持空，不以目标日自动完成。
+M0 发出复验后继续独立 M1；同时最多两个实施包，共享文件由一个整合者负责。M0→M1 人工顺序不变。
+M2 10-14—15、M3 10-16、M4 10-17 为原后续目标，本轮不实施；正式发布 [#18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) 仍 Blocked。
 
-## 4. 环境与数据
+## 5. 已完成验证与实际限制
 
-- 新实现继续用 Python/FastAPI、SQLite、原生前端与独立 worker。开发期先使用 owner-private Site，由薄同源代理连接隔离 HTTPS 开发 API；平台能力和鉴权约束写在 CONTRACTS。
-- Site、隔离开发 API/宿主、新业务库、生产服务均未创建或部署。W00 需实际探测接入；G1 起不得以 fixture 或旧站代替真实新库链路。
-- 十校入口种子均为 pending，没有执行 v2 真实采集、覆盖统计、浏览器业务验收、性能测试、自然调度或恢复演练。
-- 受限来源按 Q5A 标记并支持官方材料补录；开发 API 根本不可达与个别学校受限分开判断。
-- 旧只读插件仍不能作为 v2 的运行成绩。W05 对接新服务后必须返回真实项目、代码及数据标识。
+本次在审查基线的隔离环境重新完成 **41 项 Python、3 项代理测试**；干净源码构建及生成 Worker 语法检查通过。故障注入另外证实客户端错误归类、路由/带参拒绝、跨午夜/整数/排序、写入约束及范围校验缺口；现有绿色测试没有覆盖这些反例。依赖弃用提示保留，不为本轮计划升级依赖。
 
-## 5. 发布与旧资产
+真实 Site HTTP 结果为上文六路 502；本次没有执行浏览器用户登录、桌面/手机视觉验收，也没有取得开发宿主进程日志、实时数据库或真实官网采集结果。仅在一次性合成库验证结构反例，没有读写用户业务库。
 
-每阶段自验后提交 Site 版本及手工清单，进入待用户核验。负责人按 G0→G1→G2→G3→G4 反馈，失败查重补 Issue、修复、同编号复验。未反馈、自动测试或 PR 合并不能关闭对应待验事项。
+资料修改检查与 GitHub 提交/CI 回读在本轮同步时完成，具体回执见 PR #20。本次不把应用清理或修复计划记为已经执行。
 
-全部 Gate 当前有效通过、首版必需反馈修复并复验、候选版本及发布材料齐备后，按 #18 执行正式部署与线上复验。私有 Site 验收运行和正式站点切换分别记录；日期到达不触发上线。
+## 6. 持续反馈与历史证据
 
-本轮没有修改、清空或归档旧仓库，没有移动、删除、备份或冻结旧数据库/原文，没有改变旧站、定时器、域名或仓库可见性。旧资产继续按已确认只读归档政策留存；真实备份、冻结、GitHub Archived 开关和最终切换各自验证，不把政策记为已执行。
+每次新反馈执行：查重定位→限域修复→局部源码清理→neat-freak 六类事实对齐→相关回归→提交/推送并回读→原编号复验，完整规则见 [FEEDBACK_CLOSEOUT](deliveries/FEEDBACK_CLOSEOUT.md)。已授权的常规清理同步无需另起确认；唯一证据/数据库/未合并工作不随清理删除。
 
-## 6. 下一步
-
-原生 Project 接续任务为 #19；在具备既有授权的环境中完成后，回写实际 Project/Board/Roadmap 链接，并读取平台结果核验。
-
-开发从 #6 的 S0/W00 开始，统一执行指令在 [TASKS.md 第 6 节](TASKS.md#6-可直接交给-codex-的指令)。每阶段维护 Issue 标签/Project 字段、STATUS、Site 候选版本和用户核验结论。实现、用户验收、提交/PR、Site 发布、正式部署、线上复验及真实运营观察分别记录。
+历史证据保留：[10-10 初版交付](deliveries/S0.md)、[10-11 用户反馈](deliveries/M0-FEEDBACK-20261011.md)、[此前源码收尾与已授权重复截图清理](deliveries/M0-NEAT-20261011.md)。它们是对应时点的事实，不替代当前失败/阻塞。发布仍须全部 M0—M4 有效用户通过、必需反馈复验、版本/数据/备份与发布准备齐备。

@@ -1,6 +1,6 @@
 name: 手工核验反馈
 description: 记录 Gate 编号对应的失败、阻塞或复验结果；相同问题优先更新原 Issue。
-title: "[手工反馈] G?-?? 简述问题"
+title: "[手工反馈] M?-?? 简述问题"
 labels:
   - manual-feedback
 body:
@@ -15,7 +15,7 @@ body:
     attributes:
       label: 核验编号
       description: 同一原因影响多个项目时列出全部编号。
-      placeholder: G1-02；G4-01 回归 G1-02
+      placeholder: M1-02；M4-01 回归 M1-02
     validations:
       required: true
   - type: dropdown
@@ -114,5 +114,4 @@ body:
       value: |
         失败由构建者建为或归类为 bug，阻塞说明依赖与影响；同根因更新原 Issue。
         修复后先进入“待用户复验”。不要用合并 PR、自动测试或超时替代用户结论。
-        当前 Gate 与最终上线的阻塞关系遵循 docs/MANUAL_QA.md。
-
+        当前 Gate 与最终上线的阻塞关系遵循 docs/deliveries/MANUAL_QA_M.md。

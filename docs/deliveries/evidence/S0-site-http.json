@@ -1,0 +1,63 @@
+{
+  "checked_at": "2026-10-10T23:22:43.466294+08:00",
+  "site_url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site",
+  "service_access": "existing platform token; no browser identity",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "frontend_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde"
+    },
+    {
+      "path": "/health",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/version",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/api/catalog",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/api/opportunities",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/api/updates/summary",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/api/sources/status",
+      "status": 200,
+      "dataset_id": "ds-05add5c6-e4e7-43a6-9bc3-89b5e4a4a10e",
+      "data_mode": "empty"
+    },
+    {
+      "path": "/api/catalog",
+      "method": "POST",
+      "status": 405
+    },
+    {
+      "path": "/api/admin/operations/commit",
+      "method": "POST",
+      "status": 404
+    },
+    {
+      "path": "/api/proxy?url=https://example.org",
+      "method": "GET",
+      "status": 404
+    }
+  ]
+}

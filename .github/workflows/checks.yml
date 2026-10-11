@@ -1,0 +1,48 @@
+name: W00 engineering checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  engineering:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check target-branch work-package scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || '19b9cef559f503feec2e0347cf27f2b1fea5b037' }}
+        run: |
+          # Later changes execute the target branch checker, not a replacement from this PR.
+          if git cat-file -e "$BASE_SHA:scripts/check_scope.py" 2>/dev/null; then
+            git show "$BASE_SHA:scripts/check_scope.py" > /tmp/workhunter-trusted-scope.py
+          else
+            # W00 bootstraps CI; its contract is read from the existing target.
+            cp scripts/check_scope.py /tmp/workhunter-trusted-scope.py
+          fi
+          python /tmp/workhunter-trusted-scope.py --base "$BASE_SHA" --package W00
+          if python /tmp/workhunter-trusted-scope.py --base "$BASE_SHA" --package W00 --paths AGENTS.md docs/PRODUCT.md; then
+            echo 'Scope checker accepted a forbidden path'
+            exit 1
+          fi
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+      - run: node --test tests/test_preview_proxy.mjs
+      - run: node scripts/build_site.mjs
+      - run: node --check dist/server/index.js
+      - name: Reject runtime artifacts in tracked source
+        run: |
+          python - <<'PY'
+          import subprocess
+          files = subprocess.check_output(['git','ls-files'],text=True).splitlines()
+          forbidden = [p for p in files if p.startswith(('.runtime/','data/','private-reports/')) or p.endswith(('.db','.sqlite','.sqlite3','.pem','.key'))]
+          assert not forbidden, forbidden
+          PY

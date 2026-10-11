@@ -1,0 +1,103 @@
+{
+  "audit_code_commit": "241fa66d7ed12269a3d953dd846d4e073c23b31c",
+  "saved_site_source_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde",
+  "site_url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site",
+  "access": "Existing platform service access; read-only GET; no browser user identity; no secrets or runtime configuration changed",
+  "site_version": 1,
+  "environment_revision": 1,
+  "secret_key_presence": [
+    "WH_API_ORIGIN",
+    "WH_API_SERVICE_TOKEN"
+  ],
+  "requests": [
+    {
+      "path": "/",
+      "observed_at": "2026-10-11T04:59:54.888795+00:00",
+      "status": 200,
+      "error_code": null,
+      "request_id": "a48b4c8e1872f091-DFW"
+    },
+    {
+      "path": "/health",
+      "observed_at": "2026-10-11T04:59:54.903977+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e4908f091-DFW"
+    },
+    {
+      "path": "/version",
+      "observed_at": "2026-10-11T04:59:54.904262+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e0865f091-DFW"
+    },
+    {
+      "path": "/api/catalog",
+      "observed_at": "2026-10-11T04:59:54.904447+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e28b6f091-DFW"
+    },
+    {
+      "path": "/api/opportunities",
+      "observed_at": "2026-10-11T04:59:54.904641+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e1871f091-DFW"
+    },
+    {
+      "path": "/api/updates/summary",
+      "observed_at": "2026-10-11T04:59:54.904824+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e38d7f091-DFW"
+    },
+    {
+      "path": "/api/sources/status",
+      "observed_at": "2026-10-11T04:59:54.904987+00:00",
+      "status": 502,
+      "error_code": "upstream_unavailable",
+      "request_id": "a48b4c8e28b5f091-DFW"
+    }
+  ],
+  "worker_logs": [
+    {
+      "time": "2026-10-11T05:00:07.676Z",
+      "outcome": "ok",
+      "request_id": "7bcead4e163621c56a0bfe630edb880d",
+      "level": "error",
+      "path": "/version",
+      "status": 502
+    },
+    {
+      "time": "2026-10-11T05:00:05.133Z",
+      "outcome": "ok",
+      "request_id": "c7832781764d25bb3c97581e2f128bcf",
+      "level": "error",
+      "path": "/api/updates/summary",
+      "status": 502
+    },
+    {
+      "time": "2026-10-11T05:00:05.119Z",
+      "outcome": "ok",
+      "request_id": "c85c7cc415a687f403040f76417544d0",
+      "level": "error",
+      "path": "/api/catalog",
+      "status": 502
+    },
+    {
+      "time": "2026-10-11T05:00:04.977Z",
+      "outcome": "ok",
+      "request_id": "7c50e8a4d1b45ace2a42ce3f791464a8",
+      "level": "error",
+      "path": "/api/opportunities",
+      "status": 502
+    }
+  ],
+  "limits": [
+    "No current backend commit or dataset was obtained.",
+    "The current code path proves only that upstream Content-Type did not include application/json.",
+    "Original upstream HTTP status/content-type/body and Windows process/tunnel logs remain unavailable.",
+    "This observation cannot establish the root cause at the earlier user screenshot timestamp."
+  ]
+}
