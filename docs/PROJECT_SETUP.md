@@ -8,9 +8,9 @@
 
 这属于当前会话的授权通道阻塞。GitHub 官方 GraphQL 已支持 `createProjectV2View`、`updateProjectV2View`、`deleteProjectV2View`，不能记录成“GitHub API 不支持视图”。见[官方 Projects schema](https://docs.github.com/en/graphql/reference/projects#createprojectv2view)。
 
-目标配置以 [config/project.json](../config/project.json) 为准：owner 为 `caor3693-cmyk`，项目名为 `Workhunter v2.0｜一周重建`，关联本仓库；目标共22项，包括原18个业务/验收Issue、1个PM-SETUP管理项和3个M0反馈#21—#23。实际 Project ID、URL 和视图 ID 在成功读回前保持 `null`。
+目标配置以 [config/project.json](../config/project.json) 为准：owner 为 `caor3693-cmyk`，项目名为 `Workhunter v2.0｜一周重建`，关联本仓库；当前目标共23项，包括原18个业务/验收Issue、1个PM-SETUP管理项、3个M0反馈#21—#23和治理#24。实际 Project ID、URL 和视图 ID 在成功读回前保持 `null`。
 
-仓库中的 [BOARD](BOARD.md) / [ROADMAP](ROADMAP.md) 用于继续开发排期，但不代表原生平台视图已就绪。[#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) 保持 Blocked/open，实际 Project 与视图 ID/URL 保持 `null`。M0 的代码、自验和私有 Site 候选已于 10-10 保存，#6 / M0 #1于10-11收到用户失败/阻塞后转Blocked/open，P1 #21—#23待修复复验；这些事实不解除#19，也不表示M0已通过。管理配置阻塞、Site 用户核验和正式部署分别记录，详见 [STATUS](STATUS.md) 与 [M0 交付包](deliveries/S0.md)。
+仓库中的 [BOARD](BOARD.md) / [ROADMAP](ROADMAP.md) 用于继续开发排期，但不代表原生平台视图已就绪。[#19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) 保持 Blocked/open，实际 Project 与视图 ID/URL 保持 `null`。M0 的代码、自验和私有 Site 候选已于 10-10 保存，#1于10-11收到用户失败/阻塞后保持Blocked/open；#6及已修复P1 #21—#23为Awaiting verification/open；这些事实不解除#19，也不表示M0已通过。管理配置阻塞、Site 用户核验和正式部署分别记录，详见 [STATUS](STATUS.md) 与 [M0 交付包](deliveries/S0.md)。
 
 ## 授权前提
 
@@ -57,7 +57,7 @@ Roadmap 使用同一请求，变量改为 `name: "Roadmap"`、`layout: "ROADMAP_
 
 ## 接续顺序
 
-1. 读取配置与真实 Issue 索引，确认目标仓库及 22 项期望集合；`PM-SETUP` 使用配置中的实际 Issue，不再次创建同名 Issue。
+1. 读取配置与真实 Issue 索引，确认目标仓库及当前配置的23项期望集合；`PM-SETUP` 使用配置中的实际 Issue，不再次创建同名 Issue。
 2. 完成上述只读权限检查。对目标 owner 的项目分页读取，按完整标题精确匹配，并核对 owner、关联仓库、记录的 ID/URL；不要只依赖模糊搜索或第一页结果。
 3. 已有唯一匹配且可写的项目就复用；多个同名结果先登记歧义，不能猜选或新建重复项目。确认不存在后才调用 `createProjectV2`，使用已核对的 owner ID 和标题；随后关联本仓库并读回实际 ID/URL。
 4. 分页读取现有字段，按名称和类型复用 `Status`、`Stage`、`Priority`、`Start date`、`Target date`。前三者按配置使用单选选项，后两者使用日期；仅创建缺失字段。选项和字段 ID 必须读回，不能用名称代替 ID 写值。
@@ -73,7 +73,7 @@ Roadmap 使用同一请求，变量改为 `name: "Roadmap"`、`layout: "ROADMAP_
 GitHub 会尝试选用已有日期/迭代字段，因此创建 `ROADMAP_LAYOUT` 成功不能单独证明时间轴绑定正确。须检查 Date fields 中的起止字段，见[官方 Roadmap 配置说明](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-roadmap-layout)。UI 通道仍不可用时记录“布局已创建，分组/日期绑定待验证”，不重复请求本轮已经拒绝的登录。
 
 - 读回 Project 的 owner、标题、URL、仓库关联及可写状态，与配置一致。
-- 分页核对目标 19 个 Issue 都有真实项目项且无重复；复用项目有其他项时分别记录，不以总数等于 19 强制清理。
+- 分页核对当前配置23个Issue都有真实项目项且无重复；复用项目有其他项时分别记录，不以总数等于23强制清理。
 - 逐项读回五个目标字段的实际值；状态符合当前证据，排期对应 ROADMAP，计划起始日期不晚于目标日期。
 - 读回 Board/Roadmap 的名称、ID、number、layout；视图筛选没有意外隐藏目标任务。分组、日期绑定和条目显示由平台 UI 核实并记录结果。
 - 从原生 Project 打开抽查 Issue，确认落到本仓库的真实条目；记录检查日期和 Project/视图入口，不推测 URL。
@@ -84,4 +84,4 @@ GitHub 会尝试选用已有日期/迭代字段，因此创建 `ROADMAP_LAYOUT` 
 
 ## 当前导入状态更新
 
-Stage期望值统一M0—M4（Release管理分类保留）。config/project.json当前含23个真实Issue：#6/#21—#24待复核或复验，#7—#11实施中，#1/#18/#19受阻，其余10项Backlog，全部open；M0原结论及M1八项未测保留。初始19项导入计划需按当前配置扩展，不删除新增反馈或治理项。原生字段和视图仍未写入或回读，不把仓库索引同步称为原生配置完成。
+Stage期望值统一M0—M4（Release管理分类保留）。config/project.json当前含23个真实Issue：#6—#10/#21—#24待复核或复验，#11最后浏览器操作实施中，#1/#2/#18/#19受阻，其余9项Backlog，全部open；M0原结论及M1八项未测保留。初始19项导入计划需按当前配置扩展，不删除新增反馈或治理项。原生字段和视图仍未写入或回读，不把仓库索引同步称为原生配置完成。

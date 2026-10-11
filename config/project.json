@@ -134,7 +134,7 @@
       "title": "[M1] 两校真实招聘流程手工验收",
       "stage": "M1",
       "gate": "M1",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -150,10 +150,11 @@
         "PM-W02-B",
         "PM-W02-C"
       ],
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S1",
       "legacy_gate": "G1",
-      "github_state": "open"
+      "github_state": "open",
+      "blocking_reason": "M0 original feedback has not been re-verified by the user; M1 materials ready, eight results remain untested."
     },
     {
       "pm_id": "PM-G2",
@@ -277,7 +278,7 @@
       "id": 5791854056,
       "node_id": "I_kwDOVDuyOc8AAAABWTit6A",
       "stage": "M1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-12",
@@ -305,14 +306,17 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
     },
     {
       "pm_id": "PM-W01-B",
@@ -322,7 +326,7 @@
       "id": 5791854297,
       "node_id": "I_kwDOVDuyOc8AAAABWTiu2Q",
       "stage": "M1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -352,14 +356,17 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
     },
     {
       "pm_id": "PM-W02-A",
@@ -369,7 +376,7 @@
       "id": 5791854462,
       "node_id": "I_kwDOVDuyOc8AAAABWTivfg",
       "stage": "M1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -404,14 +411,17 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
     },
     {
       "pm_id": "PM-W02-B",
@@ -421,7 +431,7 @@
       "id": 5791854644,
       "node_id": "I_kwDOVDuyOc8AAAABWTiwNA",
       "stage": "M1",
-      "status": "In progress",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -463,14 +473,17 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275"
     },
     {
       "pm_id": "PM-W02-C",
@@ -1155,7 +1168,6 @@
       27
     ],
     "active_packages": [
-      "W02-R4",
       "R5"
     ],
     "max_active_packages": 2,
@@ -1171,6 +1183,19 @@
     "m1_source_counts": {
       "scut": 28,
       "gdut": 104
-    }
+    },
+    "m1_runtime_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "m1_site_version": 4,
+    "m1_application_ci_run": 38120889039,
+    "m1_application_ci_conclusion": "success",
+    "m1_site_version_id": "appgprj_6aca4fbe4c1481918047d279e9653ccc~appgver_08f745a1c11c8191be3036af6932d620",
+    "m1_site_deployment_id": "appgdep_6acb38d7003481918bfc9fdc376f244b",
+    "m1_site_deployment_status": "succeeded",
+    "m1_review_package": "docs/deliveries/M0-M1-REVIEW-20261011.md",
+    "m1_fixture_dataset": "fixture-ds-d10458a7-daa4-4165-84ae-2c001ea67254",
+    "m1_fixture_manifest": ".runtime/m1-isolated-b6300f4/manifest.json",
+    "m1_fixture_origin": "generated_locally_never_fetched",
+    "documentation_commit": "See final PR head and CI readback; distinct from deployed application source",
+    "remaining_browser_check": "Old isolated alert blocks CUA actions; fixed source is deployed, user asked to close old dialog. Final affected interaction pending."
   }
 }

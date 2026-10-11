@@ -6,9 +6,9 @@
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
-| 10 | 0 | #7—#11（5项） | #6、#21—#24（5项） | #1、#18、#19（3项） | 0 |
+| 9 | 0 | #11（1项） | #6—#10、#21—#24（9项） | #1、#2、#18、#19（4项） | 0 |
 
-共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈已发原编号复验，用户未复验不关闭；#24治理已核对，目标ae261c8。M0版本2已部署；M1真实132条及查询工程已实现，R5补齐同一候选材料。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
+共23个实际Issue，均open。M0在10-11收到用户失败/阻塞，未通过；[反馈汇报](deliveries/M0-FEEDBACK-20261011.md)保留p1—p5和逐项结论。三项P1反馈已发原编号复验，用户未复验不关闭；#24治理已核对，目标ae261c8。M0历史版本2已发复验；M1版本4当前前后端b6300f4、真实132条、应用CI成功、15项原编号材料就绪。R5最后受影响浏览器操作受旧隔离弹窗阻塞，#11继续实施中。实施按[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)，每轮执行[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。M0工程初版10-10保存，原目标10-11保留，不能把过去工程成功写成当前通过。
 
 ## 阶段任务
 
@@ -21,11 +21,11 @@
 | M0 | [#22 [M0-03][M0-06] Site读取开发API失败，目录与数据身份不可核验](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22) | 工程完成，待复验 | 反馈2026-10-11；修复候选10-11已发，待原编号用户复验 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
 | M0 | [#23 [M0-07] 招聘发现、来源状态与核验改为独立子页面](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23) | 工程完成，待复验 | 反馈2026-10-11；修复候选10-11已发，待原编号用户复验 | [M0 #1](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) |
 | M0 | [#24 [M0→M1] 工作包范围校验与可信治理基线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24) | 工程完成，待复核 | 新增2026-10-11；10-11治理/DOC CI通过；PR #25/#26/#27 | 技术治理前置，不新增人工检查项 |
-| M1 | [#2 [M1] 两校真实招聘流程手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | 待排期 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
-| M1 | [#7 [M1] [PM-W01-A] 华工广工列表发现与逐页持久化](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7) | 实施中 | 2026-10-12 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
-| M1 | [#8 [M1] [PM-W01-B] 日期地点证据、去重及核心详情补全](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8) | 实施中 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
-| M1 | [#9 [M1] [PM-W02-A] 最小卡片、公告简要详情与官方原文](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9) | 实施中 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
-| M1 | [#10 [M1] [PM-W02-B] 学校校区、相关性筛选与一致分页](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10) | 实施中 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#2 [M1] 两校真实招聘流程手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | 前序M0未通过，受阻 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#7 [M1] [PM-W01-A] 华工广工列表发现与逐页持久化](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7) | 工程完成，待复验 | 2026-10-12 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#8 [M1] [PM-W01-B] 日期地点证据、去重及核心详情补全](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#9 [M1] [PM-W02-A] 最小卡片、公告简要详情与官方原文](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
+| M1 | [#10 [M1] [PM-W02-B] 学校校区、相关性筛选与一致分页](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10) | 工程完成，待复验 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M1 | [#11 [M1] [PM-W02-C] 桌面手机、键盘与加载错误状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11) | 实施中 | 2026-10-13 | [M1 #2](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) |
 | M2 | [#3 [M2] 十校与维护功能手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | 待排期 | 2026-10-15 | [M2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) |
 | M2 | [#12 [M2] [PM-W03] 固定十校来源扩展与真实范围状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12) | 待排期 | 2026-10-15 | [M2 #3](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) |
