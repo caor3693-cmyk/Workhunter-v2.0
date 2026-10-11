@@ -13,7 +13,7 @@
 5. [M0 修复与 M1 执行计划](docs/deliveries/M0-M1-EXECUTION-20261011.md)：本轮 R0—R5、真实根因、依赖与逐项交付；配套 [审查证据](docs/deliveries/M0-M1-AUDIT-20261011.md)。
 6. [反馈与清理同步规则](docs/deliveries/FEEDBACK_CLOSEOUT.md)：收到验收反馈后，限域修复、源码清理、neat-freak 对齐、回归及 GitHub 回读必须一起完成。
 
-项目排期与追踪见 [任务看板](docs/BOARD.md)、[一周路线图](docs/ROADMAP.md)，每阶段使用当前 [M 版手工核验清单](docs/deliveries/MANUAL_QA_M.md)。阶段及检查点统一 M0—M4 / Mx-yy，旧 S/G 按 [命名映射](docs/deliveries/M_NAMING.md) 追溯。实际 Issue 和原生 Project 状态统一登记在 STATUS；原生视图仍受 [配置任务 #19](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) 阻塞。先在私有 Site 交付，M0—M4 逐项验收后才正式上线。
+项目排期与追踪见 [任务看板](docs/BOARD.md)、[一周路线图](docs/ROADMAP.md)，每阶段使用当前 [M 版手工核验清单](docs/deliveries/MANUAL_QA_M.md)。阶段及检查点统一 M0—M4 / Mx-yy，旧 S/G 按 [命名映射](docs/deliveries/M_NAMING.md) 追溯。实际 Issue 和原生 Project 状态统一登记在 STATUS；原生[Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)和[Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)已建立，#19技术配置完成。当前M0通过，M1三项新反馈仍未解决，详见[第二轮结果](docs/deliveries/M0-M1-FEEDBACK2-20261011.md)。先在私有 Site 交付，M0—M4 逐项验收后才正式上线。
 
 开发者先读 [AGENTS.md](AGENTS.md) 和 STATUS。基础产品版本为 1.1，工程合同为 1.2，当前阶段管理版本为 1.3；八项产品范围保持不变。产品名称中的 v2.0 与规范版本不是同一编号。
 
