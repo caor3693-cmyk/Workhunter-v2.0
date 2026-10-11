@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "plan_version": "1.2",
+  "plan_version": "1.3",
   "repository": "caor3693-cmyk/Workhunter-v2.0",
   "owner": "caor3693-cmyk",
   "timezone": "Asia/Shanghai",
@@ -306,7 +306,11 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S1"
+      "legacy_stage": "S1",
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "PM-W01-B",
@@ -347,7 +351,11 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S1"
+      "legacy_stage": "S1",
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "PM-W02-A",
@@ -393,7 +401,11 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S1"
+      "legacy_stage": "S1",
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "PM-W02-B",
@@ -446,7 +458,11 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S1"
+      "legacy_stage": "S1",
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "PM-W02-C",
@@ -489,7 +505,11 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S1"
+      "legacy_stage": "S1",
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "PM-W03",
@@ -766,7 +786,7 @@
       "status_label": "status:ready",
       "priority": "P1",
       "start": "2026-10-11",
-      "target": null,
+      "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
       "user_verified_at": null,
@@ -789,7 +809,11 @@
         "pm_id": "PM-G0",
         "number": 1,
         "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1"
-      }
+      },
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "FB-M0-CONNECTION",
@@ -809,7 +833,7 @@
       "status_label": "status:ready",
       "priority": "P1",
       "start": "2026-10-11",
-      "target": null,
+      "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
       "user_verified_at": null,
@@ -832,7 +856,11 @@
         "pm_id": "PM-G0",
         "number": 1,
         "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1"
-      }
+      },
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
     },
     {
       "pm_id": "FB-M0-NAVIGATION",
@@ -851,7 +879,7 @@
       "status_label": "status:ready",
       "priority": "P1",
       "start": "2026-10-11",
-      "target": null,
+      "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
       "user_verified_at": null,
@@ -873,7 +901,43 @@
         "pm_id": "PM-G0",
         "number": 1,
         "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1"
-      }
+      },
+      "planned_in_iteration": "2026-10-11",
+      "implementation_dependencies": [
+        24
+      ]
+    },
+    {
+      "pm_id": "AUDIT-SCOPE",
+      "number": 24,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24",
+      "title": "[M0→M1] 工作包范围校验与可信治理基线",
+      "stage": "M0",
+      "status": "Ready",
+      "status_label": "status:ready",
+      "priority": "P1",
+      "start": "2026-10-11",
+      "target": "2026-10-11",
+      "kind": "bug",
+      "github_state": "open",
+      "dependencies": [],
+      "gate": null,
+      "check_ids": [],
+      "reported_at": "2026-10-11",
+      "fixed_at": null,
+      "user_verified_at": null,
+      "timezone": "Asia/Shanghai",
+      "blocks_implementation_issues": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        21,
+        22,
+        23
+      ],
+      "execution_package": "R0"
     }
   ],
   "actual_development_start": "2026-10-10",
@@ -1004,5 +1068,55 @@
     "source_ci_run": 38104472543,
     "source_ci_conclusion": "success",
     "remote_source_sha_verified": true
+  },
+  "audit_iteration": {
+    "date": "2026-10-11",
+    "timezone": "Asia/Shanghai",
+    "scope": "adversarial_audit_execution_plan_and_feedback_rules",
+    "audit_source_commit": "241fa66d7ed12269a3d953dd846d4e073c23b31c",
+    "source_branch": "codex/s0-w00-site-foundation",
+    "pull_request": 20,
+    "report": "docs/deliveries/M0-M1-AUDIT-20261011.md",
+    "execution_plan": "docs/deliveries/M0-M1-EXECUTION-20261011.md",
+    "feedback_rule": "docs/deliveries/FEEDBACK_CLOSEOUT.md",
+    "runtime_evidence": "docs/deliveries/evidence/M0-AUDIT-SITE-20261011.json",
+    "saved_site_source_commit": "288063243275eeb0530cc9b9743c1d11aa4cfbde",
+    "live_identity": null,
+    "live_site_home_http": 200,
+    "live_api_http": 502,
+    "live_api_error_code": "upstream_unavailable",
+    "live_observation_started_at": "2026-10-11T12:59:54+08:00",
+    "local_baseline_checks": {
+      "python_passed": 41,
+      "proxy_passed": 3,
+      "build": "passed",
+      "generated_worker_syntax": "passed",
+      "browser_qa": "not_run"
+    },
+    "implementation_performed": false,
+    "site_redeployed": false,
+    "governance_issue": 24,
+    "m1_issues": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "manual_checks_unchanged": true,
+    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20"
+  },
+  "feedback_closeout": {
+    "rule": "docs/deliveries/FEEDBACK_CLOSEOUT.md",
+    "effective_date": "2026-10-11",
+    "trigger": "stage_feedback_received_in_current_task",
+    "background_monitoring_created": false,
+    "scoped_code_cleanup_required": true,
+    "neat_freak_actual_source_and_version_required": true,
+    "verification_after_cleanup_required": true,
+    "github_push_and_readback_required": true,
+    "user_retest_before_closure": true,
+    "automatic_merge": false,
+    "automatic_formal_release": false
   }
 }
