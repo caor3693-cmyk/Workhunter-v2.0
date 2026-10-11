@@ -431,10 +431,10 @@ def test_m1_m2_integration_cannot_use_historical_m0_m1_branch(scope_repo):
     ('AGENTS.md', 'backend/sources/ncepu.py'), ('backend/sources/ncepu.py', 'backend/services/queries.py'),
 ])
 def test_m2_rename_checks_old_and_new_path(scope_repo, source, destination):
-    repo, _, runner = scope_repo
+    repo, base, runner = scope_repo
     if source != 'AGENTS.md':
         write(repo, source)
-    base = save(repo, 'target with rename source')
+        base = save(repo, 'target with rename source')
     target = repo / destination
     target.parent.mkdir(parents=True, exist_ok=True)
     (repo / source).rename(target)
