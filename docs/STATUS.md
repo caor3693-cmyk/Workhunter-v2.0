@@ -1,12 +1,12 @@
 # Workhunter v2.0 当前状态
 
-更新日期：2026-10-11，Asia/Shanghai。当前执行计划 **1.4**；基础产品1.1、工程合同1.2，产品决定 ABAAAAAB 不变。本文件维护当前事实，历史结果由原报告和 Git 记录保存。
+更新日期：2026-10-11，Asia/Shanghai。当前执行计划 **1.4**；基础产品1.1、工程合同1.3，产品决定 ABAAAAAB 不变。本文件维护当前事实，历史结果由原报告和 Git 记录保存。
 
 **执行入口：[M1 修复与 M2 执行计划](deliveries/M1-M2-EXECUTION-20261011.md) → [对抗审查](deliveries/M1-M2-AUDIT-20261011.md) → [反馈、neat-freak 与 GitHub 收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。** 原 R0—R5 工程已完成，不重复按旧计划实施。
 
 ## 1. 当前结论
 
-**M0 七项已通过；M1 五项通过，M1-01/05/06 失败，Gate #2 仍 Blocked/open；M2 八项未测，工程尚未实现。** 本轮完成代码审查、隔离复现、下一轮计划和问题登记，应用修复留给该计划执行。
+**M0 七项已通过；M1 五项通过，M1-01/05/06 失败，Gate #2 仍 Blocked/open；M2 八项未测，工程尚未实现。** 本轮已从PR #28真实head 5a28c87建立隔离目标，GOV #36经独立完整范围审查和CI通过后合入 f1d4d88；DOC合同冻结中，业务修复尚未开始。
 
 用户第二轮明确授权“未指出问题的已交付 M0/M1 项目默认通过”，仅用于该轮结果，不延伸至后续候选或 M2。原始反馈及15项结果见 [第二轮反馈](deliveries/M0-M1-FEEDBACK2-20261011.md)。新审查不擦除 #8、M1-03/08 等历史通过，受影响项在下一候选新增定向回归。
 
@@ -23,7 +23,7 @@
 | 3B | W04-A → W04-B / #13/#14 | 维护会话、材料预览/保存、纠错/撤回、真实摘要和待办 |
 | 4 | QA / #2/#3 | 私有Site、真实/隔离材料、M1先行复验及M2八项完整操作包 |
 
-最多两个活动实施包，当前活动包0；共享服务/API/迁移/代理和资料单一整合。先提交M1三项失败及受影响复验，可以继续独立M2工程；Gate仍按M0→M1→M2→M3→M4顺序。#31的两校M1部分与三校M2部分分别判定，不形成阶段循环依赖。
+最多两个活动实施包，当前活动包1（DOC-M2，仅合同/任务；共享管理资料由root整合）；共享服务/API/迁移/代理和资料单一整合。先提交M1三项失败及受影响复验，可以继续独立M2工程；Gate仍按M0→M1→M2→M3→M4顺序。#31的两校M1部分与三校M2部分分别判定，不形成阶段循环依赖。
 
 原目标 M1 10-13、M2 10-15、M3 10-16、M4 10-17保留；新增前置和来源限制需在实施中更新预计日期，日期到达不代表完成。自然调度、只读MCP、运营恢复与正式切换仍属后续阶段。
 
@@ -32,15 +32,15 @@
 | 对象 | 当前记录 |
 | --- | --- |
 | 唯一仓库 | [caor3693-cmyk/Workhunter-v2.0](https://github.com/caor3693-cmyk/Workhunter-v2.0) |
-| 当前资料承载PR | [#28](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28)，draft/open；codex/m0-m1-integration-20261011 |
+| 历史审查资料PR | [#28](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28)，draft/open；真实起点5a28c87 |
 | 审查仓库基线 | b17f67d13321bb236728baf51198221f1b58e366；本轮最终资料SHA见PR最新回执 |
 | PR #28可信base | ae261c856761f84904430211b82ac7a42f689e4e / codex/m0-m1-governance-20261011 |
 | 既有部署应用源码 | b6300f4991d4c9a36ecf8f425a6de578c0106275 |
-| [私有Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site) | 已归档保存版本4；本轮未重发、未重新做远端探测 |
+| [私有Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site) | 仍保存版本4；本轮已真实浏览器读取与墙钟基线测量，尚未重发 |
 | 已归档数据库身份 | schema2 / real / ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f |
-| 当前范围规则 | PR #28仍按R1/R2/W01-R3/W02-R4/R5；新反馈号/M2包须在#32独立登记 |
+| 当前范围规则 | GOV #36已独立登记新包/Issue/精确集成组合；可信目标f1d4d88，checker未改 |
 
-本轮提交仅审查、计划、隔离证据和管理资料；本地synthetic快照仅用于构建核验，未推送为应用历史。main/PR20未合并，旧工程不是实施入口。核验页旧“未测”文案待下一产品候选同步，当前结论以本页、报告和Issue为准。
+此前审查提交仅资料；本轮从真实5a28c87推进独立治理/合同，隔离目标合并不代表main/正式发布或用户Gate通过。旧工程不是实施入口。核验页旧“未测”文案待产品候选同步，当前结论以本页、报告和Issue为准。
 
 ## 4. 数据、证据与验证
 
@@ -50,7 +50,7 @@
 
 本轮126个本地文件blob与审查远端树一致；应用源码未变。Python222通过/3跳过，Node72通过，干净构建和Worker语法通过；前端六组隔离案例、生产适配器五类案例及材料归属链路完成。详见 [审查报告](deliveries/M1-M2-AUDIT-20261011.md) 和 [机器证据](deliveries/evidence/M1-M2-AUDIT-20261011.json)。
 
-本轮Linux/Python3.12/Node24、bs4 4.15.0与锁定bs4 4.14.3、CI Node22有差异，未改依赖锁。未读取/修改真实库，未访问新官方来源或实测Site延迟；实际受影响数量、远端p95、十校实网和维护行为均待下一轮核验。绿色基线测试不代替这些结果。
+此前审查采用Linux/Python3.12/Node24、bs4 4.15.0；本轮Windows使用锁定bs4 4.14.3、Python3.11、Node24，CI为Node22，依赖锁未改。本轮已读取真实API和新公开来源、测量Site墙钟基线；未修改原132条库。实际受影响数量、完整分段性能、十校入库及维护行为仍待候选验证，绿色基线测试不代替这些结果。
 
 ## 5. 用户验收记录
 
@@ -72,10 +72,16 @@
 
 ## 6. GitHub与收尾
 
-[仓库看板](BOARD.md)/[配置](../config/project.json)当前30个Issue：Backlog16、Ready0、In progress0、Awaiting verification0、Blocked5、Done9；21open/9closed。新增#32/#33/#34/#35均Backlog/open，三条用户反馈仍open。#1/#6/#8/#11/#19/#21/#22/#23/#24完成事实保留。
+[仓库看板](BOARD.md)/[配置](../config/project.json)当前30个Issue：Backlog12、Ready3、In progress1、Awaiting verification0、Blocked5、Done9；21open/9closed。新增#32 In progress/open，#33/#34/#35 Ready/open，三条用户反馈仍open。#1/#6/#8/#11/#19/#21/#22/#23/#24完成事实保留。
 
-[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) 和 [Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2) 已在私有Project5建立，上轮26项字段已回读。本轮连接没有Projects操作、环境没有gh；新4项的原生导入/字段同步待#32处理，project_item_id保持null，不冒称30项原生同步完成，#19不重开。
+[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) 和 [Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2) 已在私有Project5建立，上轮26项字段已回读。本轮使用既有获准gh通道新增#32—35并回读Status/Stage/Priority/Start/Target，30项已登记；四项真实item ID见config。既有26项与#19完成事实保留。
 
-本轮实际读取上游neat-freak3.0.0及四参考，核对源码、运行、文档、规则、记忆、工作区六面；此前Windows3.0.1记录保留为历史。应用/规则未改，资料更新，运行未重测，长期记忆无写入，唯一证据/数据库/备份/用户改动保留。最终提交、Issue/PR/CI回读以PR #28最新回执为准。
+此前审查使用上游neat-freak3.0.0及四参考，其“应用/规则未改、运行未重测”仅为审查历史。本轮已实际读取本机neat-freak3.0.1及四参考：源码尚未改业务；运行完成真实Site/API基线读取；文档/规则由独立GOV #36及DOC #37同步；长期记忆不写；本轮三处可再生GOV测试目录已限域删除，唯一证据/数据库/备份/用户改动保留。最终业务候选的六面收尾、测试与Site回读仍须在实施后完成，不以前置治理代替产品交付。
 
 历史入口：[初版](deliveries/S0.md)、[M0失败反馈](deliveries/M0-FEEDBACK-20261011.md)、[原清理记录](deliveries/M0-NEAT-20261011.md)、[R0—R5计划](deliveries/M0-M1-EXECUTION-20261011.md)、[M0/M1交付包](deliveries/M0-M1-REVIEW-20261011.md)、[第二轮结果](deliveries/M0-M1-FEEDBACK2-20261011.md)。正式发布[#18](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18)保持Blocked，等待全部Gate及必需反馈复验。
+
+## 7. 本轮实时执行回执
+
+治理PR [#36](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/36)仅进入隔离可信分支，未合入main或修改PR28；checker未改。最终[CI](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38147259472)成功。首轮新增重命名测试的空提交问题已修复，旧失败保留在CI历史。
+
+当前Site仍版本4/schema2，已有真实页面回读和30次重载/30次校区提交的自动化墙钟基线；它包含浏览器桥接耗时，不能替代API分段p95。广工、广州大学、三峡、上海电力、湖南大学找到当前明确电气材料；尚未入候选库，华工当前样本仍缺。旧132条库、备份和用户工作区均保留。
