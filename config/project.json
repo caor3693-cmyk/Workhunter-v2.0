@@ -1821,7 +1821,7 @@
       "In progress": 9,
       "Awaiting verification": 1
     },
-    "status_readback": "Project5 and Issue labels read back on 2026-10-12; M1/M2 Site delivery blocked, GOV/DOC independent technical evidence awaiting review; historical Done and gates preserved",
+    "status_readback": "Project5 and Issue labels read back on 2026-10-12; GOV/DOC independent technical review and CI accepted, issue32 remains Awaiting verification; M1/M2 Site delivery blocked; historical Done and gates preserved",
     "implementation_performed": true,
     "current_electrical_samples": [
       133,
