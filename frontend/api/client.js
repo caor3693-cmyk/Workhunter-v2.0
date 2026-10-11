@@ -1,3 +1,5 @@
+import { opportunityPath } from '../components/dom.js';
+
 const PUBLIC_PATHS = new Set([
   "/api/catalog",
   "/api/opportunities",
@@ -6,6 +8,18 @@ const PUBLIC_PATHS = new Set([
   "/version",
   "/health",
 ]);
+const QUERY_FIELDS = new Set(['school_key', 'campus_id', 'campus_unknown', 'kind', 'keyword', 'date_from', 'date_to', 'view', 'scope', 'offset', 'limit', 'dataset_id', 'as_of']);
+export function publicReadPath(path) {
+  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//') || /[\\#\u0000-\u0020]/.test(path)) return null;
+  const url = new URL(path, 'https://read.invalid');
+  if (path.split('?')[0] !== url.pathname) return null;
+  const match = /^\/api\/opportunities\/([1-9]\d*)$/.exec(url.pathname);
+  if (match && opportunityPath(match[1], '/api/opportunities/') !== url.pathname) return null;
+  if (!match && !PUBLIC_PATHS.has(url.pathname)) return null;
+  const fields = [...url.searchParams.keys()];
+  if (fields.length !== new Set(fields).size || fields.some(field => url.pathname !== '/api/opportunities' || !QUERY_FIELDS.has(field))) return null;
+  return url.pathname;
+}
 
 export class ReadError extends Error {
   constructor(message, status = 0, code = "connection_failed") {
@@ -17,6 +31,17 @@ export class ReadError extends Error {
 }
 
 function statusMessage(status, code) {
+  const conditions = {
+    invalid_date: '日期格式无效，请检查起始和结束日期。', invalid_date_range: '起始日期不能晚于结束日期。',
+    invalid_as_of: '分页查询日期无效，请重新加载第一页。', as_of_required: '分页缺少首页查询日期，请重新加载第一页。',
+    dataset_required: '分页缺少首页数据版本，请重新加载第一页。', invalid_kind: '招聘类型无效，请重新选择。',
+    invalid_keyword: '关键词不能超过 300 字。', school_campus_conflict: '所选校区不属于当前学校，请重新选择校区。',
+    campus_conflict: '具体校区与校区未知不能同时选择。', invalid_campus_unknown: '校区未知条件无效，请重新选择。',
+    invalid_number: '校区或分页数值无效，请检查条件并重新查询。', invalid_view_or_scope: '日期视图或招聘范围无效，请重新选择。',
+    opportunity_not_found: '这条公告不存在或尚未收录，请返回招聘发现。', school_not_found: '所选学校尚未登记，请重新读取目录。',
+    campus_not_found: '所选校区尚未登记，请重新读取目录。',
+  };
+  if (conditions[code]) return conditions[code];
   if (code === "service_unauthorized" || code === "loopback_only") return "数据连接授权配置需要检查，请稍后重新加载。";
   if (code === "database_unavailable") return "开发数据暂不可读，请稍后重新加载。";
   if (code === "development_api_unconfigured") return "开发环境尚未连接，请稍后重新加载。";
@@ -31,10 +56,19 @@ function statusMessage(status, code) {
   return "本次读取失败，请重新加载。";
 }
 
+function validDay(value) {
+  return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
+}
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 function validateResponse(path, data) {
   let valid = typeof data.dataset_id === "string" && data.dataset_id.length > 0 && typeof data.data_mode === "string";
   if (path === "/api/catalog") valid &&= Array.isArray(data.schools);
-  if (path === "/api/opportunities") valid &&= Array.isArray(data.items) && Number.isInteger(data.total) && typeof data.applied_filters === "object";
+  if (path === "/api/opportunities") valid &&= Array.isArray(data.items) && Number.isSafeInteger(data.total) && data.total >= 0 && object(data.applied_filters)
+    && Number.isSafeInteger(data.offset) && data.offset >= 0 && Number.isSafeInteger(data.limit) && data.limit > 0 && typeof data.has_more === 'boolean'
+    && validDay(data.as_of) && data.applied_filters.as_of === data.as_of && object(data.applied_filters.recent_window);
+  if (path.startsWith('/api/opportunities/')) valid &&= opportunityPath(data.id, '/api/opportunities/') === path
+    && object(data.field_observations) && Array.isArray(data.roster_fragments) && Array.isArray(data.job_fragments)
+    && Array.isArray(data.attachments) && Array.isArray(data.materials) && object(data.coverage);
   if (path === "/api/updates/summary") valid &&= typeof data.check_status === "string" && data.today !== null && typeof data.today === "object";
   if (path === "/api/sources/status") valid &&= Array.isArray(data.sources);
   if (path === "/version") valid &&= typeof data.project === "string" && typeof data.version === "string" && typeof data.backend_commit === "string";
@@ -48,7 +82,8 @@ function errorCode(data) {
 }
 
 export async function readJSON(path, { signal, timeout = 15000 } = {}) {
-  if (!PUBLIC_PATHS.has(path)) throw new ReadError("读取路径不在本阶段公开接口范围。", 0, "unsupported_path");
+  const pathname = publicReadPath(path);
+  if (!pathname) throw new ReadError("读取路径不在本阶段公开接口范围。", 0, "unsupported_path");
   const controller = new AbortController();
   let timedOut = false;
   const abort = () => controller.abort();
@@ -81,7 +116,7 @@ export async function readJSON(path, { signal, timeout = 15000 } = {}) {
       throw new ReadError(statusMessage(response.status, code), response.status, code);
     }
     if (!data || typeof data !== "object" || Array.isArray(data)) throw new ReadError("数据格式暂不可读，请重新加载。", response.status, "invalid_response");
-    validateResponse(path, data);
+    validateResponse(pathname, data);
     return data;
   } catch (error) {
     if (timedOut) throw new ReadError("读取超时，请重新加载。", 0, "timeout");

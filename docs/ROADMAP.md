@@ -5,7 +5,7 @@
 **仓库：[caor3693-cmyk/Workhunter-v2.0](https://github.com/caor3693-cmyk/Workhunter-v2.0)**
 
 以下日期保留原开发目标。2026-10-11收到M0实际用户失败/阻塞，阶段未通过，三项P1见#21—#23；原工程自验日期10-10不变。统一M命名，旧S/G仅为历史映射。
-Issue索引见[BOARD](BOARD.md)，当前反馈见[M0汇报](deliveries/M0-FEEDBACK-20261011.md)，M版当前核验规则见[MANUAL_QA_M](deliveries/MANUAL_QA_M.md)。原生Project仍受阻；R0治理/DOC三PR CI成功，R1/R2实施中，Site重发待本批回执。
+Issue索引见[BOARD](BOARD.md)，当前反馈见[M0汇报](deliveries/M0-FEEDBACK-20261011.md)，M版当前核验规则见[MANUAL_QA_M](deliveries/MANUAL_QA_M.md)。原生Project仍受阻；R0治理/DOC三PR CI成功，M0修复已发布版本2并发七项复验；M1工程132条真实数据及查询已实现，R5最终材料进行中。
 2026-10-11新一轮以[对抗审查](deliveries/M0-M1-AUDIT-20261011.md)、[R0—R5执行计划](deliveries/M0-M1-EXECUTION-20261011.md)和[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)为执行入口。R0—R5是本轮顺序，不是新增产品阶段。
 产品继续遵循 [PRODUCT.md](PRODUCT.md) 的八项决定；字段和接口见 [CONTRACTS.md](CONTRACTS.md)，工作包详情见 [TASKS.md](TASKS.md)。
 本文件以 M0—M4 安排一周进度和顺序人工核验，保留 W00—W06 工作包；新阶段门槛取代旧 R 阶段的排期表达。
@@ -66,14 +66,14 @@ gantt
 | 阶段 / 管理项 | 原目标 | 实际记录 | 当前结论 |
 | --- | --- | --- | --- |
 | M0 / W00、#6 / #1 | 2026-10-11 | 10-10保存工程与私有Site初版；10-11收到主页说明、读取错误、同页导航反馈，P1 #21/#22/#23已登记 | 未通过，Blocked/open；M0-02/M0-07失败，M0-03/M0-06阻塞，其余原项目未测 |
-| M1 / W01、W02 | 2026-10-12—10-13 | Backlog；#7—#11待按R3—R5完成真实采集/展示/筛选；审查反例并入原单 | 未测；待M0顺序通过后核验 |
+| M1 / W01、W02 | 2026-10-12—10-13 | 10-11提前执行R3/R4；132条真实记录、证据和查询已实现；R5最终材料实施中 | 未测；待M0顺序通过后核验 |
 | M2 / W03、W04 | 2026-10-14—10-15 | Backlog，未开始 | 未测 |
 | M3 / W05 | 2026-10-16 | Backlog，未开始 | 未测 |
 | M4 / W06 | 2026-10-17 | Backlog，未开始 | 未测 |
 | PM-SETUP #19 | 2026-10-11 | 原生Project无已核验入口；期望Stage为M0—M4、导入集合含反馈及治理共23项 | Blocked；ID/URLnull，不重复登录 |
 | PM-RELEASE #18 | 条件解锁后 | 全阶段与必需反馈未完成，未正式部署或切换旧站 | Blocked |
 
-R0已建立可信目标ae261c8（PR #25/#26/#27，CI均success），R1/R2开始实施；M0用户结论仍未通过。37个当前手工项（7/8/8/6/8）保持；用户失败/阻塞不被自验覆盖。本次重新运行41 Python/3代理测试及构建通过，但当前真实Site六路读取502；具体时点和界限见审查报告。历史材料见[S0初版包](deliveries/S0.md)及[M命名映射](deliveries/M_NAMING.md)。
+R0已建立可信目标ae261c8（PR #25/#26/#27，CI均success），M0源码ce6d41f/CI38116927372已成功部署版本2并发复验；M0用户结论仍未通过。37个当前手工项（7/8/8/6/8）保持；用户失败/阻塞不被自验覆盖。原审查六路502作为历史保留；当前M0六路200和真实故障恢复见M0复验包。M1最终同候选回执将另附，原目标不冒充用户通过。历史材料见[S0初版包](deliveries/S0.md)及[M命名映射](deliveries/M_NAMING.md)。
 
 ### 2.3 当前迭代安排
 

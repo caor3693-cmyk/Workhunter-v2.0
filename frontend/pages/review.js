@@ -27,6 +27,12 @@ export function assessReadIdentity(health, version, frontendCommit) {
   return { verified: true, message: "已读取同一 Workhunter v2 构建，数据库可读；学校覆盖和用户验收另行核对。" };
 }
 
+export function realSampleLinksAvailable(resources, frontendCommit) {
+  const { health, version } = resources;
+  return health?.status === "ready" && version?.status === "ready" && pageDatasetsAgree(resources)
+    && version.data?.data_mode === "real" && assessReadIdentity(health.data, version.data, frontendCommit).verified;
+}
+
 export function mountReview({ document: doc = globalThis.document, read } = {}) {
   const get = id => doc.getElementById(id);
   const reader = createPageReader(PAGE_READ_PATHS.review, render, read);
@@ -49,6 +55,13 @@ export function mountReview({ document: doc = globalThis.document, read } = {}) 
     else status.textContent = identity.message;
     status.classList.toggle("is-error", (ready && !valid) || health.status === "error" || version.status === "error");
     status.classList.toggle("is-connected", valid);
+    const samplesAvailable = realSampleLinksAvailable(reader.resources, frontend);
+    for (const links of doc.querySelectorAll(".real-sample-links")) links.hidden = !samplesAvailable;
+    const sampleStatus = get("sample-link-status");
+    if (sampleStatus) sampleStatus.textContent = samplesAvailable
+      ? "以下入口对应当前真实两校记录；逐项对照官方材料与完整操作包，用户结果仍为未测。"
+      : backend?.data_mode === "isolated_fixture" ? "当前为隔离样例；请使用独立本机操作包，真实记录入口不在此模式显示。"
+      : "真实记录入口将在当前构建与真实数据身份核对一致后显示；完整操作包仍可打开。";
     const observedAt = version.observedAt && health.observedAt ? (version.observedAt > health.observedAt ? version.observedAt : health.observedAt) : null;
     get("build-identity").replaceChildren(
       row("后端项目 / 版本", backend ? `${backend.project || "未提供"} / ${backend.version || "未提供"}` : null, version),
@@ -59,15 +72,10 @@ export function mountReview({ document: doc = globalThis.document, read } = {}) 
       row("数据库状态", health.data?.database, health),
       row("本次页面读取", observedAt ? `${displayTime(observedAt)}（北京时间）` : null),
     );
+    get('reload-button').disabled = health.status === 'loading' || version.status === 'loading';
+    get('reload-button').textContent = get('reload-button').disabled ? '正在核对…' : '重新核对';
   }
-  async function reload() {
-    const button = get("reload-button");
-    button.disabled = true;
-    button.textContent = "正在核对…";
-    await reader.reload();
-    button.disabled = false;
-    button.textContent = "重新核对";
-  }
+  const reload = () => reader.reload();
   async function copy(stage) {
     const version = reader.resources.version;
     const identity = version.status === "ready" ? version.data : {};

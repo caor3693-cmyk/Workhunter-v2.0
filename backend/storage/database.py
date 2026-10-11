@@ -21,9 +21,9 @@ REQUIRED_COLUMNS = {
     "campuses": "id school_key campus_key name evidence_url observed_at",
     "sources": "source_key school_key campus_id name channel_key official_entry_url adapter scope_json verification_state status last_attempt_at last_success_at public_message",
     "opportunities": "id school_key campus_id source_key source_identity title kind original_kind date_basis source_url published_date event_date start_time end_time deadline event_venue work_locations_json work_locations_scope relevance event_status recruitment_status field_observations_json first_seen_at content_changed_at source_updated_at version roster_fragments_json job_fragments_json attachments_json",
-    "source_materials": "id source_key opportunity_id source_url official_record_id material_hash fetched_at raw_reference acquisition_status parsing_status parser_version scope_json",
+    "source_materials": "id reference_key source_key opportunity_id source_url official_record_id material_hash fetched_at raw_reference acquisition_status parsing_status parser_version scope_json",
     "runs": "id trigger started_at finished_at status scope_json completeness result_json committed_at",
-    "processing_tasks": "id source_key opportunity_id task_kind cursor_json budget_json attempts status run_id result_json committed_at",
+    "processing_tasks": "id task_identity source_key opportunity_id task_kind cursor_json budget_json attempts status run_id result_json committed_at",
     "manual_operations": "id actor operation_type opportunity_id preview_hash base_version input_json difference_json expires_at status committed_at reverts_operation_id",
     "changes": "id opportunity_id field_name before_json after_json change_kind material_id run_id manual_operation_id actor committed_at",
 }
@@ -37,7 +37,7 @@ def _validate(connection: sqlite3.Connection) -> dict[str, str]:
     metadata = dict(connection.execute("SELECT key, value FROM metadata"))
     if metadata.get("project") != PROJECT or metadata.get("schema_version") != SCHEMA_VERSION:
         raise DatabaseUnavailable("数据库项目或结构版本不匹配，请连接 Workhunter v2 独立新库。")
-    if not metadata.get("dataset_id") or metadata.get("data_mode") not in {"empty", "real"}:
+    if not metadata.get("dataset_id") or metadata.get("data_mode") not in {"empty", "real", "isolated_fixture"}:
         raise DatabaseUnavailable("数据库的数据集标识缺失或无效。")
     if connection.execute("PRAGMA quick_check(1)").fetchone()[0] != "ok":
         raise DatabaseUnavailable("数据库损坏或不可读，请使用经过核验的隔离备份恢复。")
@@ -65,11 +65,13 @@ def read_database(db_path: Path):
             connection.close()
 
 
-def initialize_database(db_path: Path, schools_path: Path | None = None) -> dict[str, str]:
+def initialize_database(db_path: Path, schools_path: Path | None = None, *, fixture=False) -> dict[str, str]:
     """Explicit, idempotent creation. Existing unknown databases are never repaired."""
     path = Path(db_path).resolve()
     if path.exists():
         with read_database(path) as (_, metadata):
+            if fixture != (metadata['data_mode'] == 'isolated_fixture'):
+                raise ValueError('真实库与隔离样例库不可混用。')
             return metadata
     seeds = json.loads((schools_path or ROOT / "config" / "schools.json").read_text(encoding="utf-8"))
     schools = seeds["schools"]
@@ -88,7 +90,7 @@ def initialize_database(db_path: Path, schools_path: Path | None = None) -> dict
         connection.executescript("BEGIN IMMEDIATE;\n" + schema)
         metadata = {
             "project": PROJECT, "schema_version": SCHEMA_VERSION,
-            "dataset_id": "ds-" + str(uuid4()), "data_mode": "empty",
+            "dataset_id": ('fixture-ds-' if fixture else 'ds-') + str(uuid4()), "data_mode": 'isolated_fixture' if fixture else 'empty',
             "initialized_at": datetime.now(timezone(timedelta(hours=8))).isoformat(),
         }
         connection.executemany("INSERT INTO metadata(key,value) VALUES (?,?)", metadata.items())

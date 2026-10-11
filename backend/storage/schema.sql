@@ -38,10 +38,11 @@ CREATE INDEX opportunities_school_date ON opportunities(school_key, published_da
 CREATE INDEX opportunities_event_date ON opportunities(event_date, id);
 CREATE TABLE source_materials (
   id INTEGER PRIMARY KEY, source_key TEXT NOT NULL REFERENCES sources(source_key),
+  reference_key TEXT NOT NULL,
   opportunity_id INTEGER REFERENCES opportunities(id), source_url TEXT NOT NULL,
   official_record_id TEXT, material_hash TEXT, fetched_at TEXT, raw_reference TEXT,
   acquisition_status TEXT NOT NULL DEFAULT 'pending', parsing_status TEXT NOT NULL DEFAULT 'pending',
-  parser_version TEXT, scope_json TEXT NOT NULL DEFAULT '{}'
+  parser_version TEXT, scope_json TEXT NOT NULL DEFAULT '{}', UNIQUE(source_key,reference_key)
 );
 CREATE TABLE runs (
   id TEXT PRIMARY KEY, trigger TEXT NOT NULL, started_at TEXT NOT NULL,
@@ -51,10 +52,11 @@ CREATE TABLE runs (
 );
 CREATE TABLE processing_tasks (
   id INTEGER PRIMARY KEY, source_key TEXT NOT NULL REFERENCES sources(source_key),
+  task_identity TEXT NOT NULL,
   opportunity_id INTEGER REFERENCES opportunities(id), task_kind TEXT NOT NULL,
   cursor_json TEXT, budget_json TEXT NOT NULL, attempts INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'pending', run_id TEXT REFERENCES runs(id),
-  result_json TEXT, committed_at TEXT, UNIQUE(source_key, opportunity_id, task_kind)
+  result_json TEXT, committed_at TEXT, UNIQUE(source_key,task_identity,task_kind)
 );
 CREATE TABLE manual_operations (
   id TEXT PRIMARY KEY, actor TEXT NOT NULL, operation_type TEXT NOT NULL,
@@ -70,3 +72,50 @@ CREATE TABLE changes (
   run_id TEXT REFERENCES runs(id), manual_operation_id TEXT REFERENCES manual_operations(id),
   actor TEXT, committed_at TEXT NOT NULL
 );
+
+-- Ownership constraints (also applied by explicit schema migration).
+CREATE TRIGGER campuses_parent_ownership BEFORE UPDATE OF school_key ON campuses
+WHEN EXISTS (SELECT 1 FROM opportunities WHERE campus_id=OLD.id AND school_key<>NEW.school_key)
+OR EXISTS (SELECT 1 FROM sources WHERE campus_id=OLD.id AND school_key<>NEW.school_key)
+BEGIN SELECT RAISE(ABORT, 'campus owner would invalidate existing references'); END;
+CREATE TRIGGER sources_parent_ownership BEFORE UPDATE OF school_key ON sources
+WHEN EXISTS (SELECT 1 FROM opportunities WHERE source_key=OLD.source_key AND school_key<>NEW.school_key)
+BEGIN SELECT RAISE(ABORT, 'source owner would invalidate existing opportunities'); END;
+CREATE TRIGGER opportunities_material_ownership BEFORE UPDATE OF source_key ON opportunities
+WHEN EXISTS (SELECT 1 FROM source_materials WHERE opportunity_id=OLD.id AND source_key<>NEW.source_key)
+OR EXISTS (SELECT 1 FROM processing_tasks WHERE opportunity_id=OLD.id AND source_key<>NEW.source_key)
+OR EXISTS (SELECT 1 FROM changes c JOIN source_materials m ON m.id=c.material_id WHERE c.opportunity_id=OLD.id AND m.source_key<>NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'opportunity source would invalidate existing evidence'); END;
+CREATE TRIGGER materials_change_ownership BEFORE UPDATE OF source_key ON source_materials
+WHEN EXISTS (SELECT 1 FROM changes c JOIN opportunities o ON o.id=c.opportunity_id WHERE c.material_id=OLD.id AND o.source_key<>NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'material source would invalidate existing changes'); END;
+CREATE TRIGGER sources_ownership_insert BEFORE INSERT ON sources
+WHEN NEW.campus_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM campuses c WHERE c.id=NEW.campus_id AND c.school_key=NEW.school_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER sources_ownership_update BEFORE UPDATE ON sources
+WHEN NEW.campus_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM campuses c WHERE c.id=NEW.campus_id AND c.school_key=NEW.school_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER opportunities_ownership_insert BEFORE INSERT ON opportunities
+WHEN NOT EXISTS (SELECT 1 FROM sources s WHERE s.source_key=NEW.source_key AND s.school_key=NEW.school_key) OR (NEW.campus_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM campuses c WHERE c.id=NEW.campus_id AND c.school_key=NEW.school_key))
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER opportunities_ownership_update BEFORE UPDATE ON opportunities
+WHEN NOT EXISTS (SELECT 1 FROM sources s WHERE s.source_key=NEW.source_key AND s.school_key=NEW.school_key) OR (NEW.campus_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM campuses c WHERE c.id=NEW.campus_id AND c.school_key=NEW.school_key))
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER source_materials_ownership_insert BEFORE INSERT ON source_materials
+WHEN NEW.opportunity_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM opportunities o WHERE o.id=NEW.opportunity_id AND o.source_key=NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER source_materials_ownership_update BEFORE UPDATE ON source_materials
+WHEN NEW.opportunity_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM opportunities o WHERE o.id=NEW.opportunity_id AND o.source_key=NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER processing_tasks_ownership_insert BEFORE INSERT ON processing_tasks
+WHEN NEW.opportunity_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM opportunities o WHERE o.id=NEW.opportunity_id AND o.source_key=NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER processing_tasks_ownership_update BEFORE UPDATE ON processing_tasks
+WHEN NEW.opportunity_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM opportunities o WHERE o.id=NEW.opportunity_id AND o.source_key=NEW.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER changes_ownership_insert BEFORE INSERT ON changes
+WHEN NEW.material_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM source_materials m JOIN opportunities o ON o.id=NEW.opportunity_id WHERE m.id=NEW.material_id AND m.source_key=o.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;
+CREATE TRIGGER changes_ownership_update BEFORE UPDATE ON changes
+WHEN NEW.material_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM source_materials m JOIN opportunities o ON o.id=NEW.opportunity_id WHERE m.id=NEW.material_id AND m.source_key=o.source_key)
+BEGIN SELECT RAISE(ABORT, 'school/source/campus/material ownership mismatch'); END;

@@ -1,0 +1,2137 @@
+{
+  "project": "Workhunter-v2.0",
+  "schema_version": "2",
+  "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+  "data_mode": "real",
+  "observation": "2026-10-11T14:39:41+08:00 to 2026-10-11T14:41:35+08:00",
+  "source_code_identity": "M1 candidate commit recorded separately in final delivery",
+  "sources": [
+    {
+      "source_key": "scut_cnsba",
+      "school_key": "scut",
+      "school_name": "华南理工大学",
+      "name": "工商管理学院就业实习（补充来源）",
+      "official_entry_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+      "verification_state": "verified",
+      "status": "partial",
+      "last_attempt_at": "2026-10-11T14:41:03.281760+08:00",
+      "last_success_at": "2026-10-11T14:41:03.240572+08:00",
+      "message": "已取得部分公开材料，尚有未完成范围",
+      "channel_key": "scut_cnsba",
+      "scope": {
+        "coverage": "college_supplemental",
+        "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "source_key": "scut_homepage",
+      "school_key": "scut",
+      "school_name": "华南理工大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://jyzx.scut.edu.cn/",
+      "verification_state": "restricted",
+      "status": "restricted",
+      "last_attempt_at": "2026-10-11T13:25:26+08:00",
+      "last_success_at": null,
+      "message": "官方入口转统一认证，停止该路径。",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "gdut_campus",
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "name": "公开校园招聘",
+      "official_entry_url": "https://career.gdut.edu.cn/campus",
+      "verification_state": "verified",
+      "status": "partial",
+      "last_attempt_at": "2026-10-11T14:41:35.627040+08:00",
+      "last_success_at": "2026-10-11T14:41:35.580787+08:00",
+      "message": "已取得部分公开材料，尚有未完成范围",
+      "channel_key": "campus",
+      "scope": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "source_key": "gdut_homepage",
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://career.gdut.edu.cn/",
+      "verification_state": "verified",
+      "status": "verified",
+      "last_attempt_at": "2026-10-11T13:25:26+08:00",
+      "last_success_at": null,
+      "message": "官方就业首页可公开读取，种子本身不计自动采集覆盖。",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "gdut_jobfair",
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "name": "公开双选会",
+      "official_entry_url": "https://career.gdut.edu.cn/jobfair",
+      "verification_state": "verified",
+      "status": "partial",
+      "last_attempt_at": "2026-10-11T14:41:24.631809+08:00",
+      "last_success_at": "2026-10-11T14:41:24.587885+08:00",
+      "message": "已取得部分公开材料，尚有未完成范围",
+      "channel_key": "jobfair",
+      "scope": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "source_key": "gdut_teachin",
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "name": "公开宣讲会",
+      "official_entry_url": "https://career.gdut.edu.cn/teachin",
+      "verification_state": "verified",
+      "status": "partial",
+      "last_attempt_at": "2026-10-11T14:41:14.463636+08:00",
+      "last_success_at": "2026-10-11T14:41:14.408718+08:00",
+      "message": "已取得部分公开材料，尚有未完成范围",
+      "channel_key": "teachin",
+      "scope": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "source_key": "ncepu_homepage",
+      "school_key": "ncepu",
+      "school_name": "华北电力大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://job.ncepu.edu.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "shiep_homepage",
+      "school_key": "shiep",
+      "school_name": "上海电力大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://career.shiep.edu.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "neepu_homepage",
+      "school_key": "neepu",
+      "school_name": "东北电力大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://jy.neepu.edu.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "csust_homepage",
+      "school_key": "csust",
+      "school_name": "长沙理工大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://csust.bysjy.com.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "ctgu_homepage",
+      "school_key": "ctgu",
+      "school_name": "三峡大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://ctgu.91wllm.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "gzhu_homepage",
+      "school_key": "gzhu",
+      "school_name": "广州大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://jy.gzhu.edu.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "hnu_homepage",
+      "school_key": "hnu",
+      "school_name": "湖南大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://hnu.bysjy.com.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    },
+    {
+      "source_key": "csu_homepage",
+      "school_key": "csu",
+      "school_name": "中南大学",
+      "name": "官方就业入口种子",
+      "official_entry_url": "https://career.csu.edu.cn/",
+      "verification_state": "pending",
+      "status": "not_checked",
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "message": "尚未检查",
+      "channel_key": "homepage",
+      "scope": {
+        "verified": false,
+        "coverage": "unverified_seed"
+      }
+    }
+  ],
+  "schools": [
+    {
+      "school_key": "scut",
+      "name": "华南理工大学",
+      "campuses": [
+        {
+          "id": 1,
+          "campus_key": "wushan",
+          "name": "五山校区",
+          "evidence_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+        }
+      ],
+      "verification_state": "partial",
+      "availability": "partial",
+      "availability_message": "已取得部分公开材料，非全校完整覆盖",
+      "scope_note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+      "verified_at": "2026-10-11T13:25:26+08:00",
+      "opportunity_count": 28,
+      "sources": [
+        {
+          "source_key": "scut_cnsba",
+          "school_key": "scut",
+          "school_name": "华南理工大学",
+          "name": "工商管理学院就业实习（补充来源）",
+          "official_entry_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+          "verification_state": "verified",
+          "status": "partial",
+          "last_attempt_at": "2026-10-11T14:41:03.281760+08:00",
+          "last_success_at": "2026-10-11T14:41:03.240572+08:00",
+          "message": "已取得部分公开材料，尚有未完成范围",
+          "channel_key": "scut_cnsba",
+          "scope": {
+            "coverage": "college_supplemental",
+            "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        },
+        {
+          "source_key": "scut_homepage",
+          "school_key": "scut",
+          "school_name": "华南理工大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://jyzx.scut.edu.cn/",
+          "verification_state": "restricted",
+          "status": "restricted",
+          "last_attempt_at": "2026-10-11T13:25:26+08:00",
+          "last_success_at": null,
+          "message": "官方入口转统一认证，停止该路径。",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "gdut",
+      "name": "广东工业大学",
+      "campuses": [
+        {
+          "id": 2,
+          "campus_key": "university_city",
+          "name": "大学城校区",
+          "evidence_url": "https://career.gdut.edu.cn/teachin"
+        },
+        {
+          "id": 3,
+          "campus_key": "longdong",
+          "name": "龙洞校区",
+          "evidence_url": "https://career.gdut.edu.cn/teachin/index/do123/career.gdut.edu.cn/domain/gdut/page/2"
+        }
+      ],
+      "verification_state": "verified",
+      "availability": "partial",
+      "availability_message": "已取得部分公开材料，非全校完整覆盖",
+      "scope_note": "就业中心公开宣讲会、双选会、校园招聘三栏目有限分页；不使用受限关键词搜索。",
+      "verified_at": "2026-10-11T13:25:26+08:00",
+      "opportunity_count": 104,
+      "sources": [
+        {
+          "source_key": "gdut_campus",
+          "school_key": "gdut",
+          "school_name": "广东工业大学",
+          "name": "公开校园招聘",
+          "official_entry_url": "https://career.gdut.edu.cn/campus",
+          "verification_state": "verified",
+          "status": "partial",
+          "last_attempt_at": "2026-10-11T14:41:35.627040+08:00",
+          "last_success_at": "2026-10-11T14:41:35.580787+08:00",
+          "message": "已取得部分公开材料，尚有未完成范围",
+          "channel_key": "campus",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        },
+        {
+          "source_key": "gdut_homepage",
+          "school_key": "gdut",
+          "school_name": "广东工业大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://career.gdut.edu.cn/",
+          "verification_state": "verified",
+          "status": "verified",
+          "last_attempt_at": "2026-10-11T13:25:26+08:00",
+          "last_success_at": null,
+          "message": "官方就业首页可公开读取，种子本身不计自动采集覆盖。",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        },
+        {
+          "source_key": "gdut_jobfair",
+          "school_key": "gdut",
+          "school_name": "广东工业大学",
+          "name": "公开双选会",
+          "official_entry_url": "https://career.gdut.edu.cn/jobfair",
+          "verification_state": "verified",
+          "status": "partial",
+          "last_attempt_at": "2026-10-11T14:41:24.631809+08:00",
+          "last_success_at": "2026-10-11T14:41:24.587885+08:00",
+          "message": "已取得部分公开材料，尚有未完成范围",
+          "channel_key": "jobfair",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        },
+        {
+          "source_key": "gdut_teachin",
+          "school_key": "gdut",
+          "school_name": "广东工业大学",
+          "name": "公开宣讲会",
+          "official_entry_url": "https://career.gdut.edu.cn/teachin",
+          "verification_state": "verified",
+          "status": "partial",
+          "last_attempt_at": "2026-10-11T14:41:14.463636+08:00",
+          "last_success_at": "2026-10-11T14:41:14.408718+08:00",
+          "message": "已取得部分公开材料，尚有未完成范围",
+          "channel_key": "teachin",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "ncepu",
+      "name": "华北电力大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。",
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "ncepu_homepage",
+          "school_key": "ncepu",
+          "school_name": "华北电力大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://job.ncepu.edu.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "shiep",
+      "name": "上海电力大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "shiep_homepage",
+          "school_key": "shiep",
+          "school_name": "上海电力大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://career.shiep.edu.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "neepu",
+      "name": "东北电力大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "neepu_homepage",
+          "school_key": "neepu",
+          "school_name": "东北电力大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://jy.neepu.edu.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "csust",
+      "name": "长沙理工大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "csust_homepage",
+          "school_key": "csust",
+          "school_name": "长沙理工大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://csust.bysjy.com.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "ctgu",
+      "name": "三峡大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "ctgu_homepage",
+          "school_key": "ctgu",
+          "school_name": "三峡大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://ctgu.91wllm.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "gzhu",
+      "name": "广州大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "gzhu_homepage",
+          "school_key": "gzhu",
+          "school_name": "广州大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://jy.gzhu.edu.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "hnu",
+      "name": "湖南大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "hnu_homepage",
+          "school_key": "hnu",
+          "school_name": "湖南大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://hnu.bysjy.com.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "csu",
+      "name": "中南大学",
+      "campuses": [],
+      "verification_state": "pending",
+      "availability": "pending",
+      "availability_message": "待核验 · 尚未检查",
+      "scope_note": null,
+      "verified_at": null,
+      "opportunity_count": 0,
+      "sources": [
+        {
+          "source_key": "csu_homepage",
+          "school_key": "csu",
+          "school_name": "中南大学",
+          "name": "官方就业入口种子",
+          "official_entry_url": "https://career.csu.edu.cn/",
+          "verification_state": "pending",
+          "status": "not_checked",
+          "last_attempt_at": null,
+          "last_success_at": null,
+          "message": "尚未检查",
+          "channel_key": "homepage",
+          "scope": {
+            "verified": false,
+            "coverage": "unverified_seed"
+          }
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "gdut": 104,
+    "scut": 28
+  },
+  "first_run": {
+    "id": "run-21c0ee11-4e94-47a8-91d1-83f02664151d",
+    "pages": 8,
+    "details": 48,
+    "new": 132,
+    "modified_initial_enrichment": 48
+  },
+  "repeat_run": {
+    "run_id": "run-ada4e9f2-e159-4cb3-9a3d-97e160751ccf",
+    "scope": {
+      "school_keys": [
+        "scut",
+        "gdut"
+      ],
+      "source_keys": [
+        "scut_cnsba",
+        "gdut_teachin",
+        "gdut_jobfair",
+        "gdut_campus"
+      ],
+      "page_budget": 2,
+      "detail_budget": 12,
+      "fixture": false
+    },
+    "sources": [
+      {
+        "source_key": "scut_cnsba",
+        "pages": 2,
+        "details": 12,
+        "detail_failures": 0,
+        "restricted_details": 0,
+        "status": "partial",
+        "warnings": [
+          "活动仅披露月日，未从发布日期或届次推断举办年份"
+        ],
+        "next_cursor": "https://cnsba.scut.edu.cn/jysx/list3.htm",
+        "pending_details": 16
+      },
+      {
+        "source_key": "gdut_teachin",
+        "pages": 2,
+        "details": 12,
+        "detail_failures": 0,
+        "restricted_details": 0,
+        "status": "partial",
+        "warnings": [
+          "详情正文尚未可靠取得；仅补充本页已取得的明确事实"
+        ],
+        "next_cursor": "https://career.gdut.edu.cn/teachin/index/do123/career.gdut.edu.cn/domain/gdut/page/3",
+        "pending_details": 29
+      },
+      {
+        "source_key": "gdut_jobfair",
+        "pages": 2,
+        "details": 12,
+        "detail_failures": 0,
+        "restricted_details": 0,
+        "status": "partial",
+        "warnings": [
+          "分页下一页指向本页，停止续跑；不能据此宣称完整覆盖"
+        ],
+        "next_cursor": null,
+        "pending_details": 12
+      },
+      {
+        "source_key": "gdut_campus",
+        "pages": 2,
+        "details": 12,
+        "detail_failures": 0,
+        "restricted_details": 0,
+        "status": "partial",
+        "warnings": [],
+        "next_cursor": "https://career.gdut.edu.cn/campus/index/do123/career.gdut.edu.cn/domain/gdut/city//page/3",
+        "pending_details": 28
+      }
+    ],
+    "status": "partial",
+    "pages": 8,
+    "commits": {
+      "modified": 0,
+      "new": 0,
+      "unchanged": 180
+    }
+  },
+  "summary": {
+    "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+    "data_mode": "real",
+    "check_status": "partial",
+    "last_attempt_at": "2026-10-11T14:40:59.679431+08:00",
+    "last_success_at": "2026-10-11T14:41:35.641544+08:00",
+    "today": {
+      "date": "2026-10-11",
+      "newly_collected": 132,
+      "modified": 48,
+      "official_changes": 0,
+      "parser_improvements": 48,
+      "evidence_conflicts": 0,
+      "manual_corrections": null
+    },
+    "scope": {
+      "detail_budget": 12,
+      "fixture": false,
+      "page_budget": 2,
+      "school_keys": [
+        "scut",
+        "gdut"
+      ],
+      "source_keys": [
+        "scut_cnsba",
+        "gdut_teachin",
+        "gdut_jobfair",
+        "gdut_campus"
+      ]
+    },
+    "message": "本轮已检查登记范围；新收录按取得时间计，不代表今天官方发布。人工更正汇总尚未实现。"
+  },
+  "samples": [
+    {
+      "id": 3,
+      "school_key": "scut",
+      "school_name": "华南理工大学",
+      "campus_id": 1,
+      "campus_name": "五山校区",
+      "title": "【就业信息】宝钢湛江钢铁有限公司校招",
+      "kind": "campus_talk",
+      "original_kind": "学院宣讲信息",
+      "date_basis": "event",
+      "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm",
+      "published_date": "2026-09-10",
+      "event_date": null,
+      "start_time": "19:00",
+      "end_time": "21:00",
+      "deadline": null,
+      "event_venue": "华南理工大学（五山校区） 33号楼203室",
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [],
+      "field_observations": {
+        "deadline": {
+          "evidence": [
+            {
+              "excerpt": "宣讲时间：9月13日 19:00-21:00宣讲地点：华南理工大学（五山校区） 33号楼203室",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "not_disclosed",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "9月13日 19:00-21:00",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "known",
+          "value": "21:00"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "9月13日 19:00-21:00",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "parse_failed",
+          "value": null
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "华南理工大学（五山校区） 33号楼203室",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "known",
+          "value": "华南理工大学（五山校区） 33号楼203室"
+        },
+        "published_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-09-10",
+              "locator": ".title a[href*='a634998/'] + .date",
+              "material_id": 1,
+              "observed_at": "2026-10-11T06:39:43.733701+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/jysx/list.htm"
+            }
+          ],
+          "state": "known",
+          "value": "2026-09-10"
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "9月13日 19:00-21:00",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "known",
+          "value": "19:00"
+        },
+        "work_locations": {
+          "evidence": [
+            {
+              "excerpt": "宣讲时间：9月13日 19:00-21:00宣讲地点：华南理工大学（五山校区） 33号楼203室",
+              "locator": ".wp_articlecontent",
+              "material_id": 4,
+              "observed_at": "2026-10-11T06:39:43.967088+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+            }
+          ],
+          "state": "not_disclosed",
+          "value": null
+        }
+      },
+      "detail_url": "/opportunities/3",
+      "first_seen_at": "2026-10-11T14:39:43.784312+08:00",
+      "content_changed_at": "2026-10-11T14:39:44.000159+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "scut_cnsba",
+          "url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm"
+        }
+      ],
+      "materials": [
+        {
+          "id": 1,
+          "source_key": "scut_cnsba",
+          "source_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+          "material_hash": "3d076ab1ed6985b98211960e1eaddbff3ca1fbaf50c594529729d3f04ce51965",
+          "fetched_at": "2026-10-11T06:39:43.733701+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "华南理工大学工商管理学院就业资讯；学院局部材料，不代表全校自动覆盖",
+            "page_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 4,
+          "source_key": "scut_cnsba",
+          "source_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm",
+          "material_hash": "612f69e8d043e3ce657be07739de74cfe7c4a89a4bedb03e9cec54fbe70943b7",
+          "fetched_at": "2026-10-11T06:39:43.967088+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_material",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "college_supplemental",
+        "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 31,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": 2,
+      "campus_name": "大学城校区",
+      "title": "深圳市联得自动化装备股份有限公司",
+      "kind": "campus_talk",
+      "original_kind": "线下",
+      "date_basis": "event",
+      "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558",
+      "published_date": null,
+      "event_date": "2026-10-12",
+      "start_time": "14:30",
+      "end_time": "16:30",
+      "deadline": null,
+      "event_venue": "大学城校区教2-317",
+      "work_locations_scope": "this_announcement",
+      "relevance": "related",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [
+        "广东省东莞市",
+        "广东省深圳市龙华区"
+      ],
+      "field_observations": {
+        "deadline": {
+          "evidence": [
+            {
+              "excerpt": "宣讲会时间：2026年10月12日 14:30-16:30 简历投递邮箱： hr@szliande.com ；微信投递： 15814152430（黎先生） 一、公司介绍: 深圳市联得自动化装备股份有限公司创立于1998年，2016年在深交所上市，总部位于深圳，旗下有六家全资子公司和一家海外子公司，分别是东莞联鹏、苏州联鹏、衡阳联得、联得成都分公司、深圳联鹏智能装备科技、深圳联得半导体技术和联得装备罗马尼亚公司。公司是专业从事平板显示模组生产自动化设备、汽车电子、半导体封测、智能座舱系统、新能源、3C、光伏和等非标自动化设备研发、生产、销售于一体的高新技术企业。是国内最早进入LCD领域的专业自动",
+              "locator": ".details-mge .aContent",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "state": "not_disclosed",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 14:30-16:30（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191558'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "16:30"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 14:30-16:30（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191558'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-12"
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "大学城校区教2-317",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191558'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "大学城校区教2-317"
+        },
+        "published_date": {
+          "evidence": [
+            {
+              "excerpt": "宣讲会时间：2026年10月12日 14:30-16:30 简历投递邮箱： hr@szliande.com ；微信投递： 15814152430（黎先生） 一、公司介绍: 深圳市联得自动化装备股份有限公司创立于1998年，2016年在深交所上市，总部位于深圳，旗下有六家全资子公司和一家海外子公司，分别是东莞联鹏、苏州联鹏、衡阳联得、联得成都分公司、深圳联鹏智能装备科技、深圳联得半导体技术和联得装备罗马尼亚公司。公司是专业从事平板显示模组生产自动化设备、汽车电子、半导体封测、智能座舱系统、新能源、3C、光伏和等非标自动化设备研发、生产、销售于一体的高新技术企业。是国内最早进入LCD领域的专业自动",
+              "locator": ".details-mge .aContent",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "state": "not_disclosed",
+          "value": null
+        },
+        "relevance": {
+          "evidence": [
+            {
+              "excerpt": "szliande.com ；微信投递： 15814152430（黎先生） 一、公司介绍: 深圳市联得自动化装备股份有限公司创立于1998年，2016年在深交所上市，总部位于深圳，旗下有六家全资子公司和一家海外子公司，分别是东莞联鹏、苏州联鹏、衡阳联得、联得成都分公司、深圳联鹏智能装备科技、深圳联得半导体技",
+              "locator": ".details-mge .aContent / table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "state": "known",
+          "value": "related"
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 14:30-16:30（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191558'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "14:30"
+        },
+        "work_locations": {
+          "evidence": [
+            {
+              "excerpt": "广东省东莞市",
+              "locator": "table .info-text ul > li:nth-child(2)",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            },
+            {
+              "excerpt": "广东省深圳市龙华区",
+              "locator": "table .info-text ul > li:nth-child(2)",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "state": "known",
+          "value": [
+            "广东省东莞市",
+            "广东省深圳市龙华区"
+          ]
+        }
+      },
+      "detail_url": "/opportunities/31",
+      "first_seen_at": "2026-10-11T14:39:48.029331+08:00",
+      "content_changed_at": "2026-10-11T14:39:49.862124+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [
+        {
+          "evidence": [
+            {
+              "excerpt": "01 机械设计岗 8000-10000 广东省东莞市 全职 本科及以上 【本科】机械电子工程、机械电子工程（创新班）、机械设计制造及其自动化、机械设计制造及其自动化（卓越工程师班）、机械设计制造及其自动化（国际班） 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "01 机械设计岗 8000-10000 广东省东莞市 全职 本科及以上 【本科】机械电子工程、机械电子工程（创新班）、机械设计制造及其自动化、机械设计制造及其自动化（卓越工程师班）、机械设计制造及其自动化（国际班） 投递简历"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "02 电气开发岗 8000-13000 广东省深圳市龙华区 不限 本科及以上 【本科】电气工程及其自动化、电气工程及其自动化、电气工程及其自动化（国际班）、自动化 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "02 电气开发岗 8000-13000 广东省深圳市龙华区 不限 本科及以上 【本科】电气工程及其自动化、电气工程及其自动化、电气工程及其自动化（国际班）、自动化 投递简历"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "03 软件开发岗（运动控制类） 10000-12000 广东省深圳市龙华区 全职 本科及以上 【本科】人工智能、人工智能、智能制造工程 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "03 软件开发岗（运动控制类） 10000-12000 广东省深圳市龙华区 全职 本科及以上 【本科】人工智能、人工智能、智能制造工程 投递简历"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "04 软件开发岗（视觉软件类） 10000-15000 广东省深圳市龙华区 全职 本科及以上 【本科】人工智能、人工智能、智能制造工程、电气工程及其自动化、电气工程及其自动化（国际班）、自动化 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "04 软件开发岗（视觉软件类） 10000-15000 广东省深圳市龙华区 全职 本科及以上 【本科】人工智能、人工智能、智能制造工程、电气工程及其自动化、电气工程及其自动化（国际班）、自动化 投递简历"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "05 机械工程师（项目EPM方向） 10000-15000 广东省深圳市龙华区 全职 硕士 【硕士】机械、机械工程 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "05 机械工程师（项目EPM方向） 10000-15000 广东省深圳市龙华区 全职 硕士 【硕士】机械、机械工程 投递简历"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "06 IJP喷墨打印工艺工程师 8000-13000 广东省深圳市龙华区 全职 本科及以上 【博士】化学工程与技术、【本科】化学工程与工艺、化学工程与工艺（创新班）、化学工程与工艺（卓越工程师班）、应用化学、能源化学工程、高分子材料与工程、【硕士】化学工程、化学工程与技术 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 18,
+              "observed_at": "2026-10-11T06:39:49.820467+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+            }
+          ],
+          "scope": "partial",
+          "text": "06 IJP喷墨打印工艺工程师 8000-13000 广东省深圳市龙华区 全职 本科及以上 【博士】化学工程与技术、【本科】化学工程与工艺、化学工程与工艺（创新班）、化学工程与工艺（卓越工程师班）、应用化学、能源化学工程、高分子材料与工程、【硕士】化学工程、化学工程与技术 投递简历"
+        }
+      ],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "gdut_teachin",
+          "url": "https://career.gdut.edu.cn/teachin/view/id/191558"
+        }
+      ],
+      "materials": [
+        {
+          "id": 15,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin",
+          "material_hash": "eb3945e34f13c7cf21a70c4991f986ff2441830e402fb93fa34731ed650f92d7",
+          "fetched_at": "2026-10-11T06:39:48.004319+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开teachin栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/teachin",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 18,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin/view/id/191558",
+          "material_hash": "7c826f2e63ef52d63af9de3b673bb64c7e3224393281ef3ffc85f79087df6e2c",
+          "fetched_at": "2026-10-11T06:39:49.820467+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_material",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 38,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": 2,
+      "campus_name": "大学城校区",
+      "title": "顾家家居股份有限公司",
+      "kind": "campus_talk",
+      "original_kind": "线下",
+      "date_basis": "event",
+      "source_url": "https://career.gdut.edu.cn/teachin/view/id/191500",
+      "published_date": null,
+      "event_date": "2026-10-12",
+      "start_time": "19:00",
+      "end_time": "21:00",
+      "deadline": null,
+      "event_venue": "大学城校区教2-225",
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [
+        "浙江省杭州市钱塘区"
+      ],
+      "field_observations": {
+        "deadline": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191500'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "21:00"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191500'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-12"
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "大学城校区教2-225",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191500'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "大学城校区教2-225"
+        },
+        "published_date": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191500'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "19:00"
+        },
+        "work_locations": {
+          "evidence": [
+            {
+              "excerpt": "浙江省杭州市钱塘区",
+              "locator": "table .info-text ul > li:nth-child(2)",
+              "material_id": 25,
+              "observed_at": "2026-10-11T06:39:54.520085+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191500"
+            }
+          ],
+          "state": "known",
+          "value": [
+            "浙江省杭州市钱塘区"
+          ]
+        }
+      },
+      "detail_url": "/opportunities/38",
+      "first_seen_at": "2026-10-11T14:39:48.029331+08:00",
+      "content_changed_at": "2026-10-11T14:39:54.535215+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [
+        {
+          "evidence": [
+            {
+              "excerpt": "01 营销管理 7000-9000 浙江省杭州市钱塘区 全职 本科及以上 不限专业 投递简历",
+              "locator": ".zp-details table tbody tr",
+              "material_id": 25,
+              "observed_at": "2026-10-11T06:39:54.520085+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191500"
+            }
+          ],
+          "scope": "partial",
+          "text": "01 营销管理 7000-9000 浙江省杭州市钱塘区 全职 本科及以上 不限专业 投递简历"
+        }
+      ],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "gdut_teachin",
+          "url": "https://career.gdut.edu.cn/teachin/view/id/191500"
+        }
+      ],
+      "materials": [
+        {
+          "id": 15,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin",
+          "material_hash": "eb3945e34f13c7cf21a70c4991f986ff2441830e402fb93fa34731ed650f92d7",
+          "fetched_at": "2026-10-11T06:39:48.004319+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开teachin栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/teachin",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 25,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin/view/id/191500",
+          "material_hash": "678c9527a8e399bc76ab2ae7d50d7612a90b861ffdb211c6166574dae11455f0",
+          "fetched_at": "2026-10-11T06:39:54.520085+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "partial",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "partial",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 40,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": 2,
+      "campus_name": "大学城校区",
+      "title": "深圳市新产业生物医学工程股份有限公司",
+      "kind": "campus_talk",
+      "original_kind": "线下",
+      "date_basis": "event",
+      "source_url": "https://career.gdut.edu.cn/teachin/view/id/191410",
+      "published_date": null,
+      "event_date": "2026-10-12",
+      "start_time": "19:00",
+      "end_time": "21:00",
+      "deadline": null,
+      "event_venue": "大学城校区教1-316",
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [],
+      "field_observations": {
+        "deadline": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191410'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "21:00"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191410'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-12"
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "大学城校区教1-316",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191410'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "大学城校区教1-316"
+        },
+        "published_date": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-12 19:00-21:00（周一）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191410'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "19:00"
+        },
+        "work_locations": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        }
+      },
+      "detail_url": "/opportunities/40",
+      "first_seen_at": "2026-10-11T14:39:48.029331+08:00",
+      "content_changed_at": "2026-10-11T14:39:55.766372+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [],
+      "attachments": [
+        {
+          "evidence": [
+            {
+              "excerpt": "新产业生物27届校招简章.pdf",
+              "locator": "announcement_body a[href]",
+              "material_id": 27,
+              "observed_at": "2026-10-11T06:39:55.754697+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin/view/id/191410"
+            }
+          ],
+          "label": "新产业生物27届校招简章.pdf",
+          "scope": "this_announcement",
+          "url": "https://career.gdut.edu.cn/attachment/gdut/ueditor/file/20260904/2013_新产业生物27届校招简章.pdf"
+        }
+      ],
+      "official_sources": [
+        {
+          "source_key": "gdut_teachin",
+          "url": "https://career.gdut.edu.cn/teachin/view/id/191410"
+        }
+      ],
+      "materials": [
+        {
+          "id": 15,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin",
+          "material_hash": "eb3945e34f13c7cf21a70c4991f986ff2441830e402fb93fa34731ed650f92d7",
+          "fetched_at": "2026-10-11T06:39:48.004319+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开teachin栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/teachin",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 27,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin/view/id/191410",
+          "material_hash": "b14dfef2c5b32c823951bd3b8dffa74b6e216a590202aefb638ffc38e31c3bbb",
+          "fetched_at": "2026-10-11T06:39:55.754697+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "partial",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 41,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": 2,
+      "campus_name": "大学城校区",
+      "title": "华勤技术股份有限公司",
+      "kind": "campus_talk",
+      "original_kind": "线下",
+      "date_basis": "event",
+      "source_url": "https://career.gdut.edu.cn/teachin/view/id/191609",
+      "published_date": null,
+      "event_date": "2026-10-13",
+      "start_time": "14:30",
+      "end_time": "16:30",
+      "deadline": null,
+      "event_venue": "大学城校区教2-321",
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [],
+      "field_observations": {
+        "deadline": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-13 14:30-16:30（周二）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191609'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "16:30"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-13 14:30-16:30（周二）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191609'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-13"
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "大学城校区教2-321",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191609'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "大学城校区教2-321"
+        },
+        "published_date": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-13 14:30-16:30（周二）",
+              "locator": ".infoList:has(a[href*='/teachin/view/id/191609'])",
+              "material_id": 15,
+              "observed_at": "2026-10-11T06:39:48.004319+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/teachin"
+            }
+          ],
+          "state": "known",
+          "value": "14:30"
+        },
+        "work_locations": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        }
+      },
+      "detail_url": "/opportunities/41",
+      "first_seen_at": "2026-10-11T14:39:48.029331+08:00",
+      "content_changed_at": "2026-10-11T14:39:48.029331+08:00",
+      "source_updated_at": null,
+      "version": 1,
+      "roster_fragments": [],
+      "job_fragments": [],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "gdut_teachin",
+          "url": "https://career.gdut.edu.cn/teachin/view/id/191609"
+        }
+      ],
+      "materials": [
+        {
+          "id": 15,
+          "source_key": "gdut_teachin",
+          "source_url": "https://career.gdut.edu.cn/teachin",
+          "material_hash": "eb3945e34f13c7cf21a70c4991f986ff2441830e402fb93fa34731ed650f92d7",
+          "fetched_at": "2026-10-11T06:39:48.004319+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开teachin栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/teachin",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 70,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": 2,
+      "campus_name": "大学城校区",
+      "title": "广东工业大学2027届毕业生秋季校园双选会",
+      "kind": "job_fair",
+      "original_kind": "现场",
+      "date_basis": "event",
+      "source_url": "https://career.gdut.edu.cn/jobfair/view/id/51383",
+      "published_date": "2026-09-01",
+      "event_date": "2026-10-29",
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "deadline": null,
+      "event_venue": "广东工业大学（大学城校区）图书馆架空层",
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "unknown",
+      "recruitment_status": "unknown",
+      "work_locations": [],
+      "field_observations": {
+        "deadline": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-29 14:00-17:00 （周四）",
+              "locator": ".infoList:has(a[href*='/jobfair/view/id/51383'])",
+              "material_id": 29,
+              "observed_at": "2026-10-11T06:40:00.042979+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/jobfair"
+            }
+          ],
+          "state": "known",
+          "value": "17:00"
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-29 14:00-17:00 （周四）",
+              "locator": ".infoList:has(a[href*='/jobfair/view/id/51383'])",
+              "material_id": 29,
+              "observed_at": "2026-10-11T06:40:00.042979+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/jobfair"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-29"
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "广东工业大学（大学城校区）图书馆架空层",
+              "locator": ".infoList:has(a[href*='/jobfair/view/id/51383'])",
+              "material_id": 29,
+              "observed_at": "2026-10-11T06:40:00.042979+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/jobfair"
+            }
+          ],
+          "state": "known",
+          "value": "广东工业大学（大学城校区）图书馆架空层"
+        },
+        "published_date": {
+          "evidence": [
+            {
+              "excerpt": "发布时间：2026-09-01 16:29",
+              "locator": ".details-title .share li",
+              "material_id": 31,
+              "observed_at": "2026-10-11T06:40:01.745234+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/jobfair/view/id/51383"
+            }
+          ],
+          "state": "known",
+          "value": "2026-09-01"
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-29 14:00-17:00 （周四）",
+              "locator": ".infoList:has(a[href*='/jobfair/view/id/51383'])",
+              "material_id": 29,
+              "observed_at": "2026-10-11T06:40:00.042979+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/jobfair"
+            }
+          ],
+          "state": "known",
+          "value": "14:00"
+        },
+        "work_locations": {
+          "evidence": [],
+          "state": "not_collected",
+          "value": null
+        }
+      },
+      "detail_url": "/opportunities/70",
+      "first_seen_at": "2026-10-11T14:40:00.065801+08:00",
+      "content_changed_at": "2026-10-11T14:40:01.767599+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "gdut_jobfair",
+          "url": "https://career.gdut.edu.cn/jobfair/view/id/51383"
+        }
+      ],
+      "materials": [
+        {
+          "id": 29,
+          "source_key": "gdut_jobfair",
+          "source_url": "https://career.gdut.edu.cn/jobfair",
+          "material_hash": "afaceca1feed71d5ee960753ce0ad9e8db1fa9ec0ae34e6b5b9f20eb23c15c73",
+          "fetched_at": "2026-10-11T06:40:00.042979+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开jobfair栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/jobfair",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 31,
+          "source_key": "gdut_jobfair",
+          "source_url": "https://career.gdut.edu.cn/jobfair/view/id/51383",
+          "material_hash": "8be0ef4217c089fea94771acbbc8d31e299897e7e0a68c5184dac4bc432b0e4b",
+          "fetched_at": "2026-10-11T06:40:01.745234+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "partial",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    },
+    {
+      "id": 96,
+      "school_key": "gdut",
+      "school_name": "广东工业大学",
+      "campus_id": null,
+      "campus_name": null,
+      "title": "江西移动2027校园招聘公告",
+      "kind": "announcement",
+      "original_kind": "招聘简章",
+      "date_basis": "publication",
+      "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236",
+      "published_date": "2026-10-09",
+      "event_date": null,
+      "start_time": null,
+      "end_time": null,
+      "deadline": "2026-10-15",
+      "event_venue": null,
+      "work_locations_scope": "this_announcement",
+      "relevance": "unknown",
+      "event_status": "not_applicable",
+      "recruitment_status": "unknown",
+      "work_locations": [
+        "江西省各设区市"
+      ],
+      "field_observations": {
+        "deadline": {
+          "evidence": [
+            {
+              "excerpt": "简历投递（2026 年 10 月 15 日截止）→简历评估→全国统一笔试（10 月 24 日）→面试测评（",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-15"
+        },
+        "end_time": {
+          "evidence": [
+            {
+              "excerpt": "江西移动2027校园招聘公告 青衿赴志，启序新章；云阔智疆，逐梦远航。扛国企担当，燃年少荣光！江西移动 2027 校园招聘热力来袭，诚邀优秀学子，“移” 起奔赴 “数智” 蓝海，开启科创新章！ 一、公司简介 中国移动通信集团江西有限公司（简称江西移动）是江西省规模最大的信息通信运营企业。 • 移动用户数超 3000 万户 • 有线宽带用户数超 1000 万户 • 物联网连接数超 1000 万户 • 设有 1 家集团级创新中心、11 家地市分公司、107 家区县分公司 • 全省员工总数 1.1 万人，公司资产总额 400 亿元 公司扎实履行央企职责使命，聚焦通信服务、算力服务、智能服务三大主业，",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "not_applicable",
+          "value": null
+        },
+        "event_date": {
+          "evidence": [
+            {
+              "excerpt": "江西移动2027校园招聘公告 青衿赴志，启序新章；云阔智疆，逐梦远航。扛国企担当，燃年少荣光！江西移动 2027 校园招聘热力来袭，诚邀优秀学子，“移” 起奔赴 “数智” 蓝海，开启科创新章！ 一、公司简介 中国移动通信集团江西有限公司（简称江西移动）是江西省规模最大的信息通信运营企业。 • 移动用户数超 3000 万户 • 有线宽带用户数超 1000 万户 • 物联网连接数超 1000 万户 • 设有 1 家集团级创新中心、11 家地市分公司、107 家区县分公司 • 全省员工总数 1.1 万人，公司资产总额 400 亿元 公司扎实履行央企职责使命，聚焦通信服务、算力服务、智能服务三大主业，",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "not_applicable",
+          "value": null
+        },
+        "event_venue": {
+          "evidence": [
+            {
+              "excerpt": "江西移动2027校园招聘公告 青衿赴志，启序新章；云阔智疆，逐梦远航。扛国企担当，燃年少荣光！江西移动 2027 校园招聘热力来袭，诚邀优秀学子，“移” 起奔赴 “数智” 蓝海，开启科创新章！ 一、公司简介 中国移动通信集团江西有限公司（简称江西移动）是江西省规模最大的信息通信运营企业。 • 移动用户数超 3000 万户 • 有线宽带用户数超 1000 万户 • 物联网连接数超 1000 万户 • 设有 1 家集团级创新中心、11 家地市分公司、107 家区县分公司 • 全省员工总数 1.1 万人，公司资产总额 400 亿元 公司扎实履行央企职责使命，聚焦通信服务、算力服务、智能服务三大主业，",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "not_applicable",
+          "value": null
+        },
+        "published_date": {
+          "evidence": [
+            {
+              "excerpt": "2026-10-09 14:31:52",
+              "locator": ".infoList:has(a[href*='/campus/view/id/1021236'])",
+              "material_id": 43,
+              "observed_at": "2026-10-11T06:40:11.521516+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus"
+            }
+          ],
+          "state": "known",
+          "value": "2026-10-09"
+        },
+        "start_time": {
+          "evidence": [
+            {
+              "excerpt": "江西移动2027校园招聘公告 青衿赴志，启序新章；云阔智疆，逐梦远航。扛国企担当，燃年少荣光！江西移动 2027 校园招聘热力来袭，诚邀优秀学子，“移” 起奔赴 “数智” 蓝海，开启科创新章！ 一、公司简介 中国移动通信集团江西有限公司（简称江西移动）是江西省规模最大的信息通信运营企业。 • 移动用户数超 3000 万户 • 有线宽带用户数超 1000 万户 • 物联网连接数超 1000 万户 • 设有 1 家集团级创新中心、11 家地市分公司、107 家区县分公司 • 全省员工总数 1.1 万人，公司资产总额 400 亿元 公司扎实履行央企职责使命，聚焦通信服务、算力服务、智能服务三大主业，",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "not_applicable",
+          "value": null
+        },
+        "work_locations": {
+          "evidence": [
+            {
+              "excerpt": "岗位遍布江西全省各设区市",
+              "locator": ".details-mge .aContent",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "state": "known",
+          "value": [
+            "江西省各设区市"
+          ]
+        }
+      },
+      "detail_url": "/opportunities/96",
+      "first_seen_at": "2026-10-11T14:40:11.543419+08:00",
+      "content_changed_at": "2026-10-11T14:40:13.827042+08:00",
+      "source_updated_at": null,
+      "version": 2,
+      "roster_fragments": [],
+      "job_fragments": [
+        {
+          "evidence": [
+            {
+              "excerpt": "二、招聘对象",
+              "locator": ".zp-details p/li",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "scope": "partial",
+          "text": "二、招聘对象"
+        },
+        {
+          "evidence": [
+            {
+              "excerpt": "三、招聘岗位",
+              "locator": ".zp-details p/li",
+              "material_id": 47,
+              "observed_at": "2026-10-11T06:40:13.809449+00:00",
+              "parser_version": "school-html-1",
+              "scope": "this_announcement",
+              "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+            }
+          ],
+          "scope": "partial",
+          "text": "三、招聘岗位"
+        }
+      ],
+      "attachments": [],
+      "official_sources": [
+        {
+          "source_key": "gdut_campus",
+          "url": "https://career.gdut.edu.cn/campus/view/id/1021236"
+        }
+      ],
+      "materials": [
+        {
+          "id": 43,
+          "source_key": "gdut_campus",
+          "source_url": "https://career.gdut.edu.cn/campus",
+          "material_hash": "1a86eab7e1a02471f1a25cedd0e78ee68afac3189e2de654f05df636f7463f9b",
+          "fetched_at": "2026-10-11T06:40:11.521516+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "complete_for_page",
+            "note": "广东工业大学公开campus栏目；单页发现，不宣称整校或全部类型覆盖",
+            "page_url": "https://career.gdut.edu.cn/campus",
+            "type": "source_list"
+          },
+          "raw_bytes_hash_verified": true
+        },
+        {
+          "id": 47,
+          "source_key": "gdut_campus",
+          "source_url": "https://career.gdut.edu.cn/campus/view/id/1021236",
+          "material_hash": "62c9138a286880f8b160d8997d5f334375eead30c66669f148f02006d15fb8b2",
+          "fetched_at": "2026-10-11T06:40:13.809449+00:00",
+          "acquisition_status": "success",
+          "parsing_status": "success",
+          "parser_version": "school-html-1",
+          "scope": {
+            "coverage": "partial",
+            "type": "this_announcement"
+          },
+          "raw_bytes_hash_verified": true
+        }
+      ],
+      "coverage": {
+        "coverage": "selected_public_channel",
+        "page_budget": 2,
+        "school_wide": false
+      }
+    }
+  ],
+  "limits": [
+    "华工统一就业入口受限；学院公开补充来源不能代表全校",
+    "广工三个栏目各最多2页/12详情；自循环下一页不算完整覆盖",
+    "附件仅提供本条HTML披露的适用链接，其正文未解析",
+    "其余八校仅登记，未自动采集"
+  ],
+  "preserved_engineering_run": "Earlier unpublished classification-run database remains separate; its history was not rewritten."
+}

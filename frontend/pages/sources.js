@@ -20,6 +20,8 @@ export function mountSources({ document: doc = globalThis.document, read } = {})
     const groups = schools.length ? schools : [...new Set(records.map(item => item.school_key))].map(school_key => ({ school_key, name: records.find(item => item.school_key === school_key)?.school_name || "学校名称尚未取得" }));
     get("source-list").replaceChildren(...groups.map(school => {
       const card = element("article", { className: "source-school" }, [element("h2", { text: school.name })]);
+      if (school.availability_message) card.append(element('p', { className: 'source-message', text: school.availability_message }));
+      if (school.scope_note) card.append(element('p', { className: 'source-message', text: school.scope_note }));
       const entries = records.filter(item => item.school_key === school.school_key);
       if (!entries.length) card.append(element("p", { className: "source-message", text: sources.status === "ready" ? "来源状态尚未取得，不能判断覆盖情况。" : resourceMessage(sources, "来源状态仍在读取…") }));
       for (const source of entries) {
@@ -33,15 +35,11 @@ export function mountSources({ document: doc = globalThis.document, read } = {})
       }
       return card;
     }));
+    const loading = catalog.status === 'loading' || sources.status === 'loading';
+    get('reload-button').disabled = loading;
+    get('reload-button').textContent = loading ? '正在加载…' : '重新加载';
   }
-  async function reload() {
-    const button = get("reload-button");
-    button.disabled = true;
-    button.textContent = "正在加载…";
-    await reader.reload();
-    button.disabled = false;
-    button.textContent = "重新加载";
-  }
+  const reload = () => reader.reload();
   get("reload-button").addEventListener("click", reload);
   reload();
   return { resources: reader.resources, reload, destroy: reader.destroy };

@@ -1,5 +1,6 @@
 import { readJSON } from "../api/client.js";
 import { element } from "../components/dom.js";
+import { datasetConsistency } from "../state/store.js";
 
 export function createPageReader(paths, onChange, read = readJSON) {
   const resources = Object.fromEntries(Object.keys(paths).map(key => [key, { status: "loading", data: null, error: null, observedAt: null }]));
@@ -38,14 +39,14 @@ export function createPageReader(paths, onChange, read = readJSON) {
 }
 
 export function resourceMessage(resource, loadingText = "正在读取…") {
+  if (resource.status === 'stale') return '上次结果，尚未更新。请提交当前条件或重新加载。';
   if (resource.status === "loading") return resource.data ? "正在重新读取；暂显示上次结果。" : loadingText;
   if (resource.status === "error") return `${resource.error?.message || "当前数据暂不可读。"}${resource.data ? " 上次结果，尚未更新。" : " 尚未取得当前结果。"}`;
   return "";
 }
 
 export function pageDatasetsAgree(resources) {
-  const ids = Object.values(resources).filter(resource => resource.data?.dataset_id).map(resource => resource.data.dataset_id);
-  return new Set(ids).size <= 1;
+  return datasetConsistency(resources);
 }
 
 export function renderNotice(panel, heading, message, { loading = false, error = false, stale = false, note = "" } = {}) {

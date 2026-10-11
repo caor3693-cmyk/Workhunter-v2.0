@@ -6,15 +6,185 @@
   "target_school_count": 10,
   "purpose": "用户已确认的十校范围和官方入口种子；逐项重新核验归属、访问状态、栏目与分页后才能登记为可采集。",
   "schools": [
-    {"school_key": "scut", "name": "华南理工大学", "homepage_seed_url": "https://jyzx.scut.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "gdut", "name": "广东工业大学", "homepage_seed_url": "https://career.gdut.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "ncepu", "name": "华北电力大学", "homepage_seed_url": "https://job.ncepu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": [], "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。"},
-    {"school_key": "shiep", "name": "上海电力大学", "homepage_seed_url": "https://career.shiep.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "neepu", "name": "东北电力大学", "homepage_seed_url": "https://jy.neepu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "csust", "name": "长沙理工大学", "homepage_seed_url": "https://csust.bysjy.com.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "ctgu", "name": "三峡大学", "homepage_seed_url": "https://ctgu.91wllm.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "gzhu", "name": "广州大学", "homepage_seed_url": "https://jy.gzhu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "hnu", "name": "湖南大学", "homepage_seed_url": "https://hnu.bysjy.com.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []},
-    {"school_key": "csu", "name": "中南大学", "homepage_seed_url": "https://career.csu.edu.cn/", "verification_state": "pending", "verified_at": null, "official_owner_evidence_url": null, "campuses": []}
+    {
+      "school_key": "scut",
+      "name": "华南理工大学",
+      "homepage_seed_url": "https://jyzx.scut.edu.cn/",
+      "verification_state": "partial",
+      "verified_at": "2026-10-11T13:25:26+08:00",
+      "official_owner_evidence_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+      "campuses": [
+        {
+          "campus_key": "wushan",
+          "name": "五山校区",
+          "evidence_url": "https://cnsba.scut.edu.cn/2026/0910/c29313a634998/page.htm",
+          "observed_at": "2026-10-11T13:25:26+08:00"
+        }
+      ],
+      "scope_note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。",
+      "seed_observation": {
+        "status": "restricted",
+        "observed_at": "2026-10-11T13:25:26+08:00",
+        "message": "官方入口转统一认证，停止该路径。"
+      },
+      "sources": [
+        {
+          "source_key": "scut_cnsba",
+          "school_key": "scut",
+          "channel_key": "scut_cnsba",
+          "name": "工商管理学院就业实习（补充来源）",
+          "official_entry_url": "https://cnsba.scut.edu.cn/jysx/list.htm",
+          "adapter": "scut",
+          "scope": {
+            "coverage": "college_supplemental",
+            "school_wide": false,
+            "page_budget": 2,
+            "note": "学校统一认证入口受限；仅公开工商管理学院就业实习栏目有限观察，非全校覆盖，历史材料不冒充近期。"
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "gdut",
+      "name": "广东工业大学",
+      "homepage_seed_url": "https://career.gdut.edu.cn/",
+      "verification_state": "verified",
+      "verified_at": "2026-10-11T13:25:26+08:00",
+      "official_owner_evidence_url": "https://career.gdut.edu.cn/",
+      "campuses": [
+        {
+          "campus_key": "university_city",
+          "name": "大学城校区",
+          "evidence_url": "https://career.gdut.edu.cn/teachin",
+          "observed_at": "2026-10-11T13:25:26+08:00"
+        },
+        {
+          "campus_key": "longdong",
+          "name": "龙洞校区",
+          "evidence_url": "https://career.gdut.edu.cn/teachin/index/do123/career.gdut.edu.cn/domain/gdut/page/2",
+          "observed_at": "2026-10-11T13:25:26+08:00"
+        }
+      ],
+      "scope_note": "就业中心公开宣讲会、双选会、校园招聘三栏目有限分页；不使用受限关键词搜索。",
+      "seed_observation": {
+        "status": "verified",
+        "observed_at": "2026-10-11T13:25:26+08:00",
+        "message": "官方就业首页可公开读取，种子本身不计自动采集覆盖。"
+      },
+      "sources": [
+        {
+          "source_key": "gdut_teachin",
+          "school_key": "gdut",
+          "channel_key": "teachin",
+          "name": "公开宣讲会",
+          "official_entry_url": "https://career.gdut.edu.cn/teachin",
+          "adapter": "gdut",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        },
+        {
+          "source_key": "gdut_jobfair",
+          "school_key": "gdut",
+          "channel_key": "jobfair",
+          "name": "公开双选会",
+          "official_entry_url": "https://career.gdut.edu.cn/jobfair",
+          "adapter": "gdut",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        },
+        {
+          "source_key": "gdut_campus",
+          "school_key": "gdut",
+          "channel_key": "campus",
+          "name": "公开校园招聘",
+          "official_entry_url": "https://career.gdut.edu.cn/campus",
+          "adapter": "gdut",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "page_budget": 2,
+            "school_wide": false
+          }
+        }
+      ]
+    },
+    {
+      "school_key": "ncepu",
+      "name": "华北电力大学",
+      "homepage_seed_url": "https://job.ncepu.edu.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": [],
+      "scope_note": "北京与保定分别核验校区/来源，属于同一学校，不拆成两校。"
+    },
+    {
+      "school_key": "shiep",
+      "name": "上海电力大学",
+      "homepage_seed_url": "https://career.shiep.edu.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "neepu",
+      "name": "东北电力大学",
+      "homepage_seed_url": "https://jy.neepu.edu.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "csust",
+      "name": "长沙理工大学",
+      "homepage_seed_url": "https://csust.bysjy.com.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "ctgu",
+      "name": "三峡大学",
+      "homepage_seed_url": "https://ctgu.91wllm.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "gzhu",
+      "name": "广州大学",
+      "homepage_seed_url": "https://jy.gzhu.edu.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "hnu",
+      "name": "湖南大学",
+      "homepage_seed_url": "https://hnu.bysjy.com.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    },
+    {
+      "school_key": "csu",
+      "name": "中南大学",
+      "homepage_seed_url": "https://career.csu.edu.cn/",
+      "verification_state": "pending",
+      "verified_at": null,
+      "official_owner_evidence_url": null,
+      "campuses": []
+    }
   ]
 }
