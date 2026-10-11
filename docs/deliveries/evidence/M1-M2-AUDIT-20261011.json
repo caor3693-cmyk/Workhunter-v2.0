@@ -1,0 +1,465 @@
+{
+  "date": "2026-10-11",
+  "timezone": "Asia/Shanghai",
+  "kind": "adversarial_audit_not_implementation_or_user_acceptance",
+  "repository": "caor3693-cmyk/Workhunter-v2.0",
+  "initial_document_head": "02ae529ce4637be643b7751bddea7f07a5750509",
+  "verified_document_head": "b17f67d13321bb236728baf51198221f1b58e366",
+  "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+  "snapshot_files_verified": 126,
+  "application_changed_during_audit": false,
+  "recorded_runtime_identity": {
+    "source": "M0-M1-FEEDBACK2-20261011.md and archived evidence",
+    "observed_at": "2026-10-11T16:29:57.728401+08:00",
+    "site_version": 4,
+    "schema_version": 2,
+    "data_mode": "real",
+    "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+    "opportunities": 132,
+    "materials": 98,
+    "probed_again_in_this_audit": false
+  },
+  "baseline_checks": {
+    "python_passed": 222,
+    "python_skipped": 3,
+    "existing_warnings": 1,
+    "node_passed": 72,
+    "build": "passed",
+    "worker_syntax": "passed",
+    "bundle_bytes": 101932,
+    "python_version": "3.12.14",
+    "node_version": "24.19.0",
+    "bs4_actual": "4.15.0",
+    "bs4_locked": "4.14.3",
+    "ci_node": "22",
+    "synthetic_local_snapshot_commit": "c518645577514b72199b4b3a9e79521896fa7368",
+    "synthetic_history_published": false,
+    "first_node_environment_error": "spawned system Python lacked fastapi; rerun with existing test environment passed"
+  },
+  "frontend": {
+    "classification": "isolated_reproduction_not_live_latency_measurement",
+    "snapshot_commit": "02ae529ce4637be643b7751bddea7f07a5750509",
+    "runtime_application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "cases": [
+      {
+        "id": "F30-A",
+        "result": "confirmed",
+        "fact": "招聘先完成即可渲染；重新加载按钮仍等最慢旁路资源",
+        "timing_note": "logical_ms 是显式控制的事件时间标签，不是实际毫秒或 p95",
+        "events": [
+          {
+            "logical_ms": 0,
+            "query_status": "loading",
+            "resource_statuses": {
+              "catalog": "loading",
+              "updates": "loading",
+              "opportunities": "loading"
+            },
+            "displayed_dataset": null,
+            "visible_cards": 0,
+            "count_text": "",
+            "result_scope": "全部学校 · 近期 · 电气相关与相关性未知",
+            "notice_hidden": false,
+            "notice": "正在读取招聘…读取完成后显示当前结果。",
+            "reload_disabled": true,
+            "reload_text": "正在加载…"
+          },
+          {
+            "logical_ms": 100,
+            "query_status": "ready",
+            "resource_statuses": {
+              "catalog": "loading",
+              "updates": "loading",
+              "opportunities": "ready"
+            },
+            "displayed_dataset": "isolated-A",
+            "visible_cards": 1,
+            "count_text": "1 条结果",
+            "result_scope": "全部学校 · 近期 · 电气相关与相关性未知 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+            "notice_hidden": true,
+            "notice": "正在读取招聘…读取完成后显示当前结果。",
+            "reload_disabled": true,
+            "reload_text": "正在加载…"
+          },
+          {
+            "logical_ms": 200,
+            "query_status": "ready",
+            "resource_statuses": {
+              "catalog": "ready",
+              "updates": "loading",
+              "opportunities": "ready"
+            },
+            "displayed_dataset": "isolated-A",
+            "visible_cards": 1,
+            "count_text": "1 条结果",
+            "result_scope": "全部学校 · 近期 · 电气相关与相关性未知 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+            "notice_hidden": true,
+            "notice": "正在读取招聘…读取完成后显示当前结果。",
+            "reload_disabled": true,
+            "reload_text": "正在加载…"
+          },
+          {
+            "logical_ms": 12000,
+            "query_status": "ready",
+            "resource_statuses": {
+              "catalog": "ready",
+              "updates": "error",
+              "opportunities": "ready"
+            },
+            "displayed_dataset": "isolated-A",
+            "visible_cards": 1,
+            "count_text": "1 条结果",
+            "result_scope": "全部学校 · 近期 · 电气相关与相关性未知 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+            "notice_hidden": true,
+            "notice": "正在读取招聘…读取完成后显示当前结果。",
+            "reload_disabled": false,
+            "reload_text": "重新加载"
+          }
+        ]
+      },
+      {
+        "id": "F30-B",
+        "result": "confirmed",
+        "fact": "提交新筛选拿到新数据集时，旁路资源停留旧数据集；最新成功列表被标旧且不会自行协调",
+        "query_only_request_count": 1,
+        "all_resource_reload_count": 3,
+        "after_submit": {
+          "query_status": "ready",
+          "resource_statuses": {
+            "catalog": "ready",
+            "updates": "ready",
+            "opportunities": "ready"
+          },
+          "displayed_dataset": "isolated-B",
+          "visible_cards": 1,
+          "count_text": "1 条结果 · 上次结果，尚未更新",
+          "result_scope": "隔离学校2 · 近期 · 电气相关与相关性未知 · 隔离校区2 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+          "notice_hidden": false,
+          "notice": "上次结果，尚未更新 目录、摘要与招聘数据身份尚未一致，请重新加载核对。",
+          "reload_disabled": false,
+          "reload_text": "重新加载"
+        },
+        "repeated_submit": {
+          "query_status": "ready",
+          "resource_statuses": {
+            "catalog": "ready",
+            "updates": "ready",
+            "opportunities": "ready"
+          },
+          "displayed_dataset": "isolated-B",
+          "visible_cards": 1,
+          "count_text": "1 条结果 · 上次结果，尚未更新",
+          "result_scope": "隔离学校2 · 近期 · 电气相关与相关性未知 · 隔离校区2 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+          "notice_hidden": false,
+          "notice": "上次结果，尚未更新 目录、摘要与招聘数据身份尚未一致，请重新加载核对。",
+          "reload_disabled": false,
+          "reload_text": "重新加载"
+        },
+        "after_full_reload": {
+          "query_status": "ready",
+          "resource_statuses": {
+            "catalog": "ready",
+            "updates": "ready",
+            "opportunities": "ready"
+          },
+          "displayed_dataset": "isolated-B",
+          "visible_cards": 1,
+          "count_text": "1 条结果",
+          "result_scope": "隔离学校2 · 近期 · 电气相关与相关性未知 · 隔离校区2 · 公告 2026-09-12 至 2026-10-11，活动 2026-10-11 至 2026-11-09 · 查询日期 2026-10-11（北京时间）",
+          "notice_hidden": true,
+          "notice": "上次结果，尚未更新正在重新读取；暂显示上次结果。",
+          "reload_disabled": false,
+          "reload_text": "重新加载"
+        }
+      },
+      {
+        "id": "F30-control",
+        "result": "existing_contract_preserved",
+        "fact": "选择学校/校区只改草稿，不触发网络；搜索仅提交一条列表请求；重新加载使用已提交条件并读三路",
+        "automatic_request_count_from_selection": 0,
+        "submitted_list_request_count": 1,
+        "reload_request_count": 3,
+        "reload_applied_campus": "1",
+        "unsent_campus_unknown": true
+      },
+      {
+        "id": "F29",
+        "result": "confirmed",
+        "fact": "访客详情 DOM 含技术定位器、材料ID和SHA-256，现有测试还要求hash出现",
+        "locator_present": true,
+        "material_id_present": true,
+        "hash_present": true,
+        "raw_scope_codes_present": [
+          "selected_public_channel",
+          "complete_for_page",
+          "source_list"
+        ],
+        "input_evidence_mutated": false
+      },
+      {
+        "id": "F30-C",
+        "result": "application_code_gap_confirmed_platform_impact_unmeasured",
+        "fact": "下游 Request.signal 的取消未传入代理上游；真实平台是否自动取消及其延迟影响未测",
+        "downstream_aborted": true,
+        "upstream_aborted_after_downstream": false,
+        "fixture_proxy_response_status": 200
+      },
+      {
+        "id": "F30-D",
+        "result": "confirmed_related_error_guidance_gap",
+        "fact": "代理白名单漏掉后端422错误码，访客失去改正条件的具体指引",
+        "rows": [
+          {
+            "backend_code": "invalid_keyword",
+            "proxy_code": "upstream_http_error",
+            "visitor_message": "读取条件暂不可用，请重新加载。"
+          },
+          {
+            "backend_code": "as_of_required",
+            "proxy_code": "upstream_http_error",
+            "visitor_message": "读取条件暂不可用，请重新加载。"
+          },
+          {
+            "backend_code": "invalid_as_of",
+            "proxy_code": "upstream_http_error",
+            "visitor_message": "读取条件暂不可用，请重新加载。"
+          },
+          {
+            "backend_code": "invalid_dataset",
+            "proxy_code": "upstream_http_error",
+            "visitor_message": "读取条件暂不可用，请重新加载。"
+          }
+        ]
+      }
+    ]
+  },
+  "source_adapters": {
+    "scope": "Production ScutAdapter, production services and SQLite; HTTP MockTransport with synthetic HTML; no live DB/source access.",
+    "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "management_head": "b17f67d13321bb236728baf51198221f1b58e366",
+    "queue_starvation": {
+      "rounds": [
+        {
+          "calls": [
+            "https://cnsba.scut.edu.cn/jysx/list.htm",
+            "https://cnsba.scut.edu.cn/2026/1010/c29313a9000001/page.htm",
+            "https://cnsba.scut.edu.cn/jysx/list2.htm"
+          ],
+          "pending_details": 1,
+          "new": 2,
+          "modified": 1
+        },
+        {
+          "calls": [
+            "https://cnsba.scut.edu.cn/jysx/list.htm",
+            "https://cnsba.scut.edu.cn/2026/1010/c29313a9000001/page.htm",
+            "https://cnsba.scut.edu.cn/jysx/list2.htm"
+          ],
+          "pending_details": 1,
+          "new": 0,
+          "modified": 0
+        },
+        {
+          "calls": [
+            "https://cnsba.scut.edu.cn/jysx/list.htm",
+            "https://cnsba.scut.edu.cn/2026/1010/c29313a9000001/page.htm",
+            "https://cnsba.scut.edu.cn/jysx/list2.htm"
+          ],
+          "pending_details": 1,
+          "new": 0,
+          "modified": 0
+        }
+      ],
+      "after_new_runs": {
+        "rows": [
+          {
+            "source_identity": "9000001",
+            "relevance": "related"
+          },
+          {
+            "source_identity": "9000002",
+            "relevance": "unknown"
+          }
+        ],
+        "detail_tasks": [
+          {
+            "task_identity": "detail:9000001",
+            "status": "committed",
+            "attempts": 3
+          },
+          {
+            "task_identity": "detail:9000002",
+            "status": "pending",
+            "attempts": 0
+          }
+        ]
+      },
+      "explicit_resume_calls": [
+        "https://cnsba.scut.edu.cn/2026/1010/c29313a9000002/page.htm",
+        "https://cnsba.scut.edu.cn/jysx/list3.htm",
+        "https://cnsba.scut.edu.cn/2026/1010/c29313a9000003/page.htm"
+      ]
+    },
+    "empty_parser": {
+      "source": {
+        "status": "partial",
+        "last_success_at": "2026-10-11T17:06:11.956535+08:00",
+        "last_attempt_at": "2026-10-11T17:06:11.963756+08:00",
+        "public_message": "已取得部分公开材料，尚有未完成范围"
+      },
+      "material": {
+        "acquisition_status": "success",
+        "parsing_status": "failed"
+      },
+      "catalog": {
+        "availability": "partial",
+        "availability_message": "已取得部分公开材料，非全校完整覆盖",
+        "opportunity_count": 0
+      }
+    },
+    "extraction": {
+      "relevance_background": {
+        "body": "<p>公司简介：我们为电网企业提供广告服务。</p><p>本次仅招聘会计，需求专业为会计学。</p>",
+        "relevance": "related",
+        "relevance_evidence": {
+          "state": "known",
+          "value": "related",
+          "evidence": [
+            {
+              "material_ref": "d4c0d5bfc0f718214fc908f62927eda197303106c4c0b926cc722b0ca65ad0ec",
+              "source_url": "https://cnsba.scut.edu.cn/2026/1010/c29313a9000001/page.htm",
+              "locator": ".wp_articlecontent",
+              "excerpt": "公司简介：我们为电网企业提供广告服务。 本次仅招聘会计，需求专业为会计学。",
+              "scope": "this_announcement",
+              "observed_at": "2026-10-11T09:06:11.971148+00:00",
+              "parser_version": "school-html-1"
+            }
+          ]
+        },
+        "work_locations": [],
+        "work_location_state": "not_disclosed"
+      },
+      "venue_as_work_location": {
+        "body": "<p>招聘地点：华南理工大学五山校区就业大厅</p><p>实际工作地点请以岗位说明为准。</p>",
+        "relevance": "unknown",
+        "relevance_evidence": null,
+        "work_locations": [
+          "华南理工大学五山校区就业大厅"
+        ],
+        "work_location_state": "known"
+      },
+      "missing_colon": {
+        "body": "<p>工作地点</p><p>广州市</p><p>招聘岗位：软件工程师</p>",
+        "relevance": "unknown",
+        "relevance_evidence": null,
+        "work_locations": [],
+        "work_location_state": "not_disclosed"
+      }
+    }
+  },
+  "material_applicability": {
+    "audit": "isolated_fixture_only",
+    "before_B_is_ingested": {
+      "ingest_result": {
+        "new": 1,
+        "modified": 0,
+        "unchanged": 0,
+        "opportunity_ids": [
+          1
+        ],
+        "dataset_id": "fixture-ds-2c727318-2155-4170-b34b-5ec390fb9be3"
+      },
+      "public_attachment": {
+        "evidence": [
+          {
+            "excerpt": "本材料明确只属于 announcement-B",
+            "locator": "article a[href]",
+            "material_id": 2,
+            "observed_at": "2026-10-11T17:00:00+08:00",
+            "parser_version": "audit-only",
+            "scope": {
+              "opportunity_identity": "announcement-B"
+            },
+            "source_url": "https://career.gdut.edu.cn/notice/announcement-B"
+          }
+        ],
+        "label": "公告 B 的附件",
+        "scope": {
+          "opportunity_identity": "announcement-B"
+        },
+        "url": "https://career.gdut.edu.cn/uploads/B.pdf"
+      },
+      "material_B_bound_opportunity": null
+    },
+    "B_ingest_result": {
+      "new": 1,
+      "modified": 0,
+      "unchanged": 0,
+      "opportunity_ids": [
+        2
+      ],
+      "dataset_id": "fixture-ds-31285fc3-a001-4ed7-b58b-0643f21d47ac"
+    },
+    "A_detail_after_B_is_ingested": {
+      "exception": "DatabaseUnavailable",
+      "message": "数据库中的公告片段或材料证据不可读。"
+    }
+  },
+  "evidence_limits": [
+    "Synthetic HTML and fixture databases; official URLs are intercepted by MockTransport.",
+    "Frontend logical event labels are not real milliseconds or remote p95.",
+    "Initial frontend evidence was collected at 02ae; application bytes are unchanged and verified at b17.",
+    "Affected real database record count was not audited.",
+    "No application fix, live source run, Site deployment or M2 acceptance occurred in this audit."
+  ],
+  "neat_freak": {
+    "version": "3.0.0",
+    "source": "KKKKhazix/khazix-skills/neat-freak/SKILL.md",
+    "skill_blob": "51333e97c010a8ba13b10dc3c89d17021d915aa8",
+    "references": {
+      "agent-paths": "0076648377cd36a1a1826b95fb9473be9defce2b",
+      "verification": "25b371fd9b21fa4411b137b01f8e2b16602fb5c9",
+      "governance": "9626951828ed7986762fa39d9c7139d6dcd8aa94",
+      "sync-matrix": "170d1c039f041cbd4f1dee0ba0a3488d272daa5b"
+    }
+  },
+  "publication_receipt": "See current PR #28 head, readback and CI; distinct from deployed application identity.",
+  "delivery_validation": {
+    "changed_paths": [
+      "README.md",
+      "config/project.json",
+      "docs/BOARD.md",
+      "docs/ROADMAP.md",
+      "docs/STATUS.md",
+      "docs/deliveries/M1-M2-AUDIT-20261011.md",
+      "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "docs/deliveries/MANUAL_QA_M.md",
+      "docs/deliveries/evidence/M1-M2-AUDIT-20261011.json",
+      "docs/deliveries/evidence/M1-M2-AUDIT-20261011/README.md",
+      "docs/deliveries/evidence/M1-M2-AUDIT-20261011/reproduce_frontend.mjs",
+      "docs/deliveries/evidence/M1-M2-AUDIT-20261011/reproduce_material_scope.py",
+      "docs/deliveries/evidence/M1-M2-AUDIT-20261011/reproduce_sources.py"
+    ],
+    "application_paths_changed": 0,
+    "relative_links": "passed",
+    "json": "passed",
+    "manual_qa_ids": 37,
+    "historical_user_results": "unchanged",
+    "github_issues": 30,
+    "native_pending": [
+      32,
+      33,
+      34,
+      35
+    ],
+    "portable_reproductions": "3 scripts passed",
+    "trusted_base_path_review": {
+      "base": "ae261c856761f84904430211b82ac7a42f689e4e",
+      "method": "GitHub full compare path list including renames plus planned documentation paths; functions from actual-base checker",
+      "paths": 95,
+      "result": "passed",
+      "formal_full_pr_ci": "required_after_publish"
+    }
+  },
+  "portable_reproductions_verified": true
+}
