@@ -1,25 +1,25 @@
 name: 阶段手工核验
-description: Gate 尚无 Issue 时使用；已有阶段单请更新原单，避免重复创建。
-title: "[Gate] G? 阶段手工核验"
+description: 阶段核验单尚无 Issue 时使用；已有阶段单请更新原单，避免重复创建。
+title: "[Gate] M? 阶段手工核验"
 labels:
   - manual-review
 body:
   - type: markdown
     attributes:
       value: |
-        按 docs/MANUAL_QA.md 复制当前 Gate 的全部编号和步骤，并提供实际场景材料。
+        按 docs/deliveries/MANUAL_QA_M.md 复制当前 Gate 的全部编号和步骤，并提供实际场景材料。
         本表由构建者准备，用户逐项在评论或对话回复“通过/失败/阻塞/未测”。
-        不得预填用户通过；上门未通过时后门可以准备，不能关闭。正式部署须等待 G4 完成。
+        不得预填用户通过；上门未通过时后门可以准备，不能关闭。正式部署须等待 M4 完成。
   - type: dropdown
     id: gate
     attributes:
       label: 阶段与 Gate
       options:
-        - G0 - S0 / D1 / W00 / Site 入口与骨架
-        - G1 - S1 / D2-3 / W01+W02 / 两校真实流程
-        - G2 - S2 / D4-5 / W03+W04 / 十校与维护
-        - G3 - S3 / D6 / W05 / 持续运行
-        - G4 - S4 / D7 / W06 / 最终验收
+        - M0 - M0 / D1 / W00 / Site 入口与骨架
+        - M1 - M1 / D2-3 / W01+W02 / 两校真实流程
+        - M2 - M2 / D4-5 / W03+W04 / 十校与维护
+        - M3 - M3 / D6 / W05 / 持续运行
+        - M4 - M4 / D7 / W06 / 最终验收
     validations:
       required: true
   - type: textarea
@@ -55,8 +55,8 @@ body:
       label: 按编号提供场景材料
       description: 用户无需敲 SQL、服务器命令或自行寻找样本；反例用隔离场景并明确标识。
       placeholder: |
-        G?-01：页面/记录入口、官方原文/材料、初始状态、数据模式
-        G?-02：……
+        M?-01：页面/记录入口、官方原文/材料、初始状态、数据模式
+        M?-02：……
         受限来源与按 Q5A 核验的状态处理：
     validations:
       required: true
@@ -82,15 +82,15 @@ body:
       description: 从 MANUAL_QA 复制当前 Gate 全表，保持编号，并补具体入口；用户结论留空或未测。
       placeholder: |
         编号 | 场景材料 | 用户操作 | 预期 | 用户结论
-        G?-01 | …… | …… | …… | 未测
-        G?-02 | …… | …… | …… | 未测
+        M?-01 | …… | …… | …… | 未测
+        M?-02 | …… | …… | …… | 未测
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
       label: 前门结论与反馈修复索引
-      description: G0 可写无前门；G4 必须附所有旧反馈原编号复验表，不能只写全部已修复。
+      description: M0 可写无前门；M4 必须附所有旧反馈原编号复验表，不能只写全部已修复。
       placeholder: |
         上一 Gate 及用户结论链接：
         原核验编号 → 反馈 Issue → 原功能 Issue → 修复构建 → 待复验/用户结论链接：
@@ -108,8 +108,8 @@ body:
       placeholder: |
         Gate：
         本次 Site / 构建：
-        G?-01：通过 / 失败 / 阻塞 / 未测；实际看到：
-        G?-02：通过 / 失败 / 阻塞 / 未测；实际看到：
+        M?-01：通过 / 失败 / 阻塞 / 未测；实际看到：
+        M?-02：通过 / 失败 / 阻塞 / 未测；实际看到：
         其余编号按序填写：
         截图或原文链接（可选）：
         用户原回复链接：
@@ -123,13 +123,12 @@ body:
         用户已通过编号及原回复：
         反馈 Issue 是否全部完成复验：
         下一 Gate 或修复动作：
-        G4：正式部署准备是否齐全；尚未执行的生产动作：
+        M4：正式部署准备是否齐全；尚未执行的生产动作：
         真实运营观察天数（如适用；不填未来结果）：
   - type: markdown
     attributes:
       value: |
-        独立开发可继续，Gate 仍按 G0 → G1 → G2 → G3 → G4 排队核验。
+        独立开发可继续，Gate 仍按 M0 → M1 → M2 → M3 → M4 排队核验。
         失败按原编号建立/更新去重反馈 Issue，修复后同编号复验；不因代码合并自动关闭。
         Site mock 不算真实采集或运行证据；受限校可通过正确标记/补录策略核验，不能算自动覆盖。
         7 天自然运营观察是后续建议；正式站尚未部署时，生产结果保持“未执行”。
-
