@@ -14,7 +14,7 @@
     "number": null,
     "url": null,
     "visibility": "create_private_or_preserve_existing",
-    "last_access_audit": "2026-10-10: no callable Projects tools; existing CLI authentication invalid; no login retry"
+    "last_access_audit": "2026-10-11: no callable Projects tools; CLI invalid authentication was checked 2026-10-10; no login retry"
   },
   "views": [
     {
@@ -945,17 +945,22 @@
   "source_closeout": {
     "date": "2026-10-11",
     "timezone": "Asia/Shanghai",
-    "status": "prepared",
+    "status": "pushed_and_verified",
     "report": "docs/deliveries/M0-NEAT-20261011.md",
     "code_stage": "M0/W00",
-    "code_source_commit": null,
+    "code_source_commit": "484e80a59c13d7de452e3559d68da8ed756789e1",
     "source_reference": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20",
     "local_checks": {
       "python_passed": 41,
       "proxy_passed": 3,
       "javascript_syntax": "passed",
       "readonly_original_dataset": "passed",
-      "database_hash_unchanged": true
+      "database_hash_unchanged": true,
+      "scope_paths": 14,
+      "build": "passed",
+      "built_static_page": 200,
+      "missing_upstream": 503,
+      "credentials_embedded": false
     },
     "warnings": [
       "StarletteDeprecationWarning: httpx test adapter"
@@ -968,6 +973,9 @@
       ".runtime/s0-desktop.jpg",
       ".runtime/s0-mobile.jpg",
       ".runtime/s0-disconnected.jpg"
-    ]
+    ],
+    "source_ci_run": 38104472543,
+    "source_ci_conclusion": "success",
+    "remote_source_sha_verified": true
   }
 }
