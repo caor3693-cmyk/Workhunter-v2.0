@@ -182,8 +182,14 @@ function valueText(value) {
   if (value === null || value === undefined || value === '') return '未知';
   if (value === true) return '是'; if (value === false) return '否';
   if (value === 'related') return '明确电气相关'; if (value === 'unknown') return '待核实'; if (value === 'unrelated') return '明确无关';
+  const labels = { publication: '公告发布时间', event: '活动日期', online_recruitment: '线上招聘', recruitment_notice: '招聘公告', campus_talk: '线下宣讲会', job_fair: '双选会 / 招聘会', this_announcement: '本条公告披露范围' };
+  if (typeof value === 'string' && labels[value]) return labels[value];
   if (Array.isArray(value)) return value.length ? value.map(item => typeof item === 'string' ? item : item.text || item.title || item.label || JSON.stringify(item)).join('；') : '尚未取得';
-  return typeof value === 'object' ? JSON.stringify(value) : String(value);
+  if (typeof value === 'object') {
+    const facts = Object.keys(FIELD_LABELS).filter(field => Object.hasOwn(value, field));
+    return facts.length ? facts.map(field => `${FIELD_LABELS[field]}：${valueText(value[field])}`).join('；') : '结构化变更已保留，请对照本条事实与材料。';
+  }
+  return String(value);
 }
 function storedText(value) { try { return valueText(JSON.parse(value)); } catch { return valueText(value); } }
 function resourceText(item, empty) {

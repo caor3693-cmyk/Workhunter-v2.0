@@ -237,7 +237,7 @@ function pageDocument() {
 }
 
 test('mounted page can log in, review differences and explicitly save with only text rendering', async () => {
-  const fixture = syntheticAPI({ preview: payload => preview(payload.environment, { candidate: { title: '<script>synthetic</script>' }, differences: { title: { before: null, after: '<img src=x onerror=synthetic>' } } }), history: (id, env) => ({ ...history(id, env), title: '<script>synthetic</script>', history: [{ field_name: 'title', before_json: 'null', after_json: '"<img>"', actor: 'synthetic', committed_at: '2026-10-12T01:00:00Z' }] }) });
+  const fixture = syntheticAPI({ preview: payload => preview(payload.environment, { candidate: { title: '<script>synthetic</script>' }, differences: { title: { before: null, after: '<img src=x onerror=synthetic>' } } }), history: (id, env) => ({ ...history(id, env), title: '<script>synthetic</script>', history: [{ field_name: 'title', before_json: 'null', after_json: '"<img>"', actor: 'synthetic', committed_at: '2026-10-12T01:00:00Z' }, {field_name:'__record__',before_json:'null',after_json:JSON.stringify({title:'合成可读历史',deadline:'2026-10-20',field_observations:{material_id:999,locator:'internal-marker'}})}] }) });
   const doc = pageDocument(); const page = mountMaintenance({ document: doc, api: fixture.api, read: async () => catalog }); await tick();
   assert.equal(doc.getElementById('maintenance-tools').hidden, true);
   doc.getElementById('maintenance-password').value = password;
@@ -252,6 +252,8 @@ test('mounted page can log in, review differences and explicitly save with only 
   await doc.getElementById('maintenance-commit').fire('click');
   assert.equal(doc.getElementById('maintenance-receipt-panel').hidden, false); assert.match(doc.getElementById('maintenance-receipt').textContent, /提交已确认/);
   assert.ok(doc.getElementById('maintenance-history').textContent.includes('<script>synthetic</script>'));
+  assert.ok(doc.getElementById('maintenance-history').textContent.includes('投递截止：2026-10-20'));
+  assert.ok(!doc.getElementById('maintenance-history').textContent.includes('internal-marker'));
   await doc.getElementById('maintenance-logout').fire('click');
   assert.equal(doc.getElementById('maintenance-tools').hidden, true); assert.equal(doc.getElementById('maintenance-history').textContent, '');
   page.destroy();

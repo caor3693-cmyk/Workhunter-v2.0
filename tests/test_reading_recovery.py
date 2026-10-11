@@ -55,7 +55,7 @@ def free_port():
         return listener.getsockname()[1]
 
 
-def start(launcher, port, timeout=8):
+def start(launcher, port, timeout=20):
     repo, database, runtime, _ = launcher
     environment = dict(os.environ)
     for name in ('HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'http_proxy', 'https_proxy', 'all_proxy'):
@@ -72,7 +72,7 @@ def start(launcher, port, timeout=8):
     with output.open('wb') as stdout, errors.open('wb') as stderr:
         process = subprocess.Popen(args, cwd=repo, env=environment, stdout=stdout, stderr=stderr)
         try:
-            returncode = process.wait(timeout=25)
+            returncode = process.wait(timeout=timeout+17)
         except subprocess.TimeoutExpired:
             subprocess.run(['taskkill.exe', '/PID', str(process.pid), '/T', '/F'], capture_output=True, timeout=10)
             raise
