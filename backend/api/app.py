@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 
 from backend.config import Settings
 from backend.domain import KINDS, SCOPES, VIEWS
+from backend.domain.candidates import MAX_INTEGER
 from backend.services import queries
 from backend.storage.database import DatabaseUnavailable, read_database
 from backend.version import PROJECT, STAGE, VERSION
@@ -24,7 +25,7 @@ def _loopback(host: str) -> bool:
         return False
 
 
-def _filters(request: Request) -> queries.Filters:
+def _filters(request: Request, query_today: date) -> queries.Filters:
     allowed = {field.name for field in fields(queries.Filters)}
     unknown = set(request.query_params) - allowed
     if unknown:
@@ -33,8 +34,12 @@ def _filters(request: Request) -> queries.Filters:
     if duplicate:
         _error(422, "duplicate_parameter", "筛选参数不能重复：" + "、".join(sorted(duplicate)))
     raw = {key: value.strip() for key, value in request.query_params.items()}
-    optional = {key: raw.get(key) or None for key in ("school_key", "kind", "keyword", "date_from", "date_to", "dataset_id")}
-    for key in ("date_from", "date_to"):
+    optional = {key: raw.get(key) or None for key in ("school_key", "kind", "keyword", "date_from", "date_to", "dataset_id", "as_of")}
+    if optional['keyword'] and len(optional['keyword']) > 300:
+        _error(422, 'invalid_keyword', 'keyword 不能超过 300 字。')
+    if optional['dataset_id'] and len(optional['dataset_id']) > 128:
+        _error(422, 'invalid_dataset', 'dataset_id 超过允许长度。')
+    for key in ("date_from", "date_to", "as_of"):
         if optional[key]:
             try:
                 parsed = date.fromisoformat(optional[key])
@@ -50,7 +55,7 @@ def _filters(request: Request) -> queries.Filters:
     if view not in VIEWS or scope not in SCOPES:
         _error(422, "invalid_view_or_scope", "view 或 scope 不属于支持的范围。")
     numbers = {}
-    for key, default, minimum, maximum in (("offset", 0, 0, None), ("limit", 20, 1, 100), ("campus_id", None, 1, None)):
+    for key, default, minimum, maximum in (("offset", 0, 0, MAX_INTEGER), ("limit", 20, 1, 100), ("campus_id", None, 1, MAX_INTEGER)):
         text = raw.get(key)
         if not text:
             numbers[key] = default
@@ -69,6 +74,12 @@ def _filters(request: Request) -> queries.Filters:
         _error(422, "campus_conflict", "不能同时选择具体校区和未知校区。")
     if numbers["offset"] > 0 and not optional["dataset_id"]:
         _error(422, "dataset_required", "追加分页必须携带第一页返回的 dataset_id。")
+    if numbers['offset'] > 0 and not optional['as_of']:
+        _error(422, 'as_of_required', '追加分页必须携带第一页返回的 as_of 查询日期。')
+    if optional['as_of']:
+        anchor = date.fromisoformat(optional['as_of'])
+        if anchor > query_today or anchor < date(1, 2, 1):
+            _error(422, 'invalid_as_of', 'as_of 不能晚于当前北京时间日期，且必须可构造完整查询窗口。')
     return queries.Filters(**optional, **numbers, view=view, scope=scope, campus_unknown=unknown_campus == "true")
 
 
@@ -118,7 +129,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/api/opportunities")
     def opportunities(request: Request):
-        filters = _filters(request)
+        current_date = today()
+        filters = _filters(request, current_date)
         with read_database(configuration.db_path) as (connection, metadata):
             if filters.dataset_id and filters.dataset_id != metadata["dataset_id"]:
                 _error(409, "dataset_changed", "数据集已变化，请保持已提交条件并重新加载第一页。")
@@ -130,12 +142,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     _error(404, "campus_not_found", "所选校区尚未在目录中登记。")
                 if filters.school_key and campus["school_key"] != filters.school_key:
                     _error(422, "school_campus_conflict", "所选校区不属于当前学校。")
-            return queries.opportunities(connection, metadata, filters, today(), configuration.recent_days)
+            return queries.opportunities(connection, metadata, filters, current_date, configuration.recent_days)
 
     @app.get("/api/opportunities/{opportunity_id}")
     def opportunity_detail(opportunity_id: int):
-        if opportunity_id < 1:
-            _error(422, "invalid_opportunity", "公告编号必须为正整数。")
+        if not 1 <= opportunity_id <= MAX_INTEGER:
+            _error(422, "invalid_opportunity", "公告编号必须为允许范围内的正整数。")
         with read_database(configuration.db_path) as (connection, metadata):
             result = queries.detail(connection, opportunity_id)
             if result is None:
@@ -149,13 +161,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/api/updates/summary")
     def summary():
-        with read_database(configuration.db_path) as (_, metadata):
-            return {
-                **queries.identity(metadata), "check_status": "not_checked",
-                "last_attempt_at": None, "last_success_at": None,
-                "today": {"date": today().isoformat(), "newly_collected": None, "modified": None, "official_changes": None, "parser_improvements": None, "manual_corrections": None},
-                "message": "尚未检查，新增与变化数量未知",
-            }
+        with read_database(configuration.db_path) as (connection, metadata):
+            return queries.summary(connection, metadata, today())
 
     return app
 

@@ -1,0 +1,77 @@
+{
+  "project": "Workhunter-v2.0",
+  "schema_version": "2",
+  "data_mode": "isolated_fixture",
+  "dataset_id": "fixture-ds-d10458a7-daa4-4165-84ae-2c001ea67254",
+  "label": "隔离验收样例：全部内容由本机合成，未从学校官网取得，不计真实来源覆盖或用户验收。",
+  "db": "isolated-acceptance.sqlite3",
+  "as_of": "2026-10-11",
+  "created_at": "2026-10-11T15:22:04.996417+08:00",
+  "code_identity": {
+    "commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "worktree_dirty": false
+  },
+  "source_origin": "generated_locally_never_fetched",
+  "placeholder_urls": "Official-domain __isolated_fixture__ paths are non-source placeholders; preview blocks all such clicks.",
+  "case_ids": {
+    "conflicting-retained-venue": 8,
+    "history-event": 4,
+    "known-unrelated": 7,
+    "list-known-detail-failed": 6,
+    "ordinary-six-work-locations": 3,
+    "pagination-01": 9,
+    "pagination-02": 10,
+    "pagination-03": 11,
+    "pagination-04": 12,
+    "pagination-05": 13,
+    "pagination-06": 14,
+    "pagination-07": 15,
+    "pagination-08": 16,
+    "pagination-09": 17,
+    "pagination-10": 18,
+    "pagination-11": 19,
+    "pagination-12": 20,
+    "pagination-13": 21,
+    "pagination-14": 22,
+    "pagination-15": 23,
+    "pagination-16": 24,
+    "pagination-17": 25,
+    "pagination-18": 26,
+    "pagination-19": 27,
+    "pagination-20": 28,
+    "pagination-21": 29,
+    "undated-parse-failed": 5,
+    "future-event-different-venue-work": 1,
+    "history-late-ingestion": 2
+  },
+  "campus_ids": {
+    "gdut": 2,
+    "scut": 1
+  },
+  "record_count": 29,
+  "api_port": 8788,
+  "ui_port": 8789,
+  "user_results": {
+    "M0": {
+      "M0-01": "未测",
+      "M0-02": "失败",
+      "M0-03": "阻塞",
+      "M0-04": "未测",
+      "M0-05": "未测",
+      "M0-06": "阻塞",
+      "M0-07": "失败"
+    },
+    "M1": {
+      "M1-01": "未测",
+      "M1-02": "未测",
+      "M1-03": "未测",
+      "M1-04": "未测",
+      "M1-05": "未测",
+      "M1-06": "未测",
+      "M1-07": "未测",
+      "M1-08": "未测"
+    }
+  },
+  "user_acceptance": "not_assessed",
+  "real_source_coverage": "not_evidence"
+}

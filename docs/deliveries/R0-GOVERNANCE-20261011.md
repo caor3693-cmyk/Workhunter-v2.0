@@ -88,4 +88,4 @@ checker 还校验执行文件内容与 base blob 一致；从同一 actual base 
 
 动态 CI SHA `f3cb6ef0f8c734fb0d5a67972292812003aa3bc4`，PR [#26](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/26)，实际 base `d7679d00788d15b07b0dab39c6c055b28e537092`。可信目标 checker 核对完整单文件差异，CI [38115546980](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38115546980) success。
 
-专用目标 `codex/m0-m1-governance-20261011` 随已审提交前进，业务实际目标将包含独立 DOC 合同后固定完整 SHA。2026-10-11 GitHub API 回读该目标分支保护返回 404 Branch not protected；当前是工程检查，并非平台 required checks 强制保护。两治理 PR 留 open/draft；没有合并 main 或 PR #20，没有关闭 #24 或改写用户结论。
+专用目标 `codex/m0-m1-governance-20261011` 随已审提交前进，业务实际目标将包含独立 DOC 合同后固定完整 SHA。2026-10-11 GitHub API 回读该目标分支保护返回 404 Branch not protected；当前是工程检查，并非平台 required checks 强制保护。GitHub 在专用目标快进后自动将 PR #26/#27 记为 MERGED（均保留 draft 属性）；PR #25 仍 open/draft。没有合并 main 或 PR #20，没有关闭 #24 或改写用户结论。此处的目标集成是已审治理/合同，不是产品 Gate 或正式发布。

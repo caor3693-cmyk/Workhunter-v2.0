@@ -1,0 +1,1601 @@
+{
+  "checked_at": "2026-10-11T14:52:49.431365+08:00",
+  "kind": "engineering-only-read-api-check",
+  "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+  "data_mode": "real",
+  "db_sha256_before": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8",
+  "db_sha256_after": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8",
+  "db_unchanged": true,
+  "database_rows": 132,
+  "database_materials": 98,
+  "counts": {
+    "gdut": 104,
+    "scut": 28
+  },
+  "evidence_sha256": "5d67cd61aa4b345f8a21770f655f7682c2273133df39d975d80d0b0bf3de1b81",
+  "evidence_counts_materials_match": true,
+  "actual_raw_hashes_verified": 98,
+  "all_reference_keys_verified": 98,
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.9",
+    "transport": "in-process FastAPI TestClient",
+    "backend_commit": "engineering-only",
+    "concurrency": 1,
+    "cache": "normal OS cache; infrastructure requests precede paged lists; no dedicated repeat warmup"
+  },
+  "performance_target": {
+    "source": "docs/TASKS.md:156",
+    "paginated_api_p95_ms": 1000,
+    "browser_first_cards_target_not_measured": true
+  },
+  "request_count": 52,
+  "successful_list_request_count": 38,
+  "list_latency_ms": {
+    "p50": 11.62,
+    "p95": 21.365,
+    "max": 21.72,
+    "samples": 38
+  },
+  "views": {
+    "recent": {
+      "total": 82,
+      "pages": 5,
+      "ids": [
+        68,
+        67,
+        66,
+        65,
+        64,
+        63,
+        62,
+        61,
+        60,
+        59,
+        58,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49,
+        48,
+        47,
+        46,
+        45,
+        44,
+        43,
+        42,
+        41,
+        40,
+        39,
+        38,
+        37,
+        36,
+        35,
+        34,
+        33,
+        32,
+        31,
+        30,
+        29,
+        94,
+        93,
+        98,
+        97,
+        96,
+        95,
+        101,
+        100,
+        99,
+        103,
+        102,
+        107,
+        106,
+        105,
+        104,
+        118,
+        117,
+        116,
+        115,
+        114,
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        126,
+        125,
+        124,
+        123,
+        122,
+        121,
+        120,
+        119,
+        132,
+        131,
+        130,
+        129,
+        128,
+        127,
+        69,
+        70
+      ]
+    },
+    "upcoming": {
+      "total": 42,
+      "pages": 3,
+      "ids": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ]
+    },
+    "history": {
+      "total": 49,
+      "pages": 3,
+      "ids": [
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83,
+        82,
+        81,
+        4,
+        2,
+        1,
+        74,
+        73,
+        72,
+        71,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        76,
+        75,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21,
+        20,
+        19,
+        18,
+        17,
+        28,
+        77,
+        78,
+        79,
+        80
+      ]
+    },
+    "undated": {
+      "total": 1,
+      "pages": 1,
+      "ids": [
+        3
+      ]
+    }
+  },
+  "sample_details": [
+    {
+      "id": 3,
+      "status": 200,
+      "material_ids": [
+        1,
+        4
+      ],
+      "title": "【就业信息】宝钢湛江钢铁有限公司校招",
+      "field_states": {
+        "deadline": "not_disclosed",
+        "end_time": "known",
+        "event_date": "parse_failed",
+        "event_venue": "known",
+        "published_date": "known",
+        "start_time": "known",
+        "work_locations": "not_disclosed"
+      }
+    },
+    {
+      "id": 31,
+      "status": 200,
+      "material_ids": [
+        15,
+        18
+      ],
+      "title": "深圳市联得自动化装备股份有限公司",
+      "field_states": {
+        "deadline": "not_disclosed",
+        "end_time": "known",
+        "event_date": "known",
+        "event_venue": "known",
+        "published_date": "not_disclosed",
+        "relevance": "known",
+        "start_time": "known",
+        "work_locations": "known"
+      }
+    },
+    {
+      "id": 38,
+      "status": 200,
+      "material_ids": [
+        15,
+        25
+      ],
+      "title": "顾家家居股份有限公司",
+      "field_states": {
+        "deadline": "not_collected",
+        "end_time": "known",
+        "event_date": "known",
+        "event_venue": "known",
+        "published_date": "not_collected",
+        "start_time": "known",
+        "work_locations": "known"
+      }
+    },
+    {
+      "id": 40,
+      "status": 200,
+      "material_ids": [
+        15,
+        27
+      ],
+      "title": "深圳市新产业生物医学工程股份有限公司",
+      "field_states": {
+        "deadline": "not_collected",
+        "end_time": "known",
+        "event_date": "known",
+        "event_venue": "known",
+        "published_date": "not_collected",
+        "start_time": "known",
+        "work_locations": "not_collected"
+      }
+    },
+    {
+      "id": 41,
+      "status": 200,
+      "material_ids": [
+        15
+      ],
+      "title": "华勤技术股份有限公司",
+      "field_states": {
+        "deadline": "not_collected",
+        "end_time": "known",
+        "event_date": "known",
+        "event_venue": "known",
+        "published_date": "not_collected",
+        "start_time": "known",
+        "work_locations": "not_collected"
+      }
+    },
+    {
+      "id": 70,
+      "status": 200,
+      "material_ids": [
+        29,
+        31
+      ],
+      "title": "广东工业大学2027届毕业生秋季校园双选会",
+      "field_states": {
+        "deadline": "not_collected",
+        "end_time": "known",
+        "event_date": "known",
+        "event_venue": "known",
+        "published_date": "known",
+        "start_time": "known",
+        "work_locations": "not_collected"
+      }
+    },
+    {
+      "id": 96,
+      "status": 200,
+      "material_ids": [
+        43,
+        47
+      ],
+      "title": "江西移动2027校园招聘公告",
+      "field_states": {
+        "deadline": "known",
+        "end_time": "not_applicable",
+        "event_date": "not_applicable",
+        "event_venue": "not_applicable",
+        "published_date": "known",
+        "start_time": "not_applicable",
+        "work_locations": "known"
+      }
+    }
+  ],
+  "source_states": {
+    "scut_homepage": "restricted",
+    "gdut_homepage": "verified",
+    "ncepu_homepage": "not_checked",
+    "shiep_homepage": "not_checked",
+    "neepu_homepage": "not_checked",
+    "csust_homepage": "not_checked",
+    "ctgu_homepage": "not_checked",
+    "gzhu_homepage": "not_checked",
+    "hnu_homepage": "not_checked",
+    "csu_homepage": "not_checked",
+    "scut_cnsba": "partial",
+    "gdut_teachin": "partial",
+    "gdut_jobfair": "partial",
+    "gdut_campus": "partial"
+  },
+  "requests": [
+    {
+      "route": "/health",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 15.795
+    },
+    {
+      "route": "/version",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 11.373
+    },
+    {
+      "route": "/api/catalog",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 11.871
+    },
+    {
+      "route": "/api/sources/status",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 10.824
+    },
+    {
+      "route": "/api/updates/summary",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 11.49
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "recent",
+        "limit": 20,
+        "offset": 0
+      },
+      "status": 200,
+      "elapsed_ms": 21.72,
+      "total": 82,
+      "ids": [
+        68,
+        67,
+        66,
+        65,
+        64,
+        63,
+        62,
+        61,
+        60,
+        59,
+        58,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "recent",
+        "limit": 20,
+        "offset": 20,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 20.751,
+      "total": 82,
+      "ids": [
+        48,
+        47,
+        46,
+        45,
+        44,
+        43,
+        42,
+        41,
+        40,
+        39,
+        38,
+        37,
+        36,
+        35,
+        34,
+        33,
+        32,
+        31,
+        30,
+        29
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "recent",
+        "limit": 20,
+        "offset": 40,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 21.057,
+      "total": 82,
+      "ids": [
+        94,
+        93,
+        98,
+        97,
+        96,
+        95,
+        101,
+        100,
+        99,
+        103,
+        102,
+        107,
+        106,
+        105,
+        104,
+        118,
+        117,
+        116,
+        115,
+        114
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "recent",
+        "limit": 20,
+        "offset": 60,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 16.125,
+      "total": 82,
+      "ids": [
+        113,
+        112,
+        111,
+        110,
+        109,
+        108,
+        126,
+        125,
+        124,
+        123,
+        122,
+        121,
+        120,
+        119,
+        132,
+        131,
+        130,
+        129,
+        128,
+        127
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "recent",
+        "limit": 20,
+        "offset": 80,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 13.368,
+      "total": 82,
+      "ids": [
+        69,
+        70
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "upcoming",
+        "limit": 20,
+        "offset": 0,
+        "as_of": "2026-10-11"
+      },
+      "status": 200,
+      "elapsed_ms": 21.187,
+      "total": 42,
+      "ids": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "upcoming",
+        "limit": 20,
+        "offset": 20,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 19.448,
+      "total": 42,
+      "ids": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "upcoming",
+        "limit": 20,
+        "offset": 40,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 11.62,
+      "total": 42,
+      "ids": [
+        69,
+        70
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "history",
+        "limit": 20,
+        "offset": 0,
+        "as_of": "2026-10-11"
+      },
+      "status": 200,
+      "elapsed_ms": 18.387,
+      "total": 49,
+      "ids": [
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83,
+        82,
+        81,
+        4,
+        2,
+        1,
+        74,
+        73,
+        72,
+        71,
+        16
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "history",
+        "limit": 20,
+        "offset": 20,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 18.472,
+      "total": 49,
+      "ids": [
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        76,
+        75,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "history",
+        "limit": 20,
+        "offset": 40,
+        "as_of": "2026-10-11",
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 200,
+      "elapsed_ms": 14.346,
+      "total": 49,
+      "ids": [
+        20,
+        19,
+        18,
+        17,
+        28,
+        77,
+        78,
+        79,
+        80
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "view": "undated",
+        "limit": 20,
+        "offset": 0,
+        "as_of": "2026-10-11"
+      },
+      "status": 200,
+      "elapsed_ms": 10.087,
+      "total": 1,
+      "ids": [
+        3
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "view": "recent"
+      },
+      "status": 200,
+      "elapsed_ms": 9.077,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 8.951,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "view": "history"
+      },
+      "status": 200,
+      "elapsed_ms": 19.943,
+      "total": 27,
+      "ids": [
+        4,
+        2,
+        1,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        27,
+        26,
+        25,
+        24,
+        23
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "view": "undated"
+      },
+      "status": 200,
+      "elapsed_ms": 10.713,
+      "total": 1,
+      "ids": [
+        3
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "view": "recent"
+      },
+      "status": 200,
+      "elapsed_ms": 18.44,
+      "total": 82,
+      "ids": [
+        68,
+        67,
+        66,
+        65,
+        64,
+        63,
+        62,
+        61,
+        60,
+        59,
+        58,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 19.771,
+      "total": 42,
+      "ids": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "view": "history"
+      },
+      "status": 200,
+      "elapsed_ms": 20.29,
+      "total": 22,
+      "ids": [
+        92,
+        91,
+        90,
+        89,
+        88,
+        87,
+        86,
+        85,
+        84,
+        83,
+        82,
+        81,
+        74,
+        73,
+        72,
+        71,
+        76,
+        75,
+        77,
+        78
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "view": "undated"
+      },
+      "status": 200,
+      "elapsed_ms": 9.31,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "ncepu"
+      },
+      "status": 200,
+      "elapsed_ms": 10.132,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "shiep"
+      },
+      "status": 200,
+      "elapsed_ms": 9.628,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "neepu"
+      },
+      "status": 200,
+      "elapsed_ms": 9.421,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "csust"
+      },
+      "status": 200,
+      "elapsed_ms": 9.305,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "ctgu"
+      },
+      "status": 200,
+      "elapsed_ms": 10.875,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gzhu"
+      },
+      "status": 200,
+      "elapsed_ms": 9.109,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "hnu"
+      },
+      "status": 200,
+      "elapsed_ms": 11.599,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "csu"
+      },
+      "status": 200,
+      "elapsed_ms": 9.991,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "view": "recent",
+        "campus_unknown": "true"
+      },
+      "status": 200,
+      "elapsed_ms": 18.881,
+      "total": 40,
+      "ids": [
+        94,
+        93,
+        98,
+        97,
+        96,
+        95,
+        101,
+        100,
+        99,
+        103,
+        102,
+        107,
+        106,
+        105,
+        104,
+        118,
+        117,
+        116,
+        115,
+        114
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "view": "history",
+        "campus_unknown": "true"
+      },
+      "status": 200,
+      "elapsed_ms": 20.235,
+      "total": 27,
+      "ids": [
+        4,
+        2,
+        1,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        27,
+        26,
+        25,
+        24,
+        23
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "view": "upcoming",
+        "campus_unknown": "true"
+      },
+      "status": 200,
+      "elapsed_ms": 9.39,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "scut",
+        "campus_id": 1,
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 9.236,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "campus_id": 2,
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 21.365,
+      "total": 39,
+      "ids": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "school_key": "gdut",
+        "campus_id": 3,
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 12.464,
+      "total": 3,
+      "ids": [
+        50,
+        56,
+        61
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "keyword": "联得",
+        "view": "upcoming"
+      },
+      "status": 200,
+      "elapsed_ms": 11.182,
+      "total": 1,
+      "ids": [
+        31
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "keyword": "江西移动",
+        "view": "recent"
+      },
+      "status": 200,
+      "elapsed_ms": 11.318,
+      "total": 1,
+      "ids": [
+        96
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "keyword": "宝钢",
+        "view": "history"
+      },
+      "status": 200,
+      "elapsed_ms": 9.072,
+      "total": 0,
+      "ids": [],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "limit": 20,
+        "as_of": "2026-10-11",
+        "view": "upcoming",
+        "date_from": "2026-10-11",
+        "date_to": "2026-10-13"
+      },
+      "status": 200,
+      "elapsed_ms": 19.634,
+      "total": 28,
+      "ids": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "as_of": "2026-10-11"
+    },
+    {
+      "route": "/api/opportunities/3",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 10.213
+    },
+    {
+      "route": "/api/opportunities/31",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 10.549
+    },
+    {
+      "route": "/api/opportunities/38",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 10.548
+    },
+    {
+      "route": "/api/opportunities/40",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 10.017
+    },
+    {
+      "route": "/api/opportunities/41",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 9.179
+    },
+    {
+      "route": "/api/opportunities/70",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 11.584
+    },
+    {
+      "route": "/api/opportunities/96",
+      "params": {},
+      "status": 200,
+      "elapsed_ms": 12.573
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "offset": 20,
+        "dataset_id": "obsolete-engineering-proof",
+        "as_of": "2026-10-11"
+      },
+      "status": 409,
+      "elapsed_ms": 7.881
+    },
+    {
+      "route": "/api/opportunities",
+      "params": {
+        "offset": 20,
+        "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f"
+      },
+      "status": 422,
+      "elapsed_ms": 2.61
+    }
+  ],
+  "failures": [],
+  "limits": [
+    "Engineering-only in-process API; no browser, Site, public-network or concurrency performance claim.",
+    "132 real bounded records from two schools; sources remain partial/restricted and do not establish whole-school coverage.",
+    "No source refresh or database writes performed."
+  ],
+  "comparison_note": "Initial whole-dictionary comparison included documentation-only materials.raw_bytes_hash_verified. Public projection fields were then compared exactly and the additional raw-hash flag was independently checked against actual archived bytes; no API requests were repeated.",
+  "sample_public_projection_verified": [
+    {
+      "id": 3,
+      "public_projection_match": true,
+      "material_ids": [
+        1,
+        4
+      ]
+    },
+    {
+      "id": 31,
+      "public_projection_match": true,
+      "material_ids": [
+        15,
+        18
+      ]
+    },
+    {
+      "id": 38,
+      "public_projection_match": true,
+      "material_ids": [
+        15,
+        25
+      ]
+    },
+    {
+      "id": 40,
+      "public_projection_match": true,
+      "material_ids": [
+        15,
+        27
+      ]
+    },
+    {
+      "id": 41,
+      "public_projection_match": true,
+      "material_ids": [
+        15
+      ]
+    },
+    {
+      "id": 70,
+      "public_projection_match": true,
+      "material_ids": [
+        29,
+        31
+      ]
+    },
+    {
+      "id": 96,
+      "public_projection_match": true,
+      "material_ids": [
+        43,
+        47
+      ]
+    }
+  ],
+  "documentation_only_metadata_verified": [
+    {
+      "sample_id": 3,
+      "material_id": 1,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 3,
+      "material_id": 4,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 31,
+      "material_id": 15,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 31,
+      "material_id": 18,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 38,
+      "material_id": 15,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 38,
+      "material_id": 25,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 40,
+      "material_id": 15,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 40,
+      "material_id": 27,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 41,
+      "material_id": 15,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 70,
+      "material_id": 29,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 70,
+      "material_id": 31,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 96,
+      "material_id": 43,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    },
+    {
+      "sample_id": 96,
+      "material_id": 47,
+      "documentation_extra_keys": [
+        "raw_bytes_hash_verified"
+      ],
+      "actual_raw_hash_verified": true,
+      "actual_reference_key_verified": true
+    }
+  ],
+  "evidence_validation_completed_at": "2026-10-11T14:54:19.749488+08:00",
+  "db_sha256_after_evidence_validation": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8"
+}

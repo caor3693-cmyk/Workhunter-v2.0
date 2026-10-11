@@ -26,8 +26,19 @@ export function displayTime(value) {
 export function safePublicURL(value) {
   try {
     const url = new URL(value);
-    return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password ? url.href : null;
+    const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, '');
+    if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) return null;
+    if (!host.includes('.') || host.endsWith('.localhost') || host.endsWith('.local') || host.endsWith('.internal')) return null;
+    if (host.includes(':')) return null; // Literal IPv6 addresses are not official public source names.
+    if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) return null;
+    return url.href;
   } catch {
     return null;
   }
+}
+
+export function opportunityPath(value, prefix = '/opportunities/') {
+  if (typeof value === 'number' && !Number.isSafeInteger(value)) return null;
+  const id = String(value ?? '');
+  return /^[1-9]\d{0,18}$/.test(id) && BigInt(id) <= 9223372036854775807n ? `${prefix}${id}` : null;
 }

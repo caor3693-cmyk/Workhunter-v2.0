@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "plan_version": "1.3",
+  "plan_version": "1.4",
   "repository": "caor3693-cmyk/Workhunter-v2.0",
   "owner": "caor3693-cmyk",
   "timezone": "Asia/Shanghai",
@@ -9,12 +9,31 @@
   "development_target": "2026-10-17",
   "project": {
     "desired_title": "Workhunter v2.0｜一周重建",
-    "creation_status": "blocked_access",
-    "id": null,
-    "number": null,
-    "url": null,
+    "creation_status": "created_and_verified",
+    "id": "PVT_kwHOD1jk9s4BmirN",
+    "number": 5,
+    "url": "https://github.com/users/caor3693-cmyk/projects/5",
     "visibility": "create_private_or_preserve_existing",
-    "last_access_audit": "2026-10-11: no callable Projects tools; CLI invalid authentication was checked 2026-10-10; no login retry"
+    "last_access_audit": "2026-10-11T16:53:07.377783+08:00: existing authorized gh GraphQL now works; viewerCanUpdate true; no login, permission expansion or other-project changes.",
+    "public": false,
+    "pending_item_numbers": [
+      32,
+      33,
+      34,
+      35
+    ],
+    "current_iteration_sync": {
+      "status": "pending_new_items_only",
+      "previously_verified_items": 26,
+      "pending_new_items": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "reason": "Current GitHub connector has no Projects operation and gh is absent in this audit environment. Existing Project5 and completed issue19 are preserved.",
+      "followup_issue": 32
+    }
   },
   "views": [
     {
@@ -25,8 +44,10 @@
         "Stage",
         "Priority"
       ],
-      "id": null,
-      "url": null
+      "id": "PVTV_lAHOD1jk9s4BmirNzgMAiVw",
+      "url": "https://github.com/users/caor3693-cmyk/projects/5/views/1",
+      "actual_layout": "BOARD_LAYOUT",
+      "verified_at": "2026-10-11T16:53:07.377783+08:00"
     },
     {
       "name": "Roadmap",
@@ -34,8 +55,10 @@
       "group_by": "Stage",
       "start_field": "Start date",
       "target_field": "Target date",
-      "id": null,
-      "url": null
+      "id": "PVTV_lAHOD1jk9s4BmirNzgMAiek",
+      "url": "https://github.com/users/caor3693-cmyk/projects/5/views/2",
+      "actual_layout": "ROADMAP_LAYOUT",
+      "verified_at": "2026-10-11T16:53:07.377783+08:00"
     }
   ],
   "fields": [
@@ -49,7 +72,16 @@
         "Awaiting verification",
         "Blocked",
         "Done"
-      ]
+      ],
+      "id": "PVTSSF_lAHOD1jk9s4BmirNzhlLR4w",
+      "option_ids": {
+        "Backlog": "848bec54",
+        "Ready": "069456dd",
+        "In progress": "170e287a",
+        "Awaiting verification": "7b09dc8c",
+        "Blocked": "08c9b204",
+        "Done": "98236657"
+      }
     },
     {
       "name": "Stage",
@@ -61,7 +93,16 @@
         "M3",
         "M4",
         "Release"
-      ]
+      ],
+      "id": "PVTSSF_lAHOD1jk9s4BmirNzhlLSE4",
+      "option_ids": {
+        "M0": "bc9e6c2b",
+        "M1": "1763842e",
+        "M2": "51209edf",
+        "M3": "e0e596a8",
+        "M4": "ffe9627d",
+        "Release": "87659398"
+      }
     },
     {
       "name": "Priority",
@@ -70,15 +111,23 @@
         "P0",
         "P1",
         "P2"
-      ]
+      ],
+      "id": "PVTSSF_lAHOD1jk9s4BmirNzhlLSE8",
+      "option_ids": {
+        "P0": "ef63374a",
+        "P1": "8be8f069",
+        "P2": "a22e4552"
+      }
     },
     {
       "name": "Start date",
-      "type": "DATE"
+      "type": "DATE",
+      "id": "PVTF_lAHOD1jk9s4BmirNzhlLSFA"
     },
     {
       "name": "Target date",
-      "type": "DATE"
+      "type": "DATE",
+      "id": "PVTF_lAHOD1jk9s4BmirNzhlLSG4"
     }
   ],
   "release_gate": {
@@ -93,7 +142,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "items状态来自实际Issue回读。M0—M4为当前名称，PM/W/F/D/O与旧S/G保留历史映射；未写入尚无核验入口的原生Project字段。保留用户进度、原目标和已保存代码身份。",
+  "note": "30个实际Issue已回读，仓库索引/config一致；既有原生Project5上轮核对26项，新32—35四项原生导入/字段待同步。M0通过，M1-01/05/06失败；新增审查问题不改写历史用户结果；M2未实现/未测。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -102,7 +151,7 @@
       "title": "[M0] 工程与 Site 入口手工验收",
       "stage": "M0",
       "gate": "M0",
-      "status": "Blocked",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -113,19 +162,18 @@
       "dependencies": [
         "PM-W00"
       ],
-      "status_label": "status:blocked",
-      "github_state": "open",
+      "status_label": "status:done",
+      "github_state": "closed",
       "actual_start": "2026-10-10",
       "candidate_submitted_at": "2026-10-10",
-      "user_verified_at": null,
+      "user_verified_at": "2026-10-11",
       "legacy_stage": "S0",
       "legacy_gate": "G0",
       "feedback_received_at": "2026-10-11",
-      "blocking_feedback_issues": [
-        21,
-        22,
-        23
-      ]
+      "blocking_feedback_issues": [],
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlM",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review"
     },
     {
       "pm_id": "PM-G1",
@@ -134,7 +182,7 @@
       "title": "[M1] 两校真实招聘流程手工验收",
       "stage": "M1",
       "gate": "M1",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -150,10 +198,26 @@
         "PM-W02-B",
         "PM-W02-C"
       ],
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S1",
       "legacy_gate": "G1",
-      "github_state": "open"
+      "github_state": "open",
+      "blocking_reason": "M1-01/05/06 user feedback unresolved; new P1 audit counterexamples33/34/35 also require next-candidate fixes and targeted retests.",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlA",
+      "blocking_feedback_issues": [
+        29,
+        30,
+        31
+      ],
+      "user_verified_at": null,
+      "blocking_audit_issues": [
+        33,
+        34,
+        35
+      ],
+      "implementation_prerequisites": [
+        32
+      ]
     },
     {
       "pm_id": "PM-G2",
@@ -179,7 +243,8 @@
       "status_label": "status:backlog",
       "legacy_stage": "S2",
       "legacy_gate": "G2",
-      "github_state": "open"
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk8"
     },
     {
       "pm_id": "PM-G3",
@@ -204,7 +269,8 @@
       "status_label": "status:backlog",
       "legacy_stage": "S3",
       "legacy_gate": "G3",
-      "github_state": "open"
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk0"
     },
     {
       "pm_id": "PM-G4",
@@ -228,7 +294,8 @@
       "status_label": "status:backlog",
       "legacy_stage": "S4",
       "legacy_gate": "G4",
-      "github_state": "open"
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wko"
     },
     {
       "pm_id": "PM-W00",
@@ -238,7 +305,7 @@
       "id": 5791849158,
       "node_id": "I_kwDOVDuyOc8AAAABWTiaxg",
       "stage": "M0",
-      "status": "Blocked",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
@@ -247,7 +314,7 @@
       ],
       "gate": "PM-G0",
       "dependencies": [],
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies_actual": [],
       "gate_actual": {
         "pm_id": "PM-G0",
@@ -257,17 +324,16 @@
       "body_links_verified": true,
       "ops_scope": "ops/preview/ and independent development runtime entry",
       "kind": "feature",
-      "status_label": "status:blocked",
+      "status_label": "status:done",
       "actual_start": "2026-10-10",
-      "candidate_submitted_at": "2026-10-10",
-      "user_verified_at": null,
+      "candidate_submitted_at": "2026-10-11",
+      "user_verified_at": "2026-10-11",
       "legacy_stage": "S0",
       "feedback_received_at": "2026-10-11",
-      "blocking_feedback_issues": [
-        21,
-        22,
-        23
-      ]
+      "blocking_feedback_issues": [],
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkY",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review"
     },
     {
       "pm_id": "PM-W01-A",
@@ -277,7 +343,7 @@
       "id": 5791854056,
       "node_id": "I_kwDOVDuyOc8AAAABWTit6A",
       "stage": "M1",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-12",
@@ -305,11 +371,24 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
+      ],
+      "actual_start": "2026-10-11",
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkU",
+      "blocking_feedback_issues": [
+        31
+      ],
+      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+      "blocking_audit_issues": [
+        33
       ]
     },
     {
@@ -320,7 +399,7 @@
       "id": 5791854297,
       "node_id": "I_kwDOVDuyOc8AAAABWTiu2Q",
       "stage": "M1",
-      "status": "Backlog",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -335,7 +414,7 @@
       "dependencies": [
         "PM-W01-A"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies_actual": [
         {
           "pm_id": "PM-W01-A",
@@ -350,12 +429,21 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:done",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "user_verified_at": "2026-10-11",
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkQ",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "PM-W02-A",
@@ -365,7 +453,7 @@
       "id": 5791854462,
       "node_id": "I_kwDOVDuyOc8AAAABWTivfg",
       "stage": "M1",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -400,11 +488,24 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
+      ],
+      "actual_start": "2026-10-11",
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkI",
+      "blocking_feedback_issues": [
+        29
+      ],
+      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+      "blocking_audit_issues": [
+        35
       ]
     },
     {
@@ -415,7 +516,7 @@
       "id": 5791854644,
       "node_id": "I_kwDOVDuyOc8AAAABWTiwNA",
       "stage": "M1",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -457,12 +558,22 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "user_verified_at": null,
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkE",
+      "blocking_feedback_issues": [
+        30
+      ],
+      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
     },
     {
       "pm_id": "PM-W02-C",
@@ -472,7 +583,7 @@
       "id": 5791854833,
       "node_id": "I_kwDOVDuyOc8AAAABWTiw8Q",
       "stage": "M1",
-      "status": "Backlog",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-13",
       "target": "2026-10-13",
@@ -484,7 +595,7 @@
         "PM-W02-A",
         "PM-W02-B"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies_actual": [
         {
           "pm_id": "PM-W02-A",
@@ -504,12 +615,21 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:done",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "user_verified_at": "2026-10-11",
+      "engineering_completed_at": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkA",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "PM-W03",
@@ -555,7 +675,15 @@
       "body_links_verified": true,
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S2"
+      "legacy_stage": "S2",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj8",
+      "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "shared_core_prerequisites": [
+        32,
+        33,
+        34,
+        35
+      ]
     },
     {
       "pm_id": "PM-W04-A",
@@ -581,7 +709,15 @@
       "github_state": "open",
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S2"
+      "legacy_stage": "S2",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj0",
+      "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "shared_core_prerequisites": [
+        32,
+        33,
+        34,
+        35
+      ]
     },
     {
       "pm_id": "PM-W04-B",
@@ -608,7 +744,15 @@
       "github_state": "open",
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S2"
+      "legacy_stage": "S2",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjs",
+      "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "shared_core_prerequisites": [
+        32,
+        33,
+        34,
+        35
+      ]
     },
     {
       "pm_id": "PM-W05-A",
@@ -635,7 +779,8 @@
       "github_state": "open",
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S3"
+      "legacy_stage": "S3",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk"
     },
     {
       "pm_id": "PM-W05-B",
@@ -663,7 +808,8 @@
       "github_state": "open",
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S3"
+      "legacy_stage": "S3",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg"
     },
     {
       "pm_id": "PM-W06",
@@ -721,7 +867,8 @@
       "github_state": "open",
       "kind": "feature",
       "status_label": "status:backlog",
-      "legacy_stage": "S4"
+      "legacy_stage": "S4",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY"
     },
     {
       "pm_id": "PM-RELEASE",
@@ -750,7 +897,8 @@
       "github_state": "open",
       "kind": "release",
       "status_label": "status:blocked",
-      "legacy_stage": "Release"
+      "legacy_stage": "Release",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjU"
     },
     {
       "pm_id": "PM-SETUP",
@@ -758,8 +906,8 @@
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19",
       "title": "[M0] [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap",
       "stage": "M0",
-      "status": "Blocked",
-      "status_label": "status:blocked",
+      "status": "Done",
+      "status_label": "status:done",
       "priority": "P1",
       "start": "2026-10-10",
       "target": "2026-10-11",
@@ -767,7 +915,11 @@
       "dependencies": [],
       "gate": null,
       "legacy_stage": "S0",
-      "github_state": "open"
+      "github_state": "closed",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjM",
+      "completed_at": "2026-10-11",
+      "completion_basis": "native_project_fields_views_and_all_items_verified",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "FB-M0-HOME",
@@ -782,16 +934,16 @@
       "functions": [
         "F08"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "Done",
+      "status_label": "status:done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
-      "user_verified_at": null,
+      "user_verified_at": "2026-10-11",
       "timezone": "Asia/Shanghai",
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies": [],
       "related_feature_issues": [
         6
@@ -813,7 +965,13 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi8",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "FB-M0-CONNECTION",
@@ -829,16 +987,16 @@
         "D08",
         "O01"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "Done",
+      "status_label": "status:done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
-      "user_verified_at": null,
+      "user_verified_at": "2026-10-11",
       "timezone": "Asia/Shanghai",
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies": [],
       "related_feature_issues": [
         6
@@ -860,7 +1018,13 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi0",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "FB-M0-NAVIGATION",
@@ -875,16 +1039,16 @@
       "functions": [
         "F08"
       ],
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "Done",
+      "status_label": "status:done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
-      "user_verified_at": null,
+      "user_verified_at": "2026-10-11",
       "timezone": "Asia/Shanghai",
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies": [],
       "related_feature_issues": [
         6
@@ -905,7 +1069,13 @@
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
-      ]
+      ],
+      "actual_start": "2026-10-11",
+      "candidate_submitted_at": "2026-10-11",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wio",
+      "completed_at": "2026-10-11",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "blocking_feedback_issues": []
     },
     {
       "pm_id": "AUDIT-SCOPE",
@@ -913,13 +1083,13 @@
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24",
       "title": "[M0→M1] 工作包范围校验与可信治理基线",
       "stage": "M0",
-      "status": "Ready",
-      "status_label": "status:ready",
+      "status": "Done",
+      "status_label": "status:done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-11",
       "kind": "bug",
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies": [],
       "gate": null,
       "check_ids": [],
@@ -937,7 +1107,220 @@
         22,
         23
       ],
-      "execution_package": "R0"
+      "execution_package": "R0",
+      "engineering_completed_at": "2026-10-11",
+      "governance_baseline": "ae261c856761f84904430211b82ac7a42f689e4e",
+      "pull_requests": [
+        25,
+        26,
+        27
+      ],
+      "candidate_submitted_at": "2026-10-11",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wic",
+      "completed_at": "2026-10-11",
+      "completion_basis": "trusted_governance_technical_review",
+      "blocking_feedback_issues": []
+    },
+    {
+      "pm_id": "PM-FB-M1-29",
+      "number": 29,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29",
+      "title": "[M1-05] 简要详情移除定位证据与内部技术信息",
+      "id": 5799423003,
+      "node_id": "I_kwDOVDuyOc8AAAABWawsGw",
+      "stage": "M1",
+      "priority": "P1",
+      "kind": "bug",
+      "start": "2026-10-12",
+      "target": "2026-10-13",
+      "timezone": "Asia/Shanghai",
+      "gate": "PM-G1",
+      "feedback_received_at": "2026-10-11",
+      "resolved": false,
+      "related_issues": [
+        2,
+        9
+      ],
+      "acceptance_checks": [
+        "M1-05"
+      ],
+      "implementation_started_at": null,
+      "user_verified_at": null,
+      "status": "Backlog",
+      "status_label": "status:backlog",
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU"
+    },
+    {
+      "pm_id": "PM-FB-M1-30",
+      "number": 30,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30",
+      "title": "[M1-06] 校区切换后刷新延迟：测量并定位原因",
+      "id": 5799423501,
+      "node_id": "I_kwDOVDuyOc8AAAABWawuDQ",
+      "stage": "M1",
+      "priority": "P1",
+      "kind": "bug",
+      "start": "2026-10-12",
+      "target": "2026-10-13",
+      "timezone": "Asia/Shanghai",
+      "gate": "PM-G1",
+      "feedback_received_at": "2026-10-11",
+      "resolved": false,
+      "related_issues": [
+        2,
+        10
+      ],
+      "acceptance_checks": [
+        "M1-06"
+      ],
+      "implementation_started_at": null,
+      "user_verified_at": null,
+      "status": "Backlog",
+      "status_label": "status:backlog",
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ"
+    },
+    {
+      "pm_id": "PM-FB-M1-31",
+      "number": 31,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31",
+      "title": "[M1-01] 下一轮提供多校电气相关真实验收样本",
+      "id": 5799424012,
+      "node_id": "I_kwDOVDuyOc8AAAABWawwDA",
+      "stage": "M1",
+      "priority": "P1",
+      "kind": "feature",
+      "start": "2026-10-12",
+      "target": "2026-10-15",
+      "timezone": "Asia/Shanghai",
+      "gate": "PM-G1",
+      "feedback_received_at": "2026-10-11",
+      "resolved": false,
+      "related_issues": [
+        2,
+        7,
+        12
+      ],
+      "acceptance_checks": [
+        "M1-01"
+      ],
+      "implementation_started_at": null,
+      "user_verified_at": null,
+      "status": "Backlog",
+      "status_label": "status:backlog",
+      "github_state": "open",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiA",
+      "stage_boundary": "M1 portion: SCUT/GDUT current explicit electrical real samples. M2 portion: >=3 fixed schools via issue12. Remaining M2 portion does not cyclically block M1."
+    },
+    {
+      "pm_id": "AUD-GOV",
+      "number": 32,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32",
+      "title": "[M1→M2] 工作包登记与共享合同可信基线",
+      "id": 5799778660,
+      "node_id": "I_kwDOVDuyOc8AAAABWbGZZA",
+      "stage": "M1",
+      "gate": "PM-G1",
+      "status": "Backlog",
+      "priority": "P1",
+      "start": "2026-10-11",
+      "target": "2026-10-12",
+      "timezone": "Asia/Shanghai",
+      "kind": "management",
+      "dependencies": [],
+      "github_state": "open",
+      "status_label": "status:backlog",
+      "project_item_id": null,
+      "native_project_sync": "pending",
+      "planned_in_iteration": "2026-10-11-M1-M2",
+      "implementation_performed": false,
+      "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
+      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md"
+    },
+    {
+      "pm_id": "AUD-QUEUE",
+      "number": 33,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33",
+      "title": "[M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞",
+      "id": 5799779714,
+      "node_id": "I_kwDOVDuyOc8AAAABWbGdgg",
+      "stage": "M1",
+      "gate": "PM-G1",
+      "status": "Backlog",
+      "priority": "P1",
+      "start": "2026-10-12",
+      "target": "2026-10-13",
+      "timezone": "Asia/Shanghai",
+      "kind": "bug",
+      "dependencies": [
+        "AUD-GOV"
+      ],
+      "github_state": "open",
+      "status_label": "status:backlog",
+      "project_item_id": null,
+      "native_project_sync": "pending",
+      "planned_in_iteration": "2026-10-11-M1-M2",
+      "implementation_performed": false,
+      "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
+      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "retest_required": true
+    },
+    {
+      "pm_id": "AUD-FIELDS",
+      "number": 34,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34",
+      "title": "[M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义",
+      "id": 5799779807,
+      "node_id": "I_kwDOVDuyOc8AAAABWbGd3w",
+      "stage": "M1",
+      "gate": "PM-G1",
+      "status": "Backlog",
+      "priority": "P1",
+      "start": "2026-10-12",
+      "target": "2026-10-13",
+      "timezone": "Asia/Shanghai",
+      "kind": "bug",
+      "dependencies": [
+        "AUD-GOV"
+      ],
+      "github_state": "open",
+      "status_label": "status:backlog",
+      "project_item_id": null,
+      "native_project_sync": "pending",
+      "planned_in_iteration": "2026-10-11-M1-M2",
+      "implementation_performed": false,
+      "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
+      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "retest_required": true
+    },
+    {
+      "pm_id": "AUD-MATERIAL",
+      "number": 35,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35",
+      "title": "[M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效",
+      "id": 5799779890,
+      "node_id": "I_kwDOVDuyOc8AAAABWbGeMg",
+      "stage": "M1",
+      "gate": "PM-G1",
+      "status": "Backlog",
+      "priority": "P1",
+      "start": "2026-10-12",
+      "target": "2026-10-13",
+      "timezone": "Asia/Shanghai",
+      "kind": "bug",
+      "dependencies": [
+        "AUD-GOV"
+      ],
+      "github_state": "open",
+      "status_label": "status:backlog",
+      "project_item_id": null,
+      "native_project_sync": "pending",
+      "planned_in_iteration": "2026-10-11-M1-M2",
+      "implementation_performed": false,
+      "audit_report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
+      "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+      "retest_required": true
     }
   ],
   "actual_development_start": "2026-10-10",
@@ -951,7 +1334,9 @@
     "pull_request": 20,
     "user_gate_status": "blocked_after_user_feedback",
     "review_package": "docs/deliveries/S0.md",
-    "legacy_stage": "S0/W00"
+    "legacy_stage": "S0/W00",
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
   "last_verified_date": "2026-10-11",
   "stage_naming": {
@@ -988,23 +1373,23 @@
     "stage": "M0",
     "gate_issue": 1,
     "feedback_received_at": "2026-10-11",
-    "result": "not_passed",
-    "report": "docs/deliveries/M0-FEEDBACK-20261011.md",
-    "live_identity_at_feedback": null,
-    "blocking_feedback_issues": [
-      21,
-      22,
-      23
-    ],
+    "result": "passed",
+    "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+    "blocking_feedback_issues": [],
     "outcomes": {
-      "M0-01": "未测",
-      "M0-02": "失败",
-      "M0-03": "阻塞",
-      "M0-04": "未测",
-      "M0-05": "未测",
-      "M0-06": "阻塞",
-      "M0-07": "失败"
-    }
+      "M0-01": "通过",
+      "M0-02": "通过",
+      "M0-03": "通过",
+      "M0-04": "通过",
+      "M0-05": "通过",
+      "M0-06": "通过",
+      "M0-07": "通过"
+    },
+    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+    "user_rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。",
+    "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+    "user_verified_at": "2026-10-11"
   },
   "source_closeout": {
     "date": "2026-10-11",
@@ -1067,7 +1452,9 @@
     },
     "source_ci_run": 38104472543,
     "source_ci_conclusion": "success",
-    "remote_source_sha_verified": true
+    "remote_source_sha_verified": true,
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
   "audit_iteration": {
     "date": "2026-10-11",
@@ -1104,7 +1491,9 @@
       11
     ],
     "manual_checks_unchanged": true,
-    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20"
+    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20",
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
   "feedback_closeout": {
     "rule": "docs/deliveries/FEEDBACK_CLOSEOUT.md",
@@ -1118,5 +1507,233 @@
     "user_retest_before_closure": true,
     "automatic_merge": false,
     "automatic_formal_release": false
+  },
+  "m0_m1_iteration": {
+    "date": "2026-10-11",
+    "scope": "M0 fixes and complete M1 only",
+    "trusted_target_branch": "codex/m0-m1-governance-20261011",
+    "trusted_target_sha": "ae261c856761f84904430211b82ac7a42f689e4e",
+    "business_branch": "codex/m0-m1-integration-20261011",
+    "governance_prs": [
+      25,
+      26,
+      27
+    ],
+    "active_packages": [],
+    "max_active_packages": 2,
+    "user_outcomes_preserved": true,
+    "formal_release": false,
+    "integration": "M0-M1",
+    "business_pr": 28,
+    "m0_retest_comment": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1#issuecomment-6106136453",
+    "m0_runtime_commit": "ce6d41f82eeda7f08ecbd9f522a9562af137b1c5",
+    "m0_site_version": 2,
+    "m1_engineering_dataset": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+    "m1_engineering_mode": "real",
+    "m1_source_counts": {
+      "scut": 28,
+      "gdut": 104
+    },
+    "m1_runtime_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "m1_site_version": 4,
+    "m1_application_ci_run": 38120889039,
+    "m1_application_ci_conclusion": "success",
+    "m1_site_version_id": "appgprj_6aca4fbe4c1481918047d279e9653ccc~appgver_08f745a1c11c8191be3036af6932d620",
+    "m1_site_deployment_id": "appgdep_6acb38d7003481918bfc9fdc376f244b",
+    "m1_site_deployment_status": "succeeded",
+    "m1_review_package": "docs/deliveries/M0-M1-REVIEW-20261011.md",
+    "m1_fixture_dataset": "fixture-ds-d10458a7-daa4-4165-84ae-2c001ea67254",
+    "m1_fixture_manifest": ".runtime/m1-isolated-b6300f4/manifest.json",
+    "m1_fixture_origin": "generated_locally_never_fetched",
+    "documentation_commit": "See final PR head and CI readback; distinct from deployed application source",
+    "remaining_browser_check": null,
+    "engineering_completed_at": "2026-10-11",
+    "candidate_submitted_at": "2026-10-11",
+    "browser_receipt": "docs/deliveries/evidence/M1-BROWSER-20261011.json",
+    "user_acceptance": "M0_passed_M1_01_05_06_failed_other_five_passed_by_explicit_round2_user_instruction",
+    "user_reviewed_at": "2026-10-11",
+    "m0_gate_result": "passed",
+    "m1_gate_result": "not_passed",
+    "unresolved_feedback_issues": [
+      29,
+      30,
+      31
+    ]
+  },
+  "manual_review_history": [
+    {
+      "kind": "original_feedback_preserved",
+      "recorded_at": "2026-10-11T16:53:07.377783+08:00",
+      "review": {
+        "stage": "M0",
+        "gate_issue": 1,
+        "feedback_received_at": "2026-10-11",
+        "result": "not_passed",
+        "report": "docs/deliveries/M0-FEEDBACK-20261011.md",
+        "live_identity_at_feedback": null,
+        "blocking_feedback_issues": [
+          21,
+          22,
+          23
+        ],
+        "outcomes": {
+          "M0-01": "未测",
+          "M0-02": "失败",
+          "M0-03": "阻塞",
+          "M0-04": "未测",
+          "M0-05": "未测",
+          "M0-06": "阻塞",
+          "M0-07": "失败"
+        }
+      }
+    }
+  ],
+  "m1_manual_review": {
+    "stage": "M1",
+    "gate_issue": 2,
+    "feedback_received_at": "2026-10-11",
+    "result": "not_passed",
+    "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+    "blocking_feedback_issues": [
+      29,
+      30,
+      31
+    ],
+    "outcomes": {
+      "M1-01": "失败",
+      "M1-02": "通过",
+      "M1-03": "通过",
+      "M1-04": "通过",
+      "M1-05": "失败",
+      "M1-06": "失败",
+      "M1-07": "通过",
+      "M1-08": "通过"
+    },
+    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+    "user_rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。",
+    "user_reviewed_at": "2026-10-11",
+    "multi_school_next_round_issue": 12,
+    "stage_boundary": "M1-01 pending two-school real electrical samples; >=3-school expansion is future M2/W03, not a prerequisite to implement M1.",
+    "next_candidate_retests": [
+      "M1-01",
+      "M1-03",
+      "M1-04",
+      "M1-05",
+      "M1-06",
+      "M1-08"
+    ],
+    "audit_issue_numbers": [
+      33,
+      34,
+      35
+    ]
+  },
+  "feedback_round2": {
+    "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+    "new_issues": [
+      29,
+      30,
+      31
+    ],
+    "issue_count": 26,
+    "native_project": 5,
+    "implemented_in_this_round": false,
+    "site_redeployed": false,
+    "active_packages": [],
+    "maximum_implementation_packages": 2,
+    "shared_file_integrator": "current primary agent",
+    "future_school_expansion_issue": 12,
+    "acceptance_rule_override": {
+      "scope": "current delivered M0/M1 only",
+      "source": "direct human user request",
+      "rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。"
+    },
+    "recorded_at": "2026-10-11T16:53:07.377783+08:00",
+    "record_kind": "historical_feedback_snapshot"
+  },
+  "m1_m2_iteration": {
+    "date": "2026-10-11",
+    "timezone": "Asia/Shanghai",
+    "status": "audit_and_plan_delivered_implementation_pending",
+    "source_branch": "codex/m0-m1-integration-20261011",
+    "documentation_pr": 28,
+    "audit_source_commit": "b17f67d13321bb236728baf51198221f1b58e366",
+    "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+    "report": "docs/deliveries/M1-M2-AUDIT-20261011.md",
+    "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
+    "evidence": "docs/deliveries/evidence/M1-M2-AUDIT-20261011.json",
+    "governance_issue": 32,
+    "new_audit_issues": [
+      33,
+      34,
+      35
+    ],
+    "existing_feedback_issues": [
+      29,
+      30,
+      31
+    ],
+    "m2_feature_issues": [
+      12,
+      13,
+      14
+    ],
+    "gate_issues": [
+      2,
+      3
+    ],
+    "trusted_rule_changes_performed": false,
+    "implementation_performed": false,
+    "site_redeployed": false,
+    "live_database_read_or_written": false,
+    "live_remote_latency_measured": false,
+    "active_packages": [],
+    "maximum_implementation_packages": 2,
+    "shared_file_integrator": "one designated implementation owner",
+    "next_phase": "independent GOV old24 compatibility, then DOC, CORE and scoped UI, then sources and maintenance",
+    "m1_original_target": "2026-10-13",
+    "m2_original_target": "2026-10-15",
+    "m2_risk_buffer": "2026-10-16; conditional estimate, not an automatic completion date",
+    "minimum_current_electrical_samples": {
+      "M1": {
+        "schools": [
+          "scut",
+          "gdut"
+        ],
+        "minimum_per_school": 1
+      },
+      "M2": {
+        "minimum_fixed_schools": 3,
+        "minimum_per_school": 1
+      }
+    },
+    "historical_manual_results_preserved": true,
+    "future_silence_is_not_acceptance": true,
+    "native_project_pending_items": [
+      32,
+      33,
+      34,
+      35
+    ],
+    "issue_count": 30,
+    "status_counts": {
+      "Done": 9,
+      "Blocked": 5,
+      "Backlog": 16
+    },
+    "github_counts": {
+      "closed": 9,
+      "open": 21
+    },
+    "local_checks": {
+      "python_passed": 222,
+      "python_skipped": 3,
+      "node_passed": 72,
+      "build": "passed",
+      "generated_worker_syntax": "passed",
+      "formal_environment_caveat": "Audit bs4 4.15.0 vs locked4.14.3; Node24 vs CI22"
+    },
+    "neat_freak_actual_version": "3.0.0",
+    "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28"
   }
 }

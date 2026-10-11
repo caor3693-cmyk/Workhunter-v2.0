@@ -1,0 +1,841 @@
+{
+  "recorded_at": "2026-10-11T16:53:07.377783+08:00",
+  "kind": "explicit_user_acceptance_and_unresolved_feedback",
+  "user_rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。",
+  "user_feedback": [
+    "这个详情页里面不要保留这个定位证据等",
+    "在切换校区做刷新的时候有较大的一个延迟，需要登记后续找出原因。",
+    "目前只有广工有这个招聘数据，下一轮要做测试要多给出几个学校的，注意不要丢失我们的要求是要跟电气相关的。"
+  ],
+  "original_manual_review": {
+    "stage": "M0",
+    "gate_issue": 1,
+    "feedback_received_at": "2026-10-11",
+    "result": "not_passed",
+    "report": "docs/deliveries/M0-FEEDBACK-20261011.md",
+    "live_identity_at_feedback": null,
+    "blocking_feedback_issues": [
+      21,
+      22,
+      23
+    ],
+    "outcomes": {
+      "M0-01": "未测",
+      "M0-02": "失败",
+      "M0-03": "阻塞",
+      "M0-04": "未测",
+      "M0-05": "未测",
+      "M0-06": "阻塞",
+      "M0-07": "失败"
+    }
+  },
+  "current_outcomes": {
+    "M0-01": "通过",
+    "M0-02": "通过",
+    "M0-03": "通过",
+    "M0-04": "通过",
+    "M0-05": "通过",
+    "M0-06": "通过",
+    "M0-07": "通过",
+    "M1-01": "失败",
+    "M1-02": "通过",
+    "M1-03": "通过",
+    "M1-04": "通过",
+    "M1-05": "失败",
+    "M1-06": "失败",
+    "M1-07": "通过",
+    "M1-08": "通过"
+  },
+  "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+  "documentation_baseline": "02ae529ce4637be643b7751bddea7f07a5750509",
+  "site_saved_version": 4,
+  "site_redeployed": false,
+  "diagnosis": {
+    "observed_at": "2026-10-11T16:29:57.728401+08:00",
+    "kind": "read_only_feedback_diagnosis",
+    "metadata": {
+      "project": "Workhunter-v2.0",
+      "schema_version": "2",
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "data_mode": "real",
+      "initialized_at": "2026-10-10T22:54:26.261043+08:00"
+    },
+    "database_sha256_before": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8",
+    "database_sha256_after": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8",
+    "counts_by_relevance": [
+      {
+        "school_key": "gdut",
+        "relevance": "related",
+        "count": 14
+      },
+      {
+        "school_key": "gdut",
+        "relevance": "unknown",
+        "count": 90
+      },
+      {
+        "school_key": "scut",
+        "relevance": "unknown",
+        "count": 28
+      }
+    ],
+    "query_views": {
+      "scut": {
+        "recent": {
+          "total": 0,
+          "sample_ids": []
+        },
+        "upcoming": {
+          "total": 0,
+          "sample_ids": []
+        },
+        "history": {
+          "total": 27,
+          "sample_ids": [
+            4,
+            2,
+            1
+          ]
+        },
+        "undated": {
+          "total": 1,
+          "sample_ids": [
+            3
+          ]
+        }
+      },
+      "gdut": {
+        "recent": {
+          "total": 82,
+          "sample_ids": [
+            68,
+            67,
+            66
+          ]
+        },
+        "upcoming": {
+          "total": 42,
+          "sample_ids": [
+            29,
+            30,
+            31
+          ]
+        },
+        "history": {
+          "total": 22,
+          "sample_ids": [
+            92,
+            91,
+            90
+          ]
+        },
+        "undated": {
+          "total": 0,
+          "sample_ids": []
+        }
+      }
+    },
+    "recent_days": 30,
+    "schools": [
+      {
+        "school_key": "csu",
+        "name": "中南大学"
+      },
+      {
+        "school_key": "csust",
+        "name": "长沙理工大学"
+      },
+      {
+        "school_key": "ctgu",
+        "name": "三峡大学"
+      },
+      {
+        "school_key": "gdut",
+        "name": "广东工业大学"
+      },
+      {
+        "school_key": "gzhu",
+        "name": "广州大学"
+      },
+      {
+        "school_key": "hnu",
+        "name": "湖南大学"
+      },
+      {
+        "school_key": "ncepu",
+        "name": "华北电力大学"
+      },
+      {
+        "school_key": "neepu",
+        "name": "东北电力大学"
+      },
+      {
+        "school_key": "scut",
+        "name": "华南理工大学"
+      },
+      {
+        "school_key": "shiep",
+        "name": "上海电力大学"
+      }
+    ],
+    "local_runtime_version": {
+      "project": "Workhunter-v2.0",
+      "version": "0.2.0",
+      "backend_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+      "stage": "M1",
+      "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+      "data_mode": "real"
+    },
+    "claim_limit": "Not new collection, not browser latency measurement, not confirmed multi-school electrical coverage."
+  },
+  "new_issues": [
+    29,
+    30,
+    31
+  ],
+  "completed_issues": [
+    1,
+    6,
+    8,
+    11,
+    19,
+    21,
+    22,
+    23,
+    24
+  ],
+  "blocked_issues": [
+    2,
+    7,
+    9,
+    10,
+    18
+  ],
+  "native_project": {
+    "id": "PVT_kwHOD1jk9s4BmirN",
+    "number": 5,
+    "url": "https://github.com/users/caor3693-cmyk/projects/5",
+    "public": false,
+    "board": {
+      "id": "PVTV_lAHOD1jk9s4BmirNzgMAiVw",
+      "name": "Board",
+      "layout": "BOARD_LAYOUT",
+      "number": 1
+    },
+    "roadmap": {
+      "id": "PVTV_lAHOD1jk9s4BmirNzgMAiek",
+      "name": "Roadmap",
+      "layout": "ROADMAP_LAYOUT",
+      "number": 2
+    },
+    "field_rows": [
+      {
+        "number": 1,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlM",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 2,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlA",
+        "status": "Blocked",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 3,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk8",
+        "status": "Backlog",
+        "stage": "M2",
+        "priority": "P1",
+        "start": "2026-10-14",
+        "target": "2026-10-15"
+      },
+      {
+        "number": 4,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk0",
+        "status": "Backlog",
+        "stage": "M3",
+        "priority": "P1",
+        "start": "2026-10-16",
+        "target": "2026-10-16"
+      },
+      {
+        "number": 5,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wko",
+        "status": "Backlog",
+        "stage": "M4",
+        "priority": "P1",
+        "start": "2026-10-17",
+        "target": "2026-10-17"
+      },
+      {
+        "number": 6,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkY",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 7,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkU",
+        "status": "Blocked",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-12"
+      },
+      {
+        "number": 8,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkQ",
+        "status": "Done",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 9,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkI",
+        "status": "Blocked",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 10,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkE",
+        "status": "Blocked",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 11,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkA",
+        "status": "Done",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-13",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 12,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj8",
+        "status": "Backlog",
+        "stage": "M2",
+        "priority": "P1",
+        "start": "2026-10-14",
+        "target": "2026-10-15"
+      },
+      {
+        "number": 13,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj0",
+        "status": "Backlog",
+        "stage": "M2",
+        "priority": "P1",
+        "start": "2026-10-14",
+        "target": "2026-10-15"
+      },
+      {
+        "number": 14,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjs",
+        "status": "Backlog",
+        "stage": "M2",
+        "priority": "P1",
+        "start": "2026-10-14",
+        "target": "2026-10-15"
+      },
+      {
+        "number": 15,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk",
+        "status": "Backlog",
+        "stage": "M3",
+        "priority": "P1",
+        "start": "2026-10-16",
+        "target": "2026-10-16"
+      },
+      {
+        "number": 16,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg",
+        "status": "Backlog",
+        "stage": "M3",
+        "priority": "P1",
+        "start": "2026-10-16",
+        "target": "2026-10-16"
+      },
+      {
+        "number": 17,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY",
+        "status": "Backlog",
+        "stage": "M4",
+        "priority": "P1",
+        "start": "2026-10-17",
+        "target": "2026-10-17"
+      },
+      {
+        "number": 18,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjU",
+        "status": "Blocked",
+        "stage": "Release",
+        "priority": "P1",
+        "start": null,
+        "target": null
+      },
+      {
+        "number": 19,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjM",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-10",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 21,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi8",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 22,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi0",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 23,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wio",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 24,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wic",
+        "status": "Done",
+        "stage": "M0",
+        "priority": "P1",
+        "start": "2026-10-11",
+        "target": "2026-10-11"
+      },
+      {
+        "number": 29,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU",
+        "status": "Backlog",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 30,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ",
+        "status": "Backlog",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-13"
+      },
+      {
+        "number": 31,
+        "item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiA",
+        "status": "Backlog",
+        "stage": "M1",
+        "priority": "P1",
+        "start": "2026-10-12",
+        "target": "2026-10-15"
+      }
+    ],
+    "row_count": 26,
+    "board_columns": "Status",
+    "roadmap_group": "Stage",
+    "roadmap_start": "Start date",
+    "roadmap_target": "Target date",
+    "verification": "API exact per-item readback and actual UI saved settings",
+    "ui_screenshot": {
+      "path": "evidence/M1-FEEDBACK2-BOARD-20261011.png",
+      "sha256": "c22c511c0e86d2b0915bff9404cadee28e8cf4f44af7186a474514cf0fcada3e",
+      "observation": "Actual Board has Backlog12, Blocked5, Done9; screenshot shows three new unresolved cards, field mapping read back for all26."
+    }
+  },
+  "issue_status_counts": {
+    "Done": 9,
+    "Blocked": 5,
+    "Backlog": 12
+  },
+  "issue_receipts": [
+    {
+      "number": 1,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M0七项通过",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1#issuecomment-6107205831"
+    },
+    {
+      "number": 6,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M0七项通过，工程骨架与入口验收完成",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6#issuecomment-6107207777"
+    },
+    {
+      "number": 8,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M1-02/03/04/07通过，日期/地点/未知与解析行为未被本轮反馈指出问题",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8#issuecomment-6107209401"
+    },
+    {
+      "number": 11,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "已有桌面/手机/键盘/错误状态未被本轮指出问题，按明确授权通过；刷新延迟另由#10/#30跟踪",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11#issuecomment-6107211039"
+    },
+    {
+      "number": 21,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M0-02/06通过，原首页反馈复验完成",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21#issuecomment-6107212600"
+    },
+    {
+      "number": 22,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M0-03/06及读取相关M0项通过，原读取反馈复验完成",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22#issuecomment-6107214508"
+    },
+    {
+      "number": 23,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "M0-07通过，原独立页面反馈复验完成",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23#issuecomment-6107216271"
+    },
+    {
+      "number": 24,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "可信治理技术复核完成：实际目标ae261c8、完整五包范围、独立治理/DOC与业务CI证据齐备；不新增产品人工检查项",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24#issuecomment-6107217797"
+    },
+    {
+      "number": 2,
+      "state": "OPEN",
+      "status": "Blocked",
+      "conclusion": "M0前门已通过；M1-01/05/06失败，#29/#30/#31均未解决，M1 Gate仍Blocked/open",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2#issuecomment-6107219267"
+    },
+    {
+      "number": 7,
+      "state": "OPEN",
+      "status": "Blocked",
+      "conclusion": "M1-01材料不足，新反馈#31未解决，真实两校有限采集工程事实保留",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7#issuecomment-6107220487"
+    },
+    {
+      "number": 9,
+      "state": "OPEN",
+      "status": "Blocked",
+      "conclusion": "M1-05失败；详情展示新反馈#29未解决",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9#issuecomment-6107222331"
+    },
+    {
+      "number": 10,
+      "state": "OPEN",
+      "status": "Blocked",
+      "conclusion": "M1-06失败；校区切换刷新延迟#30未解决，其余M1-07/08通过",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10#issuecomment-6107223459"
+    },
+    {
+      "number": 19,
+      "state": "CLOSED",
+      "status": "Done",
+      "conclusion": "2026-10-11当前已完成：现有授权GraphQL恢复可用，v2专用私有Project5已实际建立，关联本仓库，26个Issue导入并逐项回读Status/Stage/Priority/Start date/Target date。Board按Status分列并显示Stage/Priority；Roadmap按Stage分组，实际浏览器保存后重新加载，Start date和Target date仍为选中值。未改旧Workhunter/Creator项目，未扩权/重新登录；本管理项技术复核完成，不表示M1已通过。",
+      "comment_url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19#issuecomment-6107287570"
+    }
+  ],
+  "screenshot": {
+    "path": "evidence/M1-FEEDBACK2-DETAIL-20261011.png",
+    "sha256": "34c79345b72882dc2ca7bfb145ff9d4a7ce972ea6437518825bf1478cc2f1cd5",
+    "source": "direct user attachment"
+  },
+  "implementation_in_this_round": false,
+  "future_school_expansion_issue": 12,
+  "maximum_implementation_packages": 2,
+  "active_packages": [],
+  "neat_freak": {
+    "version": "3.0.1",
+    "skill_sha256": "fb645274f18473740b389efb89b51ef4e58ddefaf26a4b1b43a9d82e4c848b31",
+    "code": "verified-current; no application changes, local cleanup inspection found no necessary change",
+    "runtime": "verified-current local identity; pending three product issues and stale UI review wording until future candidate",
+    "docs": "changed-verified",
+    "rules": "verified-current with explicit current-user exception recorded",
+    "memory": "generated-read-only; no write",
+    "workspace": "verified-current; user data, raw evidence and running review assets retained"
+  },
+  "validation": {
+    "checks": "pass",
+    "issue_rows": 26,
+    "native_field_rows": 26,
+    "outcomes": 15,
+    "stable_manual_ids": 37,
+    "relative_links": 63,
+    "historical_feedback_preserved": true,
+    "database_unchanged": true,
+    "application_code_unchanged": true,
+    "screenshot_hashes_verified": 2,
+    "changed_paths": [
+      "README.md",
+      "config/project.json",
+      "docs/STATUS.md",
+      "docs/BOARD.md",
+      "docs/ROADMAP.md",
+      "docs/PROJECT_SETUP.md",
+      "docs/deliveries/FEEDBACK_CLOSEOUT.md",
+      "docs/deliveries/MANUAL_QA_M.md",
+      "docs/deliveries/M0-M1-REVIEW-20261011.md",
+      "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+      "docs/deliveries/evidence/M0-M1-FEEDBACK2-20261011.json",
+      "docs/deliveries/evidence/M1-FEEDBACK2-DETAIL-20261011.png",
+      "docs/deliveries/evidence/M1-FEEDBACK2-BOARD-20261011.png"
+    ]
+  },
+  "workspace_cleanup": {
+    "authorization": "Direct user request to clean up after completion; task AGENTS requires removing this-turn unused temporary files. Only regenerated helper/request/body copies in this v2 .runtime were removed.",
+    "removed_count": 42,
+    "removed_bytes": 171625,
+    "removed": [
+      {
+        "name": "feedback2-detail-body.md",
+        "bytes": 2176,
+        "sha256": "61bf18482102e9402fd087571f2031bbb4089a1e371a649035487f158700f8f9"
+      },
+      {
+        "name": "feedback2-final-project-read.json",
+        "bytes": 986,
+        "sha256": "f108002c55908de41c42624becdade200e6991db9297e679367aa92484b2b488"
+      },
+      {
+        "name": "feedback2-import-add.json",
+        "bytes": 3082,
+        "sha256": "04c96d9f81eb8657323063c0c7bad13b5374e049cc3545271a54d0fafd1f2554"
+      },
+      {
+        "name": "feedback2-import-values-0.json",
+        "bytes": 5403,
+        "sha256": "c1640e6e7901e53d111396c2c0dca4df54fe03efae4ff6dd62159cf6e98d8e38"
+      },
+      {
+        "name": "feedback2-import-values-10.json",
+        "bytes": 5403,
+        "sha256": "4a1f3f2f1a4917aba7ca4f899a05e27cdb69df36a73b67bfe86cf74e44d6f689"
+      },
+      {
+        "name": "feedback2-import-values-15.json",
+        "bytes": 4991,
+        "sha256": "45bb929bb8f4b1922f4bf53a9e17073a0422da0e1c951fc3053fbc9ba291d03a"
+      },
+      {
+        "name": "feedback2-import-values-20.json",
+        "bytes": 5403,
+        "sha256": "9ff18ad4b297a5aeb67a3867f83ddedfcc01dec8517628d89ea8187f619414d1"
+      },
+      {
+        "name": "feedback2-import-values-25.json",
+        "bytes": 1096,
+        "sha256": "58161487f7b56c0c4a7d6404b9a70c0f9f6c32a17ed0f0895af28bbb642e1c1e"
+      },
+      {
+        "name": "feedback2-import-values-5.json",
+        "bytes": 5403,
+        "sha256": "e0393591a9279056019c3742342e993cffcc49ff12571f4ead51afe8981f8cab"
+      },
+      {
+        "name": "feedback2-issue-1-body.md",
+        "bytes": 17286,
+        "sha256": "b7d8799d6e7b14066982294431ab04b9d0b5d0c27da2e074a2f00cdff6d11182"
+      },
+      {
+        "name": "feedback2-issue-1-comment.md",
+        "bytes": 706,
+        "sha256": "b698b9bfb73a5e152f28276ca65abc6a470029571db395d79c1888e7e4d031d6"
+      },
+      {
+        "name": "feedback2-issue-10-body.md",
+        "bytes": 7875,
+        "sha256": "85ba77ecdb7907200952270cdf260bc2d37c6399e3047b22f178384a48c48fd5"
+      },
+      {
+        "name": "feedback2-issue-10-comment.md",
+        "bytes": 765,
+        "sha256": "09890c981a6aede56b039d6f2540665d13496e4da7a469b4a4879420eab224de"
+      },
+      {
+        "name": "feedback2-issue-11-body.md",
+        "bytes": 7083,
+        "sha256": "97025812de5372e1d77a0acf7e120fbb42c5e33a22a4d5bcd0bce75cbf018909"
+      },
+      {
+        "name": "feedback2-issue-11-comment.md",
+        "bytes": 813,
+        "sha256": "06d2a75db8358442852e1ea3bae649ba9ff165adccdc8a54ba517f6222a76409"
+      },
+      {
+        "name": "feedback2-issue-19-body.md",
+        "bytes": 5000,
+        "sha256": "108aa3a215c048b568939b8b4051b9ea311c76833db359e5c79bc86acd8650ae"
+      },
+      {
+        "name": "feedback2-issue-19-comment.md",
+        "bytes": 789,
+        "sha256": "87f5721ee9e2cee849d46c979905bb0c752b343e8416f7f79cccef3f3fc6cca1"
+      },
+      {
+        "name": "feedback2-issue-2-body.md",
+        "bytes": 10773,
+        "sha256": "17ae8530e52adb4beee5ab2deb116d9fffa1c881839bd41797a53b2c7de48901"
+      },
+      {
+        "name": "feedback2-issue-2-comment.md",
+        "bytes": 780,
+        "sha256": "d02408a10855645ff9d619e9388506ac4d28e640d7af0e50697eee268e3def52"
+      },
+      {
+        "name": "feedback2-issue-21-body.md",
+        "bytes": 6546,
+        "sha256": "625eb646d231ef59db2396949d951075e314aecc6bf7ef7e431aa69ff1994fe4"
+      },
+      {
+        "name": "feedback2-issue-21-comment.md",
+        "bytes": 736,
+        "sha256": "66d8bca542a177394effa709ae6e66de32cd89eb6ca1c5a34d572fc9ab045ad3"
+      },
+      {
+        "name": "feedback2-issue-22-body.md",
+        "bytes": 7348,
+        "sha256": "16436ce1c5475391a8b0da9d984d0a01a0b08b009fc2222a0df259a873cd7ec7"
+      },
+      {
+        "name": "feedback2-issue-22-comment.md",
+        "bytes": 756,
+        "sha256": "f705ee168eca668ae3987685cf1c7f8464ab77c11cb81e182f2a2b5fa9cb0878"
+      },
+      {
+        "name": "feedback2-issue-23-body.md",
+        "bytes": 6079,
+        "sha256": "c04da86a0e90db1b8b3f6023101f622e08f1f6332decaf82ca28981b558a298b"
+      },
+      {
+        "name": "feedback2-issue-23-comment.md",
+        "bytes": 739,
+        "sha256": "522564cb3d1aca6d46edabdd5b7e46630f0055fc00fffad986178fc5f1a7ce5c"
+      },
+      {
+        "name": "feedback2-issue-24-body.md",
+        "bytes": 5812,
+        "sha256": "5b8606fe4a0acb3e353589e308d3ed695e2763eb57844b78f4e5b89f7b09798d"
+      },
+      {
+        "name": "feedback2-issue-24-comment.md",
+        "bytes": 840,
+        "sha256": "b98c0158bf5c6555183cde9efcc63491bbad226bac2a2b44a836dc369e761900"
+      },
+      {
+        "name": "feedback2-issue-6-body.md",
+        "bytes": 13547,
+        "sha256": "aa86fadb0b9c8672614884dd3d3a814085e1984e6f8f6ec55e9a0aee5fba3e30"
+      },
+      {
+        "name": "feedback2-issue-6-comment.md",
+        "bytes": 742,
+        "sha256": "2f6038a72b1a4a0de6490d3552d7d59c44b5ca3634bc665a20ca3120f73f5192"
+      },
+      {
+        "name": "feedback2-issue-7-body.md",
+        "bytes": 7310,
+        "sha256": "8f2394662a849a233639d8f2809699eff8f86212e25eef67cab7d72aa06f7e39"
+      },
+      {
+        "name": "feedback2-issue-7-comment.md",
+        "bytes": 778,
+        "sha256": "26a4a37baea2be8078846b4b884923a6a1fdd005665602ac860d8e414283ac63"
+      },
+      {
+        "name": "feedback2-issue-8-body.md",
+        "bytes": 7449,
+        "sha256": "0225f8bd50ec8b7765254fefc4af43aaacb43d8c1fb2d2de03d9c07cab78e960"
+      },
+      {
+        "name": "feedback2-issue-8-comment.md",
+        "bytes": 780,
+        "sha256": "fcf226846e076efdb42a1f463255cce88f4e7976a550c79382092c2dd8823ec5"
+      },
+      {
+        "name": "feedback2-issue-9-body.md",
+        "bytes": 7358,
+        "sha256": "b25d04e225a555fc55740a00ee765a7d4dfdf62598033158757e44071b74e362"
+      },
+      {
+        "name": "feedback2-issue-9-comment.md",
+        "bytes": 739,
+        "sha256": "acb498aa8486e86d95dd2bb1d73688bb585d8c906ffbbf2bf30db544b5db8512"
+      },
+      {
+        "name": "feedback2-latency-body.md",
+        "bytes": 2497,
+        "sha256": "f0ce4c79021d096fdfc19e524961834f9a96c001128d9fc323b4e873a2170177"
+      },
+      {
+        "name": "feedback2-pr-body.md",
+        "bytes": 3003,
+        "sha256": "d857b4cfb5a3eaea7a31b65b238c2bf6e25f3a03cfbb25d9332dada69a33a660"
+      },
+      {
+        "name": "feedback2-project-board.json",
+        "bytes": 445,
+        "sha256": "5a00976c7c8bfdc217685f6bdde739303c53e346d9fdbd253486579a0c4348d2"
+      },
+      {
+        "name": "feedback2-project-roadmap.json",
+        "bytes": 238,
+        "sha256": "34fa4c870bcbd37bae4bd7f9b31e45f541093d06745650c842d8e3de4fbe97f5"
+      },
+      {
+        "name": "feedback2-project-status.json",
+        "bytes": 960,
+        "sha256": "92a6c382ecd272e8f84bb9b973085bc71b4a84ec46c9ff97c689790622da3e68"
+      },
+      {
+        "name": "feedback2-schools-body.md",
+        "bytes": 2996,
+        "sha256": "072ebf2c00b0f6d1a7a1e3e995fc3586d073dc4636e58cf6754a42ef5500ccb4"
+      },
+      {
+        "name": "feedback2-specs.json",
+        "bytes": 8114,
+        "sha256": "ab0d3c775a301d8e588f5445c2995ee69acbce676c6ffe0f309ec3ae3c4f8de4"
+      }
+    ],
+    "preserved": "Unique feedback/session/diagnostic/remote/native receipts, archived screenshots, raw sources, databases/backups, credentials, live review assets, branches/worktrees and prior-user modifications."
+  }
+}

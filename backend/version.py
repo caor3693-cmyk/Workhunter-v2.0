@@ -1,4 +1,4 @@
 PROJECT = "Workhunter-v2.0"
-VERSION = "0.1.0"
-STAGE = "M0/W00"
-SCHEMA_VERSION = "1"
+VERSION = "0.2.0"
+STAGE = "M1"
+SCHEMA_VERSION = "2"

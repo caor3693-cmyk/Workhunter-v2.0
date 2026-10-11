@@ -1,129 +1,51 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light" />
-    <meta name="description" content="Workhunter v2：学校官方招聘公告与活动发现。当前为工程骨架核验版本。" />
-    <meta name="workhunter-frontend-commit" content="__FRONTEND_COMMIT__" />
-    <title>Workhunter · 学校招聘发现</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23143130'/%3E%3Cpath d='m10 14 6 20 8-13 8 13 6-20' fill='none' stroke='%23bce6cf' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="/styles/app.css" />
-    <script type="module" src="/pages/app.js"></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main">跳到招聘发现</a>
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="#main" aria-label="Workhunter 招聘发现首页">
-          <span class="brand-mark" aria-hidden="true">w<span></span></span>
-          <span>Workhunter<span class="brand-version">v2</span></span>
-        </a>
-        <nav aria-label="主要导航">
-          <a class="nav-link is-current" href="#main" aria-current="page">招聘发现</a>
-          <a class="nav-link" href="#sources" id="sources-nav">来源状态</a>
-          <a class="nav-link" href="#review">本次核验<span class="nav-arrow" aria-hidden="true">↗</span></a>
-        </nav>
-        <span class="preview-tag"><span aria-hidden="true"></span>阶段验收版</span>
-      </div>
-    </header>
-
-    <main id="main" class="page-shell">
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">学校官方公告 · 电气 / 自动化</p>
-          <h1 id="page-title">找到机会，<br class="mobile-break" />从学校公告开始。</h1>
-          <p class="intro-copy">看清招聘时间、举办地点与工作地，再到官方原文继续了解。</p>
-        </div>
-        <div class="stage-label"><span class="stage-number">M0</span><span>工程骨架<br /><strong>待修复复验</strong></span></div>
-      </section>
-
-      <div class="stage-notice" role="note">
-        <span class="notice-icon" aria-hidden="true">i</span>
-        <p><strong>本次先核验入口与页面。</strong><span>尚未采集招聘；搜索、详情和维护功能将在后续阶段开放。</span></p>
-        <a href="#review">查看核验项 <span aria-hidden="true">↓</span></a>
-      </div>
-
-      <section class="filter-panel" aria-labelledby="filter-title">
-        <div class="section-heading">
-          <h2 id="filter-title">选择学校，发现招聘</h2>
-          <span class="subtle-tag">筛选尚未开放</span>
-        </div>
-        <form id="search-form" aria-describedby="filter-note">
-          <fieldset disabled>
-            <legend class="sr-only">学校、校区和搜索条件；下一阶段开放</legend>
-            <div class="primary-filters">
-              <label class="field school-field">学校<select id="school-select" name="school_key"><option>正在读取学校目录…</option></select></label>
-              <label class="field">校区<select id="campus-select" name="campus_id"><option>校区尚未核验</option></select></label>
-              <label class="field">招聘类型<select name="kind"><option value="">全部类型</option><option value="campus_talk">线下宣讲会</option><option value="job_fair">双选会 / 招聘会</option><option value="online_recruitment">线上招聘</option><option value="announcement">招聘公告</option></select></label>
-              <label class="field keyword-field">关键词<input type="search" name="keyword" placeholder="公告标题或关键词" /></label>
-              <button class="button button-primary search-button" type="submit">搜索</button>
-            </div>
-            <div class="secondary-filters">
-              <label class="field date-field">日期范围<input aria-label="起始日期" type="date" name="date_from" /></label>
-              <span class="date-separator" aria-hidden="true">—</span>
-              <label class="field date-field"><span aria-hidden="true">&nbsp;</span><input aria-label="结束日期" type="date" name="date_to" /></label>
-              <button class="reset-button" type="reset">清空条件</button>
-            </div>
-          </fieldset>
-        </form>
-        <p id="filter-note" class="filter-note">学校目录用于确认固定范围；有选项不代表已完成该校采集。当前控件仅展示后续使用位置。</p>
-        <p id="catalog-status" class="section-status" role="status">正在连接学校目录…</p>
-      </section>
-
-      <section class="update-panel" aria-labelledby="update-title">
-        <div class="update-lead"><span class="update-symbol" aria-hidden="true">↻</span><div><h2 id="update-title">更新摘要</h2><p id="update-message" role="status">正在读取最近检查情况…</p></div></div>
-        <div class="update-metrics"><div><span class="metric-number" id="new-count">—</span><span class="metric-label">今日新收录</span></div><div><span class="metric-number" id="change-count">—</span><span class="metric-label">官方变化</span></div></div>
-      </section>
-
-      <section class="opportunities-section" aria-labelledby="opportunities-title">
-        <div class="section-heading opportunity-heading">
-          <div><h2 id="opportunities-title">招聘公告与活动</h2><p class="section-copy" id="result-scope">当前展示范围：近期 · 电气相关与相关性未知</p></div>
-          <button class="button button-plain" id="reload-button" type="button"><span aria-hidden="true">↻</span> 重新加载</button>
-        </div>
-        <div class="result-navigation">
-          <div class="view-tabs" role="group" aria-label="日期视图，下一阶段开放">
-            <button class="view-tab is-active" disabled>近期</button><button class="view-tab" disabled>临近活动</button><button class="view-tab" disabled>历史</button><button class="view-tab" disabled>日期未知</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="学校官方招聘公告与活动发现。" />
+  <meta name="workhunter-frontend-commit" content="__FRONTEND_COMMIT__" />
+  <title>学校招聘发现 · Workhunter</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23143130'/%3E%3Cpath d='m10 14 6 20 8-13 8 13 6-20' fill='none' stroke='%23bce6cf' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/frontend/styles/app.css" />
+  <script type="module" src="/frontend/pages/app.js"></script>
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="/" aria-label="Workhunter 招聘发现首页"><span class="brand-mark" aria-hidden="true">w<span></span></span><span>Workhunter<span class="brand-version">v2</span></span></a>
+    <nav aria-label="主要导航"><a class="nav-link is-current" href="/" aria-current="page">招聘发现</a><a class="nav-link" href="/sources">来源状态</a><a class="nav-link" href="/review">本次核验</a></nav>
+    <span class="preview-tag">学校公告与活动</span>
+  </div></header>
+  <main id="main" class="page-shell">
+    <section class="intro" aria-labelledby="page-title"><p class="eyebrow">学校官方公告 · 电气 / 自动化</p><h1 id="page-title">找到机会，<br class="mobile-break" />从学校公告开始。</h1><p class="intro-copy">看清时间、会场与工作地，再到官方原文继续了解。</p></section>
+    <section class="filter-panel" aria-labelledby="filter-title">
+      <div class="section-heading"><h2 id="filter-title">招聘发现</h2><p id="catalog-status" class="section-status" role="status">正在读取学校目录…</p></div>
+      <form id="search-form" hidden>
+        <fieldset><legend class="sr-only">学校、校区与招聘条件</legend>
+          <div class="primary-filters">
+            <label class="field school-field">学校<select id="school-select" name="school_key"><option value="">正在读取学校目录…</option></select></label>
+            <label class="field">校区<select id="campus-select" name="campus_id"><option value="">全部校区</option></select></label>
+            <label class="field">招聘类型<select name="kind"><option value="">全部类型</option><option value="campus_talk">线下宣讲会</option><option value="job_fair">双选会 / 招聘会</option><option value="online_recruitment">线上招聘</option><option value="announcement">招聘公告</option></select></label>
+            <label class="field keyword-field">关键词<input type="search" name="keyword" placeholder="公告标题或关键词" /></label>
+            <button class="button button-primary search-button" type="submit">搜索</button>
           </div>
-          <button class="scope-button" disabled>全部招聘 <span aria-hidden="true">↗</span></button>
-        </div>
-        <div id="opportunity-status" class="data-state is-loading" role="status" aria-live="polite">
-          <span class="state-illustration" aria-hidden="true"><span class="paper-line"></span><span class="paper-line"></span><span class="paper-line short"></span></span>
-          <h3>正在连接招聘数据…</h3><p>读取完成后会显示当前数据状态。</p>
-        </div>
-      </section>
-
-      <section id="sources" class="sources-section" aria-labelledby="sources-title">
-        <details id="sources-details">
-          <summary><div><span class="eyebrow">信息是否得到检查</span><h2 id="sources-title">来源状态</h2><p>目录登记、官方核验与实际采集分别记录。</p></div><span class="details-action">展开 <span aria-hidden="true">＋</span></span></summary>
-          <div class="sources-content"><p id="source-status" class="section-status" role="status">正在读取来源状态…</p><div id="source-list" class="source-list"></div><p class="source-footnote">访问受限会如实保留；学校尚未检查，不代表没有招聘。来源失败不会清空已取得的信息。</p></div>
-        </details>
-      </section>
-
-      <section id="review" class="review-section" aria-labelledby="review-title">
-        <div class="section-heading"><div><span class="eyebrow">M0 / W00</span><h2 id="review-title">本次核验</h2><p class="section-copy">本阶段已收到失败/阻塞反馈，尚未通过。最新结果见阶段 Issue；修复后按原编号复验。</p></div><span class="review-pending">待修复复验</span></div>
-        <details class="delivery-details" id="delivery-details" open>
-          <summary>交付说明与数据身份 <span aria-hidden="true">⌄</span></summary>
-          <div class="delivery-content"><p id="connection-status" class="connection-status" role="status">正在核对后端与数据库连接…</p><dl id="build-identity" class="identity-list"><div><dt>数据模式</dt><dd>正在读取，不预设数据结论</dd></div></dl><p class="delivery-note">本阶段没有招聘样例或演示数据。当前交付只核验工程入口；两校真实采集、招聘阅读和维护尚未完成。</p><p class="next-stage"><strong>下一阶段</strong>华工、广工真实来源与招聘阅读流程（M1 / W01 + W02）。</p></div>
-        </details>
-        <details class="qa-details">
-          <summary>逐项操作与预期 <span class="qa-count">7 项</span><span aria-hidden="true">⌄</span></summary>
-          <ol class="qa-list">
-            <li><span class="qa-id">M0-01</span><div><h3>打开本次 Site 链接。</h3><p>预期：进入 Workhunter v2 骨架，没有跳到旧站、访问错误或空白页。</p></div></li>
-            <li><span class="qa-id">M0-02</span><div><h3>查看首页布局和真实业务状态。</h3><p>预期：首页采用简洁成品布局，业务数据、空结果和错误准确表达。</p></div></li>
-            <li><span class="qa-id">M0-03</span><div><h3>在“交付说明与数据身份”确认主入口数据模式。</h3><p>预期：本阶段无演示；能确认当前为空库，不把学校目录写成真实覆盖。</p></div></li>
-            <li><span class="qa-id">M0-04</span><div><h3>刷新页面，关闭后重新打开同一链接。</h3><p>预期：地址可复用，仍进入同一项目，没有丢失页面或切回旧版本。</p></div></li>
-            <li><span class="qa-id">M0-05</span><div><h3>用手机或窄窗口打开首页。</h3><p>预期：文字和主要入口可读、可点击，无需横向拖动。</p></div></li>
-            <li><span class="qa-id">M0-06</span><div><h3>核对当前阶段 Issue 的交付材料。</h3><p>预期：构建身份、数据模式和自验结果明确；核验材料位于独立页面或交付文档。</p></div></li>
-            <li><span class="qa-id">M0-07</span><div><h3>依次打开招聘发现、来源状态与核验页面。</h3><p>预期：独立页面和 URL 支持直接打开、刷新与前后退；本要求仍待 #23 修复。</p></div></li>
-          </ol>
-          <div class="feedback-actions"><button id="copy-feedback" class="button button-primary" type="button">复制反馈模板</button><p id="copy-status" role="status">每项填写通过 / 失败 / 阻塞 / 未测及实际看到的情况。</p></div>
-          <textarea id="feedback-template" class="feedback-template" readonly aria-label="M0 用户反馈模板" hidden></textarea>
-        </details>
-      </section>
-    </main>
-
-    <footer class="site-footer"><div><span>Workhunter v2</span><span>学校公告与活动发现</span></div><p>阶段验收环境 · 尚未正式发布</p></footer>
-    <noscript><div class="noscript-message">页面需要 JavaScript 读取数据。请启用后刷新；此提示不代表后端可用或已有招聘。</div></noscript>
-  </body>
+          <div class="secondary-filters"><label class="field date-field">起始日期<input type="date" name="date_from" /></label><span class="date-separator" aria-hidden="true">—</span><label class="field date-field">结束日期<input type="date" name="date_to" /></label><button class="reset-button" type="reset">清空条件</button></div>
+        </fieldset>
+      </form>
+    </section>
+    <section class="update-panel" aria-labelledby="update-title"><div><h2 id="update-title">最近更新</h2><p id="update-message" role="status">正在读取检查情况…</p></div><div class="update-metrics"><span><strong id="new-count">—</strong> 新收录</span><span><strong id="change-count">—</strong> 官方变化</span></div></section>
+    <section class="opportunities-section" aria-labelledby="opportunities-title">
+      <div class="section-heading opportunity-heading"><div><h2 id="opportunities-title">招聘公告与活动</h2><p id="result-scope" class="section-copy">近期 · 电气相关与相关性未知</p></div><button class="button button-plain" id="reload-button" type="button">重新加载</button></div>
+      <div id="query-navigation" class="result-navigation" hidden><div class="view-tabs" role="group" aria-label="日期视图"><button class="view-tab is-active" type="button" data-view="recent" aria-pressed="true">近期</button><button class="view-tab" type="button" data-view="upcoming" aria-pressed="false">临近活动</button><button class="view-tab" type="button" data-view="history" aria-pressed="false">历史</button><button class="view-tab" type="button" data-view="undated" aria-pressed="false">日期未知</button></div><button id="scope-toggle" class="scope-button" type="button" aria-pressed="false">全部招聘</button></div>
+      <p id="result-count" class="section-copy" role="status"></p>
+      <div id="opportunity-status" class="data-state is-loading" role="status" aria-live="polite"><span class="state-illustration" aria-hidden="true"><span class="paper-line"></span><span class="paper-line"></span><span class="paper-line short"></span></span><h3>正在读取招聘…</h3><p>读取完成后显示当前结果。</p></div>
+      <div id="result-list" class="result-list" aria-label="招聘结果"></div>
+      <nav id="pagination" class="pagination" aria-label="招聘结果分页" hidden><button id="previous-page" class="button button-plain" type="button">上一页</button><span id="page-label" role="status"></span><button id="next-page" class="button button-plain" type="button">下一页</button></nav>
+    </section>
+</main>
+  <footer class="site-footer"><span>Workhunter v2 · 学校官方招聘发现</span><span>验收环境 · 尚未正式发布</span></footer>
+  <noscript><p class="noscript-message">请启用 JavaScript 后刷新以读取当前数据。此提示不代表服务可用或已有招聘。</p></noscript>
+</body>
 </html>

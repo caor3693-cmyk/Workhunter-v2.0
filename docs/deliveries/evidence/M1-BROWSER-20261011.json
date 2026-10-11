@@ -1,0 +1,107 @@
+{
+  "project": "Workhunter-v2.0",
+  "kind": "actual_browser_engineering_verification",
+  "user_acceptance": "not_assessed_original_outcomes_preserved",
+  "observed_window_beijing": "2026-10-11 15:46—15:59",
+  "written_at": "2026-10-11T07:56:35.869890+00:00",
+  "application_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
+  "documentation_head_before_closeout": "6a9f80fabcb38d1b885e8053f867f8d693ee2bc3",
+  "site_version": 4,
+  "site_deployment_id": "appgdep_6acb38d7003481918bfc9fdc376f244b",
+  "real_identity": {
+    "data_mode": "real",
+    "schema_version": 2,
+    "dataset_id": "ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f",
+    "records": 132,
+    "database_sha256_before_and_after": "107a3d29ad7d1a19927e97e71bb0824cdacc458eb3cfa06e857c45a7a155e3b8"
+  },
+  "isolated_identity": {
+    "data_mode": "isolated_fixture",
+    "dataset_id": "fixture-ds-d10458a7-daa4-4165-84ae-2c001ea67254",
+    "records": 29,
+    "origin": "generated_locally_never_fetched",
+    "origin_url": "http://127.0.0.1:8789/"
+  },
+  "checks": [
+    {
+      "case": "isolated_placeholder_attachment_left_click_and_original_middle_click",
+      "observed": "URL remained /opportunities/3; inline role=status notice; no JavaScript dialog; browser tabs remained exactly real review and local fixture; subsequent source navigation and back worked",
+      "status": "passed"
+    },
+    {
+      "case": "isolated_six_locations",
+      "observed": "card five locations plus hint; detail all six incl Huizhou; scoped finite fragments and synthetic attachment banner",
+      "status": "passed"
+    },
+    {
+      "case": "isolated_conflict_8",
+      "observed": "venue pending verification; retained old scalar not presented as known current venue; two material IDs9/32",
+      "status": "passed"
+    },
+    {
+      "case": "isolated_detail_failure_6",
+      "observed": "2026-10-12 09:30 and list venue retained; work location uncollected; end time pending verification",
+      "status": "passed"
+    },
+    {
+      "case": "isolated_known_unrelated",
+      "observed": "default scope excluded known-unrelated; All recruitment displayed it",
+      "status": "passed"
+    },
+    {
+      "case": "real_lian_de_31",
+      "observed": "10-12 14:30—16:30 venue University Town教2-317; work Dongguan/Shenzhen Longhua; six finite scoped job fragments; official URL from DOM matches captured source",
+      "status": "passed"
+    },
+    {
+      "case": "site_actual_upstream_failure",
+      "observed": "stopped only confirmed owned API tree launcher33908/listener18308 port8766; browser reload displayed Chinese service error, retained82results/20cards, original scope and132new/0official summary with stale labels",
+      "status": "passed"
+    },
+    {
+      "case": "site_actual_recovery",
+      "observed": "restarted same proven backend/config bytes as app commit, same token/db; readiness launcher8172/listener29220; visible stale labels disappeared after reload;20cards and82result total; review health/readable/real same frontend/backend/dataset",
+      "status": "passed"
+    },
+    {
+      "case": "three_routes_reload_back_direct_entry",
+      "observed": "home→sources→review, review reload; back URL sources; direct /review again loaded current same identity",
+      "status": "passed"
+    }
+  ],
+  "viewport": {
+    "this_attempt_requested": {
+      "width": 390,
+      "height": 844
+    },
+    "actual_dom_width": 863,
+    "actual_dom_scroll_width": 863,
+    "result": "override_not_applied_do_not_count_as_390px",
+    "screenshot": "M1-SITE-V4-DESKTOP-DETAIL-20261011.jpg",
+    "previous_actual_mobile": "M1-SITE-V3-MOBILE-20261011.jpg",
+    "previous_mobile_css_width": 375,
+    "layout_css_unchanged_from_previous_to_final": true
+  },
+  "screenshots": [
+    "M1-SITE-V4-IDENTITY-20261011.jpg",
+    "M1-SITE-V4-DISCONNECTED-20261011.jpg",
+    "M1-SITE-V4-RECOVERED-20261011.jpg",
+    "M1-ISOLATED-CLICK-20261011.jpg"
+  ],
+  "engineering_completed_at": "2026-10-11",
+  "all_issues_remain_open": true,
+  "status_counts": {
+    "Backlog": 9,
+    "In progress": 0,
+    "Awaiting verification": 10,
+    "Blocked": 4,
+    "Done": 0
+  },
+  "limits": [
+    "Two school selected public sources are partial, not whole-school coverage",
+    "No formal release/main merge/M2-M4",
+    "Browser and CI engineering do not replace original user acceptance",
+    "Remote pagination/card p95 not measured sufficiently"
+  ],
+  "final_screenshot_observation_beijing": "2026-10-11 15:59"
+}
