@@ -198,8 +198,8 @@ CORE 专项须覆盖生产服务而不只断言 fixture：3 页各 1 条、每�
 先读 AGENTS.md、docs/STATUS.md，再读 PRODUCT、CONTRACTS、ROADMAP、TASKS、MANUAL_QA（均在 docs/）。
 八项产品决定 ABAAAAAB 已确认，不再重复询问。
 
-先核对原生 Project5 和 #32 新四项待同步清单；#19 已完成，不重开。
-已授权工具支持 Projects 时补齐并回读实际字段，工具不足时精确记录待同步项，
+先核对原生 Project5、本轮 #32—35 同步回执和剩余缺口；#19 已完成，不重开。
+已同步项不重建；有新增变化时使用已授权 Projects 通道补齐并回读字段，工具不足则精确记录待同步项，
 继续不依赖该能力的工程，不把仓库索引写成原生字段已同步。
 
 核对当前分支、用户改动、Project/Issue 和上次用户核验结论。
