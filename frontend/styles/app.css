@@ -203,3 +203,16 @@ h3 { font-size: 16px; font-weight: 600; line-height: 1.6; }
   .fact-list { gap: 6px 12px; font-size: 12px; }
   .material-fragment { padding: 12px; }
 }
+.maintenance-shell { max-width: 1120px; }
+.maintenance-form { display: grid; gap: 18px; }
+.maintenance-form .field, .maintenance-environment .field { display: grid; gap: 7px; min-width: 0; }
+.maintenance-form input:not([type="checkbox"]), .maintenance-form select, .maintenance-form textarea, .maintenance-environment select { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); padding: 10px 12px; font: inherit; box-sizing: border-box; }
+.maintenance-form textarea { resize: vertical; }
+.maintenance-form .button { justify-self: start; }
+.maintenance-field-options { display: flex; flex-wrap: wrap; gap: 14px 20px; }
+.maintenance-environment { padding: 20px; border: 2px solid var(--green); display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.maintenance-environment p { max-width: 620px; line-height: 1.7; }
+.maintenance-shell [id$="content"], .maintenance-shell [id$="history"], .maintenance-shell [id$="receipt"], .maintenance-shell .result-list { overflow-wrap: anywhere; }
+.maintenance-shell pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%; }
+.maintenance-shell fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+@media (max-width: 640px) { .maintenance-environment { display: grid; } .maintenance-shell .primary-filters { display: grid; grid-template-columns: 1fr; } }

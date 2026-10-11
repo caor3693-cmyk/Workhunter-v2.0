@@ -57,7 +57,7 @@ def catalog(connection: sqlite3.Connection, metadata: dict[str, str]) -> dict:
     schools = []
     for school in connection.execute("SELECT * FROM schools ORDER BY rowid"):
         school_sources = [source for source in all_sources if source["school_key"] == school["school_key"]]
-        count = connection.execute("SELECT COUNT(*) FROM opportunities WHERE school_key=?", (school["school_key"],)).fetchone()[0]
+        count = connection.execute("SELECT COUNT(*) FROM opportunities o WHERE school_key=? AND "+VISIBLE_SQL, (school["school_key"],)).fetchone()[0]
         campuses = [dict(row) for row in connection.execute(
             "SELECT id,campus_key,name,evidence_url FROM campuses WHERE school_key=? ORDER BY id", (school["school_key"],),
         )]
@@ -198,12 +198,14 @@ PROJECTION_SQL = """SELECT o.*, s.name AS school_name, c.name AS campus_name
 FROM opportunities o JOIN schools s USING(school_key)
 LEFT JOIN campuses c ON o.campus_id=c.id"""
 
+VISIBLE_SQL = "NOT EXISTS (SELECT 1 FROM field_decisions visibility WHERE visibility.opportunity_id=o.id AND visibility.field_name='__visibility__' AND visibility.value_json='false')"
+
 
 def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filters: Filters, today: date, recent_days: int) -> dict:
     today = date.fromisoformat(filters.as_of) if filters.as_of else today
     start = today - timedelta(days=recent_days - 1)
     end = today + timedelta(days=recent_days)
-    clauses, values = [], []
+    clauses, values = [VISIBLE_SQL], []
     for field in ("school_key", "campus_id", "kind"):
         value = getattr(filters, field)
         if value is not None:
@@ -268,8 +270,8 @@ def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filt
     }
 
 
-def detail(connection: sqlite3.Connection, opportunity_id: int) -> dict | None:
-    row = connection.execute(PROJECTION_SQL+' WHERE o.id=?',(opportunity_id,)).fetchone()
+def detail(connection: sqlite3.Connection, opportunity_id: int, *, include_hidden=False) -> dict | None:
+    row = connection.execute(PROJECTION_SQL+' WHERE o.id=?'+('' if include_hidden else ' AND '+VISIBLE_SQL),(opportunity_id,)).fetchone()
     if row is None: return None
     result = {**card(row,connection),'first_seen_at':row['first_seen_at'],'content_changed_at':row['content_changed_at'],
               'source_updated_at':row['source_updated_at'],'version':row['version'],

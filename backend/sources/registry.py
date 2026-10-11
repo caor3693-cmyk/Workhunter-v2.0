@@ -13,7 +13,17 @@ def register_adapter(name, adapter):
 def _defaults():
     from .scut import ScutAdapter, ScutNcssAdapter
     from .gdut import GdutAdapter
-    for name, adapter in {'scut':ScutAdapter(),'scut_cnsba':ScutAdapter(),'scut_ncss':ScutNcssAdapter(),'gdut':GdutAdapter()}.items():
+    from .ncepu import NcepuAdapter, NcepuBaodingAdapter
+    from .shiep import ShiepAdapter
+    from .neepu import NeepuAdapter
+    from .csust import CsustAdapter
+    from .ctgu import CtguAdapter
+    from .gzhu import GzhuAdapter
+    from .hnu import HnuAdapter
+    from .csu import CsuAdapter
+    for name, adapter in {'scut':ScutAdapter(),'scut_cnsba':ScutAdapter(),'scut_ncss':ScutNcssAdapter(),'gdut':GdutAdapter(),
+        'ncepu':NcepuAdapter(),'ncepu_baoding':NcepuBaodingAdapter(),'shiep':ShiepAdapter(),'neepu':NeepuAdapter(),
+        'csust':CsustAdapter(),'ctgu':CtguAdapter(),'gzhu':GzhuAdapter(),'hnu':HnuAdapter(),'csu':CsuAdapter()}.items():
         ADAPTERS.setdefault(name,adapter)
 
 
@@ -27,6 +37,8 @@ def get_adapter(config_or_name):
 
 def capabilities():
     _defaults()
-    return [{ 'school_key':key, 'state':'implemented' if any(s.get('adapter') in ADAPTERS for s in school_policy(key).get('sources',[])) else 'pending',
-              'sources':[{'source_key':s['source_key'],'implemented':s.get('adapter') in ADAPTERS} for s in school_policy(key).get('sources',[])] }
+    limited={'ncepu':'restricted','ncepu_baoding':'identity_only','csu':'restricted'}
+    return [{ 'school_key':key, 'state':'registered_limited' if key in {'ncepu','csu'} else 'implemented' if any(s.get('adapter') in ADAPTERS for s in school_policy(key).get('sources',[])) else 'pending',
+              'coverage':'requires_run_evidence',
+              'sources':[{'source_key':s['source_key'],'implemented':s.get('adapter') in ADAPTERS,'capability':limited.get(s.get('adapter'),'bounded_public_parser')} for s in school_policy(key).get('sources',[])] }
             for key in sorted(FIXED_SCHOOLS)]

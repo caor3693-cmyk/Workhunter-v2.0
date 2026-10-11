@@ -12,6 +12,7 @@ from backend.domain import KINDS, SCOPES, VIEWS
 from backend.domain.candidates import MAX_INTEGER
 from backend.services import queries
 from backend.storage.database import DatabaseUnavailable, read_database
+from backend.storage.write import WriterBusy
 from backend.version import PROJECT, STAGE, VERSION
 
 
@@ -113,6 +114,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def unavailable_handler(request: Request, exception: DatabaseUnavailable):
         return JSONResponse(status_code=503, content={"detail": {"code": "database_unavailable", "message": str(exception)}}, headers={"Cache-Control": "no-store"})
 
+    @app.exception_handler(WriterBusy)
+    async def writer_busy_handler(request: Request, exception: WriterBusy):
+        return JSONResponse(status_code=503, content={"detail": {"code": "maintenance_busy", "message": str(exception)}}, headers={"Cache-Control": "no-store"})
+
     def build_identity(metadata):
         return {"project": PROJECT, "version": VERSION, "backend_commit": configuration.backend_commit, "stage": STAGE, **queries.identity(metadata)}
 
@@ -171,6 +176,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         with read_database(configuration.db_path) as (connection, metadata):
             return queries.summary(connection, metadata, today())
 
+    from backend.api.auth import register_auth_routes
+    from backend.api.maintenance import register_maintenance_routes
+    register_auth_routes(app, configuration)
+    register_maintenance_routes(app, configuration)
     return app
 
 

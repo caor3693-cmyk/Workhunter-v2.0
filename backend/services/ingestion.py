@@ -320,6 +320,8 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
         (candidate["source_key"], candidate["source_identity"]),
     ).fetchone()
     old = _from_row(row) if row else None
+    visibility = connection.execute("SELECT * FROM field_decisions WHERE opportunity_id=? AND field_name='__visibility__'", (row['id'],)).fetchone() if row else None
+    reviving = bool(old and context.change_kind == 'automatic' and visibility and json.loads(visibility['value_json']) is False and _candidate_proofs(candidate))
     if context.base_version is not None and context.base_version != (row['version'] if row else 0):
         raise WriteConflict('公告版本已变化，请重新预览。')
     if replace_fields and (context.change_kind == 'automatic' or context.base_version is None):
@@ -334,10 +336,11 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
         if campus is None:
             raise ValueError("校区没有同校官方归属登记。")
         candidate["campus_id"] = campus["id"]
-    elif old:
+    elif old and not reviving:
         candidate["campus_id"] = old["campus_id"]
     detail_context = _detail_context(connection, candidate)
-    current = _merge(old, candidate, task_kind=task_kind, list_title=detail_context['list_title'], replace_fields=replace_fields)
+    baseline = _revival_baseline(connection, row, old, candidate, visibility) if reviving else old
+    current = _merge(baseline, candidate, task_kind=task_kind, list_title=detail_context['list_title'], replace_fields=replace_fields)
     if old and context.change_kind == 'automatic':
         for decision in connection.execute('SELECT field_name FROM field_decisions WHERE opportunity_id=?',(old['id'],)):
             field = decision['field_name']
@@ -349,7 +352,7 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
                     current['field_observations'][field] = old['field_observations'][field]
     changed = list(BUSINESS_FIELDS) if old is None else [field for field in BUSINESS_FIELDS if _semantic(old[field]) != _semantic(current[field])]
     changed += [field for field in damaged if field not in changed]
-    if not changed:
+    if not changed and not reviving:
         return row["id"], "unchanged", []
     columns = [field + "_json" if field in JSON_FIELDS else field for field in BUSINESS_FIELDS]
     values = [encoded(current[field]) if field in JSON_FIELDS else current[field] for field in BUSINESS_FIELDS]
@@ -373,12 +376,16 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
         f"UPDATE opportunities SET {','.join(column + '=?' for column in columns)},content_changed_at=?,version=version+1 WHERE id=?",
         [*values, timestamp, opportunity_id],
     )
+    if reviving:
+        connection.execute("DELETE FROM field_decisions WHERE opportunity_id=? AND field_name='__visibility__'", (opportunity_id,))
+        connection.execute("INSERT INTO changes(opportunity_id,field_name,before_json,after_json,change_kind,run_id,actor,committed_at,reason,write_context_key) VALUES (?,'__visibility__','false','true','parser_improvement',?,?,?,?,?)", (opportunity_id,context.run_id,context.actor,timestamp,context.reason,context.key))
     # Field state and value form one change; fetched time/hash alone are not facts.
     history_fields = [field for field in changed if field != "field_observations"]
     history_fields += [field for field in CORE_FIELDS if field not in history_fields and _semantic(old["field_observations"].get(field)) != _semantic(current["field_observations"].get(field))]
     for field in history_fields:
         before, after = old.get(field), current.get(field)
         kind = _change_kind(connection, old, current, field, task_kind=task_kind, detail_context=detail_context) if context.change_kind=='automatic' else context.change_kind
+        if reviving: kind = 'parser_improvement'
         if field in damaged:
             try: before=json.loads(damaged[field])
             except (ValueError,TypeError): before={'unreadable_json':damaged[field]}
@@ -393,6 +400,69 @@ def _commit_candidate(connection, candidate, context, timestamp, *, task_kind, f
             (opportunity_id,field,encoded(before),encoded(after),kind,_material_for(current,field,fallback_id),context.run_id,context.operation_id,context.actor,timestamp,context.reason,context.key),
         )
     return opportunity_id, "modified", changed
+
+
+def _candidate_proofs(candidate):
+    proofs = []
+    def visit(value):
+        if isinstance(value,dict):
+            if 'material_id' in value and 'association_id' in value or 'material_id' in value and 'locator' in value:
+                proofs.append(value)
+            for nested in value.values(): visit(nested)
+        elif isinstance(value,list):
+            for nested in value: visit(nested)
+    visit(candidate)
+    return proofs
+
+
+def reliable_official_snapshot(field, snapshot):
+    """Missing optional parser output is not an official deletion observation."""
+    if not isinstance(snapshot,dict) or 'value' not in snapshot: return False
+    value=snapshot['value']; observation=snapshot.get('observation')
+    if field in CORE_FIELDS or field=='relevance':
+        return isinstance(observation,dict) and observation.get('state') in {'known','not_disclosed','not_applicable','conflict'} and bool(observation.get('evidence'))
+    if field in {'roster_fragments','job_fragments','attachments'}:
+        return isinstance(value,list) and bool(value) and all(isinstance(item,dict) and item.get('evidence') for item in value)
+    return field in BUSINESS_FIELDS and field!='field_observations' and value not in (None,[], '', 'unknown','not_applicable')
+
+
+def _official_field_proofs(candidate, field, record_proofs):
+    observation=candidate['field_observations'].get(field)
+    if observation: return observation.get('evidence',[])
+    if field in {'roster_fragments','job_fragments','attachments'}:
+        return [proof for item in candidate[field] for proof in item['evidence']]
+    if field=='campus_id': return candidate['field_observations'].get('event_venue',{}).get('evidence',[]) if candidate.get(field) else []
+    if field=='work_locations_scope': return candidate['field_observations']['work_locations'].get('evidence',[]) if candidate['field_observations']['work_locations']['state']=='known' else []
+    return record_proofs
+
+
+def _revival_baseline(connection, row, old, candidate, marker):
+    """A withdrawn manual contribution cannot be conservatively merged back in."""
+    from backend.services.queries import _stored_evidence
+    from backend.storage.database import DatabaseUnavailable
+    baseline = deepcopy(candidate)
+    withdrawn = connection.execute('SELECT committed_at FROM manual_operations WHERE id=?', (marker['operation_id'],)).fetchone()
+    threshold = withdrawn['committed_at'] if withdrawn else marker['committed_at']
+    for field in BUSINESS_FIELDS:
+        if field == 'field_observations': continue
+        for stored in connection.execute('SELECT snapshot_json,committed_at FROM official_observations WHERE opportunity_id=? AND field_name=? ORDER BY julianday(committed_at) DESC,id DESC', (row['id'],field)):
+            try:
+                if threshold and datetime.fromisoformat(stored['committed_at']) <= datetime.fromisoformat(threshold): continue
+                snapshot=json.loads(stored['snapshot_json'])
+                if not reliable_official_snapshot(field,snapshot): continue
+                proofs=snapshot.get('evidence') or (snapshot.get('observation') or {}).get('evidence')
+                if not proofs: continue
+                _stored_evidence(proofs,row,connection)
+                baseline[field]=snapshot['value']
+                if field in CORE_FIELDS or field=='relevance': baseline['field_observations'][field]=snapshot['observation']
+                break
+            except (ValueError,TypeError,KeyError,DatabaseUnavailable): continue
+    for decision in connection.execute('SELECT field_name FROM field_decisions WHERE opportunity_id=?', (row['id'],)):
+        field=decision['field_name']
+        if field in BUSINESS_FIELDS and field!='field_observations':
+            baseline[field]=deepcopy(old[field])
+            if field in CORE_FIELDS or field=='relevance': baseline['field_observations'][field]=deepcopy(old['field_observations'][field])
+    return baseline
 
 
 def save_task(connection, config, *, task_kind, task_identity, opportunity_id=None, run_id=None, cursor=None, status='committed', result=None, budget=None, attempted=True, next_eligible_at=None):
@@ -442,11 +512,17 @@ def commit_facts_in_transaction(connection, metadata, source_config, candidates,
         ids.append(opportunity_id)
         if context.change_kind=='automatic':
             _associate(connection,bound,opportunity_id,timestamp)
-            for field,observation in bound['field_observations'].items():
-                value_hash=hashlib.sha256(encoded({'value':bound.get(field),'observation':_semantic(observation)}).encode()).hexdigest()
-                for proof in observation.get('evidence',[]):
+            record_proofs=_candidate_proofs(bound)
+            for field in BUSINESS_FIELDS:
+                if field=='field_observations': continue
+                observation=bound['field_observations'].get(field)
+                proofs=_official_field_proofs(bound,field,record_proofs)
+                snapshot={'value':bound.get(field),'observation':observation,'evidence':proofs}
+                if not reliable_official_snapshot(field,snapshot): continue
+                value_hash=hashlib.sha256(encoded(_semantic(snapshot)).encode()).hexdigest()
+                for proof in proofs:
                     connection.execute('INSERT OR IGNORE INTO official_observations(opportunity_id,field_name,material_id,association_id,value_hash,snapshot_json,parser_version,observed_at,committed_at,run_id,actor,write_context_key) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                                       (opportunity_id,field,proof['material_id'],proof['association_id'],value_hash,encoded({'value':bound.get(field),'observation':observation}),proof['parser_version'],proof['observed_at'],timestamp,context.run_id,context.actor,context.key))
+                                       (opportunity_id,field,proof['material_id'],proof['association_id'],value_hash,encoded(snapshot),proof['parser_version'],proof['observed_at'],timestamp,context.run_id,context.actor,context.key))
         for m in successful:
             connection.execute('UPDATE source_materials SET opportunity_id=? WHERE source_key=? AND reference_key=? AND opportunity_id IS NULL',(opportunity_id,source_config['source_key'],m['reference_key']))
         if context.operation_id and context.change_kind in {'manual_correction','semantic_revision','manual_supplement'}:

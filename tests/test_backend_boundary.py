@@ -16,6 +16,9 @@ from backend.api.app import create_app
 from backend.config import Settings
 from backend.domain.candidates import CORE_FIELDS
 from backend.storage.database import DatabaseUnavailable, initialize_database, read_database
+from backend.services import maintenance
+from backend.services.auth import hash_password
+from test_maintenance import maintenance_setup, import_record
 
 
 PUBLIC_PATHS = ("/health", "/version", "/api/catalog", "/api/opportunities", "/api/updates/summary", "/api/sources/status", "/api/opportunities/1")
@@ -281,7 +284,11 @@ def test_service_token_protects_all_routes_including_identity(database):
         assert api.get(route).status_code == 401
         assert api.get(route, headers={"Authorization": "Bearer wrong-token"}).status_code == 401
         assert api.get(route, headers={"Authorization": "Bearer temporary-test-token"}).status_code in {200, 404}
-    assert api.post("/api/admin/operations/commit", headers={"Authorization": "Bearer temporary-test-token"}, json={}).status_code == 404
+    assert api.post('/api/admin/operations/commit',json={}).status_code==401
+    # The service token reaches the registered route but cannot configure or
+    # authorize the separate business maintenance session.
+    protected=api.post('/api/admin/operations/commit',headers={'Authorization':'Bearer temporary-test-token'},json={})
+    assert protected.status_code==503 and protected.json()['detail']['code']=='maintenance_unavailable'
     assert digest(database) == before
 
 
@@ -681,3 +688,38 @@ def test_conflicted_publication_sort_uses_first_seen_without_erasing_old_date(fi
     assert response.json()["items"][0]["published_date"] == "2020-01-01"
     assert response.json()["items"][0]["field_observations"]["published_date"]["state"] == "conflict"
     assert digest(fixture_database) == before
+
+
+def test_hidden_record_catalog_list_detail_and_history_keep_business_auth_boundary(maintenance_setup):
+    paths,principal=maintenance_setup
+    created=import_record(paths,principal,environment='real')
+    preview=maintenance.preview_revert(paths,principal,created['operation_id'],{'environment':'real','reason':'合成真实模式维护隐藏回归'})
+    maintenance.commit_operation(paths,principal,{key:preview[key] for key in maintenance.COMMIT_KEYS},expected_revert=created['operation_id'])
+    settings=Settings(db_path=paths.db_path,acceptance_db_path=paths.acceptance_db_path,backend_commit='synthetic-maintenance-boundary',
+        maintenance_password_hash=hash_password('isolated-test-password'),maintenance_actor=principal['actor'],maintenance_origin='https://maintenance.example')
+    app=create_app(settings);visitor=TestClient(app,base_url='https://maintenance.example',client=('127.0.0.1',54321))
+    before=digest(paths.db_path)
+    for route in ('/api/opportunities?scope=all&view=upcoming&as_of=2026-10-12','/api/opportunities?scope=all&view=recent&as_of=2026-10-12'):
+        result=visitor.get(route)
+        assert result.status_code==200 and result.json()['total']==0 and result.json()['items']==[]
+    catalog=visitor.get('/api/catalog').json()
+    assert next(school for school in catalog['schools'] if school['school_key']=='gdut')['opportunity_count']==0
+    assert visitor.get('/api/opportunities/1').status_code==404
+    assert visitor.get('/api/opportunities/1/history').status_code==404
+    assert visitor.get('/api/opportunities/1?include_hidden=true').status_code==404
+    for route in ('/api/admin/operations','/api/admin/tasks','/api/admin/opportunities/1','/api/admin/opportunities/1/history'):
+        assert visitor.get(route).status_code==401
+    assert digest(paths.db_path)==before
+    administrator=TestClient(app,base_url='https://maintenance.example',client=('127.0.0.1',54321))
+    bootstrap=administrator.get('/api/admin/session').json()
+    login=administrator.post('/api/admin/session/login',json={'password':'isolated-test-password'},
+        headers={'Origin':'https://maintenance.example','X-WH-CSRF':bootstrap['csrf_token']})
+    assert login.status_code==200
+    headers={'Origin':'https://maintenance.example','X-WH-CSRF':login.json()['csrf_token']}
+    hidden=administrator.get('/api/admin/opportunities/1/history')
+    assert hidden.status_code==200 and hidden.json()['visible'] is False and hidden.json()['history']
+    assert administrator.get('/api/opportunities/1').status_code==404
+    assert administrator.post('/api/admin/session/logout',headers=headers).status_code==200
+    for route in ('/api/admin/operations','/api/admin/tasks','/api/admin/opportunities/1','/api/admin/opportunities/1/history'):
+        result=administrator.get(route)
+        assert result.status_code==401 and 'history' not in result.json() and 'event_date' not in result.json()

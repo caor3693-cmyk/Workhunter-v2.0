@@ -15,7 +15,7 @@ async function capture(fetcher, run) {
 
 test('proxy refuses arbitrary routes, writes and unsafe origin', async () => {
   assert.equal((await worker.fetch(new Request('https://site.test/api/proxy?url=https://example.org'),env)).status,404);
-  assert.equal((await worker.fetch(new Request('https://site.test/api/admin/operations/commit',{method:'POST'}),env)).status,404);
+  assert.equal((await worker.fetch(new Request('https://site.test/api/admin/operations/commit',{method:'POST'}),env)).status,403);
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog',{method:'POST'}),env)).status,405);
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog'),{...env,WH_API_ORIGIN:'http://127.0.0.1:8000'})).status,503);
 });
