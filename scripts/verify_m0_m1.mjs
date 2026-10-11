@@ -16,8 +16,9 @@ export function fixtureIdentity(data) {
 }
 export function fixtureHTML(body) {
   const banner = `<p class="noscript-message" role="status" data-isolated-fixture="true">${FIXTURE_LABEL}</p>`;
-  const blocker = `<script type="module">document.addEventListener('click', event => { const link = event.target.closest?.('a[href]'); if (link?.href.includes('/__isolated_fixture__/')) { event.preventDefault(); alert('此链接仅为隔离样例占位，未从官网取得；已阻止外部访问。'); } });</script>`;
-  return body.replace(/(<body[^>]*>)/, '$1' + banner) + blocker;
+  const notice = `<span class="noscript-message" role="status" aria-live="polite" data-isolated-link-status hidden></span>`;
+  const blocker = `<script type="module">const blockFixtureLink = event => { const link = event.target.closest?.('a[href]'); if (link?.href.includes('/__isolated_fixture__/')) { event.preventDefault(); const notice = document.querySelector('[data-isolated-link-status]'); if (notice) { notice.textContent = '此链接仅为隔离样例占位，未从官网取得；已阻止外部访问。页面仍可继续操作。'; notice.hidden = false; notice.style.display = 'block'; link.after(notice); } } }; document.addEventListener('click', blockFixtureLink); document.addEventListener('auxclick', blockFixtureLink);</script>`;
+  return body.replace(/(<body[^>]*>)/, '$1' + banner + notice) + blocker;
 }
 const json = (data, status) => Response.json(data, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 

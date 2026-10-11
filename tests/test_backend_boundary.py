@@ -599,3 +599,63 @@ def test_campus_evidence_cannot_use_another_school_host(fixture_database):
     with sqlite3.connect(fixture_database) as connection:
         connection.execute("INSERT INTO campuses(school_key,campus_key,name,evidence_url,observed_at) VALUES ('scut','synthetic-campus','隔离合成校区','https://career.gdut.edu.cn/isolated-fixture/campus','2026-10-11T12:00:00+08:00')")
     assert_rejected_without_writes(fixture_database, ("/api/catalog",))
+
+
+def add_date_conflict(connection, field, evidence, item_id=1):
+    other_id = connection.execute(
+        "INSERT INTO source_materials(source_key,reference_key,opportunity_id,source_url,material_hash,fetched_at,raw_reference,acquisition_status,parsing_status,parser_version,scope_json) SELECT source_key,reference_key||':conflict',opportunity_id,source_url,?,fetched_at,raw_reference||':conflict',acquisition_status,parsing_status,parser_version,scope_json FROM source_materials WHERE id=?",
+        (hashlib.sha256(b"isolated synthetic conflicting date material").hexdigest(), evidence["material_id"]),
+    ).lastrowid
+    conflict = {"state": "conflict", "value": None, "evidence": [evidence, {
+        **evidence, "material_id": other_id, "excerpt": "隔离合成材料中出现另一个日期，尚未裁定",
+    }]}
+    change_observations(connection, lambda observations: observations.update({field: conflict}), item_id)
+
+
+@pytest.mark.parametrize("field,basis,old_date,known_publication", [
+    ("published_date", "publication", "2026-10-11", None),
+    ("published_date", "publication", "2026-07-01", None),
+    ("event_date", "event", "2026-10-12", None),
+    ("event_date", "event", "2026-10-10", None),
+    ("event_date", "event", "2026-10-12", "2026-10-11"),
+], ids=["recent-publication", "historical-publication", "upcoming-event", "past-event", "event-with-known-publication"])
+def test_conflict_date_is_unknown_for_queries_but_other_known_date_can_match_recent(fixture_database, field, basis, old_date, known_publication):
+    from datetime import date
+    from backend.services.queries import Filters, opportunities
+    values = {field: old_date, "date_basis": basis, "kind": "campus_talk" if basis == "event" else "announcement"}
+    if known_publication:
+        values["published_date"] = known_publication
+    with sqlite3.connect(fixture_database) as connection:
+        evidence = seed_opportunity(connection, **values)
+        add_date_conflict(connection, field, evidence)
+    before = digest(fixture_database)
+    with read_database(fixture_database) as (connection, metadata):
+        for view in ("recent", "upcoming", "history", "undated"):
+            result = opportunities(connection, metadata, Filters(view=view), date(2026, 10, 11), 30)
+            expected = [1] if view == "undated" or (view == "recent" and known_publication) else []
+            assert [item["id"] for item in result["items"]] == expected
+            assert result["total"] == len(expected)
+            for item in result["items"]:
+                assert item["field_observations"][field]["state"] == "conflict"
+                assert item["field_observations"][field]["value"] is None
+                assert len(item["field_observations"][field]["evidence"]) == 2
+        for view in ("recent", "upcoming", "history", "undated"):
+            bounded = opportunities(connection, metadata, Filters(view=view, date_from=old_date, date_to=old_date), date(2026, 10, 11), 30)
+            assert bounded["items"] == [] and bounded["total"] == 0
+        assert connection.execute(f"SELECT {field} FROM opportunities WHERE id=1").fetchone()[0] == old_date
+        assert metadata["data_mode"] == "isolated_fixture"
+    assert digest(fixture_database) == before
+
+
+def test_conflicted_publication_sort_uses_first_seen_without_erasing_old_date(fixture_database):
+    with sqlite3.connect(fixture_database) as connection:
+        evidence = seed_opportunity(connection, published_date="2020-01-01", first_seen_at="2026-10-11T23:00:00+08:00")
+        add_date_conflict(connection, "published_date", evidence)
+        seed_opportunity(connection, 2, first_seen_at="2026-10-11T09:00:00+08:00")
+    before = digest(fixture_database)
+    response = client(fixture_database).get("/api/opportunities?view=undated")
+    assert response.status_code == 200
+    assert [item["id"] for item in response.json()["items"]] == [1, 2]
+    assert response.json()["items"][0]["published_date"] == "2020-01-01"
+    assert response.json()["items"][0]["field_observations"]["published_date"]["state"] == "conflict"
+    assert digest(fixture_database) == before

@@ -194,15 +194,18 @@ def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filt
         clauses.append("o.title LIKE ? ESCAPE '\\'")
         literal = filters.keyword.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
         values.append("%" + literal + "%")
-    business_date = "CASE WHEN o.date_basis='event' THEN o.event_date ELSE o.published_date END"
+    # Conflict keeps the previous scalar for history, not for a confirmed date match.
+    published_date = "CASE WHEN json_extract(o.field_observations_json,'$.published_date.state')='conflict' THEN NULL ELSE o.published_date END"
+    event_date = "CASE WHEN json_extract(o.field_observations_json,'$.event_date.state')='conflict' THEN NULL ELSE o.event_date END"
+    business_date = f"CASE WHEN o.date_basis='event' THEN ({event_date}) ELSE ({published_date}) END"
     if filters.view == "recent":
-        clauses.append("(o.published_date BETWEEN ? AND ? OR o.event_date BETWEEN ? AND ?)")
+        clauses.append(f"(({published_date}) BETWEEN ? AND ? OR ({event_date}) BETWEEN ? AND ?)")
         values.extend([start.isoformat(), today.isoformat(), today.isoformat(), end.isoformat()])
     elif filters.view == "upcoming":
-        clauses.append("o.date_basis='event' AND o.event_date>=? AND o.event_status!='cancelled'")
+        clauses.append(f"o.date_basis='event' AND ({event_date})>=? AND o.event_status!='cancelled'")
         values.append(today.isoformat())
     elif filters.view == "history":
-        clauses.append("((o.date_basis='event' AND o.event_date<?) OR (o.date_basis='publication' AND o.published_date<?))")
+        clauses.append(f"((o.date_basis='event' AND ({event_date})<?) OR (o.date_basis='publication' AND ({published_date})<?))")
         values.extend([today.isoformat(), start.isoformat()])
     else:
         clauses.append(f"({business_date}) IS NULL")
@@ -213,7 +216,7 @@ def opportunities(connection: sqlite3.Connection, metadata: dict[str, str], filt
             values.append(value)
     where = " WHERE " + " AND ".join(clauses) if clauses else ""
     total = connection.execute("SELECT COUNT(*) FROM opportunities o" + where, values).fetchone()[0]
-    order = "o.event_date ASC, COALESCE(o.start_time,'') ASC, o.id ASC" if filters.view == "upcoming" else "COALESCE(o.published_date,o.first_seen_at) DESC,o.id DESC"
+    order = f"({event_date}) ASC, COALESCE(o.start_time,'') ASC, o.id ASC" if filters.view == "upcoming" else f"COALESCE(({published_date}),o.first_seen_at) DESC,o.id DESC"
     items = [card(row, connection) for row in connection.execute(
         PROJECTION_SQL + where + " ORDER BY " + order + " LIMIT ? OFFSET ?", [*values, filters.limit, filters.offset],
     )]

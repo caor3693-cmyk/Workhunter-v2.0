@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 import { collectFrontendAssets } from '../scripts/build_site.mjs';
 import { FIXTURE_ORIGIN, fixtureHTML, fixtureResponse, verificationReport } from '../scripts/verify_m0_m1.mjs';
 import { readJSON } from '../frontend/api/client.js';
@@ -48,8 +49,35 @@ test('every isolated page is visibly labelled and placeholder source clicks are 
     assert.match(html, /__isolated_fixture__/);
     assert.match(html, /event.preventDefault/);
     assert.match(html, /aria|role="status"/);
+    assert.match(html, /data-isolated-link-status/);
+    assert.doesNotMatch(html, /\balert\s*\(/);
   }
   assert.match(fixtureHTML('<body>plain</body>'), /隔离验收样例/);
+});
+
+test('placeholder click and middle click show an adjacent live notice without blocking later page actions', () => {
+  const html = fixtureHTML('<body>fixture</body>');
+  const source = html.match(/<script type="module">([\s\S]*?)<\/script>/)[1];
+  const handlers = new Map();
+  const notice = { textContent: '', hidden: true, style: {} };
+  runInNewContext(source, {
+    document: { addEventListener: (name, handler) => handlers.set(name, handler), querySelector: selector => selector === '[data-isolated-link-status]' ? notice : null },
+    alert: () => { throw new Error('blocking dialog must never open'); },
+  });
+  for (const type of ['click', 'auxclick']) {
+    let prevented = false;
+    let adjacent = false;
+    const link = { href: 'https://career.gdut.edu.cn/__isolated_fixture__/attachment', after: value => { adjacent = value === notice; } };
+    handlers.get(type)({ target: { closest: () => link }, preventDefault: () => { prevented = true; } });
+    assert.equal(prevented, true);
+    assert.equal(adjacent, true);
+    assert.equal(notice.hidden, false);
+    assert.equal(notice.style.display, 'block');
+    assert.match(notice.textContent, /已阻止外部访问。页面仍可继续操作/);
+  }
+  let ordinaryPrevented = false;
+  handlers.get('click')({ target: { closest: () => ({ href: 'http://127.0.0.1:8789/sources' }) }, preventDefault: () => { ordinaryPrevented = true; } });
+  assert.equal(ordinaryPrevented, false);
 });
 
 test('engineering report keeps actual CUA and all human acceptance as pending', () => {
