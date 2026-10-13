@@ -1,68 +1,40 @@
 # Workhunter v2.0 当前状态
 
-核对日：2026-10-13，Asia/Shanghai。产品1.1、合同1.3、执行计划1.4及 ABAAAAAB 范围保持。当前入口：[M1先行复验包](deliveries/M1-SITE-RECHECK-20261012.md) → [M2完整操作包](deliveries/M2-REVIEW-20261012.md) → [M3持续运行与恢复包](deliveries/M3-REVIEW-20261013.md)。M1/M2历史收尾见[原证据](deliveries/M1-M2-CLOSEOUT-20261012.md)。
+核对日：2026-10-13，Asia/Shanghai。产品1.1、合同1.3、执行计划1.4及 ABAAAAAB 范围保持。这里是唯一当前入口，历史细节留在原交付包。
 
-## M3当前本机候选
+[M1先行复验](deliveries/M1-SITE-RECHECK-20261012.md) → [M2操作包](deliveries/M2-REVIEW-20261012.md) → [M3运行与恢复](deliveries/M3-REVIEW-20261013.md)；本轮知识及GitHub收尾见[M3 neat-freak记录](deliveries/M3-NEAT-20261013.md)。
 
-W05-A #15 / W05-B #16 本机实现与独立审查完成；真实Windows自然调度、自动备份、新路径恢复重启与实际stdio MCP均有证据。运行及前后端构建8057f1ad8d02e467471a0e60d54ca1dfa74de148，0.5.0/M3/schema3/real，ds-170fe490-ca02-4441-ab88-ac5344645f78；445机会/517材料/1985历史/17运行。原1—297机会与M2原库SHA保留。
+## 当前实现与运行
 
-真实r3自然启动11:29:35、完成11:35:34，运行源码6f71f3d，collector/scheduler/宿主退出0，业务partial；新增148，官方变化17，解析84，冲突13，分类重叠不相加。后续独立W03 a976211修复纯符号地点，同归档材料将423从['+']/known定向修订为[]/parse_failed，0 HTTP/0新材料，摘要另记semantic_revision=1。旧运行与修订后构建分别记录。
+W05-A #15 / W05-B #16 本机实现、自验和独立审查完成，涵盖真实自然调度、失败/中断恢复、一致备份、新路径恢复重启及实际stdio MCP。运行与前后端构建为8057f1ad8d02e467471a0e60d54ca1dfa74de148，0.5.0/M3/schema3/real，dataset ds-170fe490-ca02-4441-ab88-ac5344645f78；445机会/517材料/1985历史/17运行。文档提交不替换已运行的源码身份。
 
-本机[招聘页](http://127.0.0.1:8891/)、[来源状态](http://127.0.0.1:8891/sources)和[隔离恢复页](http://127.0.0.1:8893/)已就绪。r4注册回读绑定8057，下一次2026-10-13 17:29:34（北京时间），之后每6h；本版本尚未自然触发。观察仅1自然日，未经历完整6h周期或7日运营。r2失败历史保留，不当作成功/无变化。
+r3于2026-10-13 11:29:35自然启动、11:35:34完成，运行源码6f71f3d；collector/scheduler/宿主退出0，业务和覆盖均partial。新增148，官方变化17、解析改进84、材料冲突13，分类重叠不可相加。后续W03修复及423定向语义修订0 HTTP/0新材料，旧值/材料保留，另记semantic_revision=1；r2失败历史保留。
 
-DB备份database_only；恢复副本ID/版本一致，旧调度not_ready不自启。独立只读raw归档375材料行/373文件全部SHA通过；跨宿主重放需要显式索引映射，没有自动旧路径resolver。真实库、恢复库API/stdio MCP同源同dataset，GET未改数量/ID；用户客户端未配置。
+[本机招聘页](http://127.0.0.1:8891/)、[来源状态](http://127.0.0.1:8891/sources)、[构建核验](http://127.0.0.1:8891/review)及[隔离恢复页](http://127.0.0.1:8893/)在本轮再次确认HTTP可读。六小时任务r4 Ready、绑定8057，下一次2026-10-13 17:29:34（北京时间）；当前构建尚未自然触发，只观察1自然日，未满6h后续周期或7日运营。
 
-本轮GitHub推送及此前真实API外部HTTPS通道被自动审批拒绝，等待对具体仓库/内容与通道的直接授权；没有外发、创建本轮PR、候选CI或更新私有Site。Site仍版本4/b6300f4。整源checked_no_changes真实样本、Site及用户Gate待验证，M3-01—06全部未测；#18仍Blocked。详细操作、验证与脱敏证据见[M3包](deliveries/M3-REVIEW-20261013.md)。
+DB备份database_only，恢复副本ID/版本一致，旧调度not_ready不自启。另行只读raw归档375材料行/373文件全部SHA一致；跨宿主重放需显式索引映射，没有自动旧路径resolver。主库和恢复库API/实际stdio MCP同源同dataset，读取未改数量/ID；用户MCP客户端未配置。
 
-## M1/M2保留的历史候选与用户结果
+原主工作区用户改动、M1独立先行142条候选和M2原库均保留。M2历史297机会/246材料/1333历史/15运行，dataset ds-3ceedaa1-97f2-4625-b180-35d7f162668a；原机会1—297与原库SHA未变。完整换代、恢复、测试、来源限制见[M3包及脱敏证据](deliveries/M3-REVIEW-20261013.md)。
 
-M1修复和M2工程候选已经实现，并通过各包独立审查；私有Site交付尚未完成。M0历史七项通过；M1历史五项通过，01/05/06失败。本轮受影响回归待用户复验，M2八项仍未测。Gate仍按M0→M1→M2→M3→M4确认，工程、CI和材料门槛不代替用户结果。
+## 外部交付与用户门槛
 
-## 当前工程与交付
+用户本轮明确要求neat-freak清理后上传GitHub，代码及脱敏证据可向caor3693-cmyk/Workhunter-v2.0同步；实际分支、draft PR及CI以[收尾回执](deliveries/M3-NEAT-20261013.md)和远端为准。正常推送，不合并、不force push、不关闭业务Issue。
 
-从PR #28真实head `5a28c874b001010103b46360a2710e574492c405`起步，2026-10-12再次回读仍为该head，没有后来用户提交。原主工作区改动保留。GOV [#36](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/36)及DOC [#37](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/37)经独立审查/CI进入隔离可信目标`6cb47233a50bd0465f993c468a83ae5e5ddf5fb6`；范围checker未改。
-
-[候选PR #38](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/38)只指向该隔离目标。#33公平持久队列、#34字段/相关性、#35材料适用与schema3迁移完成；#29简洁详情、#30独立加载/数据集协调及真实分段测量完成。#31先保留独立两校M1候选，再完成#12固定十校。#13受保护业务会话、材料预览/提交、纠错/撤回与#14真实摘要/待办完成。最多两个实施包，共享文件由root单一整合；目前实施已冻结，仅root收尾。
-
-维护使用独立业务会话、HttpOnly Secure cookie、同源及CSRF保护；平台登录或服务Bearer不能代替业务授权。固定隔离库与真实库分开，预览不改变业务事实。撤回保留历史及后来独立贡献，重复回执不制造修改。摘要按北京时间提交日、机会ID去重，未知不填0、重叠分类不可相加，纯证据定位修订不计招聘变化。自然调度、运营天数、恢复与只读MCP仍属M3。
-
-## 身份与真实材料
-
-| 对象 | 当前核验事实 |
-| --- | --- |
-| 既有私有Site | [同一入口](https://workhunter-v2-review.sage-candy-7999.chatgpt.site)，仍版本4 / b6300f4；owner-only custom access，无外部访客；未重发 |
-| Site阻塞 | 自动审批拒绝临时Cloudflare HTTPS API通道，等待本轮直接授权；没有启动隧道或改旧后端 |
-| 原始库 | schema2 / real / ds-171a2a00-d21e-448f-9f6c-ee236af1bc2f，132机会/98材料/343历史，未改写 |
-| M1独立先行包 | a2610a1 / schema3 / real / 142条 / ds-5487e60f-8b12-441a-ba9c-2c07c16d1d20；本机8768复验，远程Site待交付 |
-| M2真实候选 | 0.4.0 / M2 / schema3 / real / 297机会 / 246材料 / 1333历史 / 15有限运行；ds-3ceedaa1-97f2-4625-b180-35d7f162668a |
-| M2本机浏览器 | 8801页面 / 8800独立API；固定生产Worker加环回传输诊断适配，不作为远程Site/TLS证明 |
-| 原始响应/凭据 | 运行目录保留，未进入Git或Site构建归档；维护口令只在本机私有文件 |
-
-[真实十校及样本证据](deliveries/evidence/M2-REAL-SOURCES-20261012.json)记录观察时间、来源范围、原文及材料SHA。当前最少四校门槛独立成立：华工133（09-29电气工程师）、上电148（10-05港口技术电气专业）、三峡193（10-09电气类需求）、广大295（10-10产品经理电气专业）。另外广工31、东北电力188、湖南272有当前明确电气需求。表格摘录为列值整理，不伪装成逐字整句引文。
-
-八校取得有限材料，全部school_wide=false；华电北京按历史483停止，中南按历史403停止，本轮没有发请求或重新声称取得该状态；华电保定网络失败，尚无可核验栏目或招聘记录。华电是一校两入口，未虚填目录校区。湖南272工作地为parse_failed，不能称原文未披露。
-
-原ID、历史和材料保留；10/40/69旧附件经迁移隔离后按本公告HTML链接链定向恢复，仅链接、未解析PDF正文。10次显式语义修订及31/188两次定位修订均保留原因/版本/回执；定位修订没有新HTTP或公开版本变化，真实库人工补录/纠错数量仍0。旧失败运行不删除。
-
-## 验证与用户结果
-
-M1本机实际30重载+30校区提交全部就绪。API p95重载410.872ms、提交368.407ms；首卡DOM p95分别433ms/391ms。环回、热页面、142条、as_of2026-10-12；非绘制、非远程Site性能。390px详情无横向溢出，草稿未提交重载保留已提交条件，分页及键盘清空可操作。旧132条Site墙钟基线保留，不能据不同规模或浏览器桥接耗时声称性能改善百分比。
-
-完整测试、CI、可信范围、实际M2维护对账及限域清理见[收尾证据](deliveries/M1-M2-CLOSEOUT-20261012.md)。Windows启动测试曾因人为8秒预算超时；按生产既有20秒预算复核，健康/身份/监听归属/端口保护断言未删。Linux CI的Windows专用跳过不代替本机三项。
+现有[私有Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site)本轮只读回核仍版本4、custom owner范围、0外部访客；没有更新。此前真实API HTTPS通道被自动审批拒绝，本轮GitHub授权不扩展到外部API/Site更新。整源checked_no_changes真实样本、持续观察、Site及用户Gate保持待验证；#18正式发布仍Blocked。
 
 | 编号 | 历史用户结果 | 当前候选 |
 | --- | --- | --- |
 | M0-01—07 | 通过 | 保留 |
-| M1-01/05/06 | 失败 | 修复完成，Site交付/复验待确认 |
-| M1-02/03/04/07/08 | 通过 | 保留；03/04/08等受影响项另加回归 |
-| M2-01—08 | 未测 | 完整工程/操作材料就绪，M1 Gate后由用户确认 |
-| M3-01—06 | 未测 | 本机工程及自然运行证据完成，外发/Site与前序Gate待确认 |
-| M4 / #18 | 未测 / 发布Blocked | 后续独立门槛 |
+| M1-01/05/06 | 失败 | 修复已实现，Site交付及原编号复验待确认 |
+| M1-02/03/04/07/08 | 通过 | 历史保留，受影响项仍需回归 |
+| M2-01—08 | 未测 | 工程/材料已备，须在M1 Gate后确认 |
+| M3-01—06 | 未测 | 本机工程证据列明，M3-04整源样本/Site/前序Gate待完成 |
+| M4 / #18 | 未测 / 发布Blocked | 尚未进入，不按日期自动发布 |
 
-## GitHub与历史
+## 规则与历史索引
 
-2026-10-12历史快照：Project5的[Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)/[Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)30项已更新回读：Backlog 5, Ready 0, In progress 9, Awaiting verification 1, Blocked 6, Done 9；21open/9closed。#32独立技术成果Awaiting verification，#12/#13/#14/#29/#30/#31/#33/#34/#35 In progress等待Site交付与对应确认。#2/#3及旧阻塞、#18保持Blocked。本轮没有更新远端、关闭业务Gate或改写历史Done。
+阶段统一M0→M4，AGENTS/PRODUCT/CONTRACTS/TASKS/MANUAL_QA的S/G编号依照[M命名映射](deliveries/M_NAMING.md)理解，不执行两套Gate。规则真身为AGENTS.md，范围checker从实际目标导出，未为清除审计发现放宽规则。长期生成记忆只读，本轮未写。
 
-历史保留：[第二轮用户结果](deliveries/M0-M1-FEEDBACK2-20261011.md)、[审查5a28c87](deliveries/M1-M2-AUDIT-20261011.md)、[执行计划](deliveries/M1-M2-EXECUTION-20261011.md)、[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。本轮未写长期记忆；canonical AGENTS及可信规则未为清除发现而修改。
+[M1/M2历史收尾与CI](deliveries/M1-M2-CLOSEOUT-20261012.md)、[真实十校样本](deliveries/evidence/M2-REAL-SOURCES-20261012.json)、[原用户结果](deliveries/M0-M1-FEEDBACK2-20261011.md)、[反馈收尾约定](deliveries/FEEDBACK_CLOSEOUT.md)。历史M2冻结26060f8及其CI不代表M3候选CI。
 
-历史M2业务冻结26060f8，CI38162938480通过。该轮浏览器发现的表头/岗位误作地点及地址截断已经修复；六条真实记录按原材料定向更正工作地与范围，0 HTTP/0新增材料，旧值与备份保留，摘要单列semantic_revisions=6。13个新增反例及扩大来源定向检查通过，完整复跑结果见历史收尾；M1快照保持独立。该SHA和CI不替代本轮M3运行源码8057及尚未执行的候选CI。
+仓库[Board](BOARD.md)与[Roadmap](ROADMAP.md)保留原计划及用户结果；原生Project5的30项/21open/9closed、Backlog5/In progress9/Awaiting verification1/Blocked6/Done9为2026-10-12快照，本轮未修改Project字段或业务Issue状态。

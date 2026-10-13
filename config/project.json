@@ -138,7 +138,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "M1/M2历史与用户Gate保留；M3本机实现、真实自然运行、备份恢复和stdio MCP已验证。GitHub外发、候选CI、私有Site与按顺序用户验收仍待完成；不以工程证据解锁#18。",
+  "note": "M3本机工程已验证，用户要求neat-freak清理后上传GitHub；Site、CI和原编号用户验收分别登记，不解锁#18。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -271,7 +271,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "pending_authorization",
+        "external_delivery": "github_upload_authorized_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -804,7 +804,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "pending_authorization",
+        "external_delivery": "github_upload_authorized_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -841,7 +841,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "pending_authorization",
+        "external_delivery": "github_upload_authorized_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -1962,6 +1962,17 @@
     "user_gate": "unmeasured_requires_M1_then_M2",
     "preserved_original_user_results": true,
     "business_issues_closed": [],
-    "formal_release_issue18_unlocked": false
+    "formal_release_issue18_unlocked": false,
+    "github_upload_authorization": {
+      "date": "2026-10-13",
+      "user_request": "使用neatfreak清理后上传到github",
+      "repository": "caor3693-cmyk/Workhunter-v2.0",
+      "scope": "code and sanitized evidence, normal push and draft PRs",
+      "site_update_authorized": false
+    },
+    "neat_closeout_report": "docs/deliveries/M3-NEAT-20261013.md",
+    "github_upload_status": "authorized_preparing",
+    "neat_freak_version": "3.0.1",
+    "workspace_cleanup_status": "evidence_preserved_no_destructive_cleanup"
   }
 }
