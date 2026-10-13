@@ -118,7 +118,7 @@ def verify_host_invocation(registration_id):
         task_name = registration_id[len(prefix):]
         if not re.fullmatch(r'WorkhunterV2-M3-[A-Za-z0-9_-]+', task_name):
             raise ValueError('任务不属于隔离调度命名空间。')
-        script = "$ErrorActionPreference='Stop'; $task=Get-ScheduledTask -TaskName $env:WH_VERIFY_TASK_NAME; $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value; if($task.State -ne 'Running' -or $task.Principal.UserId -ne $sid -or [int]$task.Principal.RunLevel -ne 0){exit 2}; Write-Output 'verified'"
+        script = "$ErrorActionPreference='Stop'; $task=Get-ScheduledTask -TaskName $env:WH_VERIFY_TASK_NAME; $sid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value; $taskSid=if($task.Principal.UserId -match '^S-\\d-'){$task.Principal.UserId}else{([Security.Principal.NTAccount]::new($task.Principal.UserId)).Translate([Security.Principal.SecurityIdentifier]).Value}; if([int]$task.State -ne 4 -or $taskSid -ne $sid -or [int]$task.Principal.RunLevel -ne 0){exit 2}; Write-Output 'verified'"
         result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', script],
                                 capture_output=True, text=True, timeout=15,
                                 env={**os.environ, 'WH_VERIFY_TASK_NAME': task_name},

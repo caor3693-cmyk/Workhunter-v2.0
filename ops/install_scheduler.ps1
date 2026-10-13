@@ -44,9 +44,11 @@ try {
     $taskReadback = Get-ScheduledTask -TaskName $TaskName
     $taskInfo = Get-ScheduledTaskInfo -TaskName $TaskName
     $taskReadStart = [DateTimeOffset]::Parse($taskReadback.Triggers[0].StartBoundary)
+    $taskReadSid = if ($taskReadback.Principal.UserId -match '^S-\d-') { $taskReadback.Principal.UserId }
+        else { ([Security.Principal.NTAccount]::new($taskReadback.Principal.UserId)).Translate([Security.Principal.SecurityIdentifier]).Value }
     if ($taskReadback.Actions[0].Execute -ne $taskPythonWindowless -or $taskReadback.Actions[0].Arguments -ne $taskArguments -or
-        $taskReadback.Actions[0].WorkingDirectory -ne $taskRoot -or $taskReadback.Principal.UserId -ne $taskUserSid -or
-        [int]$taskReadback.Principal.RunLevel -ne 0 -or $taskReadback.State -eq 'Disabled' -or
+        $taskReadback.Actions[0].WorkingDirectory -ne $taskRoot -or $taskReadSid -ne $taskUserSid -or
+        [int]$taskReadback.Principal.RunLevel -ne 0 -or [int]$taskReadback.State -eq 1 -or
         $taskReadback.Triggers[0].Repetition.Interval -ne "PT${taskInterval}H" -or
         [Math]::Abs(($taskReadStart - $taskStart).TotalSeconds) -gt 1 -or
         [Math]::Abs((([DateTimeOffset]$taskInfo.NextRunTime) - $taskStart).TotalSeconds) -gt 2) {
