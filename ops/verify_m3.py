@@ -56,7 +56,7 @@ def reconcile(database, api_origin):
         *({'jsonrpc': '2.0', 'id': index, 'method': 'tools/call', 'params': {'name': name, 'arguments': arguments}}
           for index, name, arguments in [(3, 'version', {}), (4, 'catalog', {}), (5, 'source_status', {'limit': 50}),
                                           (6, 'refresh_status', {}), (7, 'diagnostics', {'limit': 5}),
-                                          (8, 'opportunities', {'limit': 20})]),
+                                          (8, 'opportunities', {'limit': 3})]),
     ]
     result = subprocess.run([sys.executable, '-m', 'ops.mcp', '--db', str(Path(database).resolve()), '--allow-diagnostics'],
                             input=''.join(json.dumps(request, ensure_ascii=False) + '\n' for request in requests),
