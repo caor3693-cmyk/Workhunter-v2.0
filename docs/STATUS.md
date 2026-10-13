@@ -1,6 +1,20 @@
 # Workhunter v2.0 当前状态
 
-核对日：2026-10-12，Asia/Shanghai。产品1.1、合同1.3、执行计划1.4及 ABAAAAAB 范围保持。当前入口：[M1先行复验包](deliveries/M1-SITE-RECHECK-20261012.md) → [M2完整操作包](deliveries/M2-REVIEW-20261012.md) → [本轮收尾证据](deliveries/M1-M2-CLOSEOUT-20261012.md)。
+核对日：2026-10-13，Asia/Shanghai。产品1.1、合同1.3、执行计划1.4及 ABAAAAAB 范围保持。当前入口：[M1先行复验包](deliveries/M1-SITE-RECHECK-20261012.md) → [M2完整操作包](deliveries/M2-REVIEW-20261012.md) → [M3持续运行与恢复包](deliveries/M3-REVIEW-20261013.md)。M1/M2历史收尾见[原证据](deliveries/M1-M2-CLOSEOUT-20261012.md)。
+
+## M3当前本机候选
+
+W05-A #15 / W05-B #16 本机实现与独立审查完成；真实Windows自然调度、自动备份、新路径恢复重启与实际stdio MCP均有证据。运行及前后端构建8057f1ad8d02e467471a0e60d54ca1dfa74de148，0.5.0/M3/schema3/real，ds-170fe490-ca02-4441-ab88-ac5344645f78；445机会/517材料/1985历史/17运行。原1—297机会与M2原库SHA保留。
+
+真实r3自然启动11:29:35、完成11:35:34，运行源码6f71f3d，collector/scheduler/宿主退出0，业务partial；新增148，官方变化17，解析84，冲突13，分类重叠不相加。后续独立W03 a976211修复纯符号地点，同归档材料将423从['+']/known定向修订为[]/parse_failed，0 HTTP/0新材料，摘要另记semantic_revision=1。旧运行与修订后构建分别记录。
+
+本机[招聘页](http://127.0.0.1:8891/)、[来源状态](http://127.0.0.1:8891/sources)和[隔离恢复页](http://127.0.0.1:8893/)已就绪。r4注册回读绑定8057，下一次2026-10-13 17:29:34（北京时间），之后每6h；本版本尚未自然触发。观察仅1自然日，未经历完整6h周期或7日运营。r2失败历史保留，不当作成功/无变化。
+
+DB备份database_only；恢复副本ID/版本一致，旧调度not_ready不自启。独立只读raw归档375材料行/373文件全部SHA通过；跨宿主重放需要显式索引映射，没有自动旧路径resolver。真实库、恢复库API/stdio MCP同源同dataset，GET未改数量/ID；用户客户端未配置。
+
+本轮GitHub推送及此前真实API外部HTTPS通道被自动审批拒绝，等待对具体仓库/内容与通道的直接授权；没有外发、创建本轮PR、候选CI或更新私有Site。Site仍版本4/b6300f4。整源checked_no_changes真实样本、Site及用户Gate待验证，M3-01—06全部未测；#18仍Blocked。详细操作、验证与脱敏证据见[M3包](deliveries/M3-REVIEW-20261013.md)。
+
+## M1/M2保留的历史候选与用户结果
 
 M1修复和M2工程候选已经实现，并通过各包独立审查；私有Site交付尚未完成。M0历史七项通过；M1历史五项通过，01/05/06失败。本轮受影响回归待用户复验，M2八项仍未测。Gate仍按M0→M1→M2→M3→M4确认，工程、CI和材料门槛不代替用户结果。
 
@@ -42,12 +56,13 @@ M1本机实际30重载+30校区提交全部就绪。API p95重载410.872ms、提
 | M1-01/05/06 | 失败 | 修复完成，Site交付/复验待确认 |
 | M1-02/03/04/07/08 | 通过 | 保留；03/04/08等受影响项另加回归 |
 | M2-01—08 | 未测 | 完整工程/操作材料就绪，M1 Gate后由用户确认 |
-| M3—M4 / #18 | 未测 / 发布Blocked | 后续独立门槛 |
+| M3-01—06 | 未测 | 本机工程及自然运行证据完成，外发/Site与前序Gate待确认 |
+| M4 / #18 | 未测 / 发布Blocked | 后续独立门槛 |
 
 ## GitHub与历史
 
-Project5的[Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)/[Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)30项已更新回读：Backlog 5, Ready 0, In progress 9, Awaiting verification 1, Blocked 6, Done 9；21open/9closed。#32独立技术成果Awaiting verification，#12/#13/#14/#29/#30/#31/#33/#34/#35 In progress等待Site交付与对应确认。#2/#3及旧阻塞、#18保持Blocked。没有关闭业务Gate或改写历史Done。
+2026-10-12历史快照：Project5的[Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)/[Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)30项已更新回读：Backlog 5, Ready 0, In progress 9, Awaiting verification 1, Blocked 6, Done 9；21open/9closed。#32独立技术成果Awaiting verification，#12/#13/#14/#29/#30/#31/#33/#34/#35 In progress等待Site交付与对应确认。#2/#3及旧阻塞、#18保持Blocked。本轮没有更新远端、关闭业务Gate或改写历史Done。
 
 历史保留：[第二轮用户结果](deliveries/M0-M1-FEEDBACK2-20261011.md)、[审查5a28c87](deliveries/M1-M2-AUDIT-20261011.md)、[执行计划](deliveries/M1-M2-EXECUTION-20261011.md)、[反馈收尾规则](deliveries/FEEDBACK_CLOSEOUT.md)。本轮未写长期记忆；canonical AGENTS及可信规则未为清除发现而修改。
 
-最终业务冻结26060f8，CI38162938480通过。最终浏览器发现的表头/岗位误作地点及地址截断已经修复；六条真实记录按原材料定向更正工作地与范围，0 HTTP/0新增材料，旧值与备份保留，摘要单列semantic_revisions=6。13个新增反例及扩大来源定向检查通过，完整复跑结果见收尾；M1快照保持独立。
+历史M2业务冻结26060f8，CI38162938480通过。该轮浏览器发现的表头/岗位误作地点及地址截断已经修复；六条真实记录按原材料定向更正工作地与范围，0 HTTP/0新增材料，旧值与备份保留，摘要单列semantic_revisions=6。13个新增反例及扩大来源定向检查通过，完整复跑结果见历史收尾；M1快照保持独立。该SHA和CI不替代本轮M3运行源码8057及尚未执行的候选CI。

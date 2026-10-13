@@ -138,7 +138,7 @@
     "automatic_by_date": false,
     "all_required_feedback_retested_required": true
   },
-  "note": "M1修复及M2十校/维护/摘要工程已实现并独立受审；真实候选schema3/297，旧数据和用户结果保留。私有Site仍版本4；临时外部通道被自动审批拒绝，待本轮直接授权。Gate顺序不变。",
+  "note": "M1/M2历史与用户Gate保留；M3本机实现、真实自然运行、备份恢复和stdio MCP已验证。GitHub外发、候选CI、私有Site与按顺序用户验收仍待完成；不以工程证据解锁#18。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -266,7 +266,15 @@
       "legacy_stage": "S3",
       "legacy_gate": "G3",
       "github_state": "open",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk0"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk0",
+      "local_m3_progress": {
+        "date": "2026-10-13",
+        "engineering": "complete_with_local_evidence",
+        "user_result": "未测",
+        "external_delivery": "pending_authorization",
+        "remote_status_changed": false,
+        "report": "docs/deliveries/M3-REVIEW-20261013.md"
+      }
     },
     {
       "pm_id": "PM-G4",
@@ -791,7 +799,15 @@
       "kind": "feature",
       "status_label": "status:backlog",
       "legacy_stage": "S3",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk",
+      "local_m3_progress": {
+        "date": "2026-10-13",
+        "engineering": "complete_with_local_evidence",
+        "user_result": "未测",
+        "external_delivery": "pending_authorization",
+        "remote_status_changed": false,
+        "report": "docs/deliveries/M3-REVIEW-20261013.md"
+      }
     },
     {
       "pm_id": "PM-W05-B",
@@ -820,7 +836,15 @@
       "kind": "feature",
       "status_label": "status:backlog",
       "legacy_stage": "S3",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg",
+      "local_m3_progress": {
+        "date": "2026-10-13",
+        "engineering": "complete_with_local_evidence",
+        "user_result": "未测",
+        "external_delivery": "pending_authorization",
+        "remote_status_changed": false,
+        "report": "docs/deliveries/M3-REVIEW-20261013.md"
+      }
     },
     {
       "pm_id": "PM-W06",
@@ -1899,5 +1923,45 @@
       "windows_startup_passed": 3
     },
     "neat_freak_actual_version": "3.0.1"
+  },
+  "m3_iteration": {
+    "date": "2026-10-13",
+    "timezone": "Asia/Shanghai",
+    "status": "local_engineering_complete_external_delivery_pending",
+    "report": "docs/deliveries/M3-REVIEW-20261013.md",
+    "evidence": "docs/deliveries/evidence/M3-LOCAL-EVIDENCE-20261013.json",
+    "runtime_source_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+    "identity": {
+      "project": "Workhunter-v2.0",
+      "version": "0.5.0",
+      "stage": "M3",
+      "backend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+      "dataset_id": "ds-170fe490-ca02-4441-ab88-ac5344645f78",
+      "data_mode": "real"
+    },
+    "counts": {
+      "opportunities": 445,
+      "source_materials": 517,
+      "changes": 1985,
+      "runs": 17,
+      "processing_tasks": 464
+    },
+    "governance_commits": [
+      "ff51b3b0ef9c7d72bee35286ac3f8a20fd399758",
+      "b75bd480f225a1730680043988d47d74ac3edfab"
+    ],
+    "source_fix_commit": "a976211c19dac64af76c3b729e347b37489f03bf",
+    "natural_source_commit": "6f71f3d7d231d031831ed0efbf2c13b6e1ab909f",
+    "current_host_next_run_at": "2026-10-13T17:29:34.0000000+08:00",
+    "current_build_naturally_triggered": false,
+    "candidate_github_pr": null,
+    "candidate_ci_run": null,
+    "remote_issue_project_updated": false,
+    "site_redeployed": false,
+    "site_version": 4,
+    "user_gate": "unmeasured_requires_M1_then_M2",
+    "preserved_original_user_results": true,
+    "business_issues_closed": [],
+    "formal_release_issue18_unlocked": false
   }
 }
