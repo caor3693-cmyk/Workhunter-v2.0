@@ -264,7 +264,13 @@
     "independent_source_reviewer": {
       "passed": 4
     },
-    "groups_may_overlap_do_not_sum": true
+    "groups_may_overlap_do_not_sum": true,
+    "final_scope_counterexamples": {
+      "passed": 116,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
   },
   "user_checkpoints": {
     "M3-01": "未测",
@@ -291,5 +297,22 @@
     "m3-restored-final-api-mcp.json": "dfd2de7e5eb4fbc96d141cd52c78cbe50ac7eaaac98495ed1d24fdfafd374a01",
     "m3-hnu423-corrected-proof.json": "709e82be17dc38c3f8fd628ffc9c1162c4211a6602a37a71f2fc31932001d34c",
     "m3-recovery-archive-proof.json": "53677bf670f73a8a4fdb99b067469330fd855212ad94c299171848c9352eaf8e"
+  },
+  "trusted_complete_scope": {
+    "result": "passed",
+    "base_commit": "a976211c19dac64af76c3b729e347b37489f03bf",
+    "reviewed_document_head": "b91fbc95996c4ce4e0c5e63ec838b8b42e173151",
+    "changed_paths": 34,
+    "packages": [
+      "W05-A",
+      "W05-B"
+    ],
+    "issues": [
+      4,
+      15,
+      16
+    ],
+    "integration": "M3",
+    "checker_changed": false
   }
 }
