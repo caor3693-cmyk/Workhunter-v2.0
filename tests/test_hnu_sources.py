@@ -135,3 +135,61 @@ def test_cloud_location_conflict_retains_both_sides_at_evidence_limit():
     assert any(entry['locator'].startswith('old-') for entry in proof['evidence'])
     assert any('深圳' in entry.get('excerpt','') for entry in proof['evidence'])
     assert item['work_locations'] == ['广州']
+
+
+@pytest.mark.parametrize('key,host,adapter', [
+    ('hnu','scc.hnu.edu.cn',HnuAdapter),
+    ('neepu','jy.neepu.edu.cn',NeepuAdapter),
+    ('csust','csust.bysjy.com.cn',CsustAdapter),
+])
+@pytest.mark.parametrize('marker',['+','＋','—','/','…','（ ）','☆'])
+def test_cloud_pure_workplace_markers_are_parse_failed_with_original_evidence(key,host,adapter,marker):
+    config={'school_key':key,'source_key':key+'_careers','channel_key':'careers','official_entry_url':f'https://{host}/'}
+    url=f'https://{host}/detail/career?id=9000201'
+    item=adapter.discover(config,Materials({config['official_entry_url']:f'<a href="{url}">合成单位</a>'}))['records'][0]
+    html='<div class="main-inner"><div class="detail-module"><div class="dm-tit">宣讲会信息</div><div class="dm-cont">'
+    html+='<p>宣讲时间：2026年10月12日 09:00</p><p>宣讲地点：教室101</p></div></div>'
+    html+='<div class="detail-module"><div class="dm-tit">招聘简章</div><div class="dm-cont">'
+    html+=f'<p>需求专业：电气工程。</p><p>工作地点：{marker}</p></div></div></div>'
+    result=adapter.enrich(item,Materials({url:html}))
+    patch=result['patch'];obs=patch['field_observations']['work_locations'];material=result['material_refs'][0]
+    assert patch['work_locations']==[] and obs['state']=='parse_failed' and obs['value'] is None
+    assert obs['evidence'] and all(proof['source_url']==url and proof['source_identity']=='9000201'
+        and proof['material_ref']==material['reference_key'] and '工作地点' in proof['locator'] for proof in obs['evidence'])
+    assert patch['event_date']=='2026-10-12' and patch['start_time']=='09:00' and patch['event_venue']=='教室101'
+    assert patch['relevance']=='related' and material['parsing_status']=='success'
+    validate_candidate({**item,**patch,'field_observations':{**item['field_observations'],**patch['field_observations']}},config)
+
+
+def test_hnu_email_subject_separator_is_not_a_workplace():
+    # Minimal public HTML shape from recorded HNU career 722872/material 506.
+    # Personal/contact data and the full response are deliberately not fixtures.
+    config={'school_key':'hnu','source_key':'hnu_careers','channel_key':'careers','official_entry_url':'https://scc.hnu.edu.cn/'}
+    url='https://scc.hnu.edu.cn/detail/career?id=9000201'
+    item=HnuAdapter.discover(config,Materials({config['official_entry_url']:f'<a href="{url}">合成单位</a>'}))['records'][0]
+    html='<div class="main-inner"><div class="detail-module"><div class="dm-tit">招聘简章</div><div class="dm-cont">'
+    html+='<p><span>（邮件投递格式：应聘职位</span><span>+</span><span>工作地点</span><span>+</span>'
+    html+='<span>姓名</span><span>+</span><span>学校</span><span>+</span><span>专业）</span></p></div></div></div>'
+    patch=HnuAdapter.enrich(item,Materials({url:html}))['patch']
+    observation=patch['field_observations']['work_locations']
+    assert patch['work_locations']==[] and observation['state']=='parse_failed' and observation['value'] is None
+    assert observation['evidence'][0]['locator'].endswith('non-table [工作地点]')
+    assert observation['evidence'][0]['excerpt']=='+'
+
+
+@pytest.mark.parametrize('key,host,adapter', [
+    ('hnu','scc.hnu.edu.cn',HnuAdapter),
+    ('neepu','jy.neepu.edu.cn',NeepuAdapter),
+    ('csust','csust.bysjy.com.cn',CsustAdapter),
+])
+def test_cloud_real_multi_workplaces_survive_marker_rejection(key,host,adapter):
+    config={'school_key':key,'source_key':key+'_careers','channel_key':'careers','official_entry_url':f'https://{host}/'}
+    url=f'https://{host}/detail/career?id=9000201'
+    item=adapter.discover(config,Materials({config['official_entry_url']:f'<a href="{url}">合成单位</a>'}))['records'][0]
+    html='<div class="main-inner"><div class="detail-module"><div class="dm-tit">招聘简章</div><div class="dm-cont">'
+    html+='<p>工作地点：深圳、重庆主城区、广东省广州市科学大道18号B3栋1层、7层</p><p>工作地点：+</p></div></div></div>'
+    patch=adapter.enrich(item,Materials({url:html}))['patch']
+    assert patch['work_locations']==['深圳','重庆主城区','广东省广州市科学大道18号B3栋1层、7层']
+    assert patch['field_observations']['work_locations']['state']=='known'
+    assert all(proof['source_identity']=='9000201' and '工作地点' in proof['locator']
+               for proof in patch['field_observations']['work_locations']['evidence'])

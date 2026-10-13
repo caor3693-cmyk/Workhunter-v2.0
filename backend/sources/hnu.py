@@ -121,13 +121,21 @@ def cloud_enrich(candidate, fetcher, *, school_key, host):
         location_groups = workplace_blocks(body)
         if location_groups:
             location_groups = location_groups[:16]
-            values = list(dict.fromkeys(value for group, _, _ in location_groups for value in group))[:30]
+            # Cloud Career mail-format examples can split "工作地点 + 姓名"
+            # into a labeled value of "+". Symbols alone disclose no location;
+            # retain their material locator as a parsing failure, not absence.
+            valid_groups = [([value for value in group if any(char.isalnum() for char in value)], locator, excerpt)
+                            for group, locator, excerpt in location_groups]
+            valid_groups = [group for group in valid_groups if group[0]]
+            values = list(dict.fromkeys(value for group, _, _ in valid_groups for value in group))[:30]
             proof = [evidence(material, '.detail-module [招聘内容] .dm-cont ' + locator, excerpt)
-                     for _, locator, excerpt in location_groups[:16]]
+                     for _, locator, excerpt in (valid_groups if values else location_groups)]
             patch['work_locations'] = values
             patch['work_locations_scope'] = 'partial_disclosed' if len(location_groups) > 1 or any('table序号' in locator for _, locator, _ in location_groups) else 'this_announcement'
-            patch['field_observations']['work_locations'] = observation('known', values, proof)
-            if candidate.get('field_observations', {}).get('work_locations', {}).get('state') == 'known' and candidate.get('work_locations') != values:
+            patch['field_observations']['work_locations'] = observation('known' if values else 'parse_failed', values if values else None, proof)
+            if not values:
+                warnings.append('工作地点线索只有标点占位符，无法可靠确认；保留本公告原材料定位')
+            if values and candidate.get('field_observations', {}).get('work_locations', {}).get('state') == 'known' and candidate.get('work_locations') != values:
                 retained = candidate['field_observations']['work_locations'].get('evidence', [])[:8]
                 patch['field_observations']['work_locations'] = observation('conflict', None, [*retained, *proof[:16 - len(retained)]])
                 patch.pop('work_locations', None)
