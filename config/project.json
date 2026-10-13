@@ -271,7 +271,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "github_upload_authorized_site_pending",
+        "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -804,7 +804,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "github_upload_authorized_site_pending",
+        "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -841,7 +841,7 @@
         "date": "2026-10-13",
         "engineering": "complete_with_local_evidence",
         "user_result": "未测",
-        "external_delivery": "github_upload_authorized_site_pending",
+        "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
         "report": "docs/deliveries/M3-REVIEW-20261013.md"
       }
@@ -1954,7 +1954,7 @@
     "natural_source_commit": "6f71f3d7d231d031831ed0efbf2c13b6e1ab909f",
     "current_host_next_run_at": "2026-10-13T17:29:34.0000000+08:00",
     "current_build_naturally_triggered": false,
-    "candidate_github_pr": null,
+    "candidate_github_pr": 41,
     "candidate_ci_run": null,
     "remote_issue_project_updated": false,
     "site_redeployed": false,
@@ -1971,8 +1971,33 @@
       "site_update_authorized": false
     },
     "neat_closeout_report": "docs/deliveries/M3-NEAT-20261013.md",
-    "github_upload_status": "authorized_preparing",
+    "github_upload_status": "pushed_draft_prs_open",
     "neat_freak_version": "3.0.1",
-    "workspace_cleanup_status": "evidence_preserved_no_destructive_cleanup"
+    "workspace_cleanup_status": "evidence_preserved_no_destructive_cleanup",
+    "draft_pull_requests": [
+      {
+        "package": "GOV-M2",
+        "number": 39,
+        "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/39"
+      },
+      {
+        "package": "W03",
+        "number": 40,
+        "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/40"
+      },
+      {
+        "package": "M3",
+        "number": 41,
+        "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/41"
+      }
+    ],
+    "first_uploaded_m3_head_verified": "301e667cd669e81c08a366909b25fce2d2f6fae1",
+    "ci_status_source": "current check rollup on draft PR #39/#40/#41",
+    "initial_ci_runs": {
+      "GOV-M2": 38348087855,
+      "W03": 38348094150,
+      "M3_first_upload": 38348100438
+    },
+    "knowledge_closeout_status": "verified_current_with_registered_historical_host_doc_pending"
   }
 }

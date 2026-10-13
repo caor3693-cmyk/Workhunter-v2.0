@@ -2,7 +2,7 @@
 
 核对日：2026-10-12。30个Issue、21open/9closed，状态来自原生Project5回读；用户历史通过/失败保留。候选工程完成不自动关闭业务Issue。
 
-2026-10-13本机增量：#15/#16的自然调度、备份恢复与只读MCP已实现并自验，#12新增纯符号地点修复。以下原生状态是10-12快照，本轮未写GitHub Issue/Project；本机完成不冒充远端状态变更。M3六项用户未测，详见[M3核验包](deliveries/M3-REVIEW-20261013.md)。
+2026-10-13增量：#15/#16的自然调度、备份恢复与只读MCP已实现并自验，#12新增纯符号地点修复；neat-freak收尾后已上传[治理#39](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/39)、[来源#40](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/40)、[M3#41](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/41)三份draft PR。以下原生状态是10-12快照，本轮未修改业务Issue/Project字段；PR上传不冒充状态变更。M3六项用户未测，详见[M3核验包](deliveries/M3-REVIEW-20261013.md)及[收尾回执](deliveries/M3-NEAT-20261013.md)。
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |

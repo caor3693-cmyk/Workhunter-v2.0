@@ -18,7 +18,7 @@ DB备份database_only，恢复副本ID/版本一致，旧调度not_ready不自�
 
 ## 外部交付与用户门槛
 
-用户本轮明确要求neat-freak清理后上传GitHub，代码及脱敏证据可向caor3693-cmyk/Workhunter-v2.0同步；实际分支、draft PR及CI以[收尾回执](deliveries/M3-NEAT-20261013.md)和远端为准。正常推送，不合并、不force push、不关闭业务Issue。
+用户要求neat-freak清理后上传GitHub，代码及脱敏证据已正常推送并创建[治理#39](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/39)、[来源#40](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/40)、[M3#41](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/41)三份draft PR；实际分支与回读见[收尾回执](deliveries/M3-NEAT-20261013.md)。最终CI以PR当前检查为准，不合并、不force push、不关闭业务Issue。
 
 现有[私有Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site)本轮只读回核仍版本4、custom owner范围、0外部访客；没有更新。此前真实API HTTPS通道被自动审批拒绝，本轮GitHub授权不扩展到外部API/Site更新。整源checked_no_changes真实样本、持续观察、Site及用户Gate保持待验证；#18正式发布仍Blocked。
 
