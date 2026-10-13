@@ -33,7 +33,7 @@ $taskArguments = "-m ops.scheduler tick --db `"$taskDatabase`" --backup-director
 $taskTrigger = New-ScheduledTaskTrigger -Once -At $taskStart.LocalDateTime -RepetitionInterval (New-TimeSpan -Hours $taskInterval)
 $taskAction = New-ScheduledTaskAction -Execute $taskPythonWindowless -Argument $taskArguments -WorkingDirectory $taskRoot
 $taskPrincipal = New-ScheduledTaskPrincipal -UserId $taskUserSid -LogonType Interactive -RunLevel Limited
-$taskSettings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -StartWhenAvailable -Hidden -ExecutionTimeLimit (New-TimeSpan -Seconds ([int]$taskPolicy.round_seconds + 180))
+$taskSettings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -StartWhenAvailable -Hidden -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Seconds ([int]$taskPolicy.round_seconds + 180))
 $taskReceiptPath = Join-Path (Split-Path -Parent $taskDatabase) ('.host-registration-' + [Guid]::NewGuid().ToString('N') + '.json')
 Push-Location -LiteralPath $taskRoot
 try {

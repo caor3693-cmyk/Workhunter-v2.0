@@ -294,7 +294,11 @@ def tick(database_path, *, trigger='manual', registration_id=None, current_time=
                 return {'status': 'duplicate_slot', 'started': False, 'slot_at': slot.isoformat()}
             execution_id = 'execution-' + str(uuid4())
             run_id = 'run-' + str(uuid4())
+            from backend.config import Settings
+            from backend.version import PROJECT, VERSION, STAGE
             execution = {'execution_id': execution_id, 'trigger': trigger, 'natural': natural,
+                         'project': PROJECT, 'version': VERSION, 'stage': STAGE,
+                         'backend_commit': Settings.from_env(Path(database_path)).backend_commit,
                          'host_registration_id': host.get('id') if natural else None,
                          'slot_at': slot.isoformat(), 'triggered_at': now.isoformat(),
                          'status': 'running', 'business_status': None, 'business_completeness': None,

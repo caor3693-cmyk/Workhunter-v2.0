@@ -181,7 +181,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         last = projection.get('last_execution')
         if last:
             result['last_execution'] = {key: last.get(key) for key in
-                ('slot_at', 'triggered_at', 'finished_at', 'run_id', 'run_ids', 'status', 'business_status',
+                ('project', 'version', 'stage', 'backend_commit', 'slot_at', 'triggered_at', 'finished_at', 'run_id', 'run_ids', 'status', 'business_status',
                  'business_completeness', 'process_exit_code', 'process_exit_scope', 'scheduler_exit_code',
                  'host_task_exit_code', 'trigger', 'backup_status')}
             backup = last.get('backup')
