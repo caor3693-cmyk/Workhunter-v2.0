@@ -14,7 +14,7 @@ $taskDatabase = (Resolve-Path -LiteralPath $DatabasePath).Path
 $taskBackup = [IO.Path]::GetFullPath($BackupDirectory)
 $taskPythonWindowless = Join-Path (Split-Path -Parent $taskPython) 'pythonw.exe'
 if (-not (Test-Path -LiteralPath $taskPythonWindowless -PathType Leaf)) { throw '需要同一环境的 pythonw.exe，避免任务弹出终端。' }
-$taskGit = (Get-Command git -CommandType Application -ErrorAction Stop).Source
+$taskGit = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 $taskSourceChanges = @(& $taskGit -C $taskRoot status --porcelain --untracked-files=all -- backend ops config)
 if ($LASTEXITCODE -ne 0) { throw '无法核对本次调度源码，未安装任务。' }
 if ($taskSourceChanges.Count -gt 0) { throw 'backend/ops/config 尚未干净冻结，未安装任务。' }
