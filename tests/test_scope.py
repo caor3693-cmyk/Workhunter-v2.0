@@ -291,7 +291,7 @@ def test_dispatch_rejects_forged_branch_identity(scope_repo, tmp_path):
 
 
 @pytest.mark.parametrize('package,issues,branch,paths', [
-    ('W05-A', '15', 'codex/w05-a-test', ['ops/scheduler.py', 'backend/services/scheduling.py', 'frontend/pages/sources.js']),
+    ('W05-A', '15', 'codex/w05-a-test', ['ops/scheduler.py', 'backend/services/scheduling.py', 'backend/services/maintenance_tasks.py', 'tests/test_maintenance_tasks.py', 'frontend/pages/sources.js']),
     ('W05-B', '16', 'codex/w05-b-test', ['ops/backup.py', 'ops/mcp.py', 'ops/diagnostics.py']),
 ])
 def test_m3_packages_accept_separate_declared_operations(scope_repo, package, issues, branch, paths):
@@ -309,6 +309,7 @@ def test_m3_packages_accept_separate_declared_operations(scope_repo, package, is
     ('W05-A', '15', 'codex/w05-a-test', 'ops/backup.py'),
     ('W05-B', '16', 'codex/w05-b-test', 'backend/services/scheduling.py'),
     ('W05-B', '16', 'codex/w05-b-test', 'backend/api/maintenance.py'),
+    ('W05-B', '16', 'codex/w05-b-test', 'backend/services/maintenance_tasks.py'),
     ('W05-B', '16', 'codex/w05-b-test', 'ops/preview/worker.mjs'),
     ('W05-B', '16', 'codex/w05-b-test', 'config/operations.json'),
     ('W05-A', '15', 'codex/w05-a-test', 'scripts/work_package_scopes.json'),

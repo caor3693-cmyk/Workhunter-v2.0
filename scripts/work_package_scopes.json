@@ -195,10 +195,10 @@
       "paths": [
         "ops/__init__.py", "ops/scheduler.py", "ops/install_scheduler.ps1", "ops/verify_m3.py",
         "ops/systemd/workhunter-v2-refresh.service", "ops/systemd/workhunter-v2-refresh.timer",
-        "backend/services/scheduling.py", "backend/services/discovery.py", "backend/services/queries.py",
+        "backend/services/scheduling.py", "backend/services/discovery.py", "backend/services/queries.py", "backend/services/maintenance_tasks.py",
         "backend/api/app.py", "backend/config.py", "backend/version.py", "config/operations.json",
         "frontend/pages/sources.js", "ops/preview/worker.mjs",
-        "tests/test_scheduling.py", "tests/test_m3_read_api.py", "tests/test_refresh.py",
+        "tests/test_scheduling.py", "tests/test_m3_read_api.py", "tests/test_refresh.py", "tests/test_maintenance_tasks.py",
         "tests/test_frontend_pages.mjs", "tests/test_preview_proxy.mjs", "README.md"
       ],
       "purpose": "Bounded isolated scheduler and persisted execution state using the existing shared writer and source queue; root alone integrates API/source status, identity and preview. No new schema or production switch"
