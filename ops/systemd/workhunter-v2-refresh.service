@@ -1,0 +1,13 @@
+# User unit template. Review WorkingDirectory/ExecStart and register the exact
+# timer's first calendar boundary in operations_schedule before enabling it.
+[Unit]
+Description=Workhunter v2 isolated six-hour collection
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/workhunter-v2
+Environment=PYTHONIOENCODING=utf-8
+ExecStart=%h/workhunter-v2/.venv/bin/python -m ops.scheduler tick --db %h/.local/share/workhunter-v2/real.sqlite3 --backup-directory %h/.local/share/workhunter-v2/backups --trigger scheduled --registration-id systemd:workhunter-v2-refresh.timer
+TimeoutStartSec=1380
+UMask=0077
+NoNewPrivileges=true

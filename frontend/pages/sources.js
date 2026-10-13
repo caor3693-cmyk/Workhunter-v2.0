@@ -12,6 +12,14 @@ export function mountSources({ document: doc = globalThis.document, read } = {})
     const schools = catalog.data?.schools || [];
     setResourceStatus(get("catalog-status"), catalog, "正在读取学校目录…", `${schools.length} 所学校已登记，不因失败或零条目移除。`);
     setResourceStatus(get("source-status"), sources, "正在读取来源状态…", "以下状态来自当前服务，不等同于完整自动覆盖。");
+    const schedule = sources.data?.schedule;
+    if (sources.status === 'ready' && schedule) {
+      const plan = schedule.status === 'scheduled' && schedule.next_run_at ? `已登记下次检查：${displayTime(schedule.next_run_at)}（北京时间）` :
+        schedule.status === 'running' ? '定时检查正在运行；完整性以逐源结果为准。' :
+        schedule.status === 'overdue' ? '定时计划已逾期，尚未核实触发；保留上次可靠结果。' :
+        schedule.status === 'disabled' ? '自动检查已停用；页面只读取已有记录。' : '自动检查宿主状态尚未核实。';
+      get('source-status').textContent = `以下状态来自当前服务，不等同于完整自动覆盖。${plan}`;
+    }
     if (!pageDatasetsAgree(reader.resources)) {
       get("source-status").textContent = "目录与来源数据身份不一致，请重新加载；当前内容尚未核对为同一版本。";
       get("source-status").classList.add("is-error");
@@ -32,6 +40,9 @@ export function mountSources({ document: doc = globalThis.document, read } = {})
         if (source.message) card.append(element("p", { className: "source-message", text: source.message }));
         if (source.last_success_at) card.append(element("p", { className: "source-message", text: `最近成功：${displayTime(source.last_success_at)}（北京时间）` }));
         else if (!source.message) card.append(element("p", { className: "source-message", text: "尚未取得可用材料；目录登记不代表采集成功。" }));
+        if (source.last_attempt_at) card.append(element('p', { className: 'source-message', text: `最近尝试：${displayTime(source.last_attempt_at)}（北京时间）` }));
+        if (source.stale) card.append(element('p', { className: 'source-message', text: '最近成功已超过 48 小时，材料陈旧，当前情况待核实。' }));
+        else if (source.review_due) card.append(element('p', { className: 'source-message', text: '最近成功已超过 24 小时，等待复核。' }));
       }
       return card;
     }));

@@ -8,6 +8,7 @@ import pytest
 from backend.config import ROOT
 from backend.storage.database import DatabaseUnavailable, initialize_database, read_database
 from backend.storage.write import RefreshBusy, WriterBusy, refresh_lock, writer_transaction
+from backend.services.scheduling import scheduler_lock
 
 
 @pytest.mark.parametrize("lock_name,error", [("writer_transaction", WriterBusy), ("refresh_lock", RefreshBusy)])
@@ -54,3 +55,20 @@ def test_write_and_refresh_never_create_a_missing_database_or_directory(tmp_path
             with boundary(missing):
                 pass
     assert not missing.parent.exists()
+
+
+def test_scheduler_lock_rejects_other_process_but_does_not_hold_writer(tmp_path):
+    database = tmp_path / 'isolated.sqlite3'
+    initialize_database(database, fixture=True)
+    code = "from pathlib import Path; import sys; from backend.services.scheduling import scheduler_lock;\nwith scheduler_lock(Path(sys.argv[1])):\n print('locked',flush=True)\n sys.stdin.readline()\n"
+    child = subprocess.Popen([sys.executable,'-c',code,str(database)],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+    try:
+        assert child.stdout.readline().strip()=='locked'
+        with pytest.raises(RefreshBusy):
+            with scheduler_lock(database):
+                pytest.fail('second scheduler acquired the same database')
+        with writer_transaction(database,timeout_seconds=0):
+            pass
+    finally:
+        child.communicate('release\n',timeout=15)
+    assert child.returncode==0

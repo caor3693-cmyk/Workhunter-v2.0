@@ -32,6 +32,7 @@ def identity(metadata: dict[str, str]) -> dict:
 
 def source_projection(row: sqlite3.Row) -> dict:
     from backend.domain.source_policy import school_policy
+    from backend.services.scheduling import source_freshness
     registered = any(item['source_key'] == row['source_key'] for item in school_policy(row['school_key']).get('sources', []))
     try:
         safe_url(row['official_entry_url'])
@@ -46,6 +47,7 @@ def source_projection(row: sqlite3.Row) -> dict:
         "message": row["public_message"],
         "channel_key": row['channel_key'], "scope": _decode(row['scope_json'], dict),
         "maintenance_material_supported": registered,
+        **source_freshness(row['last_success_at'], row['status']),
     }
 
 

@@ -6,9 +6,11 @@ from backend.storage.database import DatabaseUnavailable, read_database
 
 
 LABELS={'public_restriction':'公开路径受限','source_failure':'来源获取失败',
+    'source_review_due':'健康来源超过24小时未复核',
     'parse_failure':'材料尚未可靠解析','field_pending':'字段材料待补或待核实',
     'material_quarantine':'材料适用关系待核实','manual_conflict':'人工更正与自动观察待核对'}
 ACTIONS={'public_restriction':'此路径已停止；核对公开限制，或预览合法官方材料。',
+    'source_review_due':'核对已登记的自动检查计划与最近成功；保留可靠记录，等待允许范围的来源复核。',
     'source_failure':'核对失败原因及官方入口，在允许范围内重新预览材料。',
     'parse_failure':'核对已取得材料的实际正文和本条身份，再预览更正。',
     'field_pending':'核对本条官方材料；尚未取得不等于原文未披露。',
@@ -103,6 +105,11 @@ def project_tasks(connection,metadata,*,limit=20,before=None,source_key=None,inc
     for key,source in sources.items():
         if source['status']=='restricted':group(key,'public_restriction',basis='source_status')
         elif source['status']=='failed':group(key,'source_failure',basis='source_status')
+        elif source['status'] in {'success', 'partial', 'healthy'}:
+            from backend.services.scheduling import source_freshness
+            if source_freshness(source['last_success_at'], source['status'])['review_due']:
+                # A stable derived source gap, with no invented retry ID or GET write.
+                group(key, 'source_review_due', basis='last_success_older_than_24h')
     for row in connection.execute("SELECT o.* FROM opportunities o WHERE NOT EXISTS (SELECT 1 FROM field_decisions d WHERE d.opportunity_id=o.id AND d.field_name='__visibility__' AND d.value_json='false')"):
         observations=_json(row['field_observations_json'],dict)
         for field in (*CORE_FIELDS,'relevance'):
