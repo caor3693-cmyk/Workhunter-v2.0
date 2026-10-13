@@ -107,7 +107,13 @@ def _queue_state(database_path, config):
 def _finish(database_path, run_id, summary, status):
     with writer_transaction(database_path) as (connection, _):
         progress = json.loads(connection.execute("SELECT result_json FROM runs WHERE id=?", (run_id,)).fetchone()[0])
-        if status == "partial" and progress.get("pages", 0) == 0 and all(item["status"] in {"failed", "restricted"} for item in summary["sources"]):
+        source_states = [item["status"] for item in summary["sources"]]
+        # Previously stopped paths are not attempted again and cannot disguise
+        # failures from every path actually checked in this round. With only
+        # known skips, coverage remains unknown/partial rather than verified zero.
+        if (status == "partial" and progress.get("pages", 0) == 0
+                and any(state in {"failed", "restricted"} for state in source_states)
+                and all(state in {"failed", "restricted", "skipped_restricted"} for state in source_states)):
             status = "failed"
         summary = {**summary, "status": status, "pages": progress.get("pages", 0), "commits": progress.get("commits", {"new": 0, "modified": 0, "unchanged": 0})}
         connection.execute("UPDATE runs SET finished_at=?,status=?,completeness=?,result_json=?,committed_at=? WHERE id=?", (now(), status, "complete_for_selected_channels" if status == "complete" else "partial", encoded(summary), now(), run_id))

@@ -134,6 +134,12 @@ def verify_host_invocation(registration_id):
             raise ValueError('systemd 当前运行进程与本次 tick 不同。')
 
 
+def exact_backend_commit(value):
+    if not re.fullmatch(r'[0-9a-fA-F]{40}', value):
+        raise argparse.ArgumentTypeError('backend-commit 必须是已核对的完整40位十六进制提交。')
+    return value.lower()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Workhunter v2 隔离宿主调度；不安装任务或创建业务库')
     commands = parser.add_subparsers(dest='command', required=True)
@@ -147,6 +153,10 @@ def main(argv=None):
             command.add_argument('--trigger', choices=('scheduled', 'manual'), default='manual')
             command.add_argument('--registration-id')
             command.add_argument('--backup-directory', type=Path, required=True)
+            command.add_argument('--backend-commit', type=exact_backend_commit,
+                                 help='安装时从干净源码核对的完整提交；通过本进程环境传给采集子进程')
+            command.add_argument('--source-dns-mode', choices=('system', 'cloudflare-doh'),
+                                 help='固定公开来源 DNS 模式；省略时保留已登记宿主环境')
         elif name == '_collect':
             command.add_argument('--cursor', type=int, required=True)
             command.add_argument('--run-id', required=True)
@@ -162,6 +172,10 @@ def main(argv=None):
             with read_database(options.db) as (connection, metadata):
                 result = scheduling.schedule_projection(connection, metadata)
         elif options.command == 'tick':
+            if options.backend_commit:
+                os.environ['WH_BACKEND_COMMIT'] = options.backend_commit
+            if options.source_dns_mode:
+                os.environ['WH_SOURCE_DNS_MODE'] = options.source_dns_mode
             if options.trigger == 'scheduled':
                 verify_host_invocation(options.registration_id)
             result = scheduling.tick(options.db, trigger=options.trigger, registration_id=options.registration_id,

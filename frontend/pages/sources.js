@@ -2,7 +2,7 @@ import { displayTime, element, safePublicURL } from "../components/dom.js";
 import { PAGE_READ_PATHS } from "./routes.js";
 import { createPageReader, pageDatasetsAgree, resourceMessage, setResourceStatus } from "./shared.js";
 
-const SOURCE_LABELS = { not_checked: "尚未检查", pending: "尚未核验", healthy: "检查正常", success: "已取得材料", partial: "部分完成", failed: "检查失败", restricted: "访问受限", stale: "最近检查已陈旧", paused: "已暂停" };
+const SOURCE_LABELS = { not_checked: "尚未检查", pending: "尚未核验", checking: "正在检查", healthy: "检查正常", success: "已取得材料", partial: "部分完成", failed: "检查失败", restricted: "访问受限", stale: "最近检查已陈旧", paused: "已暂停" };
 
 export function mountSources({ document: doc = globalThis.document, read } = {}) {
   const get = id => doc.getElementById(id);

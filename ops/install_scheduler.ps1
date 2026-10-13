@@ -4,7 +4,8 @@ param(
     [Parameter(Mandatory=$true)][string]$DatabasePath,
     [Parameter(Mandatory=$true)][string]$BackupDirectory,
     [string]$TaskName,
-    [string]$FirstRun
+    [string]$FirstRun,
+    [ValidateSet('system','cloudflare-doh')][string]$SourceDnsMode = 'system'
 )
 $ErrorActionPreference = 'Stop'
 $taskRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
@@ -13,6 +14,13 @@ $taskDatabase = (Resolve-Path -LiteralPath $DatabasePath).Path
 $taskBackup = [IO.Path]::GetFullPath($BackupDirectory)
 $taskPythonWindowless = Join-Path (Split-Path -Parent $taskPython) 'pythonw.exe'
 if (-not (Test-Path -LiteralPath $taskPythonWindowless -PathType Leaf)) { throw '需要同一环境的 pythonw.exe，避免任务弹出终端。' }
+$taskGit = (Get-Command git -CommandType Application -ErrorAction Stop).Source
+$taskSourceChanges = @(& $taskGit -C $taskRoot status --porcelain --untracked-files=all -- backend ops config)
+if ($LASTEXITCODE -ne 0) { throw '无法核对本次调度源码，未安装任务。' }
+if ($taskSourceChanges.Count -gt 0) { throw 'backend/ops/config 尚未干净冻结，未安装任务。' }
+$taskBackendCommit = (& $taskGit -C $taskRoot rev-parse HEAD).Trim()
+if ($LASTEXITCODE -ne 0 -or $taskBackendCommit -notmatch '^[0-9a-fA-F]{40}$') { throw '无法核对完整提交身份，未安装任务。' }
+$taskBackendCommit = $taskBackendCommit.ToLowerInvariant()
 $taskUserSid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $taskDigest = [Security.Cryptography.SHA256]::Create()
 try { $taskHash = ([BitConverter]::ToString($taskDigest.ComputeHash([Text.Encoding]::UTF8.GetBytes($taskDatabase.ToLowerInvariant())))).Replace('-','').Substring(0,12) }
@@ -29,7 +37,7 @@ $taskPolicy = Get-Content -LiteralPath (Join-Path $taskRoot 'config/operations.j
 $taskInterval = [int]$taskPolicy.interval_hours
 if ($taskInterval -lt 1 -or $taskInterval -gt 168) { throw '调度间隔超出已登记范围。' }
 $taskRegistrationId = "windows-task:$TaskName"
-$taskArguments = "-m ops.scheduler tick --db `"$taskDatabase`" --backup-directory `"$taskBackup`" --trigger scheduled --registration-id `"$taskRegistrationId`""
+$taskArguments = "-m ops.scheduler tick --db `"$taskDatabase`" --backup-directory `"$taskBackup`" --trigger scheduled --registration-id `"$taskRegistrationId`" --backend-commit $taskBackendCommit --source-dns-mode $SourceDnsMode"
 $taskTrigger = New-ScheduledTaskTrigger -Once -At $taskStart.LocalDateTime -RepetitionInterval (New-TimeSpan -Hours $taskInterval)
 $taskAction = New-ScheduledTaskAction -Execute $taskPythonWindowless -Argument $taskArguments -WorkingDirectory $taskRoot
 $taskPrincipal = New-ScheduledTaskPrincipal -UserId $taskUserSid -LogonType Interactive -RunLevel Limited
@@ -60,6 +68,7 @@ try {
     & $taskPython -m ops.scheduler configure --db $taskDatabase --first-run $taskReadStart.ToString('o') --host-registration $taskReceiptPath
     if ($LASTEXITCODE -ne 0) { throw '宿主已登记但业务启用失败，需核对同名任务；不会自动覆盖或删除。' }
     [pscustomobject]@{ task_name=$TaskName; registration_id=$taskRegistrationId; first_run_at=$taskReadStart.ToString('o');
+        backend_commit=$taskBackendCommit; source_dns_mode=$SourceDnsMode;
         interval_hours=$taskInterval; principal=$taskUserSid; run_level='Limited'; next_run_at=([DateTimeOffset]$taskInfo.NextRunTime).ToString('o');
         bootstrap_note='首个未来启动为真实bootstrap计划，之后按固定周期；未发生六小时运营观察。' } | ConvertTo-Json
 }

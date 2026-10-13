@@ -11,6 +11,7 @@ import pytest
 from backend.config import ROOT
 from backend.services import scheduling
 from backend.services.discovery import refresh_sources
+from backend.sources import FetchError
 from backend.storage.database import initialize_database, read_database
 from backend.storage.write import writer_transaction
 from ops.scheduler import collect, run_collector
@@ -187,8 +188,11 @@ def test_round_budget_rotates_to_unattempted_source_and_skips_known_restrictions
 
 def test_single_source_failure_isolated_os_zero_not_complete_and_history_bounded(database):
     registered(database, ledger_limit=2)
+    class Failed(Adapter):
+        def discover(self,config,fetcher,cursor=None):
+            raise FetchError('synthetic public-network failure',status='network_failed')
     def partial(db,policy,cursor,run_id,trigger):
-        failed=Adapter(db,fail_list=True);good=Adapter(db)
+        failed=Failed(db);good=Adapter(db)
         business=refresh_sources(db,[source(),source('gdut')],lambda config:failed if config['school_key']=='scut' else good,lambda _:Transport(),fixture=True,run_id=run_id,detail_budget=1)
         return {'exit_code':0,'business':business,'next_cursor':cursor+1,
                 'backup':{'status':'failed'},'scheduler_exit_code':2}
@@ -196,6 +200,7 @@ def test_single_source_failure_isolated_os_zero_not_complete_and_history_bounded
         result=scheduling.tick(database,runner=partial,current_time=NOW+timedelta(minutes=minutes))
     assert result['process_exit_code']==0 and result['business_status']=='partial'
     assert result['business_completeness']=='partial' and result['scheduler_exit_code']==2
+    assert result['source_results'][0]['status']=='failed'
     assert result['source_results'][1]['status']=='complete'
     assert len(projection(database,NOW+timedelta(minutes=3))['ledger'])==2
 
@@ -239,7 +244,8 @@ def test_structurally_malformed_schedule_keeps_source_projection_readable(databa
 
 
 @pytest.mark.parametrize('backup_failed', [False, True])
-def test_collector_uses_bounded_managed_retention_and_keeps_backup_failure_separate(database, tmp_path, monkeypatch, backup_failed):
+@pytest.mark.parametrize('dns_mode', ['system', 'cloudflare-doh'])
+def test_collector_uses_bounded_managed_retention_and_keeps_backup_failure_separate(database, tmp_path, monkeypatch, backup_failed, dns_mode):
     observed={}
     class Child:
         returncode=0
@@ -253,13 +259,128 @@ def test_collector_uses_bounded_managed_retention_and_keeps_backup_failure_separ
         if backup_failed:
             raise RuntimeError('protected capacity exceeded')
         return {'status':'verified','retained_count':7,'removed_verified':[]}
-    monkeypatch.setenv('WH_SOURCE_DNS_MODE','system')
+    monkeypatch.setenv('WH_SOURCE_DNS_MODE',dns_mode)
     monkeypatch.setattr('ops.scheduler.subprocess.Popen',spawn)
     monkeypatch.setattr('ops.backup.create_backup',backup)
     result=run_collector(database,POLICY,0,'run-backup-contract','manual',backup_directory=tmp_path/'managed')
     assert observed['backup']=={'retain_count':7,'byte_cap':268435456,'min_free_bytes':134217728,'apply_retention':True,'max_seconds':60}
-    assert observed['env']['WH_SOURCE_DNS_MODE']=='system'
+    assert observed['env']['WH_SOURCE_DNS_MODE']==dns_mode
     assert result['exit_code']==0 and result['business']['status']=='partial'
     assert result['backup']['status']==('failed' if backup_failed else 'complete')
     assert result['scheduler_exit_code']==(2 if backup_failed else 0)
+
+
+@pytest.mark.parametrize('bad', ['a65c136', 'unavailable', 'g'*40, 'a'*39, 'a'*41, 'a'*40+'+dirty'])
+def test_cli_invalid_pinned_commit_is_rejected_before_db_or_host_access(tmp_path, monkeypatch, bad):
+    from ops import scheduler
+    def forbidden(*args,**kwargs):
+        pytest.fail('invalid pinned identity reached host or database')
+    monkeypatch.setattr(scheduling,'tick',forbidden)
+    monkeypatch.setattr(scheduler,'verify_host_invocation',forbidden)
+    with pytest.raises(SystemExit) as error:
+        scheduler.main(['tick','--db',str(tmp_path/'missing.sqlite3'),
+            '--backup-directory',str(tmp_path/'backups'),'--trigger','scheduled','--backend-commit',bad])
+    assert error.value.code==2
+    assert not (tmp_path/'missing.sqlite3').exists()
+
+
+def test_task_cli_pinned_identity_is_recorded_when_git_is_not_on_path(database, tmp_path, monkeypatch):
+    from ops import scheduler
+    from backend.config import Settings
+    registered(database)
+    pinned='0123456789abcdef0123456789abcdef01234567'
+    prior_run=subprocess.run
+    def without_git(arguments,*args,**kwargs):
+        if arguments[0]=='git':
+            raise FileNotFoundError('Task Scheduler PATH has no git')
+        return prior_run(arguments,*args,**kwargs)
+    monkeypatch.setenv('WH_BACKEND_COMMIT','')
+    monkeypatch.setattr(subprocess,'run',without_git)
+    monkeypatch.setattr(scheduler,'run_collector',lambda db,policy,cursor,run_id,trigger,backup_directory=None:
+        runner(db,policy,cursor,run_id,trigger))
+    exit_code=scheduler.main(['tick','--db',str(database),'--backup-directory',str(tmp_path/'backups'),
+        '--backend-commit',pinned])
+    assert exit_code==0
+    assert Settings.from_env(database).backend_commit==pinned
+    result=projection(database)
+    assert result['last_execution']['backend_commit']==pinned
+    assert result['last_execution']['trigger']=='manual' and result['last_execution']['natural'] is False
+
+
+def test_all_attempted_sources_failed_with_two_known_restricted_skips_is_failed(database):
+    refresh_sources(database,[source()],lambda _:Adapter(database),lambda _:Transport(),fixture=True,detail_budget=0)
+    configs=[source(),source('gdut')]
+    old_attempt='2026-10-11T01:00:00+00:00'
+    with writer_transaction(database) as (connection,_):
+        connection.execute("UPDATE sources SET status='restricted',last_attempt_at=? WHERE source_key IN ('scut_homepage','gdut_homepage')",(old_attempt,))
+        before=[tuple(row) for row in connection.execute('SELECT id,title,version FROM opportunities')]
+    for config in tuple(configs):
+        configs.append({**config,'source_key':config['school_key']+'_network_fixture','channel_key':'network_fixture'})
+    with writer_transaction(database) as (connection,_):
+        for config in configs[2:]:
+            connection.execute("INSERT INTO sources(source_key,school_key,name,channel_key,official_entry_url,adapter,scope_json) VALUES (?,?,?,?,?,?,?)",
+                (config['source_key'],config['school_key'],'synthetic registered network channel',config['channel_key'],
+                 config['official_entry_url'],config['adapter'],json.dumps(config['scope'])))
+    visited=[]
+    class Failed(Adapter):
+        def discover(self,config,fetcher,cursor=None):
+            visited.append(config['source_key'])
+            raise FetchError('synthetic public-network failure',status='network_failed')
+    result=collect(database,POLICY,0,'run-all-failed-known-skips','scheduled',
+        configs=configs,adapters=lambda _:Failed(database),transport=lambda _:Transport())['business']
+    assert result['status']=='failed' and result['pages']==0
+    assert [item['status'] for item in result['sources']]==['skipped_restricted','skipped_restricted','failed','failed']
+    assert visited==['scut_network_fixture','gdut_network_fixture']
+    with read_database(database) as (connection,_):
+        assert connection.execute("SELECT status FROM runs WHERE id='run-all-failed-known-skips'").fetchone()[0]=='failed'
+        assert [tuple(row) for row in connection.execute('SELECT id,title,version FROM opportunities')]==before
+        assert [tuple(row) for row in connection.execute("SELECT status,last_attempt_at FROM sources WHERE source_key IN ('scut_homepage','gdut_homepage')")]==[('restricted',old_attempt)]*2
+
+
+def test_only_known_restricted_sources_do_not_claim_verified_empty_coverage(database):
+    with writer_transaction(database) as (connection,_):
+        connection.execute("UPDATE sources SET status='restricted' WHERE source_key IN ('scut_homepage','gdut_homepage')")
+    def forbidden(config):
+        pytest.fail('known restricted source was retried')
+    result=collect(database,POLICY,0,'run-only-known-skips','scheduled',configs=[source(),source('gdut')],
+        adapters=forbidden,transport=forbidden)['business']
+    assert result['status']=='partial'
+    assert [item['status'] for item in result['sources']]==['skipped_restricted']*2
+    with read_database(database) as (connection,_):
+        assert tuple(connection.execute("SELECT status,completeness FROM runs WHERE id='run-only-known-skips'").fetchone())==('partial','partial')
+        assert connection.execute("SELECT COUNT(*) FROM sources WHERE last_attempt_at IS NOT NULL").fetchone()[0]==0
+
+
+@pytest.mark.parametrize('bad',['automatic','private-proxy',''])
+def test_cli_invalid_dns_mode_is_rejected_before_db_or_host_access(tmp_path,monkeypatch,bad):
+    from ops import scheduler
+    def forbidden(*args,**kwargs):
+        pytest.fail('invalid DNS mode reached host or database')
+    monkeypatch.setattr(scheduling,'tick',forbidden)
+    monkeypatch.setattr(scheduler,'verify_host_invocation',forbidden)
+    with pytest.raises(SystemExit) as error:
+        scheduler.main(['tick','--db',str(tmp_path/'missing.sqlite3'),'--backup-directory',str(tmp_path/'backups'),
+                        '--trigger','scheduled','--source-dns-mode',bad])
+    assert error.value.code==2 and not (tmp_path/'missing.sqlite3').exists()
+
+
+@pytest.mark.parametrize('mode',['system','cloudflare-doh',None])
+def test_task_cli_dns_pin_reaches_existing_transport_and_omission_preserves_host_mode(database,tmp_path,monkeypatch,mode):
+    from ops import scheduler
+    observed=[]
+    registered(database)
+    monkeypatch.setenv('WH_SOURCE_DNS_MODE','cloudflare-doh')
+    class Observe(Adapter):
+        def discover(self,config,fetcher,cursor=None):
+            observed.append(fetcher.resolver.mode)
+            return super().discover(config,fetcher,cursor)
+    def local_collector(db,policy,cursor,run_id,trigger,backup_directory=None):
+        return {'exit_code':0,**collect(db,policy,cursor,run_id,trigger,
+            configs=[source()],adapters=lambda _:Observe(database))}
+    monkeypatch.setattr(scheduler,'run_collector',local_collector)
+    arguments=['tick','--db',str(database),'--backup-directory',str(tmp_path/'backups')]
+    if mode is not None:
+        arguments.extend(['--source-dns-mode',mode])
+    assert scheduler.main(arguments)==0
+    assert observed==[mode or 'cloudflare-doh']
 
