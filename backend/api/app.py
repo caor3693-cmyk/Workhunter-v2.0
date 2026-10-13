@@ -169,7 +169,30 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/api/sources/status")
     def source_status():
         with read_database(configuration.db_path) as (connection, metadata):
-            return {**queries.identity(metadata), "sources": queries.sources(connection)}
+            return {**build_identity(metadata), "sources": queries.sources(connection), "schedule": public_schedule(connection, metadata)}
+
+    def public_schedule(connection, metadata):
+        from backend.services.scheduling import schedule_projection
+        projection = schedule_projection(connection, metadata)
+        # Public state contains no host action, filesystem path or diagnostic text.
+        allowed = ('enabled', 'status', 'interval_hours', 'next_run_at', 'overdue_since',
+                   'natural_run_count', 'observed_natural_days', 'continuous_days', 'observed_at')
+        result = {key: projection.get(key) for key in allowed}
+        last = projection.get('last_execution')
+        if last:
+            result['last_execution'] = {key: last.get(key) for key in
+                ('project', 'version', 'stage', 'backend_commit', 'slot_at', 'triggered_at', 'finished_at', 'run_id', 'run_ids', 'status', 'business_status',
+                 'business_completeness', 'process_exit_code', 'process_exit_scope', 'scheduler_exit_code',
+                 'host_task_exit_code', 'trigger', 'backup_status')}
+            backup = last.get('backup')
+            if isinstance(backup, dict) and backup.get('status') in {'complete', 'failed'}:
+                result['last_execution']['backup_status'] = backup['status']
+        return {**build_identity(metadata), **result}
+
+    @app.get('/api/refresh/status')
+    def refresh_status():
+        with read_database(configuration.db_path) as (connection, metadata):
+            return public_schedule(connection, metadata)
 
     @app.get("/api/updates/summary")
     def summary():

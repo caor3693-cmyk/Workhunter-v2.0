@@ -4,6 +4,7 @@ from copy import deepcopy
 import hashlib
 import json
 import re
+import time
 from urllib.parse import urlsplit
 from uuid import uuid4
 
@@ -106,14 +107,20 @@ def _queue_state(database_path, config):
 def _finish(database_path, run_id, summary, status):
     with writer_transaction(database_path) as (connection, _):
         progress = json.loads(connection.execute("SELECT result_json FROM runs WHERE id=?", (run_id,)).fetchone()[0])
-        if status == "partial" and progress.get("pages", 0) == 0 and all(item["status"] in {"failed", "restricted"} for item in summary["sources"]):
+        source_states = [item["status"] for item in summary["sources"]]
+        # Previously stopped paths are not attempted again and cannot disguise
+        # failures from every path actually checked in this round. With only
+        # known skips, coverage remains unknown/partial rather than verified zero.
+        if (status == "partial" and progress.get("pages", 0) == 0
+                and any(state in {"failed", "restricted"} for state in source_states)
+                and all(state in {"failed", "restricted", "skipped_restricted"} for state in source_states)):
             status = "failed"
         summary = {**summary, "status": status, "pages": progress.get("pages", 0), "commits": progress.get("commits", {"new": 0, "modified": 0, "unchanged": 0})}
         connection.execute("UPDATE runs SET finished_at=?,status=?,completeness=?,result_json=?,committed_at=? WHERE id=?", (now(), status, "complete_for_selected_channels" if status == "complete" else "partial", encoded(summary), now(), run_id))
         return summary
 
 
-def refresh_sources(database_path, source_configs, adapters=None, transport=None, *, school_keys=("scut", "gdut"), page_budget=2, detail_budget=20, fixture=False, resume_run_id=None, trigger="manual"):
+def refresh_sources(database_path, source_configs, adapters=None, transport=None, *, school_keys=("scut", "gdut"), page_budget=2, detail_budget=20, fixture=False, resume_run_id=None, trigger="manual", run_id=None, skip_restricted=False, round_deadline=None, monotonic=time.monotonic):
     """Refresh registered fixed-school sources; never migrate/init.
 
     Adapter and transport factories receive source_config. A fresh transport per
@@ -129,7 +136,9 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
     if not configs or len({config["source_key"] for config in configs}) != len(configs):
         raise ValueError("本轮刷新需要选定学校的非重复已登记来源。")
     scope = {"school_keys": list(school_keys), "source_keys": [config["source_key"] for config in configs], "page_budget": page_budget, "detail_budget": detail_budget, "fixture": fixture}
-    run_id = resume_run_id or "run-" + str(uuid4())
+    if run_id is not None and (not isinstance(run_id,str) or not run_id.startswith('run-') or len(run_id)>128 or resume_run_id):
+        raise ValueError('调度轮次身份无效，不能与续跑身份混用。')
+    run_id = resume_run_id or run_id or "run-" + str(uuid4())
     with refresh_lock(database_path):
         with writer_transaction(database_path) as (connection, metadata):
             assert_data_mode(metadata, fixture)
@@ -150,6 +159,17 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
             for config in configs:
                 outcome = {"source_key": config["source_key"], "pages": 0, "details": 0, "detail_failures": 0, "restricted_details": 0, "status": "partial", "warnings": [], "next_cursor": None}
                 summary["sources"].append(outcome)
+                if skip_restricted:
+                    with read_database(database_path) as (connection,_):
+                        previous=connection.execute('SELECT status FROM sources WHERE source_key=?',(config['source_key'],)).fetchone()
+                    if (previous and previous['status']=='restricted') or config.get('scope',{}).get('coverage')=='restricted_path':
+                        outcome['status']='skipped_restricted'
+                        outcome['warnings']=[{'code':'previous_restriction','layer':'scheduler'}]
+                        continue
+                if round_deadline is not None and monotonic()>=round_deadline:
+                    outcome['status']='skipped_budget'
+                    outcome['warnings']=[{'code':'round_budget_exhausted','layer':'scheduler'}]
+                    continue
                 if adapters is None:
                     adapter = get_adapter(config)
                 elif callable(adapters):
@@ -168,9 +188,14 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
                 attempted_details = set()
                 phase = "detail"
 
+                def check_round_budget():
+                    if round_deadline is not None and monotonic()>=round_deadline:
+                        raise FetchError('整轮检查时限已耗尽',status='budget_exhausted')
+
                 def details():
                     nonlocal remaining_details
                     for candidate in _pending_details(database_path, config, run_id, retry_failed=bool(resume_run_id)):
+                        check_round_budget()
                         if candidate["source_identity"] in attempted_details:
                             continue
                         attempted_details.add(candidate["source_identity"])
@@ -213,6 +238,7 @@ def refresh_sources(database_path, source_configs, adapters=None, transport=None
                     _source_status(database_path, config, "checking", message="正在检查公开来源", fixture=fixture)
                     details()
                     for _ in range(page_budget):
+                        check_round_budget()
                         if complete:
                             break
                         marker = encoded(cursor)

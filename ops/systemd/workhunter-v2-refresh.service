@@ -1,0 +1,17 @@
+# User unit template. Review WorkingDirectory/ExecStart and register the exact
+# timer's first calendar boundary in operations_schedule before enabling it.
+[Unit]
+Description=Workhunter v2 isolated six-hour collection
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/workhunter-v2
+Environment=PYTHONIOENCODING=utf-8
+# Required deployment-owned file: WH_BACKEND_COMMIT=<verified clean 40-hex HEAD>.
+# Also pin WH_SOURCE_DNS_MODE=system or cloudflare-doh for the reviewed host.
+# Keep this private runtime file outside source; no example SHA is treated as real.
+EnvironmentFile=%h/.config/workhunter-v2/backend-identity.env
+ExecStart=%h/workhunter-v2/.venv/bin/python -m ops.scheduler tick --db %h/.local/share/workhunter-v2/real.sqlite3 --backup-directory %h/.local/share/workhunter-v2/backups --trigger scheduled --registration-id systemd:workhunter-v2-refresh.timer
+TimeoutStartSec=1380
+UMask=0077
+NoNewPrivileges=true

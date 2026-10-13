@@ -6,6 +6,7 @@ import { createPageReader, pageDatasetsAgree, resourceMessage } from '../fronten
 import { assessReadIdentity, feedbackTemplate } from '../frontend/pages/review.js';
 import { mountHome, resultScopeText } from '../frontend/pages/home.js';
 import { mountDetail } from '../frontend/pages/detail.js';
+import { mountSources } from '../frontend/pages/sources.js';
 import { ReadError } from '../frontend/api/client.js';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
@@ -130,6 +131,23 @@ function pageDocument() {
   const tabs = ['recent','upcoming','history','undated'].map(view => { const node = new PageNode('button'); node.dataset.view = view; return node; });
   return { controls, form, tabs, getElementById: get, querySelectorAll: () => tabs, createElement: tag => new PageNode(tag), title: '' };
 }
+
+test('sources show a persisted plan and aging without hiding restricted status', async () => withPageDOM(async doc => {
+  let schedule = { status: 'scheduled', next_run_at: '2026-10-13T18:00:00+08:00' };
+  const read = async path => path === '/api/catalog' ? { dataset_id: 'aging-test', schools: [{school_key: 'scut', name: '华工'}] } :
+    { dataset_id: 'aging-test', schedule, sources: [{school_key: 'scut', status: 'restricted', name: '官方来源',
+      official_entry_url: 'https://jyzx.scut.edu.cn/', last_success_at: '2026-10-10T12:00:00+08:00', stale: true}] };
+  const page = mountSources({ document: doc, read });
+  await tick();
+  assert.match(doc.getElementById('source-status').textContent, /已登记下次检查/);
+  assert.match(doc.getElementById('source-list').textContent, /访问受限/);
+  assert.match(doc.getElementById('source-list').textContent, /48 小时.*陈旧/);
+  schedule = {status: 'overdue', next_run_at: null};
+  await page.reload();
+  assert.match(doc.getElementById('source-status').textContent, /逾期.*尚未核实/);
+  assert.ok(!doc.getElementById('source-status').textContent.includes('已登记下次检查'));
+  page.destroy();
+}));
 async function withPageDOM(run) {
   const original = globalThis.document;
   const doc = pageDocument(); globalThis.document = doc;

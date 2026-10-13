@@ -1,6 +1,6 @@
 // Thin transport only: business facts remain in the Python service.
 const ASSETS = __EMBEDDED_ASSETS__;
-const PUBLIC_PATHS = new Set(['/health', '/version', '/api/catalog', '/api/opportunities', '/api/updates/summary', '/api/sources/status']);
+const PUBLIC_PATHS = new Set(['/health', '/version', '/api/catalog', '/api/opportunities', '/api/updates/summary', '/api/sources/status', '/api/refresh/status']);
 const PAGE_PATHS = new Map([['/', '/index.html'], ['/sources', '/frontend/pages/sources.html'], ['/review', '/frontend/pages/review.html'], ['/maintenance', '/frontend/pages/maintenance.html']]);
 const MAX_BYTES = 1048576;
 const API_CODES = new Set(['service_unauthorized', 'loopback_only', 'database_unavailable', 'dataset_changed', 'dataset_required', 'unsupported_parameter', 'duplicate_parameter', 'invalid_date', 'invalid_date_range', 'invalid_as_of', 'as_of_required', 'invalid_keyword', 'invalid_dataset', 'invalid_kind', 'invalid_view_or_scope', 'invalid_number', 'invalid_campus_unknown', 'campus_conflict', 'school_not_found', 'campus_not_found', 'school_campus_conflict', 'invalid_opportunity', 'opportunity_not_found']);

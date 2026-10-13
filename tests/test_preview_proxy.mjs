@@ -19,6 +19,19 @@ test('proxy refuses arbitrary routes, writes and unsafe origin', async () => {
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog',{method:'POST'}),env)).status,405);
   assert.equal((await worker.fetch(new Request('https://site.test/api/catalog'),{...env,WH_API_ORIGIN:'http://127.0.0.1:8000'})).status,503);
 });
+test('refresh status proxies only the read projection and has no trigger route', async () => {
+  await capture(async (target, options) => {
+    assert.equal(target.pathname, '/api/refresh/status');
+    assert.equal(options.method, 'GET');
+    return Response.json({dataset_id: 'v2-only', status: 'disabled', next_run_at: null});
+  }, async () => {
+    const result = await worker.fetch(new Request('https://site.test/api/refresh/status'), env);
+    assert.equal(result.status, 200);
+    assert.equal((await result.json()).status, 'disabled');
+    assert.equal((await worker.fetch(new Request('https://site.test/api/refresh/status', {method: 'POST'}), env)).status, 405);
+    assert.equal((await worker.fetch(new Request('https://site.test/api/refresh/start'), env)).status, 404);
+  });
+});
 test('only service authorization is forwarded; payload and dataset stay upstream-owned', async () => {
   const original = globalThis.fetch;
   try {

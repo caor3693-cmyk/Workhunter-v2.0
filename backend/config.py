@@ -17,7 +17,7 @@ def _commit() -> str:
             check=True, capture_output=True, text=True, timeout=3,
         )
         dirty = subprocess.run(
-            ["git", "-C", str(ROOT), "status", "--porcelain", "--", "backend", "config/schools.json"],
+            ["git", "-C", str(ROOT), "status", "--porcelain", "--", "backend", "ops", "config"],
             check=True, capture_output=True, text=True, timeout=3,
         ).stdout.strip()
         return (supplied or result.stdout.strip()) + ("+dirty" if dirty else "")

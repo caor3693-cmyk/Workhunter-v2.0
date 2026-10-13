@@ -1,0 +1,318 @@
+{
+  "format_version": 1,
+  "observed_at": "2026-10-13T04:16:33.163940+00:00",
+  "evidence_scope": "local engineering; GitHub upload/CI/Site/user Gates pending",
+  "identity": {
+    "project": "Workhunter-v2.0",
+    "version": "0.5.0",
+    "stage": "M3",
+    "backend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+    "dataset_id": "ds-170fe490-ca02-4441-ab88-ac5344645f78",
+    "data_mode": "real"
+  },
+  "counts": {
+    "opportunities": 445,
+    "source_materials": 517,
+    "changes": 1985,
+    "runs": 17,
+    "processing_tasks": 464
+  },
+  "trusted_target_commit": "a976211c19dac64af76c3b729e347b37489f03bf",
+  "trusted_checker_sha256": "7541d194435115b896f1d3c56ebfe02e671c49f4228f2bd43c7ef3da837b075d",
+  "lineage": {
+    "preserved_m2_dataset_id": "ds-3ceedaa1-97f2-4625-b180-35d7f162668a",
+    "preserved_m2_database_sha256": "73a106c2d43935a72b9cd83c9d9ece259bba314e878464d0bf77dd42d74a6d10",
+    "initial_m3_dataset_id": "ds-f0e4b9ec-50b9-4fac-acc3-5eae1d8d0600",
+    "original_opportunity_ids_1_to_297_preserved": true
+  },
+  "natural_run": {
+    "host": {
+      "project": "Workhunter-v2.0",
+      "task_name": "WorkhunterV2-M3-20261013-f0e4b9ec-r3",
+      "task_state": 3,
+      "last_run_at": "2026-10-13T11:29:35.0000000+08:00",
+      "host_exit_code": 0,
+      "next_run_at": "2026-10-13T17:29:34.0000000+08:00",
+      "missed_runs": 0,
+      "backend_commit": "6f71f3d7d231d031831ed0efbf2c13b6e1ab909f",
+      "source_dns_mode": "cloudflare-doh",
+      "interval_hours": 6,
+      "bootstrap": true,
+      "six_hour_observation_completed": false,
+      "observed_at": "2026-10-13T11:38:59.7340843+08:00"
+    },
+    "execution": {
+      "project": "Workhunter-v2.0",
+      "version": "0.5.0",
+      "stage": "M3",
+      "backend_commit": "6f71f3d7d231d031831ed0efbf2c13b6e1ab909f",
+      "slot_at": "2026-10-13T03:29:34+00:00",
+      "triggered_at": "2026-10-13T03:29:45.833718+00:00",
+      "finished_at": "2026-10-13T03:35:34.708763+00:00",
+      "run_id": null,
+      "run_ids": [
+        "run-8af8090b-9d9d-45a6-a286-c5b9c13ba9e5"
+      ],
+      "status": "finished",
+      "business_status": "partial",
+      "business_completeness": "partial",
+      "process_exit_code": 0,
+      "process_exit_scope": "collector_child",
+      "scheduler_exit_code": 0,
+      "host_task_exit_code": null,
+      "trigger": "scheduled",
+      "backup_status": "complete"
+    },
+    "business_status": "partial",
+    "completeness": "partial",
+    "known_restricted_sources_zero_requests": [
+      "ncepu_beijing",
+      "csu_homepage"
+    ],
+    "partial_source_channels": 12,
+    "failed_source_channels": [
+      "ncepu_baoding"
+    ],
+    "school_wide": false,
+    "historical_r2_failed_preserved": true,
+    "old_r2_wrong_partial_classification_not_success": true
+  },
+  "current_registration": {
+    "task_name": "WorkhunterV2-M3-20261013-f0e4b9ec-r4",
+    "task_state": 3,
+    "backend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+    "interval": "PT6H",
+    "next_run_at": "2026-10-13T17:29:34.0000000+08:00",
+    "last_task_result": 267011,
+    "actual_natural_run_for_this_build": false,
+    "previous_r3_natural_evidence_preserved": true,
+    "next_slot_preserved": true,
+    "source_dns_mode": "cloudflare-doh"
+  },
+  "refresh": {
+    "project": "Workhunter-v2.0",
+    "version": "0.5.0",
+    "backend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+    "stage": "M3",
+    "dataset_id": "ds-170fe490-ca02-4441-ab88-ac5344645f78",
+    "data_mode": "real",
+    "enabled": true,
+    "status": "scheduled",
+    "interval_hours": 6,
+    "next_run_at": "2026-10-13T09:29:34+00:00",
+    "overdue_since": null,
+    "natural_run_count": 2,
+    "observed_natural_days": 1,
+    "continuous_days": null,
+    "observed_at": null,
+    "last_execution": {
+      "project": "Workhunter-v2.0",
+      "version": "0.5.0",
+      "stage": "M3",
+      "backend_commit": "6f71f3d7d231d031831ed0efbf2c13b6e1ab909f",
+      "slot_at": "2026-10-13T03:29:34+00:00",
+      "triggered_at": "2026-10-13T03:29:45.833718+00:00",
+      "finished_at": "2026-10-13T03:35:34.708763+00:00",
+      "run_id": null,
+      "run_ids": [
+        "run-8af8090b-9d9d-45a6-a286-c5b9c13ba9e5"
+      ],
+      "status": "finished",
+      "business_status": "partial",
+      "business_completeness": "partial",
+      "process_exit_code": 0,
+      "process_exit_scope": "collector_child",
+      "scheduler_exit_code": 0,
+      "host_task_exit_code": null,
+      "trigger": "scheduled",
+      "backup_status": "complete"
+    }
+  },
+  "summary": {
+    "date": "2026-10-13",
+    "timezone": "Asia/Shanghai",
+    "newly_collected": 148,
+    "current_new": 110,
+    "historical_backfill": 30,
+    "undated_new": 8,
+    "other_dated_new": 0,
+    "official_changes": 17,
+    "parser_improvements": 84,
+    "evidence_conflicts": 13,
+    "manual_supplements": 0,
+    "manual_corrections": 0,
+    "manual_reverts": 0,
+    "manual_withdrawals": 0,
+    "semantic_revisions": 1,
+    "migration_revisions": 0,
+    "other_changes": 0,
+    "modified": 88
+  },
+  "source_status_totals": {
+    "restricted": 3,
+    "partial": 12,
+    "verified": 1,
+    "not_checked": 7,
+    "failed": 1
+  },
+  "semantic_revision": {
+    "opportunity_id": 423,
+    "source_identity": "722872",
+    "source_fix_commit": "a976211c19dac64af76c3b729e347b37489f03bf",
+    "material_id": 506,
+    "material_sha256": "b73dbdca5c58fb5e3bb170dfcb8c75d54025e36dd53f272a339d05375b402018",
+    "before": {
+      "work_locations": [
+        "+"
+      ],
+      "state": "known",
+      "dataset_id": "ds-2fd4d82b-a539-49f0-ade2-32aa4a8a6633"
+    },
+    "after": {
+      "work_locations": [],
+      "state": "parse_failed",
+      "value": null,
+      "version": 3,
+      "dataset_id": "ds-170fe490-ca02-4441-ab88-ac5344645f78"
+    },
+    "new_http_requests": 0,
+    "new_materials": 0,
+    "old_value_and_evidence_retained": true
+  },
+  "recovery": {
+    "backup_sha256": "ff7ecb8e01582afcfff29996c8d7cb589faacf52dfdfe0e23afada233729b90c",
+    "scope": "database_only",
+    "integrity_and_foreign_keys_checked": true,
+    "restored_counts": {
+      "opportunities": 445,
+      "source_materials": 517,
+      "changes": 1985,
+      "runs": 17,
+      "processing_tasks": 464
+    },
+    "restored_identity": {
+      "project": "Workhunter-v2.0",
+      "version": "0.5.0",
+      "stage": "M3",
+      "backend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+      "dataset_id": "ds-170fe490-ca02-4441-ab88-ac5344645f78",
+      "data_mode": "real"
+    },
+    "all_opportunity_ids_versions_agree": true,
+    "actually_restarted_api": true,
+    "restored_schedule_status": "not_ready",
+    "restored_schedule_enabled": false,
+    "restored_next_run_at": null,
+    "raw_archive": {
+      "verified": true,
+      "material_rows": 375,
+      "unique_content_files": 373,
+      "content_bytes": 26801444,
+      "manifest_sha256": "d79e4dd531725d41f425addaad4d949e7abd64995bf5f855207d7b4f0ed1c5dd"
+    },
+    "historical_raw_path_resolver_implemented": false,
+    "explicit_archive_index_mapping_required": true
+  },
+  "api_mcp": {
+    "transport": "actual stdio subprocess",
+    "tools": [
+      "version",
+      "catalog",
+      "opportunities",
+      "opportunity_detail",
+      "source_status",
+      "refresh_status",
+      "diagnostics"
+    ],
+    "identity_agrees": true,
+    "main_reads_preserved_counts_and_ids": true,
+    "restored_reads_preserved_counts_and_ids": true,
+    "customer_client_connected": false
+  },
+  "browser": {
+    "frontend_commit": "8057f1ad8d02e467471a0e60d54ca1dfa74de148",
+    "main_url": "http://127.0.0.1:8891/review",
+    "restored_url": "http://127.0.0.1:8893/opportunities/423",
+    "ready": true,
+    "console_warn_error": 0,
+    "horizontal_overflow": false,
+    "corrected_location_label": "待核实"
+  },
+  "tests": {
+    "existing_python": {
+      "passed": 456,
+      "failures": 0,
+      "errors": 0
+    },
+    "node": {
+      "passed": 122
+    },
+    "scheduling_discovery_refresh": {
+      "passed": 64
+    },
+    "backup_mcp": {
+      "passed": 54,
+      "skipped": 1,
+      "skip_reason": "Windows account cannot create real symlink; reparse ancestor separately passed"
+    },
+    "shared_api_maintenance": {
+      "passed": 29
+    },
+    "final_source_semantic": {
+      "passed": 62
+    },
+    "independent_source_reviewer": {
+      "passed": 4
+    },
+    "groups_may_overlap_do_not_sum": true,
+    "final_scope_counterexamples": {
+      "passed": 116,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "user_checkpoints": {
+    "M3-01": "未测",
+    "M3-02": "未测",
+    "M3-03": "未测",
+    "M3-04": "未测",
+    "M3-05": "未测",
+    "M3-06": "未测"
+  },
+  "pending": [
+    "GitHub authorized upload and draft PR",
+    "candidate CI",
+    "protected HTTPS API and private Site identity/TLS/business login",
+    "M1 and M2 user Gates before M3",
+    "real whole-source checked_no_changes evidence",
+    "six-hour subsequent observation",
+    "suggested seven-day observation",
+    "customer MCP client"
+  ],
+  "private_evidence_sha256": {
+    "m3-r3-host-result.json": "d9ee89a8ac53859e7e8ee372342943447970a7787134a7326690bd4936a15a4f",
+    "m3-r4-host-result.json": "c281f2d4bde17a59d73da14caf9bba9b0a456f4a4527f982ad194d48a388c1ce",
+    "m3-corrected-final-api-mcp.json": "d5c158354f3d451d425d3e687d0a9494c28ebe9b47ec6709c5b51276c0dcf4dc",
+    "m3-restored-final-api-mcp.json": "dfd2de7e5eb4fbc96d141cd52c78cbe50ac7eaaac98495ed1d24fdfafd374a01",
+    "m3-hnu423-corrected-proof.json": "709e82be17dc38c3f8fd628ffc9c1162c4211a6602a37a71f2fc31932001d34c",
+    "m3-recovery-archive-proof.json": "53677bf670f73a8a4fdb99b067469330fd855212ad94c299171848c9352eaf8e"
+  },
+  "trusted_complete_scope": {
+    "result": "passed",
+    "base_commit": "a976211c19dac64af76c3b729e347b37489f03bf",
+    "reviewed_document_head": "b91fbc95996c4ce4e0c5e63ec838b8b42e173151",
+    "changed_paths": 34,
+    "packages": [
+      "W05-A",
+      "W05-B"
+    ],
+    "issues": [
+      4,
+      15,
+      16
+    ],
+    "integration": "M3",
+    "checker_changed": false
+  }
+}

@@ -1,5 +1,6 @@
 """Read-only projections exercise real stored tasks and operation receipts."""
 import json
+from datetime import datetime, timedelta, timezone
 
 import httpx
 import pytest
@@ -18,6 +19,32 @@ def base_record(path):
     config=source();archive=material(config);run_id=run(path)
     ingest_detail(path,config,candidate(config,archive),[archive],run_id=run_id,fixture=True)
     return config
+
+
+def test_due_healthy_source_has_one_readonly_group_and_refresh_clears_gap(database):
+    with writer_transaction(database) as (connection, _):
+        connection.execute("UPDATE sources SET status='success',last_success_at=? WHERE source_key='scut_homepage'",
+                           ((datetime.now(timezone.utc)-timedelta(hours=25)).isoformat(),))
+    before = snapshot(database)
+    first, repeated = read_tasks(database), read_tasks(database)
+    groups = [item for item in first['groups'] if item['reason'] == 'source_review_due']
+    assert len(groups) == 1 and groups == repeated['groups']
+    assert groups[0]['group_key'] == 'scut_homepage:source_review_due'
+    assert groups[0]['task_ids'] == [] and groups[0]['active_scope_count'] == 1
+    assert first['items'] == [] and snapshot(database) == before
+    with writer_transaction(database) as (connection, _):
+        connection.execute("UPDATE sources SET last_success_at=? WHERE source_key='scut_homepage'", (datetime.now(timezone.utc).isoformat(),))
+    assert not any(item['reason'] == 'source_review_due' for item in read_tasks(database)['groups'])
+
+
+@pytest.mark.parametrize('status,expected', [('failed','source_failure'), ('restricted','public_restriction'), ('not_checked',None)])
+def test_old_success_does_not_change_failed_restricted_or_unchecked_reason(database, status, expected):
+    with writer_transaction(database) as (connection, _):
+        connection.execute("UPDATE sources SET status=?,last_success_at=? WHERE source_key='scut_homepage'",
+                           (status, (datetime.now(timezone.utc)-timedelta(hours=50)).isoformat()))
+    groups = read_tasks(database)['groups']
+    assert not any(item['reason'] == 'source_review_due' for item in groups)
+    assert [item['reason'] for item in groups] == ([expected] if expected else [])
 
 
 def saved_task(path,config,identity,*,status='failed',opportunity_id=1,result=None,kind='maintenance'):

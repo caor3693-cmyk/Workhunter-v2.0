@@ -1,0 +1,11 @@
+{
+  "interval_hours": 6,
+  "source_seconds": 90,
+  "round_seconds": 1200,
+  "page_budget": 2,
+  "detail_budget": 12,
+  "max_requests": 48,
+  "max_retries": 1,
+  "timeout_seconds": 15,
+  "ledger_limit": 50
+}

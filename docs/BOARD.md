@@ -2,6 +2,8 @@
 
 核对日：2026-10-12。30个Issue、21open/9closed，状态来自原生Project5回读；用户历史通过/失败保留。候选工程完成不自动关闭业务Issue。
 
+2026-10-13增量：#15/#16的自然调度、备份恢复与只读MCP已实现并自验，#12新增纯符号地点修复；neat-freak收尾后已上传[治理#39](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/39)、[来源#40](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/40)、[M3#41](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/41)三份draft PR。以下原生状态是10-12快照，本轮未修改业务Issue/Project字段；PR上传不冒充状态变更。M3六项用户未测，详见[M3核验包](deliveries/M3-REVIEW-20261013.md)及[收尾回执](deliveries/M3-NEAT-20261013.md)。
+
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
 | 5 | 0 | 9 | 1 | 6 | 9 |
@@ -11,7 +13,7 @@
 | M0 | [#1 [M0] 工程与 Site 入口手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1) | Done / closed | 2026-10-11 | 第二轮用户通过，历史结果保留 |
 | M1 | [#2 [M1] 两校真实招聘流程手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2) | Blocked / open | 2026-10-13 | M1修复已实现；Site交付与用户复验待完成 |
 | M2 | [#3 [M2] 十校与维护功能手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3) | Blocked / open | 2026-10-15 | M2工程完整；前序M1 Gate及Site交付待完成 |
-| M3 | [#4 [M3] 持续更新与恢复手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4) | Backlog / open | 2026-10-16 | 历史结果保留；后续阶段以实际证据与Gate为准 |
+| M3 | [#4 [M3] 持续更新与恢复手工验收](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4) | Backlog / open | 2026-10-16 | 本机证据已按六项列明；M3-04整源无变化样本/Site待补，用户及前序Gate未确认；远端未改 |
 | M4 | [#5 [M4] 首版最终手工验收与上线门禁](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5) | Backlog / open | 2026-10-17 | 历史结果保留；后续阶段以实际证据与Gate为准 |
 | M0 | [#6 [M0] [PM-W00] 工程骨架、隔离运行边界与 Site 核验入口](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6) | Done / closed | 2026-10-11 | 第二轮用户通过，历史结果保留 |
 | M1 | [#7 [M1] [PM-W01-A] 华工广工列表发现与逐页持久化](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7) | Blocked / open | 2026-10-12 | 队列/两校真实样本完成；等待对应M1复验 |
@@ -22,8 +24,8 @@
 | M2 | [#12 [M2] [PM-W03] 固定十校来源扩展与真实范围状态](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12) | In progress / open | 2026-10-15 | 固定十校有限实现，四校最低样本成立；Site待交付 |
 | M2 | [#13 [M2] [PM-W04-A] 受保护维护页、官方补录纠错与撤回](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13) | In progress / open | 2026-10-15 | 受保护维护与隔离生产流程已实现，用户未测 |
 | M2 | [#14 [M2] [PM-W04-B] 真实更新摘要与来源维护待办](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14) | In progress / open | 2026-10-15 | 真实摘要/维护分组/处理历史已实现，用户未测 |
-| M3 | [#15 [M3] [PM-W05-A] 自然自动刷新、断点续跑与失败恢复](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15) | Backlog / open | 2026-10-16 | 历史结果保留；后续阶段以实际证据与Gate为准 |
-| M3 | [#16 [M3] [PM-W05-B] 备份恢复、版本对账与只读 MCP](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16) | Backlog / open | 2026-10-16 | 历史结果保留；后续阶段以实际证据与Gate为准 |
+| M3 | [#15 [M3] [PM-W05-A] 自然自动刷新、断点续跑与失败恢复](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15) | Backlog / open | 2026-10-16 | 本机实现/审查、r3真实自然运行完成；r4下次17:29，长期观察待完成；远端未改 |
+| M3 | [#16 [M3] [PM-W05-B] 备份恢复、版本对账与只读 MCP](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16) | Backlog / open | 2026-10-16 | 本机新路径恢复重启/API/实际stdio完成；独立raw依赖已核验，Site/用户待验；远端未改 |
 | M4 | [#17 [M4] [PM-W06] Site 全流程复核与正式发布准备](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17) | Backlog / open | 2026-10-17 | 历史结果保留；后续阶段以实际证据与Gate为准 |
 | Release | [#18 [PM-RELEASE] 全部人工 Gate 通过后的正式上线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) | Blocked / open | None | 历史结果保留；后续阶段以实际证据与Gate为准 |
 | M0 | [#19 [M0] [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | Done / closed | 2026-10-11 | native_project_fields_views_and_all_items_verified |
@@ -41,4 +43,4 @@
 
 [当前状态](STATUS.md) · [M1复验](deliveries/M1-SITE-RECHECK-20261012.md) · [M2完整包](deliveries/M2-REVIEW-20261012.md)。Gate按M0→M1→M2→M3→M4。#31两校M1与三校M2分别核验，不形成阶段循环依赖；#18仍Blocked。
 
-业务实施已冻结，QA-M2由root收尾；实施任何时刻最多两个包，共享文件单一整合。既有原生Board/Roadmap和Done项保留。
+本机M3业务实施已冻结，QA-M3由root收尾；任何时刻最多两个实施包，共享文件单一整合。既有原生Board/Roadmap和Done项保留，本轮未外发更新。
