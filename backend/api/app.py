@@ -184,6 +184,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 ('slot_at', 'triggered_at', 'finished_at', 'run_id', 'run_ids', 'status', 'business_status',
                  'business_completeness', 'process_exit_code', 'process_exit_scope', 'scheduler_exit_code',
                  'host_task_exit_code', 'trigger', 'backup_status')}
+            backup = last.get('backup')
+            if isinstance(backup, dict) and backup.get('status') in {'complete', 'failed'}:
+                result['last_execution']['backup_status'] = backup['status']
         return {**build_identity(metadata), **result}
 
     @app.get('/api/refresh/status')

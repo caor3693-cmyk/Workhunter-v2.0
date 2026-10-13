@@ -45,6 +45,7 @@ def test_public_plan_does_not_expose_host_paths_registration_or_private_ledger(t
         'next_run_at': '2026-10-14T12:00:00+08:00',
         'host_registration': {'id': private}, 'ledger': [{'message': private}],
         'last_execution': {'run_id': 'run-safe', 'business_status': 'partial',
+                           'backup': {'status': 'complete', 'receipt': {'private': private}},
                            'host_command': private, 'stdout': private, 'exception': private},
     }
     with patch('backend.services.scheduling.schedule_projection', return_value=state):
@@ -55,6 +56,7 @@ def test_public_plan_does_not_expose_host_paths_registration_or_private_ledger(t
             plan = response.json().get('schedule', response.json())
             assert plan['last_execution']['run_id'] == 'run-safe'
             assert plan['last_execution']['business_status'] == 'partial'
+            assert plan['last_execution']['backup_status'] == 'complete'
             assert 'ledger' not in plan and 'host_registration' not in plan
 
 
