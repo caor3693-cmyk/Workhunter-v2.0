@@ -189,6 +189,29 @@
       ],
       "purpose": "M1-01/05/06 and affected regression Site package; preserve historical user results, Gate confirmation remains with the user"
     },
+    "W05-A": {
+      "issues": [15], "related_issues": [4],
+      "branch_prefixes": ["codex/w05-a-"],
+      "paths": [
+        "ops/__init__.py", "ops/scheduler.py", "ops/install_scheduler.ps1", "ops/verify_m3.py",
+        "ops/systemd/workhunter-v2-refresh.service", "ops/systemd/workhunter-v2-refresh.timer",
+        "backend/services/scheduling.py", "backend/services/discovery.py", "backend/services/queries.py",
+        "backend/api/app.py", "backend/config.py", "backend/version.py", "config/operations.json",
+        "frontend/pages/sources.js", "ops/preview/worker.mjs",
+        "tests/test_scheduling.py", "tests/test_m3_read_api.py", "tests/test_refresh.py",
+        "tests/test_frontend_pages.mjs", "tests/test_preview_proxy.mjs", "README.md"
+      ],
+      "purpose": "Bounded isolated scheduler and persisted execution state using the existing shared writer and source queue; root alone integrates API/source status, identity and preview. No new schema or production switch"
+    },
+    "W05-B": {
+      "issues": [16], "related_issues": [4],
+      "branch_prefixes": ["codex/w05-b-"],
+      "paths": [
+        "ops/__init__.py", "ops/backup.py", "ops/diagnostics.py", "ops/mcp.py",
+        "tests/test_backup.py", "tests/test_mcp.py", "README.md"
+      ],
+      "purpose": "Managed consistent backup and isolated restore; bounded read-only stdio MCP reuses shared projections with separately protected local diagnostics. No shell, collection, maintenance or database write tool"
+    },
     "QA-M2": {
       "issues": [3], "related_issues": [12, 13, 14],
       "branch_prefixes": ["codex/qa-m2-"],
@@ -202,6 +225,7 @@
     }
   },
   "integrations": {
+    "M3": {"packages": ["W05-A", "W05-B"], "branch_prefixes": ["codex/m3-integration-"]},
     "M0": {"packages": ["R1", "R2"], "branch_prefixes": ["codex/m0-m1-integration-"]},
     "M1": {"packages": ["W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
     "M0-M1": {"packages": ["R1", "R2", "W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},

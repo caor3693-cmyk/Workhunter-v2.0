@@ -290,6 +290,48 @@ def test_dispatch_rejects_forged_branch_identity(scope_repo, tmp_path):
     assert result.returncode == 1 and 'Git cannot read trusted scope input' in result.stderr
 
 
+@pytest.mark.parametrize('package,issues,branch,paths', [
+    ('W05-A', '15', 'codex/w05-a-test', ['ops/scheduler.py', 'backend/services/scheduling.py', 'frontend/pages/sources.js']),
+    ('W05-B', '16', 'codex/w05-b-test', ['ops/backup.py', 'ops/mcp.py', 'ops/diagnostics.py']),
+])
+def test_m3_packages_accept_separate_declared_operations(scope_repo, package, issues, branch, paths):
+    repo, _, _ = scope_repo
+    for path in paths:
+        write(repo, path)
+    save(repo)
+    result = check(scope_repo, package, issues, branch)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize('package,issues,branch,path', [
+    ('W05-A', '15', 'codex/w05-a-test', 'backend/storage/schema.sql'),
+    ('W05-A', '15', 'codex/w05-a-test', 'backend/sources/scut.py'),
+    ('W05-A', '15', 'codex/w05-a-test', 'ops/backup.py'),
+    ('W05-B', '16', 'codex/w05-b-test', 'backend/services/scheduling.py'),
+    ('W05-B', '16', 'codex/w05-b-test', 'backend/api/maintenance.py'),
+    ('W05-B', '16', 'codex/w05-b-test', 'ops/preview/worker.mjs'),
+    ('W05-B', '16', 'codex/w05-b-test', 'config/operations.json'),
+    ('W05-A', '15', 'codex/w05-a-test', 'scripts/work_package_scopes.json'),
+])
+def test_m3_rejects_undeclared_shared_and_production_changes(scope_repo, package, issues, branch, path):
+    repo, _, _ = scope_repo
+    write(repo, path)
+    save(repo)
+    result = check(scope_repo, package, issues, branch)
+    assert result.returncode == 1 and path in result.stderr
+
+
+def test_m3_integration_is_exact_and_does_not_include_prior_gates(scope_repo):
+    repo, _, _ = scope_repo
+    for path in ['ops/scheduler.py', 'ops/backup.py', 'ops/mcp.py']:
+        write(repo, path)
+    save(repo)
+    result = check(scope_repo, 'W05-A,W05-B', '15,16,4', 'codex/m3-integration-test', ('--integration', 'M3'))
+    assert result.returncode == 0, result.stderr
+    result = check(scope_repo, 'W05-A,W05-B,QA-M2', '15,16,3', 'codex/m3-integration-test', ('--integration', 'M3'))
+    assert result.returncode == 1 and 'exact registered' in result.stderr
+
+
 M2_PACKAGES = {
     'GOV-M2': ('32', 'codex/gov-m2-test', ['scripts/work_package_scopes.json', 'tests/test_scope.py']),
     'DOC-M2': ('32', 'codex/doc-m2-test', ['docs/CONTRACTS.md', 'docs/TASKS.md']),
