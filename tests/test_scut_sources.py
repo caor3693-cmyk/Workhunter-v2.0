@@ -191,11 +191,12 @@ def test_short_intermediate_page_cannot_complete_or_continue_a_conflicting_range
 
 
 @pytest.mark.parametrize("count,offset,rows", [(14, 2, ten_rows()[:4]), (10, 1, ten_rows()), (0, 1, [])])
-def test_valid_official_terminal_is_complete_only_for_the_registered_query(count, offset, rows):
+def test_valid_official_terminal_certifies_only_a_single_page_query(count, offset, rows):
     data = pages()
     data[ncss_list_url(offset)] = pagination_page(rows, count=count, offset=offset)
     page = ScutNcssAdapter.discover(source(), Materials(data), ncss_list_url(offset))
-    assert page["next_cursor"] is None and page["completeness"] == "complete_for_channel"
+    assert page["next_cursor"] is None
+    assert page["completeness"] == ("complete_for_channel" if offset == 1 else "partial")
     assert page["scope"]["school_wide"] is False and page["scope"]["query_keyword"] == "电气"
     assert page["material_refs"][0]["parsing_status"] == "success"
     if count == 0:
@@ -260,7 +261,7 @@ def registered_fixture_source(database):
     return next(config for config in configs if config["source_key"] == "scut_ncss")
 
 
-def test_production_refresh_consumes_full_pagination_and_repeat_preserves_dataset(tmp_path):
+def test_production_refresh_keeps_multi_page_scope_partial_and_repeat_preserves_dataset(tmp_path):
     from backend.services.discovery import refresh_sources
     from backend.storage.database import initialize_database, read_database
     database = tmp_path / "isolated.sqlite3"
@@ -275,17 +276,17 @@ def test_production_refresh_consumes_full_pagination_and_repeat_preserves_datase
         data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
     first_client = Materials(data)
     first = refresh_sources(database, [config], transport=first_client, school_keys=("scut",), page_budget=2, detail_budget=11, fixture=True)
-    assert first["status"] == "complete" and first["sources"][0]["pages"] == 2
+    assert first["status"] == "partial" and first["sources"][0]["pages"] == 2
     assert first["sources"][0]["pending_details"] == 0 and first["commits"]["new"] == 11
     with read_database(database) as (connection, metadata):
         before = dict(metadata)
         before_changes = connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0]
     repeated = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=11, fixture=True)
-    assert repeated["status"] == "complete" and repeated["commits"]["new"] == repeated["commits"]["modified"] == 0
+    assert repeated["status"] == "partial" and repeated["commits"]["new"] == repeated["commits"]["modified"] == 0
     with read_database(database) as (connection, metadata):
         assert dict(metadata) == before
         assert connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0] == before_changes
-        assert connection.execute("SELECT completeness FROM runs WHERE id=?", (repeated["run_id"],)).fetchone()[0] == "complete_for_selected_channels"
+        assert connection.execute("SELECT completeness FROM runs WHERE id=?", (repeated["run_id"],)).fetchone()[0] == "partial"
 
 
 def test_production_refresh_keeps_detail_failure_partial_at_valid_terminal(tmp_path):
@@ -461,3 +462,38 @@ def test_missing_pagination_full_page_does_not_claim_continuation_was_stopped():
     assert page["completeness"] == "partial"
     assert not any("已停止续页" in warning for warning in page["warnings"])
     assert any("分页元数据未核实" in warning for warning in page["warnings"])
+
+
+def test_later_tail_only_round_cannot_certify_a_scope_after_failed_head(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    head = ten_rows()
+    tail = [row(jobId=f"SyntheticSchoolJob{index:04}") for index in range(10, 14)]
+    data = pages()
+    data[ncss_list_url()] = pagination_page(head, count=14)
+    data[ncss_list_url(2)] = pagination_page(tail, count=14, offset=2)
+    body = data[DETAIL]
+    for entry in head + tail:
+        data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
+    refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=14, fixture=True)
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")]
+        assert len(before) == 14
+    pending = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=1, detail_budget=14, fixture=True)
+    assert pending["sources"][0]["next_cursor"] == ncss_list_url(2)
+    data[ncss_list_url()] = pagination_page(head[:4], count=14)
+    bad_head = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=14, fixture=True)
+    assert bad_head["status"] != "complete"
+    tail_client = Materials(data)
+    tail_only = refresh_sources(database, [config], transport=tail_client, school_keys=("scut",), page_budget=1, detail_budget=14, fixture=True)
+    assert ncss_list_url() not in tail_client.requests and ncss_list_url(2) in tail_client.requests
+    assert tail_only["status"] != "complete" and tail_only["sources"][0]["status"] != "complete"
+    assert tail_only["commits"]["new"] == tail_only["commits"]["modified"] == 0
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")] == before
+        assert connection.execute("SELECT completeness FROM runs WHERE id=?", (tail_only["run_id"],)).fetchone()[0] != "complete_for_selected_channels"

@@ -262,7 +262,12 @@ def ncss_discover(source_config, fetcher, cursor=None):
             page["material_refs"][0]["scope"]["coverage"] = "verified_empty"
             page["warnings"] = []
         if next_cursor is None:
-            page["completeness"] = "complete_for_channel"
+            # The frozen interface does not attest this run's prefix pages.
+            # A resumed terminal cannot establish a whole-query no-change check.
+            if offset == 1:
+                page["completeness"] = "complete_for_channel"
+            else:
+                page["warnings"].append("已取得本页公开材料，但缺少本轮完整起始页链依据；不能确认整个查询完成")
     elif "pagenation" in data:
         # The orchestrator must not continue past a malformed page and later
         # report only its clean terminal as a complete check. Old facts remain.
