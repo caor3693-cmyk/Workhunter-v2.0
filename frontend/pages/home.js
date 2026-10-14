@@ -1,7 +1,6 @@
 import { readJSON } from "../api/client.js";
 import { element } from "../components/dom.js";
 import { resultCard } from "../components/cards.js";
-import { updatePresentation } from "../components/updates.js";
 import { createQueryState } from "../state/store.js";
 import { PAGE_READ_PATHS } from "./routes.js";
 import { createPageReader, pageDatasetsAgree, resourceMessage, renderNotice, setResourceStatus } from "./shared.js";
@@ -35,7 +34,7 @@ export function resultScopeText(filters, schools = []) {
 export function mountHome({ document: doc = globalThis.document, read = readJSON, renderCard = resultCard } = {}) {
   const get = id => doc.getElementById(id);
   const form = get("search-form");
-  const reader = createPageReader({ catalog: PAGE_READ_PATHS.home.catalog, updates: PAGE_READ_PATHS.home.updates }, render, read);
+  const reader = createPageReader({ catalog: PAGE_READ_PATHS.home.catalog }, render, read);
   const samples = [], sampleByGeneration = new Map();
   let destroyed = false, renderedData = null, coordinatedDataset = null;
   const coordinatedKeys = new Set();
@@ -84,7 +83,7 @@ export function mountHome({ document: doc = globalThis.document, read = readJSON
   function coordinateSidecars() {
     if (state.status !== 'ready' || !state.dataset || !pageDatasetsAgree(resources, { includeDataset: false })) return;
     if (coordinatedDataset !== state.dataset) { coordinatedDataset = state.dataset; coordinatedKeys.clear(); }
-    for (const key of ['catalog', 'updates']) {
+    for (const key of ['catalog']) {
       const resource = resources[key];
       if (!resource.data || resource.data.dataset_id === state.dataset || resource.status === 'loading' || coordinatedKeys.has(key)) continue;
       const target = state.dataset;
@@ -118,14 +117,6 @@ export function mountHome({ document: doc = globalThis.document, read = readJSON
     get("school-select").setAttribute('aria-busy', String(resource.status === 'loading'));
     setResourceStatus(get("catalog-status"), resource, "正在读取学校目录…", `${schools.length} 所学校已登记 · 采集情况见来源状态`);
     get("catalog-status").textContent += sidecarNote('catalog');
-  }
-  function renderUpdates() {
-    const resource = resources.updates;
-    const presentation = updatePresentation(resource.data);
-    get("new-count").textContent = presentation.newlyCollected;
-    get("change-count").textContent = presentation.officialChanges;
-    setResourceStatus(get("update-message"), resource, "正在读取检查情况…", presentation.message);
-    get("update-message").textContent += sidecarNote('updates');
   }
   function renderResults() {
     const data = state.data;
@@ -169,7 +160,6 @@ export function mountHome({ document: doc = globalThis.document, read = readJSON
   }
   function render(key) {
     if (key === "catalog" || key === 'opportunities') renderCatalog();
-    if (key === "updates" || key === 'opportunities') renderUpdates();
     renderResults();
     const loading = state.status === 'loading';
     get("reload-button").disabled = loading;
@@ -194,7 +184,7 @@ export function mountHome({ document: doc = globalThis.document, read = readJSON
   }
   function reload(options = {}) {
     const list = query.reload({ operationAt: Date.now(), ...options });
-    return Promise.allSettled([list, reader.reload(["catalog", "updates"], { reusePending: true })]);
+    return Promise.allSettled([list, reader.reload(["catalog"], { reusePending: true })]);
   }
   form.addEventListener("input", event => { if (event.target.tagName === "INPUT") query.editDraft(readDraft()); });
   form.addEventListener("change", event => { query.editDraft(readDraft()); if (event.target === get("school-select")) renderCampuses(); });
