@@ -765,7 +765,13 @@
       43,
       44,
       45
-    ]
+    ],
+    "access_probe": {
+      "method": "existing_GitHub_authorization_readonly_GraphQL",
+      "result": "NOT_FOUND",
+      "credentials_exposed": false,
+      "permissions_changed": false
+    }
   },
   "automation": {
     "id": "workhunter",

@@ -78,10 +78,16 @@
         35
       ],
       "native_fields_modified_this_round": false,
-      "reason": "No Projects/GraphQL connector or gh authorization available; browser inventory empty",
+      "reason": "Existing GitHub authorization returned NOT_FOUND for Project5 GraphQL read; Projects connector/gh unavailable and browser inventory empty",
       "source": "GitHub issue readback and repository Board/Roadmap, not native Project readback",
       "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
-      "last_verified_native_snapshot_date": "2026-10-12"
+      "last_verified_native_snapshot_date": "2026-10-12",
+      "access_probe": {
+        "method": "existing_GitHub_authorization_readonly_GraphQL",
+        "result": "NOT_FOUND",
+        "credentials_exposed": false,
+        "permissions_changed": false
+      }
     },
     "sync_history": [
       {

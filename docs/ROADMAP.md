@@ -41,6 +41,6 @@ M0通过；M1/M2修复和M3在私有Site v5交付。负责人授权未报错已�
 
 ## 原生视图边界
 
-[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)和[原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建。本轮无法访问原生写入通道，只更新GitHub Issue/仓库表/config；26项待同步（含4新条目），原生日期/状态仍历史快照。
+[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1)和[原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建。现有GitHub授权查询Project5返回NOT_FOUND，本轮无法访问原生写入通道，只更新GitHub Issue/仓库表/config；26项待同步（含4新条目），原生日期/状态仍历史快照。
 
 Future不是现有原生Stage选项，不伪造option ID或首版日期。恢复既有授权通道后按config.pending_item_numbers新增/更新字段并回读，不以浏览器策略绕行或取出凭据。

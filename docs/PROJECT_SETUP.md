@@ -3,7 +3,7 @@
 <!-- current-project-sync-20261014 -->
 ## 本轮同步事实：2026-10-14
 
-原生Project5/Board/Roadmap历史已创建。本轮无可用Projects/GraphQL连接器或gh授权通道，浏览器清单为空；原生字段未写。GitHub Issue及仓库Board/Roadmap已更新并回读。
+原生Project5/Board/Roadmap历史已创建。本轮现有GitHub授权查询Project5返回NOT_FOUND，Projects连接器/gh与浏览器通道不可用；原生字段未写。GitHub Issue及仓库Board/Roadmap已更新并回读。
 
 config/project.json保留10-12原生快照和26待同步编号，#42—45为新条目。恢复既有授权后确认可写性，再新增/更新字段与回读；Future不造Stage选项/首版日期。不读取或输出凭据、不改变权限/登录或其它项目。下文为历史创建资料，不表示本轮原生同步已完成。
 <!-- /current-project-sync-20261014 -->

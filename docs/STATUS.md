@@ -16,7 +16,7 @@ M1-01覆盖与M1-05原文失败，其他M1已交付项通过；M2-01覆盖待扩
 
 M0历史通过保留。#2/#3/#4保持Blocked，按M1→M2→M3→M4复验；#15待材料，#17下一轮收尾Ready，#18正式发布Blocked/未执行。PR #38/#39/#40/#41仍draft/open，未合并。
 
-[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) / [原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建，本轮原生字段未同步：无可用Projects/GraphQL/gh授权通道且浏览器清单为空。config保留10-12原生快照及26项待同步（含4新增）；本轮last_verified仅指GitHub Issue/仓库索引。
+[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) / [原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建，本轮原生字段未同步：现有GitHub授权对Project5只读查询返回NOT_FOUND；Projects连接器/gh与浏览器通道不可用。config保留10-12原生快照及26项待同步（含4新增）；本轮last_verified仅指GitHub Issue/仓库索引。
 
 ## 最新真实运行
 
