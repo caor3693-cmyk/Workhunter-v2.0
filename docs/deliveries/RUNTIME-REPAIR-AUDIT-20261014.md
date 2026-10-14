@@ -59,6 +59,16 @@ M3-04 的文字要求没有把该无变化样例限定为自然触发；真实�
 
 最小后续是停止该 NCSS 受限深页路径并准确登记原因，不执行第二轮或通过自然调度重试已知登录限制，不使用登录 Cookie/代理绕过。root 随后明确授权在同 #52 已登记的两文件范围内补源内“明确登录 JSON → restricted”分类，追加提交 ca3327dff4ae8566eadd31cfeca3eb09ee389262 已推送至草稿 PR #56。分类仅匹配 flag=false 与 global[].des 精确“请登录后查看”，普通失败仍 failed；146项相关回归/neat复测和可信完整差分通过；最新 [完整CI run 38538552467](https://github.com/caor3693-cmyk/Workhunter-v2.0/actions/runs/38538552467) 已逐步回读 success，包含完整pytest、Node测试、构建、产物语法、可信差分与运行材料检查。没有修改 common 或扩大共享服务器政策，没有重新HTTP，也没有将真实历史 source.failed 手改为 restricted。分类修复不能将本轮 partial 改为完整无变化。其他独立来源和 #17 准备继续，完整公开来源材料尚未取得时如实交付 M3-04 缺口。原始响应仍仅留私有运行材料，公开报告只保留上述状态和最少数字。
 
+## 最终 P1 反例修正：旧实网轨迹与新守卫分开
+
+独立复核发现源内末页校验仍不足：合成公开元数据 count14/total2/limit10 下，第一页4条、终页4条，统一生产 refresh 实际8条却complete，重复轮又标完整无变化。三项服务红测分别复现新8/14、旧8条以及历史tail2绕过坏头页的错误，不当作官网成绩。
+
+#52 追加增量提交 d7a66a40ad5addcd32e7661951f8dae9c1b685dd（[PR #56](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/56)）：对每一页要求 expected_rows=min(limit,count-(offset-1)*limit)，数量矛盾的非终页保持partial、next_cursor=None并给明确警告；材料parse=failed沿现有服务通道停止，不给后页/旧tail覆盖完整性。适配器保留合法候选行，既有服务会整页拒收新矛盾页；这是在不改共享discovery边界内的保守取舍。历史8/10条可靠事实、全字段、变更数和dataset均保留。
+
+最小服务红测后，相关149项回归与neat-freak复测通过；可信2ba目标导出checker对完整PR三路径通过，正常推送、无规则自授权。最新源包CI和最终整合CI另由对应提交回读，不能沿用旧CI来给新P1守卫预签。
+
+新的更保守代码没有重新采集781条候选，没有重演或改写16:46的旧5页/14无变化run，也没有将历史failed改为restricted。禁止再次访问已知登录限制深页；M3-04真实完整无变化材料继续Blocked，#52代码待原编号用户复验。
+
 ## #17、验证边界与 neat-freak 收束
 
 本包只读 SQL 使用 mode=ro 并在一致读事务中取得 metadata/runs/数量，API 请求复用既有 service token 的内存 Authorization，不输出秘密；Sites 调用只读版本、访问和部署。git fetch 只取得身份信息，失败结果照录。本包未执行外站采集、构建、全量测试、备份或恢复，故不替代实施包测试与整合者本轮 741 条当前快照恢复回执，更不复用历史 292 条恢复证明。

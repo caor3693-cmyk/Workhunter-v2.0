@@ -412,6 +412,22 @@
         },
         "new_http_requests": 0,
         "historical_run_unchanged": true
+      },
+      "per_page_quantity_fix": {
+        "commit": "d7a66a40ad5addcd32e7661951f8dae9c1b685dd",
+        "pull_request": 56,
+        "source_p1_reproduced_before_fix": true,
+        "synthetic_advertised_count": 14,
+        "synthetic_received_count": 8,
+        "service_counterexamples_passed": 3,
+        "related_regressions_passed": 149,
+        "neat_retest_passed": 149,
+        "full_pr_trusted_scope_passed": true,
+        "behavior": "Every page must match declared count before terminal certification; contradictory page candidates remain in SourcePage but unified service rejects that page and stops via existing parsing-failed channel. Previously committed facts remain.",
+        "actual_runtime_recollected": false,
+        "historical_run_unchanged": true,
+        "new_http_requests": 0,
+        "latest_full_ci": "pending readback"
       }
     }
   },
