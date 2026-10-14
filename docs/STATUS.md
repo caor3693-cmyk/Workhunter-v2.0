@@ -1,35 +1,29 @@
 # Workhunter v2.0 当前状态
 
-更新2026-10-14，Asia/Shanghai；产品决定ABAAAAAB。当前事实与人工结果入口：[M1—M3反馈](deliveries/M1-M3-FEEDBACK-20261014.md)。
+更新2026-10-14，Asia/Shanghai。产品决定ABAAAAAB与固定十校保留。当前唯一入口为[本轮实际修复交付](deliveries/REPAIR-DELIVERY-20261014.md)、[BOARD](BOARD.md)、[ROADMAP](ROADMAP.md)。审查/交接为PR #51，已执行修复，非再次规划。
 
-## 当前结论
+## 实际实现与追溯
 
-[私有Site v5](https://workhunter-v2-review.sage-candy-7999.chatgpt.site/)真实读取已恢复，用户已确认招聘卡片。应用源码9665e245d200b84398df42636d52321341f67063，0.5.0/M3/schema3，服务器环境修订4的私有部署成功；本轮未重发Site。
+独立治理PR #54（2ba101b）与独立DOC PR #57（4ea9168）已独立复核、CI通过，作为本轮整合真实目标，checker未改。首页#42同步删DOM和专用请求/渲染/协调依赖，PR #53；广州#49接入公开宣讲/招聘会分页，PR #55；新发现#52 NCSS逐页数量守卫和跨轮tail反例已修；offset>1终页保持partial，明确登录JSON分类为restricted（旧failed run未改），PR #56。版本0.5.1/M3/schema3；没有新API、岗位实体、写服务、迁移或全局样式。
 
-用户反馈：首页删除“最近更新”[#42](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42)、每条原文均不跳[#43](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43)、广工外九校扩源（沿用[#31](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31)/#12）。本轮仅完成Issue/管理资料，三项未修。
+#48确认v5的9665e245属于独立Sites源仓，不是GitHub提交；旧API宿主HEAD f8c3a1d本地存在但未推到GitHub，旧启动器将API声明写为Site SHA。76文件实体映射、声明和本地HEAD分别记录，未只改版本字符串。新版代码冻结GitHub55553fca；独立Site源/实际API干净checkout b75d2d0；230实体规范化一致，后续PR58文档提交只记录回执。
 
-## 验收与项目管理
+## 本轮运行数据与限制
 
-用户明确授权未报错已交付项完成标记，实际关闭11项：#22/#29/#30/#33/#34/#35/#32/#10/#13/#14/#16。34个Issue当前19 closed / 15 open，[仓库Board](BOARD.md)与[Roadmap](ROADMAP.md)已更新。
+2026-10-14本轮冻结real dataset ds-d8962f88-037e-44d9-b38e-ac685b43f1d4：781机会/593材料/3790变更/8run，26登记来源。相比16:10真实741快照，广州去重新增40，近期电气视图3→24（明确相关7/未知17）；十校同口径全表见交付及evidence/REPAIR-COVERAGE-20261014.json。其他校数保持，不用历史622、fixture、宽日期或换校凑数；全部school_wide=false。
 
-M1-01覆盖与M1-05原文失败，其他M1已交付项通过；M2-01覆盖待扩，M2-02—08原功能通过，#42新展示变更未做；M3-01/02/03/05/06已交付项通过，M3-04整源无变化真实材料仍阻塞。个人MCP客户端未配置、七自然日观察不足、M4未交付，均不标通过。
+当前781快照于16:49:53重新一致备份、恢复到新隔离路径，SHA/所有表计数/关系/完整性/外键一致。旧库/原文/原宿主任务保留；恢复副本不会自动启用原路径调度，实际API 127.0.0.1:8897从干净Site源运行，7路由/实际7类stdio MCP与781恢复库身份、计数、只读SHA一致。新路径自然计划未登记/not_ready、无下次时间。维护演练29条另恢复为isolated_fixture。
 
-M0历史通过保留。#2/#3/#4保持Blocked，按M1→M2→M3→M4复验；#15待材料，#17下一轮收尾Ready，#18正式发布Blocked/未执行。PR #38/#39/#40/#41仍draft/open，未合并。
+旧自然账本4 scheduled+1 manual均partial；当前候选另增3次manual（1准备interrupted、广州/NCSS各1partial），合计8 run=4 scheduled+4 manual。进程退出0不代表完整。NCSS实网第6页明确“请登录后查看”，已停止深页，前5页14 unchanged不代表完整无变化，#15/M3-04仍Blocked。华电北京/中南既有限制0请求，保定/湖南本轮连接失败，其他有限栏目继续保留事实。七自然日未达。
 
-[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) / [原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建，本轮原生字段未同步：现有GitHub授权对Project5只读查询返回NOT_FOUND；Projects连接器/gh与浏览器通道不可用。config保留10-12原生快照及26项待同步（含4新增）；本轮last_verified仅指GitHub Issue/仓库索引。
+## Site、人工Gate与发布
 
-## 最新真实运行
+新owner-private Site v6已保存并native回读（source b75d2d0，version_id见交付），尚无deployment/env revision。当前私有URL仍是旧v5；不能把旧v5用于新修复复验。新Cloudflare验收HTTPS通道启动被automatic approval以第三方敏感出站明确授权不足拒绝，用户授权pending；未启动新隧道、未改Site环境、未部署v6，#17保持Blocked。管理员浏览器策略明确阻止当前Site操作，#43三校列表/详情×鼠标/Enter×宿主/常规浏览器矩阵未执行，根因未证实，未猜测修改_blank。API与构建证据不冒充真实点击。
 
-2026-10-14 11:43本机隔离real dataset ds-da169234-b434-44b1-bce3-4d40abb99e19，622机会/441材料/2911历史/4轮。华工81、广工216、上电80、东北电力6、长沙理工14、三峡200、广大3、湖南22；华电0、中南0。全库数与近期电气视图区分，全部school_wide仍false；限制/失败如实标注，受限路径停止。
+旧19项closed历史保持，#22/#29/#30/#33/#34/#35等不重开；新修复自验仅Awaiting verification/open。M0通过，M1→M2→M3→M4按原编号等待用户当前有效确认；#43/#15与剩余覆盖阻塞相应Gate，#18正式发布未执行。#17已完成源码整合、当前恢复/API对账和新v6保存；远程连接与部署Blocked，整体门禁未解锁。
 
-自然3轮、手工1轮；9665e24于14日01:03、07:03实际自然重复，结束01:08、07:06，下次登记计划13:03；退出与业务partial分开。七自然日观察未达。历史292恢复副本不能称为当前622恢复证明。
+## 原生Project与后置
 
-独立验收宿主按用户“验收期间独立运行”授权继续，私有状态文件回读API/tunnel就绪。本轮系统任务读取被沙箱拒绝，不称重读成功，不改变原任务/令牌。维护演练继续隔离。库、材料、日志/凭据不公开；验收结束后停用，结束动作尚未发生。
+#50真实原生GraphQL查询HTTP200/INSUFFICIENT_SCOPES，缺read:project；字段/选项/条目不可读，零写入/零回读成功。精确31pending（旧26+本轮47—50+52，按URL去重），旧item IDs保留，回执PROJECT-SYNC-EXECUTION-20261014.json不是同步成功证明。#50Blocked，不自行增加产品发布技术门禁。
 
-## 下一轮与后续讨论
-
-[#17](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17)集中完成首版反馈与材料，再做M4/发布准备；限域登记与顺序见反馈文档。新编号/必要路径先按可信GOV登记。
-
-[#44日程表](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/44)与[#45 AI改简历](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/45)仅未来讨论、暂不开发。用户选择下一轮交付时提醒；当前对话跟进已建立，确认新软件交付后提醒一次并暂停，#17保留提醒条款。
-
-E工作区为独立管理分支codex/w05-b-feedback-20261014，基于PR#41 head 0da12302838f23b59a246abdfbb57b19f1b5ffc1；main引用未改，D验收运行源码分支保持。不切换正式站、不改域名/可见性、不归档或删除旧资产。
+#44日程表/#45 AI改简历在本次实际软件交付按约提起未来讨论，本轮未开发、未新增提醒。正式站、域名、仓库可见性、旧库/资产归档或删除均未执行。复核现场保留。

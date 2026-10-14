@@ -3,7 +3,7 @@ import { PAGE_READ_PATHS } from "./routes.js";
 import { createPageReader, pageDatasetsAgree, resourceMessage } from "./shared.js";
 
 export function feedbackTemplate(stage, identity = {}) {
-  const count = stage === "M1" || stage === "M2" ? 8 : 7;
+  const count = stage === "M1" || stage === "M2" || stage === "M4" ? 8 : stage === "M3" ? 6 : 7;
   return [
     `阶段：${stage}；入口：${identity.url || "填写当前Site链接"}`,
     `前端：${identity.frontend || "尚未取得"}；后端：${identity.backend || "尚未取得"}`,
@@ -96,6 +96,7 @@ export function mountReview({ document: doc = globalThis.document, read } = {}) 
   get("copy-feedback").addEventListener("click", () => copy("M0"));
   get("copy-m1-feedback")?.addEventListener("click", () => copy("M1"));
   get("copy-m2-feedback")?.addEventListener("click", () => copy("M2"));
+  get("copy-m3-feedback")?.addEventListener("click", () => copy("M3"));
   reload();
   return { resources: reader.resources, reload, destroy: reader.destroy };
 }

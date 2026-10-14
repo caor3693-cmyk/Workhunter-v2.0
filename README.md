@@ -4,7 +4,7 @@
 
 本仓库承接独立重建。M1两校查询、M2十校有限来源/维护/摘要及M3自然调度/备份恢复/只读MCP已实现并在本机验证；实际运行、GitHub、私有Site与用户结果分别见[STATUS](docs/STATUS.md)。正式发布仍由全部人工Gate解锁。独立岗位库、全国企业直采、完整参会名单工程后置。
 
-当前验收入口为[私有Site v5](https://workhunter-v2-review.sage-candy-7999.chatgpt.site/)；本轮反馈、已完成项与下一轮收尾见[M1—M3反馈](docs/deliveries/M1-M3-FEEDBACK-20261014.md)。首页精简、全站原文和多校覆盖仍待处理，未来日程表/AI改简历只登记讨论。
+当前修复候选为0.5.1/M3/schema3；[私有Site入口](https://workhunter-v2-review.sage-candy-7999.chatgpt.site/)仍为旧v5；新私有v6已保存、外部HTTPS授权pending，尚未部署，详见[STATUS](docs/STATUS.md)。本轮实际实现、逐校前后表、当前快照恢复及原编号核验见[修复交付](docs/deliveries/REPAIR-DELIVERY-20261014.md)。首页区块已撤去、广州公开活动分页已接入；原文浏览器复现与M3完整无变化材料仍有明确阻塞。
 
 历史资料：[M1先行复验包](docs/deliveries/M1-SITE-RECHECK-20261012.md)、[M2完整操作包](docs/deliveries/M2-REVIEW-20261012.md)、[M3运行与恢复核验包](docs/deliveries/M3-REVIEW-20261013.md)。M3 新增隔离宿主调度、受管理备份/恢复和只读 stdio MCP；实际运行与审批边界按 STATUS 及交付包记录。本机候选不当作 Site 交付。
 
@@ -19,11 +19,11 @@
 
 排期与追踪见[任务看板](docs/BOARD.md)、[路线图](docs/ROADMAP.md)，原编号操作见[M版清单](docs/deliveries/MANUAL_QA_M.md)。阶段统一M0—M4，旧S/G按[命名映射](docs/deliveries/M_NAMING.md)追溯。工程完成不代替Site或用户Gate；当前结果与原生Project快照只在STATUS汇总，历史反馈见[原用户结果](docs/deliveries/M0-M1-FEEDBACK2-20261011.md)。
 
-开发者先读 [AGENTS.md](AGENTS.md) 和 STATUS。基础产品版本为 1.1，工程合同为 1.3，当前路线图版本为 1.5；八项产品范围保持不变。产品名称中的 v2.0 与规范版本不是同一编号。
+开发者先读 [AGENTS.md](AGENTS.md) 和 STATUS。基础产品版本为 1.1，工程合同为 1.4，当前路线图以 ROADMAP 为准；八项产品范围保持不变。产品名称中的 v2.0 与规范版本不是同一编号。
 
 ## 启动说明
 
-当前修复候选独立 API 使用 schema 3；Site、源码与数据身份分别记录在 STATUS。以下命令从本仓库运行：
+当前实际环回API为127.0.0.1:8897，从Site源b75d2d0加载schema3真实781恢复快照；本机私有启动器为.runtime/repair-host-20261014/run_api.py，复核工具为同目录verify_runtime_final.py，运行库/配置/口令不进Git。新外部HTTPS待授权；Site、源码与数据身份分别记录在STATUS。以下命令从本仓库运行：
 
 ```powershell
 python -m venv .venv

@@ -68,7 +68,7 @@
   },
   "merged_pending_count": 31,
   "merge_rule": "Canonical issue URL merge of prior 26 pending, audit four new issues and execution issue52; all prior native item IDs retained; existing deltas deduplicated.",
-  "desired_state_basis": "Prior repository Issue snapshot and audit Board semantic intentions; not native field readback; refresh Issue state before future write.",
+  "desired_state_basis": "Live GitHub Issue readback 2026-10-14; desired fields only, native read failed INSUFFICIENT_SCOPES; no native write/readback success",
   "pending_items": [
     {
       "issue": 2,
@@ -168,7 +168,7 @@
     {
       "issue": 15,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15",
-      "desired_workflow_state": "Awaiting verification",
+      "desired_workflow_state": "Blocked",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk",
       "pending_origin": "prior_manifest_plus_delta",
       "sync_state": "pending",
@@ -188,7 +188,7 @@
     {
       "issue": 17,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Blocked",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY",
       "pending_origin": "prior_manifest_plus_delta",
       "sync_state": "pending",
@@ -204,7 +204,7 @@
         31,
         15
       ],
-      "note": "Preparation may proceed; integrate required fixes and current-snapshot restore before new Site/manual gate delivery; no early production switch."
+      "note": "Code/current-snapshot restoration and v6 saved; new third-party HTTPS approval pending, no v6 deployment; human gate and remaining feedback blocked."
     },
     {
       "issue": 18,
@@ -296,7 +296,7 @@
     {
       "issue": 42,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Awaiting verification",
       "project_item_id": null,
       "pending_origin": "prior_manifest_plus_delta",
       "sync_state": "pending",
@@ -312,7 +312,7 @@
     {
       "issue": 43,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Blocked",
       "project_item_id": null,
       "pending_origin": "prior_manifest_plus_delta",
       "sync_state": "pending",
@@ -348,7 +348,7 @@
     {
       "issue": 47,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/47",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Awaiting verification",
       "priority": "P1",
       "phase": "R0",
       "purpose": "Independent trusted governance increment",
@@ -360,7 +360,7 @@
     {
       "issue": 48,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/48",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Awaiting verification",
       "priority": "P1",
       "phase": "R0",
       "purpose": "Resolve declared runtime commit versus retrievable source",
@@ -372,7 +372,7 @@
     {
       "issue": 49,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/49",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Awaiting verification",
       "priority": "P1",
       "phase": "R2",
       "related_parent_issues": [
@@ -402,7 +402,7 @@
     {
       "issue": 52,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/52",
-      "desired_workflow_state": "Ready",
+      "desired_workflow_state": "Awaiting verification",
       "priority": "P1",
       "phase": "R3",
       "purpose": "Verified SCUT NCSS terminal-page completeness; real M3-04 no-change evidence dependency",

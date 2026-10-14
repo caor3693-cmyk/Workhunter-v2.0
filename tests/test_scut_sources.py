@@ -169,3 +169,331 @@ def test_real_div_shape_does_not_relax_school_ownership(replacement):
     item = ScutNcssAdapter.discover(source(), client)["records"][0]
     result = ScutNcssAdapter.enrich(item, client)
     assert result["patch"] == {} and result["material_refs"][0]["parsing_status"] == "failed"
+
+
+def pagination_page(rows, *, count, offset=1, **overrides):
+    pagination = {"count": count, "total": (count + 9) // 10, "limit": 10, "offset": offset, **overrides}
+    return {"flag": True, "data": {"list": rows, "pagenation": pagination}}
+
+
+def ten_rows():
+    return [row(jobId=f"SyntheticSchoolJob{index:04}") for index in range(10)]
+
+
+def test_short_intermediate_page_cannot_complete_or_continue_a_conflicting_range():
+    data = pages()
+    data[ncss_list_url(2)] = pagination_page(ten_rows()[:4], count=100, offset=2)
+    page = ScutNcssAdapter.discover(source(), Materials(data), ncss_list_url(2))
+    assert page["next_cursor"] is None and page["completeness"] == "partial"
+    assert len(page["records"]) == 4
+    assert page["material_refs"][0]["parsing_status"] == "failed"
+    assert any("实际条数与声明范围不符" in warning for warning in page["warnings"])
+
+
+@pytest.mark.parametrize("count,offset,rows", [(14, 2, ten_rows()[:4]), (10, 1, ten_rows()), (0, 1, [])])
+def test_valid_official_terminal_certifies_only_a_single_page_query(count, offset, rows):
+    data = pages()
+    data[ncss_list_url(offset)] = pagination_page(rows, count=count, offset=offset)
+    page = ScutNcssAdapter.discover(source(), Materials(data), ncss_list_url(offset))
+    assert page["next_cursor"] is None
+    assert page["completeness"] == ("complete_for_channel" if offset == 1 else "partial")
+    assert page["scope"]["school_wide"] is False and page["scope"]["query_keyword"] == "电气"
+    assert page["material_refs"][0]["parsing_status"] == "success"
+    if count == 0:
+        assert page["material_refs"][0]["scope"]["coverage"] == "verified_empty"
+        assert page["warnings"] == []
+
+
+def test_empty_intermediate_page_cannot_erase_declared_unfinished_range():
+    data = pages()
+    data[ncss_list_url(2)] = pagination_page([], count=100, offset=2)
+    page = ScutNcssAdapter.discover(source(), Materials(data), ncss_list_url(2))
+    assert page["next_cursor"] is None and page["completeness"] == "partial"
+    assert page["material_refs"][0]["parsing_status"] == "failed"
+    assert page["material_refs"][0]["scope"]["coverage"] != "verified_empty"
+
+
+@pytest.mark.parametrize("overrides", [
+    {"offset": 2}, {"offset": True}, {"limit": 20}, {"limit": "10"},
+    {"count": -1}, {"count": True}, {"total": 2}, {"total": 10000},
+])
+def test_invalid_pagination_metadata_cannot_claim_terminal_or_control_cursor(overrides):
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    data[ncss_list_url()]["data"]["pagenation"].update(overrides)
+    page = ScutNcssAdapter.discover(source(), Materials(data))
+    assert page["completeness"] == "partial" and page["next_cursor"] is None
+    assert page["material_refs"][0]["parsing_status"] == "failed"
+
+
+@pytest.mark.parametrize("rows", [[row(sourcesName="other")], [row(), row()], [None], [row(jobId="bad")], [row(jobName="")], ten_rows() + [row()]])
+def test_invalid_or_duplicate_rows_cannot_be_complete_even_with_terminal_metadata(rows):
+    data = pages()
+    data[ncss_list_url()] = pagination_page(rows, count=len(rows))
+    page = ScutNcssAdapter.discover(source(), Materials(data))
+    assert page["completeness"] == "partial"
+    assert page["material_refs"][0]["parsing_status"] == "failed"
+
+
+def test_missing_metadata_and_contradictory_empty_terminal_remain_unverified():
+    missing = ScutNcssAdapter.discover(source(), Materials(pages()))
+    assert missing["completeness"] == "partial"
+    data = pages()
+    data[ncss_list_url(10)] = pagination_page([], count=100, offset=10)
+    contradictory = ScutNcssAdapter.discover(source(), Materials(data), ncss_list_url(10))
+    assert contradictory["completeness"] == "partial"
+    assert contradictory["material_refs"][0]["parsing_status"] == "failed"
+
+
+@pytest.mark.parametrize("payload", ["<html>login</html>", {"flag": False, "data": {"list": []}}, {"flag": True, "data": {}}, {"flag": True, "data": {"list": None}}])
+def test_unrecognized_empty_responses_are_not_verified_empty(payload):
+    data = pages()
+    data[ncss_list_url()] = payload
+    with pytest.raises(FetchError):
+        ScutNcssAdapter.discover(source(), Materials(data))
+
+
+def registered_fixture_source(database):
+    from backend.config import ROOT
+    from backend.services.discovery import register_sources
+    seeds = json.loads((ROOT / "config/schools.json").read_text(encoding="utf-8"))
+    configs = register_sources(database, seeds, fixture=True)
+    return next(config for config in configs if config["source_key"] == "scut_ncss")
+
+
+def test_production_refresh_keeps_multi_page_scope_partial_and_repeat_preserves_dataset(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    rows = ten_rows()
+    data = pages()
+    data[ncss_list_url()] = pagination_page(rows, count=11)
+    data[ncss_list_url(2)] = pagination_page([row(jobId="SyntheticSchoolJob0010")], count=11, offset=2)
+    body = data[DETAIL]
+    for entry in rows + [row(jobId="SyntheticSchoolJob0010")]:
+        data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
+    first_client = Materials(data)
+    first = refresh_sources(database, [config], transport=first_client, school_keys=("scut",), page_budget=2, detail_budget=11, fixture=True)
+    assert first["status"] == "partial" and first["sources"][0]["pages"] == 2
+    assert first["sources"][0]["pending_details"] == 0 and first["commits"]["new"] == 11
+    with read_database(database) as (connection, metadata):
+        before = dict(metadata)
+        before_changes = connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0]
+    repeated = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=11, fixture=True)
+    assert repeated["status"] == "partial" and repeated["commits"]["new"] == repeated["commits"]["modified"] == 0
+    with read_database(database) as (connection, metadata):
+        assert dict(metadata) == before
+        assert connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0] == before_changes
+        assert connection.execute("SELECT completeness FROM runs WHERE id=?", (repeated["run_id"],)).fetchone()[0] == "partial"
+
+
+def test_production_refresh_keeps_detail_failure_partial_at_valid_terminal(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = pages(html="<div>正文未取得</div>")
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    result = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert result["status"] == "partial" and result["sources"][0]["detail_failures"] == 1
+    with read_database(database) as (connection, _):
+        assert connection.execute("SELECT COUNT(*) FROM opportunities").fetchone()[0] == 1
+        assert connection.execute("SELECT status FROM sources WHERE source_key='scut_ncss'").fetchone()[0] == "partial"
+
+
+@pytest.mark.parametrize("duplicate_name", ["华南理工大学", "其它学校"])
+def test_ambiguous_owner_directory_cannot_prove_complete_scope(duplicate_name):
+    data = pages()
+    data[NCSS_OWNER_URL]["data"].append({"id": NCSS_SCHOOL_ID, "name": duplicate_name})
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    with pytest.raises(FetchError):
+        ScutNcssAdapter.discover(source(), Materials(data))
+
+
+def test_production_refresh_rejects_mixed_terminal_without_losing_old_facts(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    first = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert first["status"] == "complete"
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = dict(connection.execute("SELECT * FROM opportunities").fetchone())
+    data[ncss_list_url()] = pagination_page([row(), row(jobId="OtherSchoolJob0001", sourcesName="other")], count=2)
+    failed = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert failed["status"] == "failed"
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert dict(connection.execute("SELECT * FROM opportunities").fetchone()) == before
+
+
+@pytest.mark.parametrize("message,restricted", [
+    ("请登录后查看", True), ("系统暂时繁忙", False), ("登录后查看联系方式", False),
+])
+def test_explicit_login_json_is_restricted_but_other_api_failure_is_not(message, restricted):
+    data = pages()
+    data[ncss_list_url()] = {"flag": False, "global": [{"type": 0, "des": message, "refs": []}], "errors": [], "data": None}
+    with pytest.raises(FetchError) as caught:
+        ScutNcssAdapter.discover(source(), Materials(data))
+    assert caught.value.restricted is restricted
+    assert caught.value.status == ("restricted" if restricted else "failed")
+    assert caught.value.material_ref["url"] == ncss_list_url()
+
+
+def test_successful_json_with_login_text_does_not_hide_public_records():
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    data[ncss_list_url()]["global"] = [{"type": 0, "des": "请登录后查看", "refs": []}]
+    page = ScutNcssAdapter.discover(source(), Materials(data))
+    assert page["records"][0]["source_identity"] == JOB
+    assert page["completeness"] == "complete_for_channel"
+
+
+def test_production_refresh_records_explicit_login_and_skips_restricted_path(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    first = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert first["status"] == "complete"
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = dict(connection.execute("SELECT * FROM opportunities").fetchone())
+    data[ncss_list_url()] = {"flag": False, "global": [{"type": 0, "des": "请登录后查看", "refs": []}], "errors": [], "data": None}
+    blocked = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert blocked["sources"][0]["status"] == "restricted"
+    skipped_client = Materials({})
+    skipped = refresh_sources(database, [config], transport=skipped_client, school_keys=("scut",), fixture=True, skip_restricted=True)
+    assert skipped["sources"][0]["status"] == "skipped_restricted" and skipped_client.requests == []
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert dict(connection.execute("SELECT * FROM opportunities").fetchone()) == before
+        assert connection.execute("SELECT status FROM sources WHERE source_key='scut_ncss'").fetchone()[0] == "restricted"
+
+
+def short_page_chain():
+    rows = ten_rows()[:8]
+    data = pages()
+    data[ncss_list_url()] = pagination_page(rows[:4], count=14)
+    data[ncss_list_url(2)] = pagination_page(rows[4:], count=14, offset=2)
+    body = data[DETAIL]
+    for entry in rows:
+        data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
+    return data
+
+
+def test_production_refresh_cannot_certify_eight_records_against_fourteen_declared_twice(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = short_page_chain()
+    for _ in range(2):
+        client = Materials(data)
+        result = refresh_sources(database, [config], transport=client, school_keys=("scut",), page_budget=2, detail_budget=10, fixture=True)
+        assert result["status"] != "complete"
+        assert result["sources"][0]["status"] != "complete"
+        assert ncss_list_url(2) not in client.requests
+    with read_database(database) as (connection, _):
+        assert all(r[0] != "complete_for_selected_channels" for r in connection.execute("SELECT completeness FROM runs"))
+
+
+def test_quantity_conflict_preserves_eight_previously_verified_records(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = short_page_chain()
+    data[ncss_list_url()] = pagination_page(ten_rows()[:8], count=8)
+    seeded = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert seeded["status"] == "complete" and seeded["commits"]["new"] == 8
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")]
+        before_changes = connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0]
+    for _ in range(2):
+        result = refresh_sources(database, [config], transport=Materials(short_page_chain()), school_keys=("scut",), page_budget=2, detail_budget=10, fixture=True)
+        assert result["status"] != "complete"
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")] == before
+        assert connection.execute("SELECT COUNT(*) FROM changes").fetchone()[0] == before_changes
+
+
+def test_quantity_conflict_head_cannot_continue_saved_tail_to_clean_terminal(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = short_page_chain()
+    data[ncss_list_url()] = pagination_page(ten_rows(), count=14)
+    body = data[DETAIL]
+    for entry in ten_rows():
+        data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
+    pending = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=1, detail_budget=10, fixture=True)
+    assert pending["status"] == "partial" and pending["sources"][0]["next_cursor"] == ncss_list_url(2)
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")]
+    client = Materials(short_page_chain())
+    failed_head = refresh_sources(database, [config], transport=client, school_keys=("scut",), page_budget=2, detail_budget=10, fixture=True)
+    assert failed_head["status"] != "complete" and ncss_list_url(2) not in client.requests
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")] == before
+
+
+def test_missing_pagination_full_page_does_not_claim_continuation_was_stopped():
+    page = ScutNcssAdapter.discover(source(), Materials(pages(ten_rows())))
+    assert page["next_cursor"] == ncss_list_url(2)
+    assert page["completeness"] == "partial"
+    assert not any("已停止续页" in warning for warning in page["warnings"])
+    assert any("分页元数据未核实" in warning for warning in page["warnings"])
+
+
+def test_later_tail_only_round_cannot_certify_a_scope_after_failed_head(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    head = ten_rows()
+    tail = [row(jobId=f"SyntheticSchoolJob{index:04}") for index in range(10, 14)]
+    data = pages()
+    data[ncss_list_url()] = pagination_page(head, count=14)
+    data[ncss_list_url(2)] = pagination_page(tail, count=14, offset=2)
+    body = data[DETAIL]
+    for entry in head + tail:
+        data[f'https://www.ncss.cn/student/jobs/{entry["jobId"]}/detail.html'] = body
+    refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=14, fixture=True)
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")]
+        assert len(before) == 14
+    pending = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=1, detail_budget=14, fixture=True)
+    assert pending["sources"][0]["next_cursor"] == ncss_list_url(2)
+    data[ncss_list_url()] = pagination_page(head[:4], count=14)
+    bad_head = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), page_budget=2, detail_budget=14, fixture=True)
+    assert bad_head["status"] != "complete"
+    tail_client = Materials(data)
+    tail_only = refresh_sources(database, [config], transport=tail_client, school_keys=("scut",), page_budget=1, detail_budget=14, fixture=True)
+    assert ncss_list_url() not in tail_client.requests and ncss_list_url(2) in tail_client.requests
+    assert tail_only["status"] != "complete" and tail_only["sources"][0]["status"] != "complete"
+    assert tail_only["commits"]["new"] == tail_only["commits"]["modified"] == 0
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")] == before
+        assert connection.execute("SELECT completeness FROM runs WHERE id=?", (tail_only["run_id"],)).fetchone()[0] != "complete_for_selected_channels"
