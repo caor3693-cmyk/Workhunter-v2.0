@@ -161,6 +161,25 @@ def _ncss_json(response):
     return value.get("data")
 
 
+def _ncss_pagination(data, offset):
+    pagination = data.get("pagenation")
+    if not isinstance(pagination, dict):
+        return None
+    if any(type(pagination.get(key)) is not int for key in ("count", "total", "limit", "offset")):
+        return None
+    count, total, limit = (pagination[key] for key in ("count", "total", "limit"))
+    if (limit != 10 or count < 0 or not 0 <= total <= 9999
+            or total != (count + limit - 1) // limit or pagination["offset"] != offset):
+        return None
+    if total == 0:
+        return pagination if offset == 1 and not data["list"] else None
+    if not 1 <= offset <= total:
+        return None
+    if offset == total and len(data["list"]) != count - (total - 1) * limit:
+        return None
+    return pagination
+
+
 def ncss_discover(source_config, fetcher, cursor=None):
     if source_config["school_key"] != "scut":
         raise FetchError("平台学校来源归属不一致")
@@ -170,9 +189,10 @@ def ncss_discover(source_config, fetcher, cursor=None):
     if owner_response["url"] != NCSS_OWNER_URL:
         raise FetchError("学校来源目录最终响应身份不一致", material_ref=owner_response)
     directory = _ncss_json(owner_response)
-    if not isinstance(directory, list) or not any(isinstance(item, dict)
-            and item.get("id") == NCSS_SCHOOL_ID and item.get("name") == "华南理工大学"
-            for item in directory):
+    owners = ([item for item in directory
+               if isinstance(item, dict) and item.get("id") == NCSS_SCHOOL_ID]
+              if isinstance(directory, list) else [])
+    if len(owners) != 1 or owners[0].get("name") != "华南理工大学":
         raise FetchError("公开目录未确认华南理工大学来源身份", material_ref=owner_response)
     response = fetcher.get(url)
     if _ncss_cursor(response["url"]) != offset:
@@ -185,8 +205,12 @@ def ncss_discover(source_config, fetcher, cursor=None):
         "school_source_id": NCSS_SCHOOL_ID,
     })
     records, warnings, seen = [], [], set()
-    for row in data["list"][:10]:
+    rows = data["list"]
+    if len(rows) > 10:
+        warnings.append("公开列表超出登记分页大小，不能确认完整范围")
+    for row in rows[:10]:
         if not isinstance(row, dict):
+            warnings.append("列表包含无法核验的记录，不能确认完整范围")
             continue
         identity = str(row.get("jobId") or "")
         if (row.get("sourcesName") != NCSS_SCHOOL_ID or row.get("sourcesNameCh") != "华南理工大学"
@@ -195,6 +219,7 @@ def ncss_discover(source_config, fetcher, cursor=None):
             continue
         title = clean(row.get("jobName"))
         if not re.fullmatch(r"[A-Za-z0-9]{8,80}", identity) or not title or identity in seen:
+            warnings.append("列表记录身份、标题或唯一性未核实，不能确认完整范围")
             continue
         seen.add(identity)
         item = candidate_base(source_config, identity, title,
@@ -208,8 +233,33 @@ def ncss_discover(source_config, fetcher, cursor=None):
             set_known(item, "published_date", date_value, material,
                 f"JSON $.data.list[?(@.jobId=='{identity}')].publishDate", f"publishDate={stamp}")
         records.append(item)
-    page = page_result(source_config, response, records, ncss_list_url(offset + 1) if len(data["list"]) == 10 else None,
+    pagination = _ncss_pagination(data, offset)
+    valid_rows = len(rows) <= 10 and len(records) == len(rows) and not warnings
+    if pagination is not None:
+        next_cursor = ncss_list_url(offset + 1) if offset < pagination["total"] else None
+    else:
+        # Missing metadata may still yield reliable records, but not a verified
+        # terminal. Malformed supplied metadata cannot direct further requests.
+        next_cursor = (ncss_list_url(offset + 1)
+                       if "pagenation" not in data and len(rows) == 10 else None)
+        warnings.append("公开分页元数据未核实，不能确认完整范围")
+    page = page_result(source_config, response, records, next_cursor,
         warnings, scope_note="国家大学生就业服务平台中明确归属华南理工大学的电气查询；有限分页，不代表就业中心自动源或全校覆盖")
+    if pagination is not None and valid_rows:
+        # Short or empty pages do not end the query while official pagination
+        # still declares another page. Completion is only this registered query.
+        page["scope"].update({"school_wide": False, "query_keyword": "电气",
+            "pagination": {key: pagination[key] for key in ("count", "total", "limit", "offset")}})
+        if not rows:
+            page["material_refs"][0]["parsing_status"] = "success"
+            page["material_refs"][0]["scope"]["coverage"] = "verified_empty"
+            page["warnings"] = []
+        if next_cursor is None:
+            page["completeness"] = "complete_for_channel"
+    elif "pagenation" in data:
+        # The orchestrator must not continue past a malformed page and later
+        # report only its clean terminal as a complete check. Old facts remain.
+        page["material_refs"][0]["parsing_status"] = "failed"
     page["material_refs"].append(material_reference(owner_response, source_config["source_key"], scope={
         "type": "source_owner", "coverage": "complete_for_material", "school_source_id": NCSS_SCHOOL_ID,
         "note": "公开来源目录确认学校来源ID；不是认证材料",
