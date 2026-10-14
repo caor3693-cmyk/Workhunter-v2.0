@@ -1,6 +1,6 @@
 # Workhunter v2 执行任务
 
-规范版本 1.2；日期：2026-10-11；八项产品范围继续采用 `ABAAAAAB`。本轮执行 [M1-M2-EXECUTION-20261011](deliveries/M1-M2-EXECUTION-20261011.md) 的 M1 反馈修复与 M2，反例依据见 [M1-M2-AUDIT-20261011](deliveries/M1-M2-AUDIT-20261011.md)。产品边界以 PRODUCT 为准，接口和字段以 CONTRACTS v1.3 为准；排期/Issue 关系见 ROADMAP，逐项人工核验见 MANUAL_QA。任务要求不表示实现、自验、Site 或用户 Gate 已完成，事实只在 STATUS 更新。
+规范版本 1.3；日期：2026-10-14；八项产品范围继续采用 `ABAAAAAB`。本轮执行入口为[审查与修复交接 PR #51](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/51)和[独立治理回执](deliveries/REPAIR-GOVERNANCE-20261014.md)，当前精确包见第2节。2026-10-11 的[旧执行计划](deliveries/M1-M2-EXECUTION-20261011.md)及[旧反例审查](deliveries/M1-M2-AUDIT-20261011.md)保留历史，不作为本轮重做已验收功能的授权。产品边界以 PRODUCT 为准，接口和字段以 CONTRACTS v1.4 为准；排期/Issue关系见 ROADMAP，逐项人工核验见 MANUAL_QA。任务要求不表示实现、自验、Site 或用户 Gate 已完成，事实只在 STATUS 更新。
 
 ## 1. 执行目标
 
@@ -20,13 +20,37 @@
 
 目标日期为 2026-10-11 至 10-17，见 ROADMAP。每阶段交付按序手工清单；用户未反馈保持待验。正式发布单独由 PM-RELEASE 管理，须 G0—G4 当前有效通过后才执行，不随 main 合并或计划日期自动部署。
 
-上表是完整产品阶段，不要求重新实施已交付 W00/W01/W02。当前修复依赖：独立 GOV 成为可信目标 → DOC-M2 → CORE-M2；M1-UI 的限定前端可与 CORE 并行。CORE 的共同写入/材料/迁移接口冻结后，一条线 M1-SOURCES→W03，另一条线由共享整合者完成 UI/代理交接→W04-A→W04-B。W05/M3、W06/M4 仍后置，M2 不将自然调度、只读 MCP、运营观察或正式切换提前算成完成。
+上表是完整产品阶段，不要求重新实施已交付 W00/W01/W02。当前修复先核 #48 的源码/构建/部署/API 身份，并由独立 #47 治理成为可信目标；同一前端整合者先调查 LINKS/#43，再处理 HOME-SUMMARY/#42。独立来源线可做 GZHU/#49 与固定十校逐校诊断；新定位的 SCUT-COMPLETION/#52 只解决 NCSS 可证终页仍 partial 的局部原因。某宿主或学校路径不可用只阻塞相应实测结论，其他独立修复继续。随后 W06/#17 汇总修复、#15 真实 M3-04 与当时快照隔离恢复、新私有 Site，人工 M1→M2→M3→M4 按原编号顺序核验；不提前切正式站。
 
 任何时刻最多两个活动实施包，审查可独立进行；进入实施前记录包名、owner、真实基线、允许路径、接口和交接点。公共 API、queries/writer、迁移、代理 worker、页面路由/构建、全局样式及管理资料由一个共享 owner 串行整合；其他实施者只交所属模块，不并行修改同一共享文件。工程前置是合同/实现交付，不要求先关闭仍待用户复验的 Issue。
 
 精确机器范围以实际目标提交的 [work_package_scopes.json](../scripts/work_package_scopes.json) 为准；正文目录是职责说明，不扩展允许路径。通用管理路径按该表，README 只在所属包明确登记时可改。任何新增文件/联动路径先走独立 GOV 增量，不能修改候选规则自行授权，不能使用 `backend/`、`frontend/` 整根或 W00 兜底。管理资料也由共享 owner 汇总，产品范围不通过状态更新改变。
 
-### 本轮工作包与验收交接
+### 2026-10-14 精确工作包与验收交接
+
+下表来自独立审阅的治理目标 `2ba101ba68abda9c83ce94f487043141e62dd651`；实现者须从实际 PR 目标导出 checker/规则检查完整差分。包级路径之外还有受信表的通用管理路径；下表职责限制同样有效，不能因机器允许一个配置文件而顺手修改其他学校。业务接口与日期/相关性口径保持冻结。
+
+| 包 / Issue / 分支前缀 | 精确路径 | owner / 原编号验收 |
+| --- | --- | --- |
+| GOV-20261014 / #47 / `codex/r0-governance-`、`codex/gov-20261014-` | `scripts/work_package_scopes.json`、`tests/test_scope.py` | 独立治理与独立复核；正反范围测试、完整PR差分、自授权拒绝；不能混产品或 DOC |
+| DOC-20261014 / #47 / `codex/doc-20261014-` | `docs/TASKS.md`、`docs/CONTRACTS.md`、`docs/PRODUCT.md` | 独立文档包；PRODUCT仅同步§5首页摘要撤去的用户 #42 要求，保留来源/维护摘要及八项决定 |
+| LINKS / #43 / `codex/links-`、`codex/frontend-links-` | `frontend/components/cards.js`、`frontend/components/dom.js`、`tests/test_cards.mjs`、`scripts/verify_official_navigation.mjs` | root前端整合者；M1-05 三校×列表/详情×鼠标/Enter，用户宿主/常规浏览器对照；先定位，不预设 `_blank` 原因 |
+| HOME-SUMMARY / #42 / `codex/home-summary-` | `frontend/index.html`、`frontend/pages/home.js`、`frontend/pages/routes.js`、`tests/test_frontend_pages.mjs`、`tests/test_page_routes.mjs`、`tests/test_query_state.mjs`、`tests/test_api_client.mjs`、`tests/test_home_summary.mjs` | 同一root前端整合者；M2-08、M1-06；同步解除首页DOM/请求/渲染/重载/协调，来源/维护摘要保留，回归首载/筛选/校区/分页/晚响应 |
+| GZHU-20261014 / #49，关联 #31/#12 / `codex/gzhu-20261014-`、`codex/gzhu-repair-` | `backend/sources/gzhu.py`、`backend/sources/registry.py`、`config/schools.json`、`tests/test_gzhu_sources.py`、`tests/fixtures/gzhu/` | 来源实施者只改广州适配/测试；root单独串行整合必要广州注册/配置；M1-01/M2-01，同口径发现→解析→去重→可见与相关/未知/受限漏斗 |
+| SCUT-COMPLETION / #52，关联 #15/#17/#31/#12 / `codex/scut-completion-` | `backend/sources/scut.py`、`tests/test_scut_sources.py` | 来源实施者只修可证 NCSS 终页完整性；M3-04；循环/分页不明/解析失败不冒充 complete，公共common/discovery/API/写服务不改 |
+| W06 / #17，关联 #5/#15/#48/#2/#3/#4 / `codex/w06-` | `backend/version.py`、`scripts/build_site.mjs`、`ops/preview/worker.mjs`、`frontend/pages/review.html`、`frontend/pages/review.js`、`scripts/verify_m0_m1.mjs`、`scripts/verify_m2.mjs`、`ops/verify_m3.py`、`tests/test_preview_proxy.mjs`、`tests/test_acceptance.mjs`、`tests/test_m2_acceptance.mjs`、`README.md`、`docs/MANUAL_QA.md`、`.openai/hosting.json` | root单一整合者；R-VERSION、M3-04、M4；仅身份、已证实代理原因、验收/恢复材料，保留hosting project，无新API/writer/schema或生产切换 |
+
+任何时刻最多两个活动**产品实施包**；治理、只读审查和文档同步不因此获得产品实施权。首页/共享DOM、源注册配置、API/query/writer/迁移、代理/构建和管理资料均由单一root整合，其他实施者不得并行修改同一共享文件。来源包不能顺手改变全局首页、公共API、业务服务或数据库；新缺陷先查重建单并独立登记精确范围。
+
+组合必须精确声明：`FRONTEND-20261014 = LINKS,HOME-SUMMARY`，前缀 `codex/frontend-repair-`；单修首页可以只声明 HOME-SUMMARY，不表示 #43 已修。`REPAIR-20261014 = LINKS,HOME-SUMMARY,GZHU-20261014,W06`；`REPAIR-W03-20261014` 在此前组合加入既有 W03；`REPAIR-20261014-WITH-COMPLETION` 在原四包加入 SCUT-COMPLETION，均使用 `codex/repair-integration-`。治理与 DOC 单独交付，经独立复核进入功能真实目标后再整合；功能分支不改规则自授权。既有 W03 可继续固定十校范围，#49为关联号，不自动授权 #52。
+
+各校统一交付全库、固定近期窗口、电气视图的 related/unknown、新增去重、已检查栏目/页数/终点与受限原因；不得用历史、fixture、扩大日期窗口、换学校或把unknown充related凑数。#31 的 M1 华工/广工部分先核验，不以 M2 九校扩源完成作为循环前置。M3-04必须有本轮明确完整有限范围的真实无变化检查，进程exit0或新增0不代替；当前快照恢复另做对账，旧292条恢复材料不能代替。七自然日不足如实披露，不增设新硬Gate。
+
+#50 用已有授权通道读原生Project实际字段/选项，幂等匹配旧pending与增量，写后逐项回读；通道不足保持Blocked，仓库Board不冒充原生同步。#44/#45仅在下一次实际软件交付讨论，不实施。修复PR使用Refs；自验后Awaiting verification，用户原编号复验后才Done，不整批重开历史已验收Issue。
+
+### 历史 M1/M2 工作包与验收交接
+
+下表保留2026-10-11已登记范围与交接追溯，不表示本轮重新开启这些旧包；本轮按上表与当前真实目标执行。
 
 | 包 / 实际 Issue | 必须交付与限定范围 | 前置 / 用户验收 |
 | --- | --- | --- |
@@ -41,7 +65,7 @@
 | QA-M1 / #2 | `verify_m0_m1.mjs / measure_m1.mjs / prepare_acceptance.py`、review/验收材料与限定回归 | 先交 M1-01/05/06 及受影响 M1-03/04/08 的 Site 复验包；保留此前用户通过/失败事实 |
 | QA-M2 / #3 | `verify_m2.mjs / prepare_m2_acceptance.py`、review、八项真实/隔离场景与构建材料 | 随后交 M2-01—08 完整 Site 包；工程可独立继续，用户 M2 Gate 必须在 M1 Gate 通过后确认 |
 
-跨包集成必须声明可信表登记的完整组合：`M1-REPAIR = CORE-M2,M1-UI,M1-SOURCES,QA-M1`；`M1-M2` 为此前四包加 `W03,W04-A,W04-B,QA-M2`，使用 `codex/m1-m2-integration-` 分支。GOV/DOC 单独交付，不混入业务集成；不把 M2 塞入 PR #28 的旧 M0-M1 组合。
+当时的跨包集成使用可信表登记的完整组合：`M1-REPAIR = CORE-M2,M1-UI,M1-SOURCES,QA-M1`；`M1-M2` 为此前四包加 `W03,W04-A,W04-B,QA-M2`，使用 `codex/m1-m2-integration-` 分支。历史GOV/DOC单独交付，不混入业务集成；不把M2塞入PR #28的旧M0-M1组合。本轮新增Issue不借旧包或闭单编号获得权限。
 
 M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分不倒置成 M1 前置。unknown、历史、fixture 或目录项不能替代当前明确电气真实样本。所有修复 PR 用 Refs；未收到原编号用户复验，修复和 Gate Issue 保持 open。M0/M1 历史结果不重写，工程/CI/Site 发布不能代签人工通过。
 
@@ -73,7 +97,7 @@ M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分�
 - 同源稳定 ID/URL 去重、内容变化、改期及仅截止日期变化均有历史记录。
 - 失败保留已提交记录和已知字段；分页预算耗尽记录断点与未完成范围。
 
-**允许路径：**原基础交付对应 W01-R3 精确登记；本轮字段/材料/队列修正归 CORE-M2，当前两校来源样本归 M1-SOURCES。不以本节概述扩大 source/domain/services/storage 范围；共享模型变动列明迁移及影响。
+**允许路径：**原基础交付对应 W01-R3，历史字段/材料/队列修正对应 CORE-M2、两校样本对应 M1-SOURCES。本轮 NCSS 终页局部修复只按 SCUT-COMPLETION；其余来源变更按本轮精确表或既有W03登记。不以本节概述扩大 source/domain/services/storage 范围；共享模型变动须另行独立登记。
 
 旧 R3/W01 登记仍仅说明历史两校基础范围，不支持 #31 新号或八校扩展。新来源使用冻结 CORE 接口；字段/相关性以本公告岗位/专业依据为准，场地与工作地分离，普通失败保留可靠旧值，旧 known 误判通过 `semantic_revision.py` 只读审计/预览后定向修订。材料错属在事务内原子拒绝，附加材料隔离不拖垮可靠核心读取。
 
@@ -90,9 +114,9 @@ M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分�
 - 表单草稿与已应用查询分开，分页保持同一条件/数据集；旧响应不能覆盖新查询。
 - 单次列表返回卡片全字段，禁止每张卡片再请求详情取工作地。来源页展示简明状态，技术细节留维护页。
 
-**允许路径：**原基础交付对应 W02-R4 精确登记；本轮 #29/#30 使用 M1-UI 的 cards/home/detail/shared/store/client、局部样式与限定测试。全局设计变量和首页骨架保持既定范围，共享 API/代理联动由整合者按登记路径窄修。
+**允许路径：**原基础交付对应 W02-R4，历史 #29/#30 对应 M1-UI；本轮 #43 仅按 LINKS、#42 仅按 HOME-SUMMARY 精确登记。首页撤去摘要为用户明确变更，其余骨架和全局设计变量保持。已证实的代理原因只由整合者按W06限定路径处理，LINKS/HOME不取得API或存储权限。
 
-固定 `as_of` 与 dataset 分页、草稿与已提交条件、晚响应隔离继续有效。列表成功后恢复自身操作，目录/摘要分别表示新鲜度并有界协调；不同项目/构建/data_mode 仍报警，不将新列表持续标旧。访客 DOM 与键盘可达内容不输出定位器、材料 ID/hash，后台证据与安全校验保留；技术资料只进鉴权维护页。
+固定 `as_of` 与 dataset 分页、草稿与已提交条件、晚响应隔离继续有效。列表成功后恢复自身操作，首页目录与列表分别表示新鲜度并有界协调；摘要保留在来源/维护入口，不恢复首页订阅。不同项目/构建/data_mode仍报警，不将新列表持续标旧。访客DOM与键盘可达内容不输出定位器、材料ID/hash，后台证据与安全校验保留；技术资料只进鉴权维护页。
 
 **验收：**A02—A04、A06、A07、A09、A10、A12；桌面和390px视口可用，真实原文跳转核验，已取得数据能逐项追到卡片。
 
@@ -122,7 +146,7 @@ M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分�
 - 管理页以处理来源/字段问题为核心，技术错误码不进入访客卡片。站内摘要不扩成学生推送系统。
 - 在 Site 同源代理下实际验证维护登录、业务 Cookie、CSRF/Origin、预览输入绑定及真实保存/撤回；平台登录和代理服务令牌不能代替维护者授权。
 
-**允许路径：**按 W04-A/W04-B 的已登记文件分开实施，认证/维护与摘要/待办各有固定模块；公共 writer/API/迁移/代理/路由由共享 owner 串行整合。访客首页只连接既定摘要和既定字段，不更改整体布局；本节不授予 services/storage/tests 整目录权限。
+**允许路径：**按 W04-A/W04-B 的已登记文件分开实施，认证/维护与摘要/待办各有固定模块；公共 writer/API/迁移/代理/路由由共享 owner 串行整合。真实摘要继续在来源/维护入口使用；本轮 HOME-SUMMARY 解除首页摘要订阅，后端摘要不删，其余页面和布局保持。本节不授予 services/storage/tests 整目录权限。
 
 **验收：**A04、A05、A11及 M2-04—08：Site 登录与独立业务会话分别验证，退出业务会话后写入和受保护操作/待办读取均拒绝；无 CSRF、跨 Origin、过期/撤销会话、非法方法/路由均拒绝。预览不写访客事实，绑定 session/input hash/target/type/version/expiry；相同已提交请求在预览过期后仍返原回执，其他输入/版本冲突须重新预览。受限 URL 不触发越权请求。撤回只撤指定贡献，验证更正→自动更新→撤回、重复导入→撤回及后来另一人工更正；可靠未来事实与审计不删除。
 
@@ -140,7 +164,7 @@ M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分�
 - 只读 MCP 查询版本、目录、机会、来源/刷新状态、有限脱敏诊断；按新接口适配，不复制另一套采集逻辑。
 - 诊断返回明确项目身份、代码版本和数据集，不能让仍连接旧站的工具结果冒充 v2 验收。
 
-**允许路径：**`ops/`、刷新用例/任务状态及必要API、相关配置、`tests/`。不包含域名、防火墙、全局代理、其他项目或把只读MCP改成服务器写工具。
+**允许路径：**历史W05实施使用受信表的W05-A/W05-B精确列项，不能把本节职责视为ops/tests整目录权限。本轮 #15 补本轮真实材料，NCSS 已证实的局部原因按 SCUT-COMPLETION，最终恢复/身份材料按W06。域名、防火墙、全局代理、其他项目与MCP写权限不属于本包。
 
 **验收：**A08、A11；真实自然调度至少完成一次对账；未积累完整观察天数时如实记录；将宿主/MCP不可访问与代码未实现区分。
 
@@ -155,7 +179,7 @@ M1 两校样本门槛与 M2 三校门槛分别交付，#31 未完的 M2 部分�
 - 旧工程 GitHub Archived 开关、实际数据备份/只读冻结和生产站点切换是独立动作，分别记录是否已执行。当前规范提交不代表这些动作已做。
 - 本工作包先完成 Site 的 G4 总体验收和可执行发布包；正式部署交给 PM-RELEASE。全部 Gate、必需反馈及候选版本核对通过后，按用户本轮要求执行已明确目标的正式发布和线上复验；不重复询问同一已满足条件的授权。
 
-**允许路径：**集成测试、部署/恢复文档、已定位失败的相关模块和当前状态。不允许借“集成优化”重做产品范围、恢复后置功能或批量删除旧资产。
+**允许路径：**仅第2节W06的精确文件及受信管理路径；未登记的已定位模块须先独立登记，不能用“相关模块”取得全仓权限。源码/构建/部署/API身份、私有Site、新快照隔离恢复与原编号材料由root串行整合。不借“集成优化”重做产品范围、恢复后置功能或批量删除旧资产。
 
 **验收：**所有可控核心用例通过；实际限制清楚；工程、PR/合并、发布、线上复验、运营观察分别给状态。建议连续7个真实自然日观察；记录真实维护时间，不虚构未来成功或将未知填0。
 
@@ -198,15 +222,19 @@ CORE 专项须覆盖生产服务而不只断言 fixture：3 页各 1 条、每�
 先读 AGENTS.md、docs/STATUS.md，再读 PRODUCT、CONTRACTS、ROADMAP、TASKS、MANUAL_QA（均在 docs/）。
 八项产品决定 ABAAAAAB 已确认，不再重复询问。
 
-先核对原生 Project5、本轮 #32—35 同步回执和剩余缺口；#19 已完成，不重开。
-已同步项不重建；有新增变化时使用已授权 Projects 通道补齐并回读字段，工具不足则精确记录待同步项，
-继续不依赖该能力的工程，不把仓库索引写成原生字段已同步。
+先核对原生Project5的#50实际权限回执、旧pending与本轮增量；#19已完成，不重开。
+可用时先读真实字段/选项和卡片，按Issue URL幂等写入并逐项回读；不足则精确记录pending，
+继续独立工程，不把仓库索引写成原生字段已同步，不要求在聊天/Issue粘贴令牌。
 
 核对当前分支、用户改动、Project/Issue 和上次用户核验结论。
-从已审真实目标继续本轮 GOV→DOC→CORE，已完成治理不重做。
-CORE 与限定 M1-UI 并行；随后 M1-SOURCES→W03 与 W04-A→W04-B 两线。
-任何时刻最多两个实施包，共享后端、代理、构建和管理资料单一 owner。
-不重做历史 R0—R5，不用旧 M0-M1 声明或 W00 兜底授权 M2。
+先#48核对源码、构建、私有Site部署与API身份，#47独立治理经审阅成为实际目标。
+LINKS/#43先真实导航调查，HOME-SUMMARY/#42由同一前端整合者随后处理；
+来源线GZHU/#49与固定十校诊断可独立继续，SCUT-COMPLETION/#52只修已证实NCSS终点语义。
+宿主/权限不足只阻塞对应结论，不用mock、历史或改版本字符串冒充实测。
+任何时刻最多两个产品实施包，共享文件与配置由单一root串行整合。
+从实际PR目标导出checker/规则检查完整差分，不在候选功能分支给自己放权。
+独立DOC先同步受审工作包/合同与#42首页文字，再由W06整合当前修复、M3-04和新快照恢复材料。
+不重做历史已验收R0—R5/#29/#30等，不用旧闭单编号或W00兜底授权新修复。
 按 ROADMAP 的一周目标推进，每阶段先在私有 Site 提供可操作版本。
 保留 Python/FastAPI + SQLite + 原生前端，使用独立新库和隔离开发环境；
 Site 的同源代理连接真实 HTTPS 开发 API，不把模拟数据当真实采集或维护成功。
