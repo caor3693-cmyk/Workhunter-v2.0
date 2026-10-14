@@ -407,6 +407,38 @@
             "ownership_observed_on": "2026-10-11",
             "ownership_precision": "day"
           }
+        },
+        {
+          "source_key": "gzhu_preach",
+          "school_key": "gzhu",
+          "channel_key": "preach",
+          "adapter": "gzhu",
+          "name": "广州大学官方公开宣讲会列表",
+          "official_entry_url": "https://jy.gzhu.edu.cn/web/Index/preach-list",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 2,
+            "note": "2026-10-14 沿官方首页核实公开宣讲会列表及同栏目分页；有限窗口采集，不代表全校覆盖。",
+            "ownership_observed_on": "2026-10-14",
+            "ownership_precision": "day"
+          }
+        },
+        {
+          "source_key": "gzhu_jobfair",
+          "school_key": "gzhu",
+          "channel_key": "jobfair",
+          "adapter": "gzhu",
+          "name": "广州大学官方公开招聘会列表",
+          "official_entry_url": "https://jy.gzhu.edu.cn/web/Index/jobfair-list",
+          "scope": {
+            "coverage": "selected_public_channel",
+            "school_wide": false,
+            "page_budget": 2,
+            "note": "2026-10-14 沿官方首页核实公开招聘会列表及同栏目分页；保留旧首页来源受限状态。",
+            "ownership_observed_on": "2026-10-14",
+            "ownership_precision": "day"
+          }
         }
       ]
     },
