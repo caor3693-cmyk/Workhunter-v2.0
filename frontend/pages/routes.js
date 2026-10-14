@@ -6,7 +6,7 @@ export const PAGE_ASSET_ROUTES = Object.freeze({
 });
 
 export const PAGE_READ_PATHS = Object.freeze({
-  home: Object.freeze({ catalog: "/api/catalog", opportunities: "/api/opportunities", updates: "/api/updates/summary" }),
+  home: Object.freeze({ catalog: "/api/catalog", opportunities: "/api/opportunities" }),
   sources: Object.freeze({ catalog: "/api/catalog", sources: "/api/sources/status" }),
   review: Object.freeze({ health: "/health", version: "/version" }),
 });
