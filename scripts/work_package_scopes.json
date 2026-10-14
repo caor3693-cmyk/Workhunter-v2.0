@@ -232,8 +232,8 @@
     "DOC-20261014": {
       "issues": [47], "related_issues": [42, 43, 49, 17, 15, 48],
       "branch_prefixes": ["codex/doc-20261014-"],
-      "paths": ["docs/TASKS.md", "docs/CONTRACTS.md"],
-      "purpose": "Independent task/contract alignment to approved repair packages; preserve product choices and historic accepted tasks"
+      "paths": ["docs/TASKS.md", "docs/CONTRACTS.md", "docs/PRODUCT.md"],
+      "purpose": "Independent task/contract alignment and PRODUCT section5 homepage-summary removal explicitly authorized by issue42; preserve source/maintenance summaries, eight product choices and historic accepted tasks; no product implementation"
     },
     "LINKS": {
       "issues": [43], "related_issues": [9, 2, 48],
@@ -264,6 +264,12 @@
       ],
       "purpose": "Approved public Guangzhou list/channel/pagination discovery with frozen source interface; root alone integrates necessary Guangzhou registry/config entries; per-school before/after funnel; no shared policy/API/query/writer/schema or unrelated-school edits"
     },
+    "SCUT-COMPLETION": {
+      "issues": [52], "related_issues": [15, 17, 31, 12],
+      "branch_prefixes": ["codex/scut-completion-"],
+      "paths": ["backend/sources/scut.py", "tests/test_scut_sources.py"],
+      "purpose": "Verified NCSS terminal-page completeness only in SCUT adapter with frozen SourcePage interface; do not change shared common parser, source policy, API, writer, schema or unrelated school; M3-04 real no-change proof follows verified full scope"
+    },
     "W06": {
       "issues": [17], "related_issues": [5, 15, 48, 2, 3, 4],
       "branch_prefixes": ["codex/w06-"],
@@ -286,6 +292,7 @@
     "M1-M2": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1", "W03", "W04-A", "W04-B", "QA-M2"], "branch_prefixes": ["codex/m1-m2-integration-"]},
     "FRONTEND-20261014": {"packages": ["LINKS", "HOME-SUMMARY"], "branch_prefixes": ["codex/frontend-repair-"]},
     "REPAIR-20261014": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W06"], "branch_prefixes": ["codex/repair-integration-"]},
-    "REPAIR-W03-20261014": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W03", "W06"], "branch_prefixes": ["codex/repair-integration-"]}
+    "REPAIR-W03-20261014": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W03", "W06"], "branch_prefixes": ["codex/repair-integration-"]},
+    "REPAIR-20261014-WITH-COMPLETION": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W06", "SCUT-COMPLETION"], "branch_prefixes": ["codex/repair-integration-"]}
   }
 }

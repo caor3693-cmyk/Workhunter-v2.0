@@ -530,10 +530,11 @@ def test_new_business_candidate_cannot_expand_own_scope_or_checker(scope_repo):
 
 ROUND_20261014_PACKAGES = {
     'GOV-20261014': ('47', 'codex/r0-governance-test', ['scripts/work_package_scopes.json', 'tests/test_scope.py']),
-    'DOC-20261014': ('47', 'codex/doc-20261014-test', ['docs/TASKS.md', 'docs/CONTRACTS.md']),
+    'DOC-20261014': ('47', 'codex/doc-20261014-test', ['docs/TASKS.md', 'docs/CONTRACTS.md', 'docs/PRODUCT.md']),
     'LINKS': ('43', 'codex/links-test', ['frontend/components/cards.js', 'frontend/components/dom.js', 'scripts/verify_official_navigation.mjs']),
     'HOME-SUMMARY': ('42', 'codex/home-summary-test', ['frontend/index.html', 'frontend/pages/home.js', 'frontend/pages/routes.js', 'tests/test_home_summary.mjs']),
     'GZHU-20261014': ('49', 'codex/gzhu-20261014-test', ['backend/sources/gzhu.py', 'backend/sources/registry.py', 'config/schools.json', 'tests/test_gzhu_sources.py', 'tests/fixtures/gzhu/list.html']),
+    'SCUT-COMPLETION': ('52', 'codex/scut-completion-test', ['backend/sources/scut.py', 'tests/test_scut_sources.py']),
     'W06': ('17', 'codex/w06-test', ['backend/version.py', 'ops/preview/worker.mjs', 'ops/verify_m3.py', '.openai/hosting.json', 'docs/MANUAL_QA.md']),
 }
 
@@ -554,16 +555,20 @@ def test_20261014_precise_packages_and_management_paths_pass(scope_repo, package
 
 
 @pytest.mark.parametrize('package,path', [
-    ('GOV-20261014', 'frontend/pages/home.js'), ('GOV-20261014', 'docs/TASKS.md'),
+    ('GOV-20261014', 'frontend/pages/home.js'), ('GOV-20261014', 'docs/TASKS.md'), ('GOV-20261014', 'docs/PRODUCT.md'),
     ('DOC-20261014', 'scripts/work_package_scopes.json'), ('DOC-20261014', 'frontend/index.html'),
     ('LINKS', 'frontend/index.html'), ('LINKS', 'backend/api/app.py'), ('LINKS', 'ops/preview/worker.mjs'),
     ('HOME-SUMMARY', 'frontend/components/updates.js'), ('HOME-SUMMARY', 'frontend/pages/sources.js'),
-    ('HOME-SUMMARY', 'frontend/pages/maintenance.js'), ('HOME-SUMMARY', 'backend/services/updates.py'),
+    ('HOME-SUMMARY', 'frontend/pages/maintenance.js'), ('HOME-SUMMARY', 'backend/services/updates.py'), ('HOME-SUMMARY', 'docs/PRODUCT.md'),
     ('GZHU-20261014', 'frontend/index.html'), ('GZHU-20261014', 'frontend/pages/home.js'),
     ('GZHU-20261014', 'backend/api/app.py'), ('GZHU-20261014', 'backend/services/queries.py'),
     ('GZHU-20261014', 'backend/storage/write.py'), ('GZHU-20261014', 'backend/storage/migrations.py'),
     ('GZHU-20261014', 'backend/storage/schema.sql'), ('GZHU-20261014', 'backend/sources/hnu.py'),
     ('GZHU-20261014', 'backend/sources/common.py'), ('GZHU-20261014', 'backend/sources/transport.py'),
+    ('SCUT-COMPLETION', 'backend/sources/common.py'), ('SCUT-COMPLETION', 'backend/sources/gdut.py'),
+    ('SCUT-COMPLETION', 'backend/sources/registry.py'), ('SCUT-COMPLETION', 'config/schools.json'),
+    ('SCUT-COMPLETION', 'frontend/index.html'), ('SCUT-COMPLETION', 'backend/api/app.py'),
+    ('SCUT-COMPLETION', 'backend/services/discovery.py'), ('SCUT-COMPLETION', 'backend/storage/schema.sql'),
     ('W06', 'backend/api/app.py'), ('W06', 'backend/services/queries.py'),
     ('W06', 'backend/storage/schema.sql'), ('W06', 'frontend/styles/app.css'),
     ('W06', 'ops/install_scheduler.ps1'), ('W06', 'AGENTS.md'),
@@ -577,7 +582,7 @@ def test_20261014_rejects_undeclared_neighbor_and_shared_paths(scope_repo, packa
     assert result.returncode == 1 and path in result.stderr
 
 
-@pytest.mark.parametrize('package,issues', [('LINKS', '29'), ('HOME-SUMMARY', '14'), ('GZHU-20261014', '12,31'), ('W06', '16'), ('GOV-20261014', '24'), ('LINKS', '43,999')])
+@pytest.mark.parametrize('package,issues', [('LINKS', '29'), ('HOME-SUMMARY', '14'), ('GZHU-20261014', '12,31'), ('SCUT-COMPLETION', '7,15'), ('W06', '16'), ('GOV-20261014', '24'), ('LINKS', '43,999')])
 def test_20261014_cannot_reuse_old_issue_or_unknown_number(scope_repo, package, issues):
     branch = ROUND_20261014_PACKAGES[package][1]
     result = check(scope_repo, package, issues, branch)
@@ -602,8 +607,8 @@ def test_20261014_frontend_combination_is_exact_and_single_owner(scope_repo):
     assert result.returncode == 1 and 'exact registered Integration' in result.stderr
 
 
-@pytest.mark.parametrize('include_w03', [False, True])
-def test_20261014_integration_checks_whole_diff_and_exact_source_combination(scope_repo, include_w03):
+@pytest.mark.parametrize('include_w03,include_completion', [(False, False), (True, False), (False, True)])
+def test_20261014_integration_checks_whole_diff_and_exact_source_combination(scope_repo, include_w03, include_completion):
     repo, _, _ = scope_repo
     for path in ['frontend/components/cards.js', 'frontend/index.html', 'backend/sources/gzhu.py', 'backend/version.py']:
         write(repo, path)
@@ -613,6 +618,11 @@ def test_20261014_integration_checks_whole_diff_and_exact_source_combination(sco
         packages += ',W03'
         issues += ',12'
         integration = 'REPAIR-W03-20261014'
+    if include_completion:
+        write(repo, 'backend/sources/scut.py')
+        packages += ',SCUT-COMPLETION'
+        issues += ',52'
+        integration = 'REPAIR-20261014-WITH-COMPLETION'
     save(repo)
     result = check(scope_repo, packages, issues, 'codex/repair-integration-test', ('--integration', integration))
     assert result.returncode == 0, result.stderr
@@ -627,7 +637,7 @@ def test_20261014_governance_must_enter_target_before_function_use(scope_repo):
     legacy = json.loads(SCOPES.read_text(encoding='utf-8'))
     for name in ROUND_20261014_PACKAGES:
         del legacy['packages'][name]
-    for name in ['FRONTEND-20261014', 'REPAIR-20261014', 'REPAIR-W03-20261014']:
+    for name in ['FRONTEND-20261014', 'REPAIR-20261014', 'REPAIR-W03-20261014', 'REPAIR-20261014-WITH-COMPLETION']:
         del legacy['integrations'][name]
     legacy['packages']['W03']['related_issues'].remove(49)
     write(repo, 'scripts/work_package_scopes.json', json.dumps(legacy))
