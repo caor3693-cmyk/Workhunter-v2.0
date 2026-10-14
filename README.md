@@ -4,7 +4,9 @@
 
 本仓库承接独立重建。M1两校查询、M2十校有限来源/维护/摘要及M3自然调度/备份恢复/只读MCP已实现并在本机验证；实际运行、GitHub、私有Site与用户结果分别见[STATUS](docs/STATUS.md)。正式发布仍由全部人工Gate解锁。独立岗位库、全国企业直采、完整参会名单工程后置。
 
-本轮资料：[M1先行复验包](docs/deliveries/M1-SITE-RECHECK-20261012.md)、[M2完整操作包](docs/deliveries/M2-REVIEW-20261012.md)、[M3运行与恢复核验包](docs/deliveries/M3-REVIEW-20261013.md)。M3 新增隔离宿主调度、受管理备份/恢复和只读 stdio MCP；实际运行与审批边界按 STATUS 及交付包记录。本机候选不当作 Site 交付。
+当前验收入口为[私有Site v5](https://workhunter-v2-review.sage-candy-7999.chatgpt.site/)；本轮反馈、已完成项与下一轮收尾见[M1—M3反馈](docs/deliveries/M1-M3-FEEDBACK-20261014.md)。首页精简、全站原文和多校覆盖仍待处理，未来日程表/AI改简历只登记讨论。
+
+历史资料：[M1先行复验包](docs/deliveries/M1-SITE-RECHECK-20261012.md)、[M2完整操作包](docs/deliveries/M2-REVIEW-20261012.md)、[M3运行与恢复核验包](docs/deliveries/M3-REVIEW-20261013.md)。M3 新增隔离宿主调度、受管理备份/恢复和只读 stdio MCP；实际运行与审批边界按 STATUS 及交付包记录。本机候选不当作 Site 交付。
 
 ## 开发入口
 
@@ -12,12 +14,12 @@
 2. [产品规格](docs/PRODUCT.md)：已确认范围、八项产品决定、功能清单。
 3. [数据与工程合同](docs/CONTRACTS.md)：字段证据、API、卡片和模块职责。
 4. [执行任务](docs/TASKS.md)：工作包顺序、允许改动范围、验收与 Codex 指令。
-5. [M3运行与恢复核验](docs/deliveries/M3-REVIEW-20261013.md)和[知识/GitHub收尾](docs/deliveries/M3-NEAT-20261013.md)：当前工程证据、换代、原编号检查与剩余交付。M1/M2实施过程见[历史计划](docs/deliveries/M1-M2-EXECUTION-20261011.md)。
+5. [M3运行与恢复核验](docs/deliveries/M3-REVIEW-20261013.md)和[知识/GitHub收尾](docs/deliveries/M3-NEAT-20261013.md)：历史工程证据、换代与原编号检查；当前结果以10-14反馈和STATUS为准。M1/M2实施过程见[历史计划](docs/deliveries/M1-M2-EXECUTION-20261011.md)。
 6. [反馈与清理同步规则](docs/deliveries/FEEDBACK_CLOSEOUT.md)：收到验收反馈后，限域修复、源码清理、neat-freak 对齐、回归及 GitHub 回读必须一起完成。
 
 排期与追踪见[任务看板](docs/BOARD.md)、[路线图](docs/ROADMAP.md)，原编号操作见[M版清单](docs/deliveries/MANUAL_QA_M.md)。阶段统一M0—M4，旧S/G按[命名映射](docs/deliveries/M_NAMING.md)追溯。工程完成不代替Site或用户Gate；当前结果与原生Project快照只在STATUS汇总，历史反馈见[原用户结果](docs/deliveries/M0-M1-FEEDBACK2-20261011.md)。
 
-开发者先读 [AGENTS.md](AGENTS.md) 和 STATUS。基础产品版本为 1.1，工程合同为 1.3，当前执行计划版本为 1.4；八项产品范围保持不变。产品名称中的 v2.0 与规范版本不是同一编号。
+开发者先读 [AGENTS.md](AGENTS.md) 和 STATUS。基础产品版本为 1.1，工程合同为 1.3，当前路线图版本为 1.5；八项产品范围保持不变。产品名称中的 v2.0 与规范版本不是同一编号。
 
 ## 启动说明
 
@@ -60,7 +62,7 @@ M1 手动刷新使用已显式初始化的独立库：
 
 可用 `--school scut` / `--school gdut` 限定学校，`--resume <run_id>` 接续持久游标和待补任务。`backend.worker` 自身是单次执行；自然运行由下述M3宿主scheduler登记。每个栏目最多检查指定页数与详情数；预算结束、正文未取得、受限或重复分页均保留部分覆盖，不推断官方取消或完整零结果。网络读取在事务外，逐页短事务提交；失败保留此前可靠事实。新收录、解析补全、官方变化和未裁定材料冲突分别记账，重复采集不制造变化。
 
-当前华工统一就业入口受限，实施学院公开补充栏目；广工实施宣讲、双选与招聘公告三个公开栏目。另外六校已有有限真实材料；华电北京/中南历史受限路径停止，华电保定网络失败，范围与限制见STATUS。字段与片段必须绑定实际取得材料，未披露、未取得、待核实、不适用和冲突按独立状态显示。合同要求会场与工作地分开、不得凭发布时间补活动年份；本轮审查发现若干字段语义反例，按#34定向修复和回归。
+当前华工统一就业入口受限，实施学院公开补充栏目；广工实施宣讲、双选与招聘公告三个公开栏目。另外六校已有有限真实材料；华电北京/中南历史受限路径停止，华电保定网络失败，范围与限制见STATUS。字段与片段必须绑定实际取得材料，未披露、未取得、待核实、不适用和冲突按独立状态显示。合同要求会场与工作地分开、不得凭发布时间补活动年份；#34字段语义修复已交付，本轮按负责人授权默认通过；当前覆盖与原文失败见10-14反馈。
 
 ## M3 隔离运行
 
