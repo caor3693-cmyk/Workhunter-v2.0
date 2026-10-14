@@ -188,7 +188,7 @@
     {
       "issue": 17,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17",
-      "desired_workflow_state": "In progress",
+      "desired_workflow_state": "Blocked",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY",
       "pending_origin": "prior_manifest_plus_delta",
       "sync_state": "pending",
@@ -204,7 +204,7 @@
         31,
         15
       ],
-      "note": "Preparation may proceed; integrate required fixes and current-snapshot restore before new Site/manual gate delivery; no early production switch."
+      "note": "Code/current-snapshot restoration and v6 saved; new third-party HTTPS approval pending, no v6 deployment; human gate and remaining feedback blocked."
     },
     {
       "issue": 18,

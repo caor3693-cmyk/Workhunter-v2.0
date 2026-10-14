@@ -82,3 +82,11 @@ M3-04 的文字要求没有把该无变化样例限定为自然触发；真实�
 | 全工作区/清场 | out-of-scope，无删移停服 |
 
 证据：[RUNTIME-REPAIR-AUDIT-20261014.json](evidence/RUNTIME-REPAIR-AUDIT-20261014.json)。本包仅上述两个文件新增；私有库、原材料、日志、token 与内部路径未进入公开材料。复核现场保留，正式站未切换。
+
+## 最终整合回读（root，原16:23只读审计保留）
+
+最终5a23294为跨轮终页保守认证：仅offset1可证单页/零条complete，offset>1终页partial；151相关回归、neat后58项及独立11场景通过，源包新CI38544643436 success。未HTTP重采、未改16:46实网failed记录。
+
+GitHub代码冻结55553fca ↔ Site/实际API源b75d2d0，230实体一致。当前781快照16:49:53已真实一致备份/新路径恢复，API/MCP7路由/7工具、计数及只读SHA对账通过；维护演练29条另恢复，原资料和任务保留。完整Python827pass/1skip、Node123pass、build/syntax及25路径可信检查通过；后续仅本包状态回执。
+
+新私有Site v6已保存/回读，deployment_id=null，env_revision=null，未部署。当前URL仍旧v5。自动审批拒绝新Cloudflare HTTPS通道，用户授权pending，#17Blocked；无新隧道、未修改Site环境或切正式站。新路径自然计划unregistered/not_ready、next_run不存在。native archive摘要与本机tar不同、部署字节未回读；实际源映射和本地构建摘要见去敏JSON new_delivery。#43浏览器/代理端到端仍未测，M3-04无真实完整无变化材料。原生Project31pending/0写入，Gate按原序等人验。

@@ -2,11 +2,11 @@
 
 更新：2026-10-14（Asia/Shanghai）。GitHub原生Issue逐项回读39项（不含PR）：19 closed / 20 open。旧已通过任务保留，不重开。当前执行结果见[修复交付](deliveries/REPAIR-DELIVERY-20261014.md)与[STATUS](STATUS.md)。
 
-#42/#49/#52已实际修复，#48追溯取得实体映射，均待用户原编号复验；#47独立治理/DOC经复核及CI进入可信目标。#43浏览器策略阻塞真实复现，未改原文源码；#15/M3-04在NCSS明确登录限制处停止，仍缺完整范围无变化材料。#17新版私有Site/当前快照整合包正在最终身份回读。#31/#12逐校表已交，母单覆盖仍In progress。
+#42/#49/#52已实际修复，#48追溯取得实体映射，均待用户原编号复验；#47独立治理/DOC经复核及CI进入可信目标。#43浏览器策略阻塞真实复现，未改原文源码；#15/M3-04在NCSS明确登录限制处停止，仍缺完整范围无变化材料。#17当前快照/API已对账，新私有Site v6已保存；第三方HTTPS授权未收到，未部署，保持Blocked。#31/#12逐校表已交，母单覆盖仍In progress。
 
 | Backlog | Ready | In progress | Awaiting verification | Blocked | Done |
 | --- | --- | --- | --- | --- | --- |
-| 3 | 0 | 3 | 5 | 9 | 19 |
+| 3 | 0 | 2 | 5 | 10 | 19 |
 
 [原生Project5](https://github.com/users/caor3693-cmyk/projects/5/views/1) 本轮GraphQL实测INSUFFICIENT_SCOPES（缺read:project），没有取得字段/选项/条目、零写入。#50Blocked，精确31pending见[回执](deliveries/PROJECT-SYNC-EXECUTION-20261014.json)；此表不冒充原生同步。旧config/project.json为10-12历史快照/旧pending，item ID原样保留。
 
@@ -28,7 +28,7 @@
 | m2 | [#14 [M2] [PM-W04-B] 真实更新摘要与来源维护待办](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14) | Done / closed |
 | m3 | [#15 [M3] [PM-W05-A] 自然自动刷新、断点续跑与失败恢复](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15) | Blocked / open |
 | m3 | [#16 [M3] [PM-W05-B] 备份恢复、版本对账与只读 MCP](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16) | Done / closed |
-| m4 | [#17 [M4] [PM-W06] Site 全流程复核与正式发布准备](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17) | In progress / open |
+| m4 | [#17 [M4] [PM-W06] Site 全流程复核与正式发布准备](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17) | Blocked / open |
 | release | [#18 [PM-RELEASE] 全部人工 Gate 通过后的正式上线](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18) | Blocked / open |
 | m0 | [#19 [M0] [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19) | Done / closed |
 | m0 | [#21 [M0-02][M0-06] 首页使用成品布局，移出开发说明与核验框](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21) | Done / closed |

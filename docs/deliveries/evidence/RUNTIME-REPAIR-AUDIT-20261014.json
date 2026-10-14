@@ -428,6 +428,22 @@
         "historical_run_unchanged": true,
         "new_http_requests": 0,
         "latest_full_ci": "pending readback"
+      },
+      "cross_round_fix": {
+        "commit": "5a23294d8dc516c8ff4222fee7e939567cac71c2",
+        "pull_request": 56,
+        "related_regressions_passed": 151,
+        "neat_source_retest_passed": 58,
+        "independent_service_scenarios_passed": 11,
+        "behavior": "Only an offset1 single-page/zero-row query can attest complete_for_channel. All multi-page terminals remain partial because frozen SourcePage cannot attest the current run prefix. Reliable multi-page facts still commit; old facts/dataset/change counts remain.",
+        "actual_runtime_recollected": false,
+        "new_http_requests": 0,
+        "historical_run_unchanged": true,
+        "latest_full_ci": {
+          "run_id": 38544643436,
+          "job_id": 115787575706,
+          "conclusion": "success"
+        }
       }
     }
   },
@@ -436,11 +452,181 @@
   },
   "knowledge_closeout": {
     "code": "verified-current",
-    "runtime": "pending",
+    "runtime": "verified-current-loopback; remote delivery pending",
     "documents": "changed-and-verified",
     "rules": "verified-current",
     "memory": "not-applicable",
     "workspace": "out-of-scope",
     "cleanup": "No deletion, move, shutdown, database mutation or credential change performed"
+  },
+  "new_delivery": {
+    "sampled_at": "2026-10-14T09:47:10.978811+00:00",
+    "github_code_freeze": "55553fca7fd05a4973950c0305223d21186cc8bb",
+    "site_source_commit": "b75d2d0b2fd786084f10ec9ff2383b1c9116daf6",
+    "source_comparison": {
+      "tracked_files": 230,
+      "mismatches": [],
+      "comparison": "text LF normalized/binary exact",
+      "clean": true
+    },
+    "site": {
+      "version_number": 6,
+      "version_id": "appgprj_6aca4fbe4c1481918047d279e9653ccc~appgver_7c09d6966644819187cd3ac03263fdd3",
+      "source_commit": "b75d2d0b2fd786084f10ec9ff2383b1c9116daf6",
+      "saved_version_readback_verified": true,
+      "deployment_id": null,
+      "deployment_status": "not_started",
+      "env_set_revision": null,
+      "owner_private": true,
+      "current_live_version": 5,
+      "current_live_url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site",
+      "archive": {
+        "provider_hash": "sha256:9a3380a74db70c82c0e6d3765ac8e613402f7425ac57a5a7283153d14ba7f50d",
+        "gzip_sha256": "5a33daa07bec5340297b80a1e5601f046e33f252d6aaf33daed4ccd104fef039",
+        "uncompressed_tar_sha256": "2e54f79c7056dfffecb0378dc62d3dc3bfe0790fc8958113b59347021dac96b7",
+        "worker_sha256": "a194db4e284dd3724159af73b27dbdf5103a69dfa59dbee657995af3667f6696",
+        "worker_embeds_source_sha": true,
+        "file_count": 2,
+        "provider_digest_equals_local_tar": false,
+        "native_saved_archive_bytes_readback": false,
+        "limitation": "Native stored tar digest differs from Windows local tar; no native archive or deployed-byte readback. Source mapping and local archive/build checks are separately verified."
+      },
+      "packaging": "Official workflow saved and verified normal source push; its bash packager unavailable on Windows. Used the unchanged official prepare-site-build.cjs plus Windows tar in checked task staging."
+    },
+    "api": {
+      "scope": "loopback only, no external data connection",
+      "origin": "http://127.0.0.1:8897",
+      "loaded_checkout": ".runtime/site-provenance-20261014-retry",
+      "actual_host_head": "b75d2d0b2fd786084f10ec9ff2383b1c9116daf6",
+      "source_clean": true,
+      "health_status": 200,
+      "version_status": 200,
+      "anonymous_status": 401,
+      "identity": {
+        "project": "Workhunter-v2.0",
+        "version": "0.5.1",
+        "stage": "M3",
+        "backend_commit": "b75d2d0b2fd786084f10ec9ff2383b1c9116daf6",
+        "dataset_id": "ds-d8962f88-037e-44d9-b38e-ac685b43f1d4",
+        "data_mode": "real"
+      },
+      "counts": {
+        "opportunities": 781,
+        "source_materials": 593,
+        "changes": 3790,
+        "runs": 8,
+        "processing_tasks": 796
+      },
+      "api_routes": [
+        "/health",
+        "/version",
+        "/api/catalog",
+        "/api/opportunities",
+        "/api/sources/status",
+        "/api/refresh/status",
+        "/api/updates/summary"
+      ],
+      "mcp_transport": "actual stdio subprocess",
+      "mcp_tools": [
+        "version",
+        "catalog",
+        "opportunities",
+        "opportunity_detail",
+        "source_status",
+        "refresh_status",
+        "diagnostics"
+      ],
+      "api_mcp_identity_agrees": true,
+      "reads_preserved_counts_and_ids": true,
+      "database_sha256_before": "3ffba39c038ca030260ba30c6f8c13f9dc6bc03f4c15ffbf3fd3c405b2c9bf7d",
+      "database_sha256_after": "3ffba39c038ca030260ba30c6f8c13f9dc6bc03f4c15ffbf3fd3c405b2c9bf7d"
+    },
+    "current_snapshot_restore": {
+      "scope": "database_only",
+      "sampled_at_local": "2026-10-14T16:49:53+08:00",
+      "dataset_id": "ds-d8962f88-037e-44d9-b38e-ac685b43f1d4",
+      "schema": "3",
+      "data_mode": "real",
+      "sha256": "3ffba39c038ca030260ba30c6f8c13f9dc6bc03f4c15ffbf3fd3c405b2c9bf7d",
+      "counts": {
+        "opportunities": 781,
+        "source_materials": 593,
+        "changes": 3790,
+        "runs": 8,
+        "processing_tasks": 796
+      },
+      "all_tables_and_relations_match": true,
+      "integrity_check": "ok",
+      "foreign_key_check": "none",
+      "old_database_unchanged": true,
+      "old_original_materials_preserved_read_only": true
+    },
+    "maintenance_restore": {
+      "data_mode": "isolated_fixture",
+      "opportunities": 29,
+      "source_materials": 32,
+      "independent_restore": true,
+      "counts_as_real_coverage": false
+    },
+    "new_scheduler": {
+      "registration": "unregistered",
+      "enabled": false,
+      "status": "not_ready",
+      "next_run_at": null,
+      "old_scheduled_runs": 4,
+      "old_manual_runs": 1,
+      "old_runs_business_status": "partial",
+      "seven_day_observation_met": false,
+      "candidate_run_counts": {
+        "scheduled": 4,
+        "manual": 4,
+        "total": 8,
+        "new_manual_runs": 3,
+        "preparation_interrupted": 1,
+        "preparation_note": "Initial local Fetcher keyword mismatch before collection, retained interrupted receipt; subsequent two real manual runs are partial."
+      }
+    },
+    "navigation": {
+      "issue": 43,
+      "real_browser_matrix": "not_run",
+      "blocker": "Admin browser policy rejects private Site access; regular browser unavailable",
+      "root_cause": "unproven",
+      "blank_changed": false
+    },
+    "https": {
+      "status": "Blocked",
+      "third_party_tunnel_started": false,
+      "automatic_approval": "rejected",
+      "reason": "Specific third-party sensitive outbound was not explicitly authorized",
+      "user_authorization": "pending",
+      "site_proxy_end_to_end": "not_verified"
+    },
+    "tests": {
+      "full_local_python": {
+        "passed": 827,
+        "skipped": 1,
+        "total": 828,
+        "exit_code": 0
+      },
+      "full_local_node": {
+        "passed": 123,
+        "failed": 0
+      },
+      "minimal_sources": 151,
+      "neat_source_retest": 58,
+      "independent_synthetic_service_scenarios": 11,
+      "source_ci": {
+        "run_id": 38544643436,
+        "job_id": 115787575706,
+        "conclusion": "success"
+      },
+      "complete_pr_scope": {
+        "target_sha": "4ea9168c89fabe0902387cb74fdacda6e4ce2203",
+        "paths": 25,
+        "checker_changed": false,
+        "scope_rules_changed": false
+      },
+      "integration_ci_authority": "PR58 final-head native run and job steps; final receipt in PR body"
+    }
   }
 }
