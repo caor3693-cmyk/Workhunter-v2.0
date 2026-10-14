@@ -1,40 +1,35 @@
 # Workhunter v2.0 当前状态
 
-核对日：2026-10-13，Asia/Shanghai。产品1.1、合同1.3、执行计划1.4及 ABAAAAAB 范围保持。这里是唯一当前入口，历史细节留在原交付包。
+更新2026-10-14，Asia/Shanghai；产品决定ABAAAAAB。当前事实与人工结果入口：[M1—M3反馈](deliveries/M1-M3-FEEDBACK-20261014.md)。
 
-[M1先行复验](deliveries/M1-SITE-RECHECK-20261012.md) → [M2操作包](deliveries/M2-REVIEW-20261012.md) → [M3运行与恢复](deliveries/M3-REVIEW-20261013.md)；本轮知识及GitHub收尾见[M3 neat-freak记录](deliveries/M3-NEAT-20261013.md)。
+## 当前结论
 
-## 当前实现与运行
+[私有Site v5](https://workhunter-v2-review.sage-candy-7999.chatgpt.site/)真实读取已恢复，用户已确认招聘卡片。应用源码9665e245d200b84398df42636d52321341f67063，0.5.0/M3/schema3，服务器环境修订4的私有部署成功；本轮未重发Site。
 
-W05-A #15 / W05-B #16 本机实现、自验和独立审查完成，涵盖真实自然调度、失败/中断恢复、一致备份、新路径恢复重启及实际stdio MCP。运行与前后端构建为8057f1ad8d02e467471a0e60d54ca1dfa74de148，0.5.0/M3/schema3/real，dataset ds-170fe490-ca02-4441-ab88-ac5344645f78；445机会/517材料/1985历史/17运行。文档提交不替换已运行的源码身份。
+用户反馈：首页删除“最近更新”[#42](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42)、每条原文均不跳[#43](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43)、广工外九校扩源（沿用[#31](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31)/#12）。本轮仅完成Issue/管理资料，三项未修。
 
-r3于2026-10-13 11:29:35自然启动、11:35:34完成，运行源码6f71f3d；collector/scheduler/宿主退出0，业务和覆盖均partial。新增148，官方变化17、解析改进84、材料冲突13，分类重叠不可相加。后续W03修复及423定向语义修订0 HTTP/0新材料，旧值/材料保留，另记semantic_revision=1；r2失败历史保留。
+## 验收与项目管理
 
-[本机招聘页](http://127.0.0.1:8891/)、[来源状态](http://127.0.0.1:8891/sources)、[构建核验](http://127.0.0.1:8891/review)及[隔离恢复页](http://127.0.0.1:8893/)在本轮再次确认HTTP可读。六小时任务r4 Ready、绑定8057，下一次2026-10-13 17:29:34（北京时间）；当前构建尚未自然触发，只观察1自然日，未满6h后续周期或7日运营。
+用户明确授权未报错已交付项完成标记，实际关闭11项：#22/#29/#30/#33/#34/#35/#32/#10/#13/#14/#16。34个Issue当前19 closed / 15 open，[仓库Board](BOARD.md)与[Roadmap](ROADMAP.md)已更新。
 
-DB备份database_only，恢复副本ID/版本一致，旧调度not_ready不自启。另行只读raw归档375材料行/373文件全部SHA一致；跨宿主重放需显式索引映射，没有自动旧路径resolver。主库和恢复库API/实际stdio MCP同源同dataset，读取未改数量/ID；用户MCP客户端未配置。
+M1-01覆盖与M1-05原文失败，其他M1已交付项通过；M2-01覆盖待扩，M2-02—08原功能通过，#42新展示变更未做；M3-01/02/03/05/06已交付项通过，M3-04整源无变化真实材料仍阻塞。个人MCP客户端未配置、七自然日观察不足、M4未交付，均不标通过。
 
-原主工作区用户改动、M1独立先行142条候选和M2原库均保留。M2历史297机会/246材料/1333历史/15运行，dataset ds-3ceedaa1-97f2-4625-b180-35d7f162668a；原机会1—297与原库SHA未变。完整换代、恢复、测试、来源限制见[M3包及脱敏证据](deliveries/M3-REVIEW-20261013.md)。
+M0历史通过保留。#2/#3/#4保持Blocked，按M1→M2→M3→M4复验；#15待材料，#17下一轮收尾Ready，#18正式发布Blocked/未执行。PR #38/#39/#40/#41仍draft/open，未合并。
 
-## 外部交付与用户门槛
+[原生Board](https://github.com/users/caor3693-cmyk/projects/5/views/1) / [原生Roadmap](https://github.com/users/caor3693-cmyk/projects/5/views/2)历史已建，本轮原生字段未同步：无可用Projects/GraphQL/gh授权通道且浏览器清单为空。config保留10-12原生快照及26项待同步（含4新增）；本轮last_verified仅指GitHub Issue/仓库索引。
 
-用户要求neat-freak清理后上传GitHub，代码及脱敏证据已正常推送并创建[治理#39](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/39)、[来源#40](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/40)、[M3#41](https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/41)三份draft PR；实际分支与回读见[收尾回执](deliveries/M3-NEAT-20261013.md)。最终CI以PR当前检查为准，不合并、不force push、不关闭业务Issue。
+## 最新真实运行
 
-现有[私有Site](https://workhunter-v2-review.sage-candy-7999.chatgpt.site)本轮只读回核仍版本4、custom owner范围、0外部访客；没有更新。此前真实API HTTPS通道被自动审批拒绝，本轮GitHub授权不扩展到外部API/Site更新。整源checked_no_changes真实样本、持续观察、Site及用户Gate保持待验证；#18正式发布仍Blocked。
+2026-10-14 11:43本机隔离real dataset ds-da169234-b434-44b1-bce3-4d40abb99e19，622机会/441材料/2911历史/4轮。华工81、广工216、上电80、东北电力6、长沙理工14、三峡200、广大3、湖南22；华电0、中南0。全库数与近期电气视图区分，全部school_wide仍false；限制/失败如实标注，受限路径停止。
 
-| 编号 | 历史用户结果 | 当前候选 |
-| --- | --- | --- |
-| M0-01—07 | 通过 | 保留 |
-| M1-01/05/06 | 失败 | 修复已实现，Site交付及原编号复验待确认 |
-| M1-02/03/04/07/08 | 通过 | 历史保留，受影响项仍需回归 |
-| M2-01—08 | 未测 | 工程/材料已备，须在M1 Gate后确认 |
-| M3-01—06 | 未测 | 本机工程证据列明，M3-04整源样本/Site/前序Gate待完成 |
-| M4 / #18 | 未测 / 发布Blocked | 尚未进入，不按日期自动发布 |
+自然3轮、手工1轮；9665e24于14日01:03、07:03实际自然重复，结束01:08、07:06，下次登记计划13:03；退出与业务partial分开。七自然日观察未达。历史292恢复副本不能称为当前622恢复证明。
 
-## 规则与历史索引
+独立验收宿主按用户“验收期间独立运行”授权继续，私有状态文件回读API/tunnel就绪。本轮系统任务读取被沙箱拒绝，不称重读成功，不改变原任务/令牌。维护演练继续隔离。库、材料、日志/凭据不公开；验收结束后停用，结束动作尚未发生。
 
-阶段统一M0→M4，AGENTS/PRODUCT/CONTRACTS/TASKS/MANUAL_QA的S/G编号依照[M命名映射](deliveries/M_NAMING.md)理解，不执行两套Gate。规则真身为AGENTS.md，范围checker从实际目标导出，未为清除审计发现放宽规则。长期生成记忆只读，本轮未写。
+## 下一轮与后续讨论
 
-[M1/M2历史收尾与CI](deliveries/M1-M2-CLOSEOUT-20261012.md)、[真实十校样本](deliveries/evidence/M2-REAL-SOURCES-20261012.json)、[原用户结果](deliveries/M0-M1-FEEDBACK2-20261011.md)、[反馈收尾约定](deliveries/FEEDBACK_CLOSEOUT.md)。历史M2冻结26060f8及其CI不代表M3候选CI。
+[#17](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17)集中完成首版反馈与材料，再做M4/发布准备；限域登记与顺序见反馈文档。新编号/必要路径先按可信GOV登记。
 
-仓库[Board](BOARD.md)与[Roadmap](ROADMAP.md)保留原计划及用户结果；原生Project5的30项/21open/9closed、Backlog5/In progress9/Awaiting verification1/Blocked6/Done9为2026-10-12快照，本轮未修改Project字段或业务Issue状态。
+[#44日程表](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/44)与[#45 AI改简历](https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/45)仅未来讨论、暂不开发。用户选择下一轮交付时提醒；当前对话跟进已建立，确认新软件交付后提醒一次并暂停，#17保留提醒条款。
+
+E工作区为独立管理分支codex/w05-b-feedback-20261014，基于PR#41 head 0da12302838f23b59a246abdfbb57b19f1b5ffc1；main引用未改，D验收运行源码分支保持。不切换正式站、不改域名/可见性、不归档或删除旧资产。

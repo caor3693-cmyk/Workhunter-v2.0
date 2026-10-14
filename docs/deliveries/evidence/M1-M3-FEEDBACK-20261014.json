@@ -1,0 +1,786 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "source": "explicit_user_feedback_and_github_readback",
+  "user_feedback": {
+    "remove_home_recent_updates": true,
+    "official_original_failure_scope": "all_records",
+    "expand_non_gdut_schools": true,
+    "next_round_finish_first_edition": true,
+    "future_calendar_resume_discussion_only": true,
+    "default_pass_delivered_unmentioned": true,
+    "reminder_choice": "next_actual_software_delivery"
+  },
+  "runtime": {
+    "observed_at": "2026-10-14T11:43:44+08:00",
+    "data_mode": "real",
+    "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+    "counts": {
+      "opportunities": 622,
+      "source_materials": 441,
+      "changes": 2911,
+      "runs": 4
+    },
+    "school_counts": {
+      "scut": 81,
+      "gdut": 216,
+      "ncepu": 0,
+      "shiep": 80,
+      "neepu": 6,
+      "csust": 14,
+      "ctgu": 200,
+      "gzhu": 3,
+      "hnu": 22,
+      "csu": 0
+    },
+    "count_scope": "entire_isolated_database_not_default_electrical_list_not_schoolwide_coverage",
+    "site_version": 5,
+    "application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "application_version": "0.5.0",
+    "schema_version": "3",
+    "site_environment_revision": 4,
+    "deployment": "appgdep_6ace4fcc461c8191814c364e697ed5af",
+    "scheduled_triggers": 3,
+    "manual_triggers": 1,
+    "current_code_natural_trigger_times": [
+      "2026-10-14T01:03:08.038939+08:00",
+      "2026-10-14T07:03:05.525400+08:00"
+    ],
+    "current_code_natural_finished_times": [
+      "2026-10-14T01:08:08.364196+08:00",
+      "2026-10-14T07:06:16.566830+08:00"
+    ],
+    "next_run_at": "2026-10-14T13:03:01+08:00",
+    "api_running": true,
+    "tunnel_running": true,
+    "host_task_readback": "not_repeated_this_turn_sandbox_access_denied; prior_registration_preserved",
+    "current_snapshot_restore_proven": false,
+    "historical_restored_count": 292
+  },
+  "reviews": {
+    "M1": {
+      "feedback_received_at": "2026-10-14",
+      "user_reviewed_at": "2026-10-14",
+      "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+      "site_version": 5,
+      "application_commit": "9665e245d200b84398df42636d52321341f67063",
+      "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+      "data_mode": "real",
+      "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+      "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+      "individual_click_verification_claimed": false,
+      "unimplemented_and_missing_evidence_excluded": true,
+      "stage": "M1",
+      "gate_issue": 2,
+      "result": "not_passed",
+      "gate_status": "Blocked",
+      "outcomes": {
+        "M1-01": "失败",
+        "M1-02": "通过",
+        "M1-03": "通过",
+        "M1-04": "通过",
+        "M1-05": "失败",
+        "M1-06": "通过",
+        "M1-07": "通过",
+        "M1-08": "通过"
+      },
+      "blocking_feedback_issues": [
+        31,
+        43
+      ],
+      "subitems": {
+        "M1-05": {
+          "detail_display": "通过",
+          "official_original_navigation": "失败"
+        }
+      },
+      "next_candidate_retests": [
+        "M1-01",
+        "M1-05"
+      ],
+      "audit_issue_numbers": []
+    },
+    "M2": {
+      "feedback_received_at": "2026-10-14",
+      "user_reviewed_at": "2026-10-14",
+      "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+      "site_version": 5,
+      "application_commit": "9665e245d200b84398df42636d52321341f67063",
+      "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+      "data_mode": "real",
+      "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+      "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+      "individual_click_verification_claimed": false,
+      "unimplemented_and_missing_evidence_excluded": true,
+      "stage": "M2",
+      "gate_issue": 3,
+      "result": "not_passed",
+      "gate_status": "Blocked",
+      "outcomes": {
+        "M2-01": "失败",
+        "M2-02": "通过",
+        "M2-03": "通过",
+        "M2-04": "通过",
+        "M2-05": "通过",
+        "M2-06": "通过",
+        "M2-07": "通过",
+        "M2-08": "通过"
+      },
+      "blocking_feedback_issues": [
+        31,
+        42
+      ],
+      "subitems": {
+        "M2-01": {
+          "fixed_directory_and_existing_real_samples": "通过",
+          "expanded_school_coverage": "失败"
+        },
+        "M2-08": {
+          "existing_summary_service": "通过",
+          "remove_home_recent_updates": "未实现",
+          "change_issue": 42
+        }
+      },
+      "predecessor_gate_issue": 2
+    },
+    "M3": {
+      "feedback_received_at": "2026-10-14",
+      "user_reviewed_at": "2026-10-14",
+      "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+      "site_version": 5,
+      "application_commit": "9665e245d200b84398df42636d52321341f67063",
+      "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+      "data_mode": "real",
+      "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+      "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+      "individual_click_verification_claimed": false,
+      "unimplemented_and_missing_evidence_excluded": true,
+      "stage": "M3",
+      "gate_issue": 4,
+      "result": "not_passed",
+      "gate_status": "Blocked",
+      "outcomes": {
+        "M3-01": "通过",
+        "M3-02": "通过",
+        "M3-03": "通过",
+        "M3-04": "阻塞",
+        "M3-05": "通过",
+        "M3-06": "通过"
+      },
+      "blocking_feedback_issues": [
+        15
+      ],
+      "subitems": {
+        "M3-04": {
+          "delivered_result_classification": "通过",
+          "real_whole_source_checked_no_changes": "阻塞"
+        },
+        "M3-06": {
+          "delivered_readonly_diagnostics": "通过",
+          "personal_client_configuration": "未配置"
+        }
+      },
+      "predecessor_gate_issue": 3,
+      "long_term_observation": "not_yet_seven_natural_days"
+    }
+  },
+  "github_issues": [
+    {
+      "number": 45,
+      "title": "[未来讨论] AI 改简历（下轮提醒，暂不开发）",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABXC9baQ",
+      "id": 5841574761,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/45",
+      "labels": [
+        "type:feature",
+        "status:backlog",
+        "manual-feedback",
+        "priority:p2"
+      ],
+      "updated_at": "2026-10-14T03:52:23Z"
+    },
+    {
+      "number": 44,
+      "title": "[未来讨论] 招聘日程表（下轮提醒，暂不开发）",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABXC9YUg",
+      "id": 5841573970,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/44",
+      "labels": [
+        "type:feature",
+        "status:backlog",
+        "manual-feedback",
+        "priority:p2"
+      ],
+      "updated_at": "2026-10-14T03:52:14Z"
+    },
+    {
+      "number": 43,
+      "title": "[M1-05] 全站“官方原文”点击无跳转",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABXC9T5g",
+      "id": 5841572838,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43",
+      "labels": [
+        "priority:p1",
+        "status:ready",
+        "manual-feedback",
+        "type:bug",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:46:47Z"
+    },
+    {
+      "number": 42,
+      "title": "[M2-08] 首页移除“最近更新”区块",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABXC9LsQ",
+      "id": 5841570737,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42",
+      "labels": [
+        "type:feature",
+        "status:ready",
+        "manual-feedback",
+        "priority:p2",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:46:33Z"
+    },
+    {
+      "number": 35,
+      "title": "[M1-05][M2-05/06] 修复跨公告材料错绑及后续详情失效",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWbGeMg",
+      "id": 5799779890,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35",
+      "labels": [
+        "priority:p1",
+        "status:done",
+        "type:bug",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:52:09Z"
+    },
+    {
+      "number": 34,
+      "title": "[M1-03/08] 修复电气相关性、工作地点与未披露状态的证据语义",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWbGd3w",
+      "id": 5799779807,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34",
+      "labels": [
+        "priority:p1",
+        "status:done",
+        "type:bug",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:52:03Z"
+    },
+    {
+      "number": 33,
+      "title": "[M1-01/04] 修复跨轮详情任务饥饿与列表续页停滞",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWbGdgg",
+      "id": 5799779714,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33",
+      "labels": [
+        "priority:p1",
+        "status:done",
+        "type:bug",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:51:56Z"
+    },
+    {
+      "number": 32,
+      "title": "[M1→M2] 工作包登记与共享合同可信基线",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWbGZZA",
+      "id": 5799778660,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32",
+      "labels": [
+        "priority:p1",
+        "type:management",
+        "status:done",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:51:51Z"
+    },
+    {
+      "number": 31,
+      "title": "[M1-01][M2-01] 扩大广工以外九校的真实招聘覆盖",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWawwDA",
+      "id": 5799424012,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "manual-feedback",
+        "status:in-progress",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:51:45Z"
+    },
+    {
+      "number": 30,
+      "title": "[M1-06] 校区切换后刷新延迟：测量并定位原因",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWawuDQ",
+      "id": 5799423501,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30",
+      "labels": [
+        "priority:p1",
+        "manual-feedback",
+        "status:done",
+        "type:bug",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:51:39Z"
+    },
+    {
+      "number": 29,
+      "title": "[M1-05] 简要详情移除定位证据与内部技术信息",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWawsGw",
+      "id": 5799423003,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29",
+      "labels": [
+        "priority:p1",
+        "manual-feedback",
+        "status:done",
+        "type:bug",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:51:32Z"
+    },
+    {
+      "number": 24,
+      "title": "[M0→M1] 工作包范围校验与可信治理基线",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWZh_lg",
+      "id": 5798133654,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/24",
+      "labels": [
+        "priority:p1",
+        "status:done",
+        "stage:m0",
+        "type:bug"
+      ],
+      "updated_at": "2026-10-11T08:39:52Z"
+    },
+    {
+      "number": 23,
+      "title": "[M0-07] 招聘发现、来源状态与核验改为独立子页面",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWYZ4gg",
+      "id": 5796952194,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/23",
+      "labels": [
+        "priority:p1",
+        "manual-feedback",
+        "status:done",
+        "stage:m0",
+        "type:bug"
+      ],
+      "updated_at": "2026-10-11T08:39:39Z"
+    },
+    {
+      "number": 22,
+      "title": "[M0-03][M0-06] Site读取开发API失败，目录与数据身份不可核验",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWYZ2GA",
+      "id": 5796951576,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22",
+      "labels": [
+        "priority:p1",
+        "manual-feedback",
+        "status:done",
+        "stage:m0",
+        "type:bug"
+      ],
+      "updated_at": "2026-10-14T03:51:26Z"
+    },
+    {
+      "number": 21,
+      "title": "[M0-02][M0-06] 首页使用成品布局，移出开发说明与核验框",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWYZyow",
+      "id": 5796950691,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/21",
+      "labels": [
+        "priority:p1",
+        "manual-feedback",
+        "status:done",
+        "stage:m0",
+        "type:bug"
+      ],
+      "updated_at": "2026-10-11T08:39:11Z"
+    },
+    {
+      "number": 19,
+      "title": "[M0] [PM-SETUP] 建立 GitHub Project 原生 Board 与 Roadmap",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTne-g",
+      "id": 5791932154,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/19",
+      "labels": [
+        "priority:p1",
+        "type:management",
+        "status:done",
+        "stage:m0"
+      ],
+      "updated_at": "2026-10-11T08:49:04Z"
+    },
+    {
+      "number": 18,
+      "title": "[PM-RELEASE] 全部人工 Gate 通过后的正式上线",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTi2lw",
+      "id": 5791856279,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18",
+      "labels": [
+        "priority:p1",
+        "status:blocked",
+        "type:release",
+        "stage:release"
+      ],
+      "updated_at": "2026-10-14T03:51:19Z"
+    },
+    {
+      "number": 17,
+      "title": "[M4] [PM-W06] Site 全流程复核与正式发布准备",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTi16Q",
+      "id": 5791856105,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:ready",
+        "stage:m4"
+      ],
+      "updated_at": "2026-10-14T03:51:13Z"
+    },
+    {
+      "number": 16,
+      "title": "[M3] [PM-W05-B] 备份恢复、版本对账与只读 MCP",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTi1Kg",
+      "id": 5791855914,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m3"
+      ],
+      "updated_at": "2026-10-14T03:51:07Z"
+    },
+    {
+      "number": 15,
+      "title": "[M3] [PM-W05-A] 自然自动刷新、断点续跑与失败恢复",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTi0Zg",
+      "id": 5791855718,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:awaiting-verification",
+        "stage:m3"
+      ],
+      "updated_at": "2026-10-14T03:51:02Z"
+    },
+    {
+      "number": 14,
+      "title": "[M2] [PM-W04-B] 真实更新摘要与来源维护待办",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTizqg",
+      "id": 5791855530,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:50:57Z"
+    },
+    {
+      "number": 13,
+      "title": "[M2] [PM-W04-A] 受保护维护页、官方补录纠错与撤回",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTiy0A",
+      "id": 5791855312,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:50:51Z"
+    },
+    {
+      "number": 12,
+      "title": "[M2] [PM-W03] 固定十校来源扩展与真实范围状态",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTix-w",
+      "id": 5791855099,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:in-progress",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:50:45Z"
+    },
+    {
+      "number": 11,
+      "title": "[M1] [PM-W02-C] 桌面手机、键盘与加载错误状态",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTiw8Q",
+      "id": 5791854833,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/11",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-11T08:38:57Z"
+    },
+    {
+      "number": 10,
+      "title": "[M1] [PM-W02-B] 学校校区、相关性筛选与一致分页",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTiwNA",
+      "id": 5791854644,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:50:40Z"
+    },
+    {
+      "number": 9,
+      "title": "[M1] [PM-W02-A] 最小卡片、公告简要详情与官方原文",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTivfg",
+      "id": 5791854462,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:blocked",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:50:34Z"
+    },
+    {
+      "number": 8,
+      "title": "[M1] [PM-W01-B] 日期地点证据、去重及核心详情补全",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTiu2Q",
+      "id": 5791854297,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/8",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-11T08:38:44Z"
+    },
+    {
+      "number": 7,
+      "title": "[M1] [PM-W01-A] 华工广工列表发现与逐页持久化",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWTit6A",
+      "id": 5791854056,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:blocked",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:50:28Z"
+    },
+    {
+      "number": 6,
+      "title": "[M0] [PM-W00] 工程骨架、隔离运行边界与 Site 核验入口",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWTiaxg",
+      "id": 5791849158,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/6",
+      "labels": [
+        "type:feature",
+        "priority:p1",
+        "status:done",
+        "stage:m0"
+      ],
+      "updated_at": "2026-10-11T08:38:31Z"
+    },
+    {
+      "number": 5,
+      "title": "[M4] 首版最终手工验收与上线门禁",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWThg2Q",
+      "id": 5791834329,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5",
+      "labels": [
+        "priority:p1",
+        "type:gate",
+        "status:backlog",
+        "manual-review",
+        "stage:m4"
+      ],
+      "updated_at": "2026-10-14T03:50:23Z"
+    },
+    {
+      "number": 4,
+      "title": "[M3] 持续更新与恢复手工验收",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWThgcg",
+      "id": 5791834226,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4",
+      "labels": [
+        "priority:p1",
+        "status:blocked",
+        "type:gate",
+        "manual-review",
+        "stage:m3"
+      ],
+      "updated_at": "2026-10-14T03:50:16Z"
+    },
+    {
+      "number": 3,
+      "title": "[M2] 十校与维护功能手工验收",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWThgIw",
+      "id": 5791834147,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3",
+      "labels": [
+        "priority:p1",
+        "status:blocked",
+        "type:gate",
+        "manual-review",
+        "stage:m2"
+      ],
+      "updated_at": "2026-10-14T03:49:55Z"
+    },
+    {
+      "number": 2,
+      "title": "[M1] 两校真实招聘流程手工验收",
+      "state": "open",
+      "node_id": "I_kwDOVDuyOc8AAAABWThfug",
+      "id": 5791834042,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2",
+      "labels": [
+        "priority:p1",
+        "status:blocked",
+        "type:gate",
+        "manual-review",
+        "stage:m1"
+      ],
+      "updated_at": "2026-10-14T03:49:39Z"
+    },
+    {
+      "number": 1,
+      "title": "[M0] 工程与 Site 入口手工验收",
+      "state": "closed",
+      "node_id": "I_kwDOVDuyOc8AAAABWThUGQ",
+      "id": 5791831065,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/1",
+      "labels": [
+        "priority:p1",
+        "type:gate",
+        "manual-review",
+        "status:done",
+        "stage:m0"
+      ],
+      "updated_at": "2026-10-11T09:01:39Z"
+    }
+  ],
+  "new_issues": [
+    42,
+    43,
+    44,
+    45
+  ],
+  "closed_this_round": [
+    22,
+    29,
+    30,
+    33,
+    34,
+    35,
+    32,
+    10,
+    13,
+    14,
+    16
+  ],
+  "native_project": {
+    "number": 5,
+    "modified_this_round": false,
+    "status": "pending",
+    "pending_item_numbers": [
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      42,
+      43,
+      44,
+      45
+    ],
+    "pending_new_items": [
+      42,
+      43,
+      44,
+      45
+    ]
+  },
+  "automation": {
+    "id": "workhunter",
+    "status": "ACTIVE",
+    "trigger": "next_actual_software_delivery_after_feedback",
+    "baseline_site_version": 5,
+    "baseline_application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "future_issues": [
+      44,
+      45
+    ],
+    "action": "remind_once_then_pause",
+    "functionality_development_authorized": false
+  },
+  "product_code_changed": false,
+  "site_redeployed": false,
+  "production_release": false
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "plan_version": "1.4",
+  "plan_version": "1.5",
   "repository": "caor3693-cmyk/Workhunter-v2.0",
   "owner": "caor3693-cmyk",
   "timezone": "Asia/Shanghai",
@@ -16,20 +16,124 @@
     "visibility": "create_private_or_preserve_existing",
     "last_access_audit": "2026-10-11T16:53:07.377783+08:00: existing authorized gh GraphQL now works; viewerCanUpdate true; no login, permission expansion or other-project changes.",
     "public": false,
-    "pending_item_numbers": [],
+    "pending_item_numbers": [
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      42,
+      43,
+      44,
+      45
+    ],
     "current_iteration_sync": {
-      "status": "verified",
-      "previously_verified_items": 26,
-      "new_items_verified": [
+      "status": "pending_native_project_sync",
+      "date": "2026-10-14",
+      "pending_new_items": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "pending_status_items": [
+        2,
+        3,
+        4,
+        5,
+        7,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        22,
+        29,
+        30,
+        31,
         32,
         33,
         34,
         35
       ],
-      "pending_new_items": [],
-      "method": "existing authorized gh Project5 item-add/edit/readback; no login or permission expansion",
-      "followup_issue": 32
-    }
+      "native_fields_modified_this_round": false,
+      "reason": "No Projects/GraphQL connector or gh authorization available; browser inventory empty",
+      "source": "GitHub issue readback and repository Board/Roadmap, not native Project readback",
+      "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+      "last_verified_native_snapshot_date": "2026-10-12"
+    },
+    "sync_history": [
+      {
+        "record_kind": "historical_native_project_snapshot",
+        "last_verified_date": "2026-10-12",
+        "iteration_sync": {
+          "status": "verified",
+          "previously_verified_items": 26,
+          "new_items_verified": [
+            32,
+            33,
+            34,
+            35
+          ],
+          "pending_new_items": [],
+          "method": "existing authorized gh Project5 item-add/edit/readback; no login or permission expansion",
+          "followup_issue": 32
+        },
+        "item_statuses": {
+          "1": "Done",
+          "2": "Blocked",
+          "3": "Blocked",
+          "4": "Backlog",
+          "5": "Backlog",
+          "6": "Done",
+          "7": "Blocked",
+          "8": "Done",
+          "9": "Blocked",
+          "10": "Blocked",
+          "11": "Done",
+          "12": "In progress",
+          "13": "In progress",
+          "14": "In progress",
+          "15": "Backlog",
+          "16": "Backlog",
+          "17": "Backlog",
+          "18": "Blocked",
+          "19": "Done",
+          "21": "Done",
+          "22": "Done",
+          "23": "Done",
+          "24": "Done",
+          "29": "In progress",
+          "30": "In progress",
+          "31": "In progress",
+          "32": "Awaiting verification",
+          "33": "In progress",
+          "34": "In progress",
+          "35": "In progress"
+        }
+      }
+    ]
   },
   "views": [
     {
@@ -136,9 +240,20 @@
       5
     ],
     "automatic_by_date": false,
-    "all_required_feedback_retested_required": true
+    "all_required_feedback_retested_required": true,
+    "current_blockers": [
+      2,
+      3,
+      4,
+      5,
+      31,
+      42,
+      43,
+      15
+    ],
+    "unlocked": false
   },
-  "note": "M3本机工程已验证，用户要求neat-freak清理后上传GitHub；Site、CI和原编号用户验收分别登记，不解锁#18。",
+  "note": "本轮反馈管理：闭环已交付未报错项，下一轮集中首版收尾；原生字段待同步，正式发布未解锁。",
   "items": [
     {
       "pm_id": "PM-G0",
@@ -166,10 +281,13 @@
       "legacy_stage": "S0",
       "legacy_gate": "G0",
       "feedback_received_at": "2026-10-11",
-      "blocking_feedback_issues": [],
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlM",
       "completed_at": "2026-10-11",
-      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review"
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "M0历史通过保留",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "PM-G1",
@@ -198,22 +316,22 @@
       "legacy_stage": "S1",
       "legacy_gate": "G1",
       "github_state": "open",
-      "blocking_reason": "M1-01/05/06 user feedback unresolved; new P1 audit counterexamples33/34/35 also require next-candidate fixes and targeted retests.",
+      "blocking_reason": "M1-01覆盖/#31与M1-05全站原文/#43失败",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlA",
       "blocking_feedback_issues": [
-        29,
-        30,
-        31
+        31,
+        43
       ],
       "user_verified_at": null,
-      "blocking_audit_issues": [
-        33,
-        34,
-        35
-      ],
+      "blocking_audit_issues": [],
       "implementation_prerequisites": [
         32
-      ]
+      ],
+      "github_verified_at": "2026-10-14",
+      "current_basis": "M1-01覆盖/#31与M1-05全站原文/#43失败",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked"
     },
     {
       "pm_id": "PM-G2",
@@ -240,7 +358,18 @@
       "legacy_stage": "S2",
       "legacy_gate": "G2",
       "github_state": "open",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk8"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk8",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "M1前门及覆盖/#31、首页调整/#42",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked",
+      "blocking_reason": "M1前门及覆盖/#31、首页调整/#42",
+      "blocking_feedback_issues": [
+        31,
+        42
+      ],
+      "user_verified_at": null
     },
     {
       "pm_id": "PM-G3",
@@ -249,7 +378,7 @@
       "title": "[M3] 持续更新与恢复手工验收",
       "stage": "M3",
       "gate": "M3",
-      "status": "Backlog",
+      "status": "Blocked",
       "priority": "P1",
       "start": "2026-10-16",
       "target": "2026-10-16",
@@ -262,7 +391,7 @@
         "PM-W05-A",
         "PM-W05-B"
       ],
-      "status_label": "status:backlog",
+      "status_label": "status:blocked",
       "legacy_stage": "S3",
       "legacy_gate": "G3",
       "github_state": "open",
@@ -273,8 +402,20 @@
         "user_result": "未测",
         "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
-        "report": "docs/deliveries/M3-REVIEW-20261013.md"
-      }
+        "report": "docs/deliveries/M3-REVIEW-20261013.md",
+        "record_kind": "historical_snapshot",
+        "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
+      },
+      "github_verified_at": "2026-10-14",
+      "current_basis": "前门未过及M3-04整源无变化缺材料",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Backlog",
+      "blocking_reason": "前门未过及M3-04整源无变化缺材料",
+      "blocking_feedback_issues": [
+        15
+      ],
+      "user_verified_at": null
     },
     {
       "pm_id": "PM-G4",
@@ -299,7 +440,13 @@
       "legacy_stage": "S4",
       "legacy_gate": "G4",
       "github_state": "open",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wko"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wko",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "M4尚未交付",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Backlog",
+      "blocking_reason": null
     },
     {
       "pm_id": "PM-W00",
@@ -334,10 +481,13 @@
       "user_verified_at": "2026-10-11",
       "legacy_stage": "S0",
       "feedback_received_at": "2026-10-11",
-      "blocking_feedback_issues": [],
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkY",
       "completed_at": "2026-10-11",
-      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review"
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "M0工程交付通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "PM-W01-A",
@@ -390,10 +540,13 @@
       "blocking_feedback_issues": [
         31
       ],
-      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
-      "blocking_audit_issues": [
-        33
-      ]
+      "blocking_reason": "发现已实现，华工数量需求沿用#31",
+      "blocking_audit_issues": [],
+      "github_verified_at": "2026-10-14",
+      "current_basis": "发现已实现，华工数量需求沿用#31",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked"
     },
     {
       "pm_id": "PM-W01-B",
@@ -447,7 +600,10 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkQ",
       "completed_at": "2026-10-11",
       "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-      "blocking_feedback_issues": []
+      "github_verified_at": "2026-10-14",
+      "current_basis": "核心事实历史通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "PM-W02-A",
@@ -505,12 +661,15 @@
       "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkI",
       "blocking_feedback_issues": [
-        29
+        43
       ],
-      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
-      "blocking_audit_issues": [
-        35
-      ]
+      "blocking_reason": "详情子项通过；官方原文#43失败",
+      "blocking_audit_issues": [],
+      "github_verified_at": "2026-10-14",
+      "current_basis": "详情子项通过；官方原文#43失败",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked"
     },
     {
       "pm_id": "PM-W02-B",
@@ -520,7 +679,7 @@
       "id": 5791854644,
       "node_id": "I_kwDOVDuyOc8AAAABWTiwNA",
       "stage": "M1",
-      "status": "Blocked",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-12",
       "target": "2026-10-13",
@@ -537,7 +696,7 @@
         "PM-W01-A",
         "PM-W01-B"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "dependencies_actual": [
         {
           "pm_id": "PM-W00",
@@ -562,22 +721,25 @@
       },
       "body_links_verified": true,
       "kind": "feature",
-      "status_label": "status:blocked",
+      "status_label": "status:done",
       "legacy_stage": "S1",
       "planned_in_iteration": "2026-10-11",
       "implementation_dependencies": [
         24
       ],
       "actual_start": "2026-10-11",
-      "user_verified_at": null,
+      "user_verified_at": "2026-10-14",
       "engineering_completed_at": "2026-10-11",
       "candidate_submitted_at": "2026-10-11",
       "implementation_commit": "b6300f4991d4c9a36ecf8f425a6de578c0106275",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkE",
-      "blocking_feedback_issues": [
-        30
-      ],
-      "blocking_reason": "2026-10-11 user feedback remains unresolved; see docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
+      "github_verified_at": "2026-10-14",
+      "current_basis": "筛选、校区、分页/刷新本轮默认通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014"
     },
     {
       "pm_id": "PM-W02-C",
@@ -633,7 +795,10 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkA",
       "completed_at": "2026-10-11",
       "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-      "blocking_feedback_issues": []
+      "github_verified_at": "2026-10-14",
+      "current_basis": "页面可用性历史通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "PM-W03",
@@ -692,7 +857,19 @@
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
       "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "current_verification": "十校适配已交付，实际覆盖继续扩#31",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "十校适配已交付，实际覆盖继续扩#31",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "blocking_reason": null,
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "PM-W04-A",
@@ -702,7 +879,7 @@
       "id": 5791855312,
       "node_id": "I_kwDOVDuyOc8AAAABWTiy0A",
       "stage": "M2",
-      "status": "In progress",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -715,9 +892,9 @@
         "PM-W00",
         "PM-W01-B"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:done",
       "legacy_stage": "S2",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj0",
       "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
@@ -730,8 +907,21 @@
       "implementation_performed": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "维护、补录、纠错/撤回本轮默认通过",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "维护、补录、纠错/撤回本轮默认通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "PM-W04-B",
@@ -741,7 +931,7 @@
       "id": 5791855530,
       "node_id": "I_kwDOVDuyOc8AAAABWTizqg",
       "stage": "M2",
-      "status": "In progress",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-14",
       "target": "2026-10-15",
@@ -755,9 +945,9 @@
         "PM-W03",
         "PM-W04-A"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "kind": "feature",
-      "status_label": "status:in-progress",
+      "status_label": "status:done",
       "legacy_stage": "S2",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjs",
       "next_execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
@@ -770,8 +960,21 @@
       "implementation_performed": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "摘要/待办通过；首页调整另列#42",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "摘要/待办通过；首页调整另列#42",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "PM-W05-A",
@@ -781,7 +984,7 @@
       "id": 5791855718,
       "node_id": "I_kwDOVDuyOc8AAAABWTi0Zg",
       "stage": "M3",
-      "status": "Backlog",
+      "status": "Awaiting verification",
       "priority": "P1",
       "start": "2026-10-16",
       "target": "2026-10-16",
@@ -797,7 +1000,7 @@
       ],
       "github_state": "open",
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:awaiting-verification",
       "legacy_stage": "S3",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk",
       "local_m3_progress": {
@@ -806,8 +1009,16 @@
         "user_result": "未测",
         "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
-        "report": "docs/deliveries/M3-REVIEW-20261013.md"
-      }
+        "report": "docs/deliveries/M3-REVIEW-20261013.md",
+        "record_kind": "historical_snapshot",
+        "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
+      },
+      "github_verified_at": "2026-10-14",
+      "current_basis": "自然运行通过，整源无变化材料待补",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Backlog",
+      "blocking_reason": "自然运行通过，整源无变化材料待补"
     },
     {
       "pm_id": "PM-W05-B",
@@ -817,7 +1028,7 @@
       "id": 5791855914,
       "node_id": "I_kwDOVDuyOc8AAAABWTi1Kg",
       "stage": "M3",
-      "status": "Backlog",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-16",
       "target": "2026-10-16",
@@ -832,9 +1043,9 @@
         "PM-W04-A",
         "PM-W05-A"
       ],
-      "github_state": "open",
+      "github_state": "closed",
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:done",
       "legacy_stage": "S3",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg",
       "local_m3_progress": {
@@ -843,8 +1054,18 @@
         "user_result": "未测",
         "external_delivery": "github_draft_uploaded_site_pending",
         "remote_status_changed": false,
-        "report": "docs/deliveries/M3-REVIEW-20261013.md"
-      }
+        "report": "docs/deliveries/M3-REVIEW-20261013.md",
+        "record_kind": "historical_snapshot",
+        "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
+      },
+      "github_verified_at": "2026-10-14",
+      "current_basis": "备份恢复/只读诊断通过，个人客户端未配置",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Backlog",
+      "completed_at": "2026-10-14",
+      "user_verified_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014"
     },
     {
       "pm_id": "PM-W06",
@@ -854,7 +1075,7 @@
       "id": 5791856105,
       "node_id": "I_kwDOVDuyOc8AAAABWTi16Q",
       "stage": "M4",
-      "status": "Backlog",
+      "status": "Ready",
       "priority": "P1",
       "start": "2026-10-17",
       "target": "2026-10-17",
@@ -901,9 +1122,15 @@
       ],
       "github_state": "open",
       "kind": "feature",
-      "status_label": "status:backlog",
+      "status_label": "status:ready",
       "legacy_stage": "S4",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "下一轮首版收尾，交付时提醒#44/#45",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Backlog",
+      "blocking_reason": null
     },
     {
       "pm_id": "PM-RELEASE",
@@ -912,7 +1139,7 @@
       "title": "[PM-RELEASE] 全部人工 Gate 通过后的正式上线",
       "id": 5791856279,
       "node_id": "I_kwDOVDuyOc8AAAABWTi2lw",
-      "stage": "Release",
+      "stage": "RELEASE",
       "status": "Blocked",
       "priority": "P1",
       "start": null,
@@ -933,7 +1160,13 @@
       "kind": "release",
       "status_label": "status:blocked",
       "legacy_stage": "Release",
-      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjU"
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjU",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "有效Gate与必需反馈阻塞，未发布",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Blocked",
+      "blocking_reason": "有效Gate与必需反馈阻塞，未发布"
     },
     {
       "pm_id": "PM-SETUP",
@@ -954,7 +1187,12 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjM",
       "completed_at": "2026-10-11",
       "completion_basis": "native_project_fields_views_and_all_items_verified",
-      "blocking_feedback_issues": []
+      "id": 5791932154,
+      "node_id": "I_kwDOVDuyOc8AAAABWTne-g",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "原生Project历史创建完成",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "FB-M0-HOME",
@@ -1006,7 +1244,10 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi8",
       "completed_at": "2026-10-11",
       "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-      "blocking_feedback_issues": []
+      "github_verified_at": "2026-10-14",
+      "current_basis": "首页布局旧反馈通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "FB-M0-CONNECTION",
@@ -1029,7 +1270,7 @@
       "target": "2026-10-11",
       "reported_at": "2026-10-11",
       "fixed_at": null,
-      "user_verified_at": "2026-10-11",
+      "user_verified_at": "2026-10-14",
       "timezone": "Asia/Shanghai",
       "github_state": "closed",
       "dependencies": [],
@@ -1057,9 +1298,13 @@
       "actual_start": "2026-10-11",
       "candidate_submitted_at": "2026-10-11",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi0",
-      "completed_at": "2026-10-11",
-      "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-      "blocking_feedback_issues": []
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "用户确认卡片恢复及本轮授权闭环",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Done"
     },
     {
       "pm_id": "FB-M0-NAVIGATION",
@@ -1110,7 +1355,10 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wio",
       "completed_at": "2026-10-11",
       "completion_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-      "blocking_feedback_issues": []
+      "github_verified_at": "2026-10-14",
+      "current_basis": "独立页面旧反馈通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "AUDIT-SCOPE",
@@ -1154,7 +1402,12 @@
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wic",
       "completed_at": "2026-10-11",
       "completion_basis": "trusted_governance_technical_review",
-      "blocking_feedback_issues": []
+      "id": 5798133654,
+      "node_id": "I_kwDOVDuyOc8AAAABWZh_lg",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "可信范围治理旧反馈通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": false
     },
     {
       "pm_id": "PM-FB-M1-29",
@@ -1180,15 +1433,28 @@
         "M1-05"
       ],
       "implementation_started_at": null,
-      "user_verified_at": null,
-      "status": "In progress",
-      "status_label": "status:in-progress",
-      "github_state": "open",
+      "user_verified_at": "2026-10-14",
+      "status": "Done",
+      "status_label": "status:done",
+      "github_state": "closed",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU",
       "implementation_performed": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "current_verification": "技术信息移除通过，新原文故障独立#43",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "技术信息移除通过，新原文故障独立#43",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "PM-FB-M1-30",
@@ -1214,21 +1480,34 @@
         "M1-06"
       ],
       "implementation_started_at": null,
-      "user_verified_at": null,
-      "status": "In progress",
-      "status_label": "status:in-progress",
-      "github_state": "open",
+      "user_verified_at": "2026-10-14",
+      "status": "Done",
+      "status_label": "status:done",
+      "github_state": "closed",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ",
       "implementation_performed": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "current_verification": "校区切换/刷新本轮默认通过",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "校区切换/刷新本轮默认通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "PM-FB-M1-31",
       "number": 31,
       "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31",
-      "title": "[M1-01] 下一轮提供多校电气相关真实验收样本",
+      "title": "[M1-01][M2-01] 扩大广工以外九校的真实招聘覆盖",
       "id": 5799424012,
       "node_id": "I_kwDOVDuyOc8AAAABWawwDA",
       "stage": "M1",
@@ -1258,7 +1537,19 @@
       "implementation_performed": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "current_verification": "扩大广工以外九校真实覆盖",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "扩大广工以外九校真实覆盖",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "blocking_reason": null,
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "AUD-GOV",
@@ -1269,15 +1560,15 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGZZA",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "Awaiting verification",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
       "timezone": "Asia/Shanghai",
       "kind": "management",
       "dependencies": [],
-      "github_state": "open",
-      "status_label": "status:awaiting-verification",
+      "github_state": "closed",
+      "status_label": "status:done",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAL60",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1286,8 +1577,21 @@
       "execution_plan": "docs/deliveries/M1-M2-EXECUTION-20261011.md",
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "independent GOV/DOC technical review completed; issue review pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "治理基线交付通过，本轮原生字段另记待同步",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "治理基线交付通过，本轮原生字段另记待同步",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "Awaiting verification",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "independent GOV/DOC technical review completed; issue review pending"
+        }
+      ]
     },
     {
       "pm_id": "AUD-QUEUE",
@@ -1298,7 +1602,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGdgg",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "In progress",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1307,8 +1611,8 @@
       "dependencies": [
         "AUD-GOV"
       ],
-      "github_state": "open",
-      "status_label": "status:in-progress",
+      "github_state": "closed",
+      "status_label": "status:done",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMBc",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1318,8 +1622,21 @@
       "retest_required": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "队列公平/续页修复通过",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "队列公平/续页修复通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "AUD-FIELDS",
@@ -1330,7 +1647,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGd3w",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "In progress",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1339,8 +1656,8 @@
       "dependencies": [
         "AUD-GOV"
       ],
-      "github_state": "open",
-      "status_label": "status:in-progress",
+      "github_state": "closed",
+      "status_label": "status:done",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMEw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1350,8 +1667,21 @@
       "retest_required": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "字段及相关性语义修复通过",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "字段及相关性语义修复通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
     },
     {
       "pm_id": "AUD-MATERIAL",
@@ -1362,7 +1692,7 @@
       "node_id": "I_kwDOVDuyOc8AAAABWbGeMg",
       "stage": "M2",
       "gate": "PM-G1",
-      "status": "In progress",
+      "status": "Done",
       "priority": "P1",
       "start": "2026-10-11",
       "target": "2026-10-13",
@@ -1371,8 +1701,8 @@
       "dependencies": [
         "AUD-GOV"
       ],
-      "github_state": "open",
-      "status_label": "status:in-progress",
+      "github_state": "closed",
+      "status_label": "status:done",
       "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMGw",
       "native_project_sync": "verified",
       "planned_in_iteration": "2026-10-11-M1-M2",
@@ -1382,8 +1712,135 @@
       "retest_required": true,
       "engineering_completed_at": "2026-10-12",
       "candidate_pr": 38,
-      "user_verified_at": null,
-      "current_verification": "engineering candidate complete; private Site delivery and user confirmation pending"
+      "user_verified_at": "2026-10-14",
+      "current_verification": "材料适用/错绑修复通过",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "材料适用/错绑修复通过",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": "In progress",
+      "completed_at": "2026-10-14",
+      "completion_basis": "explicit_user_default_pass_for_unmentioned_delivered_items_20261014",
+      "verification_history": [
+        {
+          "record_kind": "historical_snapshot",
+          "value": "engineering candidate complete; private Site delivery and user confirmation pending"
+        }
+      ]
+    },
+    {
+      "pm_id": "FB-20261014-42",
+      "kind": "feedback",
+      "dependencies": [],
+      "start": "2026-10-14",
+      "target": null,
+      "timezone": "Asia/Shanghai",
+      "project_item_id": null,
+      "gate": "M2",
+      "number": 42,
+      "title": "[M2-08] 首页移除“最近更新”区块",
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42",
+      "id": 5841570737,
+      "node_id": "I_kwDOVDuyOc8AAAABXC9LsQ",
+      "status": "Ready",
+      "status_label": "status:ready",
+      "github_state": "open",
+      "stage": "M2",
+      "priority": "P2",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "首页精简新增要求，未实施",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": null,
+      "blocking_reason": null
+    },
+    {
+      "pm_id": "FB-20261014-43",
+      "kind": "feedback",
+      "dependencies": [],
+      "start": "2026-10-14",
+      "target": null,
+      "timezone": "Asia/Shanghai",
+      "project_item_id": null,
+      "gate": "M1",
+      "number": 43,
+      "title": "[M1-05] 全站“官方原文”点击无跳转",
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43",
+      "id": 5841572838,
+      "node_id": "I_kwDOVDuyOc8AAAABXC9T5g",
+      "status": "Ready",
+      "status_label": "status:ready",
+      "github_state": "open",
+      "stage": "M1",
+      "priority": "P1",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "每条原文均不跳，根因未定位",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": null,
+      "blocking_reason": null
+    },
+    {
+      "pm_id": "FB-20261014-44",
+      "kind": "future_discussion",
+      "dependencies": [
+        17
+      ],
+      "start": null,
+      "target": null,
+      "timezone": "Asia/Shanghai",
+      "project_item_id": null,
+      "gate": null,
+      "number": 44,
+      "title": "[未来讨论] 招聘日程表（下轮提醒，暂不开发）",
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/44",
+      "id": 5841573970,
+      "node_id": "I_kwDOVDuyOc8AAAABXC9YUg",
+      "status": "Backlog",
+      "status_label": "status:backlog",
+      "github_state": "open",
+      "stage": "Future",
+      "priority": "P2",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "下轮提醒未来讨论，暂不开发",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": null,
+      "native_stage_option": null,
+      "discussion_only": true,
+      "implementation_authorized": false,
+      "remind_at": "next_actual_software_delivery"
+    },
+    {
+      "pm_id": "FB-20261014-45",
+      "kind": "future_discussion",
+      "dependencies": [
+        17
+      ],
+      "start": null,
+      "target": null,
+      "timezone": "Asia/Shanghai",
+      "project_item_id": null,
+      "gate": null,
+      "number": 45,
+      "title": "[未来讨论] AI 改简历（下轮提醒，暂不开发）",
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/45",
+      "id": 5841574761,
+      "node_id": "I_kwDOVDuyOc8AAAABXC9baQ",
+      "status": "Backlog",
+      "status_label": "status:backlog",
+      "github_state": "open",
+      "stage": "Future",
+      "priority": "P2",
+      "github_verified_at": "2026-10-14",
+      "current_basis": "下轮提醒未来讨论，暂不开发",
+      "status_source": "GitHub issue labels",
+      "native_project_sync_pending": true,
+      "native_project_last_verified_status": null,
+      "native_stage_option": null,
+      "discussion_only": true,
+      "implementation_authorized": false,
+      "remind_at": "next_actual_software_delivery"
     }
   ],
   "actual_development_start": "2026-10-10",
@@ -1399,9 +1856,10 @@
     "review_package": "docs/deliveries/S0.md",
     "legacy_stage": "S0/W00",
     "record_kind": "historical_snapshot",
-    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "previous_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
-  "last_verified_date": "2026-10-12",
+  "last_verified_date": "2026-10-14",
   "stage_naming": {
     "effective_date": "2026-10-11",
     "canonical": "Mx",
@@ -1517,7 +1975,8 @@
     "source_ci_conclusion": "success",
     "remote_source_sha_verified": true,
     "record_kind": "historical_snapshot",
-    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "previous_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
   "audit_iteration": {
     "date": "2026-10-11",
@@ -1556,7 +2015,8 @@
     "manual_checks_unchanged": true,
     "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/20",
     "record_kind": "historical_snapshot",
-    "current_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "previous_status_source": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md"
   },
   "feedback_closeout": {
     "rule": "docs/deliveries/FEEDBACK_CLOSEOUT.md",
@@ -1621,7 +2081,9 @@
       29,
       30,
       31
-    ]
+    ],
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
   },
   "manual_review_history": [
     {
@@ -1649,47 +2111,90 @@
           "M0-07": "失败"
         }
       }
+    },
+    {
+      "stage": "M1",
+      "gate_issue": 2,
+      "feedback_received_at": "2026-10-11",
+      "result": "not_passed",
+      "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
+      "blocking_feedback_issues": [
+        29,
+        30,
+        31
+      ],
+      "outcomes": {
+        "M1-01": "失败",
+        "M1-02": "通过",
+        "M1-03": "通过",
+        "M1-04": "通过",
+        "M1-05": "失败",
+        "M1-06": "失败",
+        "M1-07": "通过",
+        "M1-08": "通过"
+      },
+      "acceptance_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
+      "user_rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。",
+      "user_reviewed_at": "2026-10-11",
+      "multi_school_next_round_issue": 12,
+      "stage_boundary": "M1-01 pending two-school real electrical samples; >=3-school expansion is future M2/W03, not a prerequisite to implement M1.",
+      "next_candidate_retests": [
+        "M1-01",
+        "M1-03",
+        "M1-04",
+        "M1-05",
+        "M1-06",
+        "M1-08"
+      ],
+      "audit_issue_numbers": [
+        33,
+        34,
+        35
+      ],
+      "record_kind": "historical_before_20261014"
     }
   ],
   "m1_manual_review": {
+    "feedback_received_at": "2026-10-14",
+    "user_reviewed_at": "2026-10-14",
+    "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "site_version": 5,
+    "application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+    "data_mode": "real",
+    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+    "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+    "individual_click_verification_claimed": false,
+    "unimplemented_and_missing_evidence_excluded": true,
     "stage": "M1",
     "gate_issue": 2,
-    "feedback_received_at": "2026-10-11",
     "result": "not_passed",
-    "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
-    "blocking_feedback_issues": [
-      29,
-      30,
-      31
-    ],
+    "gate_status": "Blocked",
     "outcomes": {
       "M1-01": "失败",
       "M1-02": "通过",
       "M1-03": "通过",
       "M1-04": "通过",
       "M1-05": "失败",
-      "M1-06": "失败",
+      "M1-06": "通过",
       "M1-07": "通过",
       "M1-08": "通过"
     },
-    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_items_in_this_M0_M1_review",
-    "user_rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。",
-    "user_reviewed_at": "2026-10-11",
-    "multi_school_next_round_issue": 12,
-    "stage_boundary": "M1-01 pending two-school real electrical samples; >=3-school expansion is future M2/W03, not a prerequisite to implement M1.",
+    "blocking_feedback_issues": [
+      31,
+      43
+    ],
+    "subitems": {
+      "M1-05": {
+        "detail_display": "通过",
+        "official_original_navigation": "失败"
+      }
+    },
     "next_candidate_retests": [
       "M1-01",
-      "M1-03",
-      "M1-04",
-      "M1-05",
-      "M1-06",
-      "M1-08"
+      "M1-05"
     ],
-    "audit_issue_numbers": [
-      33,
-      34,
-      35
-    ]
+    "audit_issue_numbers": []
   },
   "feedback_round2": {
     "report": "docs/deliveries/M0-M1-FEEDBACK2-20261011.md",
@@ -1712,7 +2217,8 @@
       "rule": "我这里将提出我见到的问题，我没明确指出有问题的直接默认通过即可。"
     },
     "recorded_at": "2026-10-11T16:53:07.377783+08:00",
-    "record_kind": "historical_feedback_snapshot"
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
   },
   "m1_m2_iteration": {
     "date": "2026-10-11",
@@ -1799,7 +2305,9 @@
     "neat_freak_actual_version": "3.0.0",
     "latest_sync_receipt": "https://github.com/caor3693-cmyk/Workhunter-v2.0/pull/28",
     "snapshot_kind": "historical_audit_and_plan_at_5a28c87",
-    "current_execution_reference": "m1_m2_execution_20261011"
+    "current_execution_reference": "m1_m2_execution_20261011",
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
   },
   "m1_m2_execution_20261011": {
     "starting_pr": 28,
@@ -1922,7 +2430,9 @@
       "node_passed": 120,
       "windows_startup_passed": 3
     },
-    "neat_freak_actual_version": "3.0.1"
+    "neat_freak_actual_version": "3.0.1",
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
   },
   "m3_iteration": {
     "date": "2026-10-13",
@@ -1998,6 +2508,178 @@
       "W03": 38348094150,
       "M3_first_upload": 38348100438
     },
-    "knowledge_closeout_status": "verified_current_with_registered_historical_host_doc_pending"
+    "knowledge_closeout_status": "verified_current_with_registered_historical_host_doc_pending",
+    "record_kind": "historical_snapshot",
+    "current_status_source": "docs/deliveries/M1-M3-FEEDBACK-20261014.md"
+  },
+  "native_project_last_verified_date": "2026-10-12",
+  "last_verified_scope": "GitHub Issues and repository index only; native Project pending",
+  "m2_manual_review": {
+    "feedback_received_at": "2026-10-14",
+    "user_reviewed_at": "2026-10-14",
+    "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "site_version": 5,
+    "application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+    "data_mode": "real",
+    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+    "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+    "individual_click_verification_claimed": false,
+    "unimplemented_and_missing_evidence_excluded": true,
+    "stage": "M2",
+    "gate_issue": 3,
+    "result": "not_passed",
+    "gate_status": "Blocked",
+    "outcomes": {
+      "M2-01": "失败",
+      "M2-02": "通过",
+      "M2-03": "通过",
+      "M2-04": "通过",
+      "M2-05": "通过",
+      "M2-06": "通过",
+      "M2-07": "通过",
+      "M2-08": "通过"
+    },
+    "blocking_feedback_issues": [
+      31,
+      42
+    ],
+    "subitems": {
+      "M2-01": {
+        "fixed_directory_and_existing_real_samples": "通过",
+        "expanded_school_coverage": "失败"
+      },
+      "M2-08": {
+        "existing_summary_service": "通过",
+        "remove_home_recent_updates": "未实现",
+        "change_issue": 42
+      }
+    },
+    "predecessor_gate_issue": 2
+  },
+  "m3_manual_review": {
+    "feedback_received_at": "2026-10-14",
+    "user_reviewed_at": "2026-10-14",
+    "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "site_version": 5,
+    "application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+    "data_mode": "real",
+    "acceptance_basis": "explicit_user_default_pass_for_unmentioned_delivered_M1_M3_items",
+    "user_rule": "我没有提到的那些你可以在board或者roadmap等地方做好完成标记",
+    "individual_click_verification_claimed": false,
+    "unimplemented_and_missing_evidence_excluded": true,
+    "stage": "M3",
+    "gate_issue": 4,
+    "result": "not_passed",
+    "gate_status": "Blocked",
+    "outcomes": {
+      "M3-01": "通过",
+      "M3-02": "通过",
+      "M3-03": "通过",
+      "M3-04": "阻塞",
+      "M3-05": "通过",
+      "M3-06": "通过"
+    },
+    "blocking_feedback_issues": [
+      15
+    ],
+    "subitems": {
+      "M3-04": {
+        "delivered_result_classification": "通过",
+        "real_whole_source_checked_no_changes": "阻塞"
+      },
+      "M3-06": {
+        "delivered_readonly_diagnostics": "通过",
+        "personal_client_configuration": "未配置"
+      }
+    },
+    "predecessor_gate_issue": 3,
+    "long_term_observation": "not_yet_seven_natural_days"
+  },
+  "current_runtime": {
+    "observed_at": "2026-10-14T11:43:44+08:00",
+    "data_mode": "real",
+    "dataset_id": "ds-da169234-b434-44b1-bce3-4d40abb99e19",
+    "counts": {
+      "opportunities": 622,
+      "source_materials": 441,
+      "changes": 2911,
+      "runs": 4
+    },
+    "school_counts": {
+      "scut": 81,
+      "gdut": 216,
+      "ncepu": 0,
+      "shiep": 80,
+      "neepu": 6,
+      "csust": 14,
+      "ctgu": 200,
+      "gzhu": 3,
+      "hnu": 22,
+      "csu": 0
+    },
+    "count_scope": "entire_isolated_database_not_default_electrical_list_not_schoolwide_coverage",
+    "site_version": 5,
+    "application_commit": "9665e245d200b84398df42636d52321341f67063",
+    "application_version": "0.5.0",
+    "schema_version": "3",
+    "site_environment_revision": 4,
+    "deployment": "appgdep_6ace4fcc461c8191814c364e697ed5af",
+    "scheduled_triggers": 3,
+    "manual_triggers": 1,
+    "current_code_natural_trigger_times": [
+      "2026-10-14T01:03:08.038939+08:00",
+      "2026-10-14T07:03:05.525400+08:00"
+    ],
+    "current_code_natural_finished_times": [
+      "2026-10-14T01:08:08.364196+08:00",
+      "2026-10-14T07:06:16.566830+08:00"
+    ],
+    "next_run_at": "2026-10-14T13:03:01+08:00",
+    "api_running": true,
+    "tunnel_running": true,
+    "host_task_readback": "not_repeated_this_turn_sandbox_access_denied; prior_registration_preserved",
+    "current_snapshot_restore_proven": false,
+    "historical_restored_count": 292
+  },
+  "feedback_20261014": {
+    "report": "docs/deliveries/M1-M3-FEEDBACK-20261014.md",
+    "new_issues": [
+      42,
+      43,
+      44,
+      45
+    ],
+    "expanded_existing_issue": 31,
+    "completed_existing_issues": [
+      22,
+      29,
+      30,
+      33,
+      34,
+      35,
+      32,
+      10,
+      13,
+      14,
+      16
+    ],
+    "next_delivery_issue": 17,
+    "reminder": {
+      "id": "workhunter",
+      "status": "ACTIVE",
+      "trigger": "next_actual_software_delivery_after_feedback",
+      "baseline_site_version": 5,
+      "baseline_application_commit": "9665e245d200b84398df42636d52321341f67063",
+      "future_issues": [
+        44,
+        45
+      ],
+      "action": "remind_once_then_pause",
+      "functionality_development_authorized": false
+    },
+    "native_project_sync_status": "pending",
+    "scope": "management_only_no_product_code"
   }
 }
