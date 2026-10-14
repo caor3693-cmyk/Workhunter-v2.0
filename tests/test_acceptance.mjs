@@ -9,9 +9,19 @@ import { FIXTURE_ORIGIN, fixtureHTML, fixtureResponse, verificationReport } from
 import { readJSON } from '../frontend/api/client.js';
 import { createQueryState } from '../frontend/state/store.js';
 import { cardFacts, fieldFact } from '../frontend/components/cards.js';
-import { realSampleLinksAvailable } from '../frontend/pages/review.js';
+import { realSampleLinksAvailable, feedbackTemplate } from '../frontend/pages/review.js';
 
 const assets = collectFrontendAssets('frontend', 'a'.repeat(40));
+test('repair review retains six M3 and eight M4 original feedback numbers', () => {
+  for (const [stage, count] of [['M3', 6], ['M4', 8]]) {
+    const template = feedbackTemplate(stage);
+    for (let number = 1; number <= count; number++) assert.ok(template.includes(`${stage}-0${number}：`));
+    assert.ok(!template.includes(`${stage}-0${count + 1}：`));
+  }
+  const review = assets['/frontend/pages/review.html'].body;
+  assert.ok(review.includes('id="copy-m3-feedback"'));
+  assert.ok(review.includes('首页按本轮要求已移除更新区块'));
+});
 test('isolated preview uses only fixed loopback API, declared reads and never visitor credentials', async () => {
   let calls = 0;
   const fetcher = async (url, options) => {
@@ -104,11 +114,10 @@ test('real review sample links require current clean same-project identity and n
   assert.equal((html.match(/本轮候选：待复验/g) || []).length, 8);
   assert.match(html, /M0-02、M0-07 失败；M0-03、M0-06 阻塞/);
   assert.match(html, /第二轮 M0-01—07 已由用户确认通过/);
-  assert.equal((html.match(/历史用户结果：失败（待修复复验）/g) || []).length, 3);
+  assert.equal((html.match(/历史用户结果：失败（待修复复验）/g) || []).length, 2);
   assert.match(html, /M0-M1-REVIEW-20261011.md/);
-  for (const id of [3, 31, 41, 38, 96, 40, 70]) assert.ok(html.includes('/opportunities/' + id));
+  for (const id of [29, 40, 148, 743, 753, 762]) assert.ok(html.includes('/opportunities/' + id));
   assert.equal((html.match(/class="real-sample-links" hidden/g) || []).length, 10);
-  for (const id of [133, 148, 193, 295]) assert.ok(html.includes('/opportunities/' + id));
   for (const stage of ['M2']) for (let index = 1; index <= 8; index++) assert.ok(html.includes(stage + '-0' + index));
 });
 

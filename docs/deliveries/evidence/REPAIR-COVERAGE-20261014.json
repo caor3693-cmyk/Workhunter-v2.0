@@ -1,0 +1,219 @@
+{
+  "as_of": "2026-10-14",
+  "recent_days": 30,
+  "published_window": [
+    "2026-09-15",
+    "2026-10-14"
+  ],
+  "event_window": [
+    "2026-10-14",
+    "2026-11-13"
+  ],
+  "before": {
+    "dataset_id": "ds-c3c10b6e-f5d4-4ccf-9242-7ca9ce466cc3",
+    "schema": "3",
+    "data_mode": "real",
+    "counts": {
+      "opportunities": 741,
+      "source_materials": 545,
+      "changes": 3583,
+      "runs": 5
+    },
+    "schools": [
+      {
+        "school_key": "scut",
+        "all": 101,
+        "recent_electrical": 12,
+        "related": 6,
+        "unknown": 6
+      },
+      {
+        "school_key": "gdut",
+        "all": 251,
+        "recent_electrical": 196,
+        "related": 50,
+        "unknown": 146
+      },
+      {
+        "school_key": "ncepu",
+        "all": 0,
+        "recent_electrical": 0,
+        "related": 0,
+        "unknown": 0
+      },
+      {
+        "school_key": "shiep",
+        "all": 100,
+        "recent_electrical": 66,
+        "related": 16,
+        "unknown": 50
+      },
+      {
+        "school_key": "neepu",
+        "all": 6,
+        "recent_electrical": 6,
+        "related": 2,
+        "unknown": 4
+      },
+      {
+        "school_key": "csust",
+        "all": 14,
+        "recent_electrical": 10,
+        "related": 7,
+        "unknown": 3
+      },
+      {
+        "school_key": "ctgu",
+        "all": 240,
+        "recent_electrical": 146,
+        "related": 46,
+        "unknown": 100
+      },
+      {
+        "school_key": "gzhu",
+        "all": 3,
+        "recent_electrical": 3,
+        "related": 0,
+        "unknown": 3
+      },
+      {
+        "school_key": "hnu",
+        "all": 26,
+        "recent_electrical": 19,
+        "related": 7,
+        "unknown": 12
+      },
+      {
+        "school_key": "csu",
+        "all": 0,
+        "recent_electrical": 0,
+        "related": 0,
+        "unknown": 0
+      }
+    ]
+  },
+  "after": {
+    "dataset_id": "ds-d8962f88-037e-44d9-b38e-ac685b43f1d4",
+    "schema": "3",
+    "data_mode": "real",
+    "counts": {
+      "opportunities": 781,
+      "source_materials": 593,
+      "changes": 3790,
+      "runs": 8
+    },
+    "schools": [
+      {
+        "school_key": "scut",
+        "all": 101,
+        "recent_electrical": 12,
+        "related": 6,
+        "unknown": 6
+      },
+      {
+        "school_key": "gdut",
+        "all": 251,
+        "recent_electrical": 196,
+        "related": 50,
+        "unknown": 146
+      },
+      {
+        "school_key": "ncepu",
+        "all": 0,
+        "recent_electrical": 0,
+        "related": 0,
+        "unknown": 0
+      },
+      {
+        "school_key": "shiep",
+        "all": 100,
+        "recent_electrical": 66,
+        "related": 16,
+        "unknown": 50
+      },
+      {
+        "school_key": "neepu",
+        "all": 6,
+        "recent_electrical": 6,
+        "related": 2,
+        "unknown": 4
+      },
+      {
+        "school_key": "csust",
+        "all": 14,
+        "recent_electrical": 10,
+        "related": 7,
+        "unknown": 3
+      },
+      {
+        "school_key": "ctgu",
+        "all": 240,
+        "recent_electrical": 146,
+        "related": 46,
+        "unknown": 100
+      },
+      {
+        "school_key": "gzhu",
+        "all": 43,
+        "recent_electrical": 24,
+        "related": 7,
+        "unknown": 17
+      },
+      {
+        "school_key": "hnu",
+        "all": 26,
+        "recent_electrical": 19,
+        "related": 7,
+        "unknown": 12
+      },
+      {
+        "school_key": "csu",
+        "all": 0,
+        "recent_electrical": 0,
+        "related": 0,
+        "unknown": 0
+      }
+    ]
+  },
+  "source_run": {
+    "run_id": "run-f2a1c69f-f0c2-4174-a347-a5496d517c60",
+    "trigger": "manual",
+    "new": 40,
+    "detail_enrichments": 40,
+    "pages": 4,
+    "details": 40,
+    "detail_failures": 0,
+    "restricted_details": 0,
+    "complete": false,
+    "next_pages": {
+      "gzhu_preach": 3,
+      "gzhu_jobfair": 3
+    }
+  },
+  "ncss_run": {
+    "run_id": "run-617d53a5-b607-447e-b719-7d727115a0f3",
+    "trigger": "manual",
+    "pages": 5,
+    "unchanged": 14,
+    "new": 0,
+    "modified": 0,
+    "status": "partial",
+    "source_status_recorded": "failed",
+    "observed_stop_reason": "offset6 explicit login requirement; no subsequent HTTP; not checked_no_changes"
+  },
+  "final_restore": {
+    "sampled_at": "2026-10-14T16:49:53+08:00",
+    "dataset_id": "ds-d8962f88-037e-44d9-b38e-ac685b43f1d4",
+    "schema": "3",
+    "opportunities": 781,
+    "materials": 593,
+    "changes": 3790,
+    "runs": 8,
+    "sha256": "3ffba39c038ca030260ba30c6f8c13f9dc6bc03f4c15ffbf3fd3c405b2c9bf7d",
+    "integrity": "ok",
+    "foreign_keys": "ok",
+    "same_counts_and_relationships": true,
+    "scope": "database_only",
+    "original_scheduler_binding_not_activated": true
+  }
+}

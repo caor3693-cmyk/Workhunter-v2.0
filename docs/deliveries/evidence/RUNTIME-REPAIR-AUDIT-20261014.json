@@ -1,0 +1,430 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-14",
+  "timezone": "Asia/Shanghai",
+  "sampled_at": "2026-10-14T16:23:50+08:00",
+  "issues": [
+    48,
+    15,
+    17
+  ],
+  "source_identity": {
+    "audit_source_commit": "9ce46ceb926657a59616ac1741e498fd2e86820d",
+    "management_commit": "dbe317438106c64f1cb8fd760f05e54bcf4dde30",
+    "site_source_commit": "9665e245d200b84398df42636d52321341f67063",
+    "host_source_commit": "f8c3a1df80e0912fca80336b5c9fcf2973d45456",
+    "host_source_clean": true,
+    "site_source_clean": true,
+    "github_host_branch_fetch": "remote_ref_not_found",
+    "github_host_sha_fetch": "not_our_ref",
+    "interpretation": "Site source SHA belongs to the independently hosted Sites source repository; GitHub cannot resolve that SHA. Host runtime uses equivalent business source but a distinct local documentation commit."
+  },
+  "source_comparison": {
+    "method": "Fixed audit Git blobs versus clean host and Site checkouts, SHA-256 after CRLF to LF normalization",
+    "scoped_files": 76,
+    "backend_files": 41,
+    "ops_files": 11,
+    "config_files": 3,
+    "frontend_files": 20,
+    "build_script_files": 1,
+    "matching_all_three": 73,
+    "backend_ops_matching_all_three": 52,
+    "exceptions": [
+      {
+        "path": "config/project.json",
+        "hashes": {
+          "audit": "1870635d157e3f3bb8d4b5c076e5f02be1741bbfb5a915889360bcf8bce6edb8",
+          "host": "73413a59c0fe53fc895d88bf8e03d3e59b6db15ac6eaaa8ac3b5a57e9969f4a6",
+          "site": "73413a59c0fe53fc895d88bf8e03d3e59b6db15ac6eaaa8ac3b5a57e9969f4a6"
+        },
+        "audit_equals_host": false,
+        "audit_equals_site": false
+      },
+      {
+        "path": "frontend/pages/review.html",
+        "hashes": {
+          "audit": "448fbb6e694fb26f0e973ee8a2a6c59157ba8b7d60f6e519ff8299092bc7e543",
+          "host": "30974afaa85d3c8b78f9f426b7730b0c62425562a98f526a14376e4d25a4723b",
+          "site": "30974afaa85d3c8b78f9f426b7730b0c62425562a98f526a14376e4d25a4723b"
+        },
+        "audit_equals_host": false,
+        "audit_equals_site": false
+      },
+      {
+        "path": "frontend/pages/review.js",
+        "hashes": {
+          "audit": "18d53074b7233d9bafd5575353d733d22e5a611dd10e99c1c1ad219300dd642e",
+          "host": "bcdd6ce9d454d72093c82e253b91ac984dac9c0cbcd359836847417bde5f14f8",
+          "site": "bcdd6ce9d454d72093c82e253b91ac984dac9c0cbcd359836847417bde5f14f8"
+        },
+        "audit_equals_host": false,
+        "audit_equals_site": false
+      }
+    ],
+    "host_equals_site_all_files": true
+  },
+  "site": {
+    "version_id": "appgprj_6aca4fbe4c1481918047d279e9653ccc~appgver_e8a3fa0b9db08191a3990e27f0c30135",
+    "version_number": 5,
+    "source_commit": "9665e245d200b84398df42636d52321341f67063",
+    "deployment_id": "appgdep_6ace4fcc461c8191814c364e697ed5af",
+    "archive": {
+      "format": "tar",
+      "sha256": "sha256:a8ac4f219e0f4564b07ff5e8807d0b1da039396fd4718384a893d81245d70506",
+      "size_bytes": 184320,
+      "file_count": 2
+    },
+    "url": "https://workhunter-v2-review.sage-candy-7999.chatgpt.site/",
+    "deployment_status": "succeeded",
+    "env_set_revision": 4,
+    "owner_private": true,
+    "external_visitor_count": 0
+  },
+  "build_artifact": {
+    "local_gzip_sha256": "f0abefa15451cb54516c2ed25668c2ec4c17d70943734761297a1474b055e03e",
+    "local_uncompressed_tar_sha256": "a4b3ad70f41950680e7c9358b4d3fbbf7eb1c02f33a3aef875640f0aa8b81d28",
+    "local_members": [
+      {
+        "path": "dist/server/index.js",
+        "size": 176809,
+        "sha256": "60169776da5dc887332998685238d53615bd313463ae59b1dbe4d26bb9e5060c"
+      },
+      {
+        "path": "dist/.openai/hosting.json",
+        "size": 96,
+        "sha256": "f68ed1d0f7f03b3ae4697c50b68d0ca1d79c1550565a71eb17292ef6757637e5"
+      }
+    ],
+    "source_asset_equality": 20,
+    "asset_count": 20,
+    "native_archive_digest_equals_local": false,
+    "limitation": "Local historical gzip/tar is not the native saved archive; asset bodies match the recovered Site source after line-ending normalization. No direct deployed-byte readback or browser verification was performed."
+  },
+  "api_identity": {
+    "health": {
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "database": "readable",
+        "project": "Workhunter-v2.0",
+        "version": "0.5.0",
+        "backend_commit": "9665e245d200b84398df42636d52321341f67063",
+        "stage": "M3",
+        "dataset_id": "ds-c3c10b6e-f5d4-4ccf-9242-7ca9ce466cc3",
+        "data_mode": "real"
+      }
+    },
+    "version": {
+      "status": 200,
+      "body": {
+        "project": "Workhunter-v2.0",
+        "version": "0.5.0",
+        "backend_commit": "9665e245d200b84398df42636d52321341f67063",
+        "stage": "M3",
+        "dataset_id": "ds-c3c10b6e-f5d4-4ccf-9242-7ca9ce466cc3",
+        "data_mode": "real"
+      }
+    },
+    "commit_declaration": "run_review_api.py explicitly overrides Settings.backend_commit with Site source SHA; it is not independently measured host HEAD"
+  },
+  "database": {
+    "project": "Workhunter-v2.0",
+    "schema_version": "3",
+    "dataset_id": "ds-c3c10b6e-f5d4-4ccf-9242-7ca9ce466cc3",
+    "data_mode": "real",
+    "counts": {
+      "opportunities": 741,
+      "source_materials": 545,
+      "changes": 3583,
+      "runs": 5,
+      "opportunity_materials": 3734,
+      "official_observations": 14973
+    }
+  },
+  "natural_execution": {
+    "natural_count": 4,
+    "manual_count": 1,
+    "all_runs_partial": true,
+    "next_planned_at": "2026-10-14T19:03:01+08:00",
+    "host_task_registration_readback": "Historical stored registration only; OS scheduler was not freshly read in this audit",
+    "runs": [
+      {
+        "id": "run-133c12b7-d3e6-4877-9548-c5ab8a70b5b3",
+        "trigger": "scheduled",
+        "started_at": "2026-10-13T19:03:05.611577+08:00",
+        "finished_at": "2026-10-13T19:05:26.046775+08:00",
+        "status": "partial",
+        "completeness": "partial",
+        "fixture": false,
+        "page_budget": 2,
+        "detail_budget": 12,
+        "source_count": 15,
+        "commits": {
+          "modified": 117,
+          "new": 292,
+          "unchanged": 2
+        },
+        "pages": 19,
+        "source_status_counts": {
+          "partial": 11,
+          "skipped_restricted": 2,
+          "failed": 2
+        },
+        "complete_source_keys": [],
+        "scut_ncss": {
+          "status": "partial",
+          "pages": 2,
+          "details": 11,
+          "pending_details": 0,
+          "detail_failures": 0,
+          "next_cursor": null
+        }
+      },
+      {
+        "id": "run-31015971-113d-4c54-8ac0-3f2f3867c8ae",
+        "trigger": "manual",
+        "started_at": "2026-10-13T23:22:55.769879+08:00",
+        "finished_at": "2026-10-13T23:27:22.406031+08:00",
+        "status": "partial",
+        "completeness": "partial",
+        "fixture": false,
+        "page_budget": 2,
+        "detail_budget": 12,
+        "source_count": 15,
+        "commits": {
+          "modified": 100,
+          "new": 130,
+          "unchanged": 172
+        },
+        "pages": 20,
+        "source_status_counts": {
+          "partial": 12,
+          "skipped_restricted": 2,
+          "failed": 1
+        },
+        "complete_source_keys": [],
+        "scut_ncss": {
+          "status": "partial",
+          "pages": 2,
+          "details": 0,
+          "pending_details": 0,
+          "detail_failures": 0,
+          "next_cursor": null
+        }
+      },
+      {
+        "id": "run-0ab8caad-f832-4add-8c1b-cf4bfa726166",
+        "trigger": "scheduled",
+        "started_at": "2026-10-14T01:03:10.447586+08:00",
+        "finished_at": "2026-10-14T01:08:04.059321+08:00",
+        "status": "partial",
+        "completeness": "partial",
+        "fixture": false,
+        "page_budget": 2,
+        "detail_budget": 12,
+        "source_count": 15,
+        "commits": {
+          "modified": 62,
+          "new": 94,
+          "unchanged": 152
+        },
+        "pages": 15,
+        "source_status_counts": {
+          "partial": 10,
+          "skipped_restricted": 2,
+          "failed": 2,
+          "restricted": 1
+        },
+        "complete_source_keys": [],
+        "scut_ncss": {
+          "status": "partial",
+          "pages": 1,
+          "details": 0,
+          "pending_details": 0,
+          "detail_failures": 0,
+          "next_cursor": null
+        }
+      },
+      {
+        "id": "run-0236953e-95d6-47c5-a409-8c264953a15e",
+        "trigger": "scheduled",
+        "started_at": "2026-10-14T07:03:06.561824+08:00",
+        "finished_at": "2026-10-14T07:06:09.931269+08:00",
+        "status": "partial",
+        "completeness": "partial",
+        "fixture": false,
+        "page_budget": 2,
+        "detail_budget": 12,
+        "source_count": 15,
+        "commits": {
+          "modified": 68,
+          "new": 106,
+          "unchanged": 193
+        },
+        "pages": 18,
+        "source_status_counts": {
+          "partial": 11,
+          "skipped_restricted": 3,
+          "failed": 1
+        },
+        "complete_source_keys": [],
+        "scut_ncss": {
+          "status": "partial",
+          "pages": 1,
+          "details": 0,
+          "pending_details": 0,
+          "detail_failures": 0,
+          "next_cursor": null
+        }
+      },
+      {
+        "id": "run-d14f55ba-4b58-49d6-8168-53c0d749a853",
+        "trigger": "scheduled",
+        "started_at": "2026-10-14T13:03:11.988941+08:00",
+        "finished_at": "2026-10-14T13:05:39.425350+08:00",
+        "status": "partial",
+        "completeness": "partial",
+        "fixture": false,
+        "page_budget": 2,
+        "detail_budget": 12,
+        "source_count": 15,
+        "commits": {
+          "modified": 82,
+          "new": 119,
+          "unchanged": 175
+        },
+        "pages": 18,
+        "source_status_counts": {
+          "partial": 10,
+          "skipped_restricted": 3,
+          "failed": 2
+        },
+        "complete_source_keys": [],
+        "scut_ncss": {
+          "status": "partial",
+          "pages": 2,
+          "details": 6,
+          "pending_details": 0,
+          "detail_failures": 0,
+          "next_cursor": null
+        }
+      }
+    ]
+  },
+  "m3_04": {
+    "real_complete_no_changes_example_found": false,
+    "complete_source_count": 0,
+    "root_cause": "NCSS next_cursor is derived only from row count and ignores official pagenation. Real first/second pages contain 10/4 rows but both declare count=100,total=10,limit=10,offset=1/2; the second page is not verified terminal. SourcePage also always remains partial without terminal attestation.",
+    "follow_up_issue": 52,
+    "manual_evidence_allowed": true,
+    "manual_evidence_requirements": [
+      "Precisely registered NCSS source-only completeness fix",
+      "Real unchanged official limited-query pages with complete source attribution and pagination terminal evidence",
+      "Unified refresh completes declared selected channel without pending, failed or restricted details",
+      "No business new/modified commits on the no-change sample; dataset remains unchanged",
+      "Manual trigger explicitly preserved; existing natural execution evidence reported separately",
+      "No school-wide or all-source coverage claim; user verification still required"
+    ],
+    "observed_official_pagination": [
+      {
+        "returned_rows": 10,
+        "count": 100,
+        "total": 10,
+        "limit": 10,
+        "offset": 1
+      },
+      {
+        "returned_rows": 4,
+        "count": 100,
+        "total": 10,
+        "limit": 10,
+        "offset": 2
+      }
+    ],
+    "followup_real_candidate": {
+      "sampled_at": "2026-10-14T16:50:29+08:00",
+      "run": {
+        "id": "run-617d53a5-b607-447e-b719-7d727115a0f3",
+        "trigger": "manual",
+        "started_at": "2026-10-14T16:46:21.602790+08:00",
+        "finished_at": "2026-10-14T16:46:26.023571+08:00",
+        "status": "partial",
+        "completeness": "partial"
+      },
+      "page_budget": 10,
+      "detail_budget": 100,
+      "fixture": false,
+      "pages": 5,
+      "details": 0,
+      "source_status": "failed",
+      "actual_access_reason": "Official JSON explicitly requires login on page 6; stop the restricted deep-page path.",
+      "commits": {
+        "modified": 0,
+        "new": 0,
+        "unchanged": 14
+      },
+      "candidate_dataset": "ds-d8962f88-037e-44d9-b38e-ac685b43f1d4",
+      "counts": {
+        "opportunities": 781,
+        "source_materials": 593,
+        "changes": 3790,
+        "runs": 8
+      },
+      "pages_returned": [
+        10,
+        4,
+        0,
+        0,
+        0
+      ],
+      "official_pagination": {
+        "count": 100,
+        "total": 10,
+        "limit": 10
+      },
+      "failed_page": {
+        "offset": 6,
+        "bytes": 97,
+        "hash_matches": true,
+        "flag": false,
+        "data": null,
+        "error_message": "请登录后查看"
+      },
+      "source_implementation_state": "Awaiting verification",
+      "complete_no_changes_evidence_state": "Blocked",
+      "second_http_round_performed": false,
+      "policy_changed": false,
+      "raw_response_committed": false,
+      "classification_fix": {
+        "commit": "ca3327dff4ae8566eadd31cfeca3eb09ee389262",
+        "pull_request": 56,
+        "state": "Awaiting verification",
+        "exact_protocol_condition": "flag=false and a structured global[].des exactly equal to 请登录后查看",
+        "local_related_regressions_passed": 146,
+        "neat_related_retest_passed": 146,
+        "full_pr_trusted_scope_passed": true,
+        "latest_full_ci": {
+          "run_id": 38538552467,
+          "job_id": 115767357678,
+          "status": "completed",
+          "conclusion": "success",
+          "all_steps_readback_verified": true
+        },
+        "new_http_requests": 0,
+        "historical_run_unchanged": true
+      }
+    }
+  },
+  "restore": {
+    "current_snapshot_restore": "Performed separately by root; this audit did not execute restore and does not replace its receipt"
+  },
+  "knowledge_closeout": {
+    "code": "verified-current",
+    "runtime": "pending",
+    "documents": "changed-and-verified",
+    "rules": "verified-current",
+    "memory": "not-applicable",
+    "workspace": "out-of-scope",
+    "cleanup": "No deletion, move, shutdown, database mutation or credential change performed"
+  }
+}
