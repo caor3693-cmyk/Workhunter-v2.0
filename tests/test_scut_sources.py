@@ -453,3 +453,11 @@ def test_quantity_conflict_head_cannot_continue_saved_tail_to_clean_terminal(tmp
     with read_database(database) as (connection, metadata):
         assert metadata["dataset_id"] == before_dataset
         assert [dict(row) for row in connection.execute("SELECT * FROM opportunities ORDER BY id")] == before
+
+
+def test_missing_pagination_full_page_does_not_claim_continuation_was_stopped():
+    page = ScutNcssAdapter.discover(source(), Materials(pages(ten_rows())))
+    assert page["next_cursor"] == ncss_list_url(2)
+    assert page["completeness"] == "partial"
+    assert not any("已停止续页" in warning for warning in page["warnings"])
+    assert any("分页元数据未核实" in warning for warning in page["warnings"])
