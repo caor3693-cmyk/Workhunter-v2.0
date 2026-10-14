@@ -180,7 +180,8 @@ def _ncss_pagination(data, offset):
         return pagination if offset == 1 and not data["list"] else None
     if not 1 <= offset <= total:
         return None
-    if offset == total and len(data["list"]) != count - (total - 1) * limit:
+    expected_rows = min(limit, count - (offset - 1) * limit)
+    if len(data["list"]) != expected_rows:
         return None
     return pagination
 
@@ -247,12 +248,12 @@ def ncss_discover(source_config, fetcher, cursor=None):
         # terminal. Malformed supplied metadata cannot direct further requests.
         next_cursor = (ncss_list_url(offset + 1)
                        if "pagenation" not in data and len(rows) == 10 else None)
-        warnings.append("公开分页元数据未核实，不能确认完整范围")
+        warnings.append("公开分页元数据或实际条数与声明范围不符，已停止续页；不能确认完整范围")
     page = page_result(source_config, response, records, next_cursor,
         warnings, scope_note="国家大学生就业服务平台中明确归属华南理工大学的电气查询；有限分页，不代表就业中心自动源或全校覆盖")
     if pagination is not None and valid_rows:
-        # Short or empty pages do not end the query while official pagination
-        # still declares another page. Completion is only this registered query.
+        # Every page matches the advertised count before its records can be
+        # trusted for completion. Completion is only this registered query.
         page["scope"].update({"school_wide": False, "query_keyword": "电气",
             "pagination": {key: pagination[key] for key in ("count", "total", "limit", "offset")}})
         if not rows:
