@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "authority": "M1-M2-EXECUTION-20261011 GOV; independently reviewed target baseline required; no W00 fallback or candidate self-authorization",
+  "authority": "M1-M2-EXECUTION-20261011 GOV and issue47 20261014 increment; independently reviewed actual target required; no W00 fallback or candidate self-authorization",
   "management_paths": [
     "docs/STATUS.md", "docs/BOARD.md", "docs/ROADMAP.md", "docs/PROJECT_SETUP.md",
     "docs/deliveries/", "config/project.json"
@@ -133,7 +133,7 @@
       "purpose": "Current SCUT/GDUT electrical samples and verified source chains using the frozen common interfaces; no shared query/writer/schema/API edits"
     },
     "W03": {
-      "issues": [12], "related_issues": [31],
+      "issues": [12], "related_issues": [31, 49],
       "branch_prefixes": ["codex/w03-"],
       "paths": [
         "backend/sources/registry.py", "backend/sources/__init__.py", "backend/sources/scut.py", "backend/sources/gdut.py",
@@ -222,6 +222,59 @@
         "tests/test_frontend_pages.mjs", "tests/test_page_routes.mjs", "README.md"
       ],
       "purpose": "M2-01 through M2-08 frozen Site package, dataset and real evidence; M2 Gate follows M1 user confirmation, no M3/M4 or production switch"
+    },
+    "GOV-20261014": {
+      "issues": [47], "related_issues": [42, 43, 49, 17, 5],
+      "branch_prefixes": ["codex/r0-governance-", "codex/gov-20261014-"],
+      "paths": ["scripts/work_package_scopes.json", "tests/test_scope.py"],
+      "purpose": "Independent issue47 registration only; no product changes; reviewed target promotion precedes use by any feature candidate"
+    },
+    "DOC-20261014": {
+      "issues": [47], "related_issues": [42, 43, 49, 17, 15, 48],
+      "branch_prefixes": ["codex/doc-20261014-"],
+      "paths": ["docs/TASKS.md", "docs/CONTRACTS.md"],
+      "purpose": "Independent task/contract alignment to approved repair packages; preserve product choices and historic accepted tasks"
+    },
+    "LINKS": {
+      "issues": [43], "related_issues": [9, 2, 48],
+      "branch_prefixes": ["codex/links-", "codex/frontend-links-"],
+      "paths": [
+        "frontend/components/cards.js", "frontend/components/dom.js",
+        "tests/test_cards.mjs", "scripts/verify_official_navigation.mjs"
+      ],
+      "purpose": "Verified official-navigation cause and safe HTTP(S) external reading; three schools, list/detail, mouse/Enter and acceptance-host/regular-browser comparison; no speculative proxy/URL relaxation"
+    },
+    "HOME-SUMMARY": {
+      "issues": [42], "related_issues": [14, 3],
+      "branch_prefixes": ["codex/home-summary-"],
+      "paths": [
+        "frontend/index.html", "frontend/pages/home.js", "frontend/pages/routes.js",
+        "tests/test_frontend_pages.mjs", "tests/test_page_routes.mjs", "tests/test_query_state.mjs",
+        "tests/test_api_client.mjs", "tests/test_home_summary.mjs"
+      ],
+      "purpose": "Remove homepage-only update DOM/read/render/reload/coordination dependencies; same frontend owner after LINKS; preserve source and maintenance summaries and existing homepage layout"
+    },
+    "GZHU-20261014": {
+      "issues": [49], "related_issues": [31, 12],
+      "branch_prefixes": ["codex/gzhu-20261014-", "codex/gzhu-repair-"],
+      "paths": ["backend/sources/gzhu.py", "backend/sources/registry.py", "config/schools.json", "tests/test_gzhu_sources.py", "tests/fixtures/gzhu/"],
+      "forbidden_paths": [
+        "frontend/", "backend/api/", "backend/domain/", "backend/services/", "backend/storage/",
+        "backend/sources/common.py", "backend/sources/transport.py", "scripts/check_scope.py", "scripts/work_package_scopes.json"
+      ],
+      "purpose": "Approved public Guangzhou list/channel/pagination discovery with frozen source interface; root alone integrates necessary Guangzhou registry/config entries; per-school before/after funnel; no shared policy/API/query/writer/schema or unrelated-school edits"
+    },
+    "W06": {
+      "issues": [17], "related_issues": [5, 15, 48, 2, 3, 4],
+      "branch_prefixes": ["codex/w06-"],
+      "paths": [
+        "backend/version.py", "scripts/build_site.mjs", "ops/preview/worker.mjs",
+        "frontend/pages/review.html", "frontend/pages/review.js", "scripts/verify_m0_m1.mjs",
+        "scripts/verify_m2.mjs", "ops/verify_m3.py", "tests/test_preview_proxy.mjs",
+        "tests/test_acceptance.mjs", "tests/test_m2_acceptance.mjs", "README.md", "docs/MANUAL_QA.md",
+        ".openai/hosting.json"
+      ],
+      "purpose": "Single integrator: proven source/build/deployment/API identity, necessary verified proxy cause, private Site acceptance package, real M3-04 scope and current-snapshot isolated recovery evidence; preserve hosting project; no production switch or new API/writer/schema"
     }
   },
   "integrations": {
@@ -230,6 +283,9 @@
     "M1": {"packages": ["W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
     "M0-M1": {"packages": ["R1", "R2", "W01-R3", "W02-R4", "R5"], "branch_prefixes": ["codex/m0-m1-integration-"]},
     "M1-REPAIR": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1"], "branch_prefixes": ["codex/m1-m2-integration-"]},
-    "M1-M2": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1", "W03", "W04-A", "W04-B", "QA-M2"], "branch_prefixes": ["codex/m1-m2-integration-"]}
+    "M1-M2": {"packages": ["CORE-M2", "M1-UI", "M1-SOURCES", "QA-M1", "W03", "W04-A", "W04-B", "QA-M2"], "branch_prefixes": ["codex/m1-m2-integration-"]},
+    "FRONTEND-20261014": {"packages": ["LINKS", "HOME-SUMMARY"], "branch_prefixes": ["codex/frontend-repair-"]},
+    "REPAIR-20261014": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W06"], "branch_prefixes": ["codex/repair-integration-"]},
+    "REPAIR-W03-20261014": {"packages": ["LINKS", "HOME-SUMMARY", "GZHU-20261014", "W03", "W06"], "branch_prefixes": ["codex/repair-integration-"]}
   }
 }
