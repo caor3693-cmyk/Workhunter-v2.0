@@ -1,0 +1,423 @@
+{
+  "schema_version": 1,
+  "repository": "caor3693-cmyk/Workhunter-v2.0",
+  "execution_date": "2026-10-14",
+  "timezone": "Asia/Shanghai",
+  "source_base": "9ce46ceb926657a59616ac1741e498fd2e86820d",
+  "delta_source": "origin/codex/qa-m1-adversarial-20261014",
+  "project": {
+    "owner": "caor3693-cmyk",
+    "number": 5,
+    "url": "https://github.com/users/caor3693-cmyk/projects/5",
+    "native_identity_verified_this_execution": false,
+    "actual_fields_options_items_read": false,
+    "native_write_attempted_this_execution": false,
+    "native_readback_verified_this_execution": false,
+    "synchronization_status": "Blocked",
+    "blocker_issue": 50
+  },
+  "access_probe": {
+    "observed_at": "2026-10-14T16:07:33.559+08:00",
+    "method": "existing Git Credential Manager authorization; native GraphQL read only",
+    "http_status": 200,
+    "graphql_error": "INSUFFICIENT_SCOPES",
+    "granted_scopes": [
+      "gist",
+      "repo",
+      "workflow"
+    ],
+    "required_read_scope": "read:project",
+    "result": "projectV2 unreadable; fields/options/items not returned",
+    "credentials_exposed": false,
+    "permissions_changed": false,
+    "requests_written": 0
+  },
+  "prior_snapshot": {
+    "path": "config/project.json",
+    "preserved_unmodified": true,
+    "last_verified_native_date": "2026-10-12",
+    "pending_count": 26,
+    "pending_item_numbers": [
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      42,
+      43,
+      44,
+      45
+    ]
+  },
+  "merged_pending_count": 31,
+  "merge_rule": "Canonical issue URL merge of prior 26 pending, audit four new issues and execution issue52; all prior native item IDs retained; existing deltas deduplicated.",
+  "desired_state_basis": "Prior repository Issue snapshot and audit Board semantic intentions; not native field readback; refresh Issue state before future write.",
+  "pending_items": [
+    {
+      "issue": 2,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/2",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wlA",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 3,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/3",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk8",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 4,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/4",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wk0",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Backlog"
+    },
+    {
+      "issue": 5,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/5",
+      "desired_workflow_state": "Backlog",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wko",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Backlog"
+    },
+    {
+      "issue": 7,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/7",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkU",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 9,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/9",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkI",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 10,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/10",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wkE",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 12,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/12",
+      "desired_workflow_state": "In progress",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj8",
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress",
+      "phase": "R2",
+      "related_child_issues": [
+        49
+      ],
+      "note": "Fixed ten schools; per-source approved channel and coverage evidence; one configuration integrator."
+    },
+    {
+      "issue": 13,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/13",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wj0",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 14,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/14",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjs",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 15,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/15",
+      "desired_workflow_state": "Awaiting verification",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjk",
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": "Backlog",
+      "phase": "R3",
+      "note": "M3-04 real checked scope with no changes remains unverified; preserve prior accepted natural runs."
+    },
+    {
+      "issue": 16,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/16",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjg",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Backlog"
+    },
+    {
+      "issue": 17,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/17",
+      "desired_workflow_state": "Ready",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjY",
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": "Backlog",
+      "phase": "R3/R4",
+      "implementation_preconditions": [
+        47
+      ],
+      "delivery_preconditions": [
+        48,
+        43,
+        42,
+        31,
+        15
+      ],
+      "note": "Preparation may proceed; integrate required fixes and current-snapshot restore before new Site/manual gate delivery; no early production switch."
+    },
+    {
+      "issue": 18,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/18",
+      "desired_workflow_state": "Blocked",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wjU",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Blocked"
+    },
+    {
+      "issue": 22,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/22",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wi0",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Done"
+    },
+    {
+      "issue": 29,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/29",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiU",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 30,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/30",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiQ",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 31,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/31",
+      "desired_workflow_state": "In progress",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzg_9wiA",
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress",
+      "priority": "P1",
+      "phase": "R2",
+      "related_child_issues": [
+        49
+      ],
+      "note": "M1 two-school sub-verification must not depend on finishing all M2 nine-school expansion."
+    },
+    {
+      "issue": 32,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/32",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAL60",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "Awaiting verification"
+    },
+    {
+      "issue": 33,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/33",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMBc",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 34,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/34",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMEw",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 35,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/35",
+      "desired_workflow_state": "Done",
+      "project_item_id": "PVTI_lAHOD1jk9s4BmirNzhAAMGw",
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": "In progress"
+    },
+    {
+      "issue": 42,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/42",
+      "desired_workflow_state": "Ready",
+      "project_item_id": null,
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": null,
+      "priority": "P2",
+      "phase": "R1b",
+      "implementation_preconditions": [
+        47
+      ],
+      "shared_frontend_serial_after": 43,
+      "note": "Required first-version feedback despite P2; remove homepage-only DOM/request/render dependencies, not shared summaries."
+    },
+    {
+      "issue": 43,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/43",
+      "desired_workflow_state": "Ready",
+      "project_item_id": null,
+      "pending_origin": "prior_manifest_plus_delta",
+      "sync_state": "pending",
+      "native_last_verified_status": null,
+      "priority": "P1",
+      "phase": "R1a",
+      "implementation_preconditions": [
+        47
+      ],
+      "runtime_verification_preconditions": [
+        48
+      ],
+      "note": "Root cause unconfirmed; actual navigation matrix required; keep open until user verification."
+    },
+    {
+      "issue": 44,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/44",
+      "desired_workflow_state": "Backlog",
+      "project_item_id": null,
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": null
+    },
+    {
+      "issue": 45,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/45",
+      "desired_workflow_state": "Backlog",
+      "project_item_id": null,
+      "pending_origin": "prior_manifest",
+      "sync_state": "pending",
+      "native_last_verified_status": null
+    },
+    {
+      "issue": 47,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/47",
+      "desired_workflow_state": "Ready",
+      "priority": "P1",
+      "phase": "R0",
+      "purpose": "Independent trusted governance increment",
+      "native_item_id": null,
+      "sync_state": "pending",
+      "project_item_id": null,
+      "pending_origin": "audit_delta"
+    },
+    {
+      "issue": 48,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/48",
+      "desired_workflow_state": "Ready",
+      "priority": "P1",
+      "phase": "R0",
+      "purpose": "Resolve declared runtime commit versus retrievable source",
+      "native_item_id": null,
+      "sync_state": "pending",
+      "project_item_id": null,
+      "pending_origin": "audit_delta"
+    },
+    {
+      "issue": 49,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/49",
+      "desired_workflow_state": "Ready",
+      "priority": "P1",
+      "phase": "R2",
+      "related_parent_issues": [
+        31,
+        12
+      ],
+      "implementation_preconditions": [
+        47
+      ],
+      "native_item_id": null,
+      "sync_state": "pending",
+      "project_item_id": null,
+      "pending_origin": "audit_delta"
+    },
+    {
+      "issue": 50,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/50",
+      "desired_workflow_state": "Blocked",
+      "priority": "P2",
+      "phase": "Parallel management",
+      "is_product_release_gate": false,
+      "native_item_id": null,
+      "sync_state": "pending",
+      "project_item_id": null,
+      "pending_origin": "audit_delta"
+    },
+    {
+      "issue": 52,
+      "url": "https://github.com/caor3693-cmyk/Workhunter-v2.0/issues/52",
+      "desired_workflow_state": "Ready",
+      "priority": "P1",
+      "phase": "R3",
+      "purpose": "Verified SCUT NCSS terminal-page completeness; real M3-04 no-change evidence dependency",
+      "related_parent_issues": [
+        15,
+        17,
+        31,
+        12
+      ],
+      "native_item_id": null,
+      "project_item_id": null,
+      "pending_origin": "new_execution_issue",
+      "sync_state": "pending"
+    }
+  ],
+  "release_gate_impact": "Management access blocker does not itself add a product release gate.",
+  "next_action": "Use an already authorized native Projects read/write channel when available; read actual fields/options/items, match URLs, write idempotently, read every changed field back, then clear only verified pending."
+}
