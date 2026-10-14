@@ -33,3 +33,13 @@ python -m pytest -q tests/test_scut_sources.py tests/test_sources.py tests/test_
 neat-freak事实面：代码/规则 verified-current；本包资料 changed-and-verified；真实新运行与用户复验 pending；记忆 not-applicable；全工作区 out-of-scope。无全仓格式化、无删移清场、无授权外写入。
 
 提交与PR由本轮独立分支创建后记录；可信checker必须来自实际目标2ba101b，检查完整PR差分，不修改本分支规则。
+
+## 第6页明确登录限制的分类修正（同 #52）
+
+实施前登记：仍只允许 backend/sources/scut.py、tests/test_scut_sources.py 与本包管理说明；SourcePage/enrich 接口和共享行为不变。新增范围仅为 NCSS 的结构化公开响应 flag=false 且 global[].des 精确为“请登录后查看”时抛出 restricted FetchError，使既有 skip_restricted 能停止该路径；其他失败仍为 failed。不改 common、policy、server、API、writer 或数据库，不加入登录/Cookie绕行。
+
+真实材料由 root 16:46 的一次手工检查取得：第1/2页10/4条，第3—5页空，但metadata仍total10；第6页97字节JSON flag=false、data=null、global说明“请登录后查看”。run真实status/completeness=partial，source历史记录failed，pages5/new0/modified0/unchanged14。该响应只证明明确访问限制，不能证明新采或完整无变化；本包不重发HTTP、不改旧run/库/时钟。root已停止该深页及第二轮；新API候选不绑定其调度，旧两页任务不访问第6页。
+
+#52 源码实现自验后 Awaiting verification，#15/M3-04完整无变化材料Blocked。后续合成JSON用例明确标fixture，验证普通flagfalse失败不误判restricted、精确登录响应restricted、成功/近似文案不误判，以及现有统一refresh持久记录restricted/下一轮skip且保留旧事实。
+
+分类修正自验：同前述六文件回归共146项全部通过；neat-freak仅整理新parametrize块换行，保行为复测与git diff --check再验证。本包不进行第二轮真实HTTP；原run历史failed保持不动，真实M3-04仍Blocked。

@@ -156,6 +156,11 @@ def _ncss_json(response):
         value = json.loads(response["text"])
     except (TypeError, ValueError) as exc:
         raise FetchError("公开平台未返回可解析的数据材料", material_ref=response) from exc
+    if (isinstance(value, dict) and value.get("flag") is False
+            and isinstance(value.get("global"), list)
+            and any(isinstance(item, dict) and item.get("des") == "请登录后查看"
+                    for item in value["global"])):
+        raise FetchError("公开平台明确要求登录，已停止该路径", restricted=True, material_ref=response)
     if not isinstance(value, dict) or value.get("flag") is not True:
         raise FetchError("公开平台未确认返回学校来源材料", material_ref=response)
     return value.get("data")

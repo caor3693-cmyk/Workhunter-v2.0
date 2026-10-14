@@ -329,3 +329,50 @@ def test_production_refresh_rejects_mixed_terminal_without_losing_old_facts(tmp_
     with read_database(database) as (connection, metadata):
         assert metadata["dataset_id"] == before_dataset
         assert dict(connection.execute("SELECT * FROM opportunities").fetchone()) == before
+
+
+@pytest.mark.parametrize("message,restricted", [
+    ("请登录后查看", True), ("系统暂时繁忙", False), ("登录后查看联系方式", False),
+])
+def test_explicit_login_json_is_restricted_but_other_api_failure_is_not(message, restricted):
+    data = pages()
+    data[ncss_list_url()] = {"flag": False, "global": [{"type": 0, "des": message, "refs": []}], "errors": [], "data": None}
+    with pytest.raises(FetchError) as caught:
+        ScutNcssAdapter.discover(source(), Materials(data))
+    assert caught.value.restricted is restricted
+    assert caught.value.status == ("restricted" if restricted else "failed")
+    assert caught.value.material_ref["url"] == ncss_list_url()
+
+
+def test_successful_json_with_login_text_does_not_hide_public_records():
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    data[ncss_list_url()]["global"] = [{"type": 0, "des": "请登录后查看", "refs": []}]
+    page = ScutNcssAdapter.discover(source(), Materials(data))
+    assert page["records"][0]["source_identity"] == JOB
+    assert page["completeness"] == "complete_for_channel"
+
+
+def test_production_refresh_records_explicit_login_and_skips_restricted_path(tmp_path):
+    from backend.services.discovery import refresh_sources
+    from backend.storage.database import initialize_database, read_database
+    database = tmp_path / "isolated.sqlite3"
+    initialize_database(database, fixture=True)
+    config = registered_fixture_source(database)
+    data = pages()
+    data[ncss_list_url()] = pagination_page([row()], count=1)
+    first = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert first["status"] == "complete"
+    with read_database(database) as (connection, metadata):
+        before_dataset = metadata["dataset_id"]
+        before = dict(connection.execute("SELECT * FROM opportunities").fetchone())
+    data[ncss_list_url()] = {"flag": False, "global": [{"type": 0, "des": "请登录后查看", "refs": []}], "errors": [], "data": None}
+    blocked = refresh_sources(database, [config], transport=Materials(data), school_keys=("scut",), fixture=True)
+    assert blocked["sources"][0]["status"] == "restricted"
+    skipped_client = Materials({})
+    skipped = refresh_sources(database, [config], transport=skipped_client, school_keys=("scut",), fixture=True, skip_restricted=True)
+    assert skipped["sources"][0]["status"] == "skipped_restricted" and skipped_client.requests == []
+    with read_database(database) as (connection, metadata):
+        assert metadata["dataset_id"] == before_dataset
+        assert dict(connection.execute("SELECT * FROM opportunities").fetchone()) == before
+        assert connection.execute("SELECT status FROM sources WHERE source_key='scut_ncss'").fetchone()[0] == "restricted"
